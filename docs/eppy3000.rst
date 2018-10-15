@@ -1,0 +1,22 @@
+eppy3000 package
+================
+
+Submodules
+----------
+
+eppy3000.eppy3000 module
+------------------------
+
+.. automodule:: eppy3000.eppy3000
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: eppy3000
+    :members:
+    :undoc-members:
+    :show-inheritance:
