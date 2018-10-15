@@ -2,3 +2,4 @@
 ----------
 
 mkvirtualenv --python=python2 eppy3000
+git push https://'pyenergyplus':'B_password'@github.com/pyenergyplus/eppy3000.git
