@@ -1,0 +1,65 @@
+!IDD_Version 8.9.0
+!IDD_BUILD 40101eaafd
+
+Building,
+       \memo Describes parameters that are used during the simulation
+       \memo of the building. There are necessary correlations between the entries for
+       \memo this object and some entries in the Site:WeatherStation and
+       \memo Site:HeightVariation objects, specifically the Terrain field.
+       \unique-object
+       \required-object
+       \min-fields 8
+  A1 , \field Name
+       \retaincase
+       \default NONE
+  N1 , \field North Axis
+       \note degrees from true North
+       \units deg
+       \type real
+       \default 0.0
+  A2 , \field Terrain
+       \note  Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest
+       \type choice
+       \key Country
+       \key Suburbs
+       \key City
+       \key Ocean
+       \key Urban
+       \default Suburbs
+  N2 , \field Loads Convergence Tolerance Value
+       \note Loads Convergence Tolerance Value is a fraction of load
+       \type real
+       \minimum> 0.0
+       \maximum .5
+       \default .04
+  N3 , \field Temperature Convergence Tolerance Value
+       \units deltaC
+       \type real
+       \minimum> 0.0
+       \maximum .5
+       \default .4
+  A3 , \field Solar Distribution
+       \note  MinimalShadowing | FullExterior | FullInteriorAndExterior | FullExteriorWithReflections | FullInteriorAndExteriorWithReflections
+       \type choice
+       \key MinimalShadowing
+       \key FullExterior
+       \key FullInteriorAndExterior
+       \key FullExteriorWithReflections
+       \key FullInteriorAndExteriorWithReflections
+       \default FullExterior
+  N4 , \field Maximum Number of Warmup Days
+       \note EnergyPlus will only use as many warmup days as needed to reach convergence tolerance.
+       \note This field's value should NOT be set less than 25.
+       \type integer
+       \minimum> 0
+       \default 25
+  N5 ; \field Minimum Number of Warmup Days
+       \note The minimum number of warmup days that produce enough temperature and flux history
+       \note to start EnergyPlus simulation for all reference buildings was suggested to be 6.
+       \note When this field is greater than the maximum warmup days defined previous field
+       \note the maximum number of warmup days will be reset to the minimum value entered here.
+       \note Warmup days will be set to be the value you entered when it is less than the default 6.
+       \type integer
+       \minimum> 0
+       \default 6
+

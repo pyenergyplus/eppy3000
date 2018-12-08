@@ -1,0 +1,154 @@
+{
+  "epJSON_schema_version": "8.9.0",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "required": [
+    "Building",
+    "GlobalGeometryRules"
+  ],
+  "properties": {
+    "Building": {
+      "name": {
+        "default": "NONE",
+        "retaincase": true,
+        "type": "string"
+      },
+      "memo": "Describes parameters that are used during the simulation of the building. There are necessary correlations between the entries for this object and some entries in the Site:WeatherStation and Site:HeightVariation objects, specifically the Terrain field.",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "properties": {
+            "solar_distribution": {
+              "note": "MinimalShadowing | FullExterior | FullInteriorAndExterior | FullExteriorWithReflections | FullInteriorAndExteriorWithReflections",
+              "default": "FullExterior",
+              "enum": [
+                "",
+                "FullExterior",
+                "FullExteriorWithReflections",
+                "FullInteriorAndExterior",
+                "FullInteriorAndExteriorWithReflections",
+                "MinimalShadowing"
+              ],
+              "type": "string"
+            },
+            "terrain": {
+              "note": "Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest",
+              "default": "Suburbs",
+              "enum": [
+                "",
+                "City",
+                "Country",
+                "Ocean",
+                "Suburbs",
+                "Urban"
+              ],
+              "type": "string"
+            },
+            "north_axis": {
+              "note": "degrees from true North",
+              "units": "deg",
+              "default": 0,
+              "type": "number"
+            },
+            "maximum_number_of_warmup_days": {
+              "note": "EnergyPlus will only use as many warmup days as needed to reach convergence tolerance. This field's value should NOT be set less than 25.",
+              "default": 25,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "number"
+            },
+            "loads_convergence_tolerance_value": {
+              "default": 0.04,
+              "exclusiveMinimum": true,
+              "maximum": 0.5,
+              "note": "Loads Convergence Tolerance Value is a fraction of load",
+              "minimum": 0,
+              "type": "number"
+            },
+            "temperature_convergence_tolerance_value": {
+              "default": 0.4,
+              "exclusiveMinimum": true,
+              "maximum": 0.5,
+              "minimum": 0,
+              "units": "deltaC",
+              "type": "number"
+            },
+            "minimum_number_of_warmup_days": {
+              "note": "The minimum number of warmup days that produce enough temperature and flux history to start EnergyPlus simulation for all reference buildings was suggested to be 6. When this field is greater than the maximum warmup days defined previous field the maximum number of warmup days will be reset to the minimum value entered here. Warmup days will be set to be the value you entered when it is less than the default 6.",
+              "default": 6,
+              "minimum": 0,
+              "exclusiveMinimum": true,
+              "type": "number"
+            }
+          }
+        }
+      },
+      "legacy_idd": {
+        "numerics": {
+          "fields": [
+            "north_axis",
+            "loads_convergence_tolerance_value",
+            "temperature_convergence_tolerance_value",
+            "maximum_number_of_warmup_days",
+            "minimum_number_of_warmup_days"
+          ]
+        },
+        "field_info": {
+          "name": {
+            "field_type": "a",
+            "field_name": "Name"
+          },
+          "solar_distribution": {
+            "field_type": "a",
+            "field_name": "Solar Distribution"
+          },
+          "terrain": {
+            "field_type": "a",
+            "field_name": "Terrain"
+          },
+          "north_axis": {
+            "field_type": "n",
+            "field_name": "North Axis"
+          },
+          "maximum_number_of_warmup_days": {
+            "field_type": "n",
+            "field_name": "Maximum Number of Warmup Days"
+          },
+          "loads_convergence_tolerance_value": {
+            "field_type": "n",
+            "field_name": "Loads Convergence Tolerance Value"
+          },
+          "temperature_convergence_tolerance_value": {
+            "field_type": "n",
+            "field_name": "Temperature Convergence Tolerance Value"
+          },
+          "minimum_number_of_warmup_days": {
+            "field_type": "n",
+            "field_name": "Minimum Number of Warmup Days"
+          }
+        },
+        "fields": [
+          "name",
+          "north_axis",
+          "terrain",
+          "loads_convergence_tolerance_value",
+          "temperature_convergence_tolerance_value",
+          "solar_distribution",
+          "maximum_number_of_warmup_days",
+          "minimum_number_of_warmup_days"
+        ],
+        "alphas": {
+          "fields": [
+            "name",
+            "terrain",
+            "solar_distribution"
+          ]
+        }
+      },
+      "maxProperties": 1,
+      "minProperties": 1,
+      "type": "object",
+      "min_fields": 8
+    }
+  },
+  "epJSON_schema_build": "40101eaafd"
+}

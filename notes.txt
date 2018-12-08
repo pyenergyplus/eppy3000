@@ -1,4 +1,18 @@
+2018-12-08
+----------
+
+git remote add upstream https://github.com/pyenergyplus/eppy3000.git
+git pull --rebase upstream master
+
+removed eppy3000 for python2
+all dev will bein python3
+
+# First time
+python3 -m venv ~/venvs/eppy3000
+source ~/venvs/eppy3000/bin/activate
+
 2018-10-15
 ----------
 
 mkvirtualenv --python=python2 eppy3000
+git push https://'pyenergyplus':'B_password'@github.com/pyenergyplus/eppy3000.git
