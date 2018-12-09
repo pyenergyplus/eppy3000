@@ -12,6 +12,22 @@ eppy3000.eppy3000 module
     :undoc-members:
     :show-inheritance:
 
+eppy3000.readidd module
+-----------------------
+
+.. automodule:: eppy3000.readidd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+eppy3000.readidf module
+-----------------------
+
+.. automodule:: eppy3000.readidf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
