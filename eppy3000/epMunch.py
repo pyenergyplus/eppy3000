@@ -8,6 +8,39 @@
 
 from munch import Munch
 
+def printkey(key, indent=0, format=None, func=None):
+    if not func:
+        func = print
+    if not indent:
+        func("")
+        func("")
+    elif indent == 1:
+        func("")
+    if not format:
+        format = '{}{}'
+        func(format.format(' '*4*indent, key))
+    else:
+        func(format.format(' '*4*indent, key))
+        
+
+def printmunch(amunch, indent=0, index=None, func=None):
+    if not func:
+        func = print
+    for key, val in amunch.items():
+        if isinstance(val, Munch):
+            printkey(key, indent, func=func)
+            printmunch(val, indent=indent+1, index=index, func=func)
+        elif isinstance(val, list):
+            printkey(key, indent=3, format= "{0}" + " " * 36 + " !-  {1}", func=func)
+            for i, aval in enumerate(val):
+                printmunch(aval, indent=indent+1, index=i+1, func=func)
+        else:
+            if index:
+                astr = '{0}{1: <36} !-  {2} #{3}'
+                func(astr.format(' '*4*indent, val, key, index))
+            else:
+                astr = '{0}{1: <36} !-  {2}'
+                func(astr.format(' '*4*indent, val, key))
 
 class EPMunch(Munch):
     """Subclass of Munch for eppy3000"""
@@ -17,21 +50,8 @@ class EPMunch(Munch):
     def __repr__(self):
         """print this as a snippet"""
         lines = []
-        for key, val in self.items():
-            print(key, val)
-            try:
-                lines.append("{0: <16} !-  {1}".format(val, key))
-            except TypeError as e:
-                raise e
-                # lines.append("    {0: <16} !-  {1}".format("", '-'*8))
-                # lines.append("    {0: <16} !-  {1}".format("", key))
-                # for item in self[key]:
-                #     for key1, val1 in item.items():
-                #         lines.append("    {0: <16} !-  {1}".format(val1, key1))
-                # lines.append("    {0: <16} !-  {1}".format("", '-'*8))
-        astr = '\n'.join(lines)
-        return '\n%s\n' % (astr,)
-
+        printmunch(self, func=lines.append)
+        return "\n".join(lines)
 
     def __str__(self):
         """same as __repr__"""

@@ -22,7 +22,7 @@ def readidfjson(fname):
         as_json = json.load(fname)
     else:
         as_json = json.load(open(fname, 'r'))
-    as_munch = Munch.fromDict(as_json)
+    as_munch = EPMunch.fromDict(as_json)
     return as_munch
 
 
