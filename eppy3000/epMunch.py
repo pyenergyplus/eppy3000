@@ -21,18 +21,17 @@ def printkey(key, indent=0, format=None, func=None):
         func(format.format(' '*4*indent, key))
     else:
         func(format.format(' '*4*indent, key))
-        
+
 
 def printmunch(amunch, indent=0, index=None, func=None):
     if not func:
         func = print
     for key, val in amunch.items():
         if isinstance(val, Munch):
-            # printkey(key, indent, func=func)
             if 'eppykey' in val:
                 func("")
-                func('KEY  = {}'.format(val['eppykey']))
-                func('NAME = {}'.format(val['eppyname']))
+                func('{0: <36}{1} !-  {2}'.format(val['eppykey'], ' '*4*(indent+1), 'KEY'))
+                func('{0}{1: <36}{2} !-  {3}'.format(' '*4*indent, val['eppyname'], ' '*4*indent, 'NAME'))
             printmunch(val, indent=indent+1, index=index, func=func)
         elif isinstance(val, list):
             printkey(key, indent=3, format= "{0}" + " " * 36 + " !-  {1}", func=func)
