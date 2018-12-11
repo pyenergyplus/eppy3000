@@ -6,3 +6,10 @@
 # =======================================================================
 """same as modelmaker in eppy"""
 
+class IDF(object):
+    def __init__(self, idfname=None, epw=None):
+        super(IDF, self).__init__()
+        self.idfname = idfname
+        self.epw = epw
+
+
