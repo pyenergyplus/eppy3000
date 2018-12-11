@@ -23,7 +23,16 @@ def readidfjson(fname):
     else:
         as_json = json.load(open(fname, 'r'))
     as_munch = EPMunch.fromDict(as_json)
+    addeppykeys(as_munch)
     return as_munch
+    
+def addeppykeys(idfmunch):
+    """adds eppykeys needed by eppy3000"""
+    for key, val in idfmunch.items():
+        for key1, val1 in val.items():
+            val1['eppykey'] = key
+            val1['eppyname'] = key1
+        
 
 
 if __name__ == "__main__":

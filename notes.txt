@@ -1,3 +1,12 @@
+2018-12-11
+----------
+
+The idf objects need following keys:
+- eppykey
+- eppyname
+- eppylen
+post process this after the read.
+
 2018-12-10
 ----------
 
