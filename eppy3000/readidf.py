@@ -9,7 +9,11 @@
 from io import StringIO
 import json
 import eppy3000
-from eppy3000.epMunch import EPMunch
+try:
+    from eppy3000.epMunch import EPMunch
+except ModuleNotFoundError as e:
+    from epMunch import EPMunch
+from munch import Munch
 
 
 def readidfjson(fname):
@@ -18,7 +22,7 @@ def readidfjson(fname):
         as_json = json.load(fname)
     else:
         as_json = json.load(open(fname, 'r'))
-    as_munch = EPMunch.fromDict(as_json)
+    as_munch = Munch.fromDict(as_json)
     return as_munch
 
 
