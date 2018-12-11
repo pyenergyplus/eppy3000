@@ -40,23 +40,27 @@ txt = """
             "wind_exposure": "NoWind",
             "zone_name": "Main Zone"
         }
-    }    
+    }
 }
 """
 
 
 idf = readidfjson(StringIO(txt))
 surf = idf['BuildingSurface:Detailed']['Zn001:Flr001']
-for key, val in surf.items():
-    try:
-        print("{0: <16} !-  {1}".format(val, key))
-    except TypeError as e:
-        print("    {0: <16} !-  {1}".format("", '-'*8))
-        print("    {0: <16} !-  {1}".format("", key))
-        for item in surf[key]:
-            for key1, val1 in item.items():
-                print("    {0: <16} !-  {1}".format(val1, key1))
-        # print('    !- {}'.format('-'*8))
-        print("    {0: <16} !-  {1}".format("", '-'*8))
-    
+# for key, val in surf.items():
+#     try:
+#         print("{0: <16} !-  {1}".format(val, key))
+#     except TypeError as e:
+#         print("    {0: <16} !-  {1}".format("", '-'*8))
+#         print("    {0: <16} !-  {1}".format("", key))
+#         for i, item in enumerate(surf[key]):
+#             for key1, val1 in item.items():
+#                 print("    {0: <16} !-  {1} #{2}".format(val1, key1, i + 1))
+#         # print('    !- {}'.format('-'*8))
+#         print("    {0: <16} !-  {1}".format("", '-'*8))
+#
+# print('-' * 35)
+
+print(idf)
+
 

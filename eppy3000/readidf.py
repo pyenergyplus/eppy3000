@@ -8,7 +8,8 @@
 
 from io import StringIO
 import json
-from munch import Munch
+import eppy3000
+from eppy3000.epMunch import EPMunch
 
 
 def readidfjson(fname):
@@ -17,7 +18,7 @@ def readidfjson(fname):
         as_json = json.load(fname)
     else:
         as_json = json.load(open(fname, 'r'))
-    as_munch = Munch.fromDict(as_json)
+    as_munch = EPMunch.fromDict(as_json)
     return as_munch
 
 
@@ -49,3 +50,4 @@ if __name__ == "__main__":
     abuilding = idf.Building.Bldg
     print(abuilding.solar_distribution)
     print(abuilding.terrain)
+    print(abuilding)
