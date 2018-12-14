@@ -26,24 +26,32 @@ def printkey(key, indent=0, format=None, func=None):
 def printmunch(amunch, indent=0, index=None, func=None):
     if not func:
         func = print
+    if isinstance(amunch, Munch):
+        if 'eppykey' in amunch:
+            func("")
+            func('{0: <36}{1} !-  {2}'.format(amunch['eppykey'], 
+                                        ' '*4*(indent+1), 
+                                        'KEY'))
+            func('{0}{1: <36}{2} !-  {3}'.format(' '*4*(indent+1), 
+                                        amunch['eppyname'], 
+                                        ' '*4*(indent), 'NAME'))
     for key, val in amunch.items():
         if isinstance(val, Munch):
-            if 'eppykey' in val:
-                func("")
-                func('{0: <36}{1} !-  {2}'.format(val['eppykey'], ' '*4*(indent+1), 'KEY'))
-                func('{0}{1: <36}{2} !-  {3}'.format(' '*4*indent, val['eppyname'], ' '*4*indent, 'NAME'))
-            printmunch(val, indent=indent+1, index=index, func=func)
+            printmunch(val, indent=indent+1, index=index, 
+                        func=func)
         elif isinstance(val, list):
-            printkey(key, indent=3, format= "{0}" + " " * 36 + " !-  {1}", func=func)
+            printkey(key, indent=3, 
+                    format= "{0}" + " " * 36 + " !-  {1}", 
+                    func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
-        else:
+        elif key not in ['eppykey', 'eppyname']:
             if index:
                 astr = '{0}{1: <36} !-  {2} #{3}'
-                func(astr.format(' '*4*indent, val, key, index))
+                func(astr.format(' '*4*(indent+1), val, key, index))
             else:
                 astr = '{0}{1: <36} !-  {2}'
-                func(astr.format(' '*4*indent, val, key))
+                func(astr.format(' '*4*(indent+1), val, key))
 
 class EPMunch(Munch):
     """Subclass of Munch for eppy3000"""

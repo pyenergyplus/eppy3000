@@ -33,7 +33,15 @@ def addeppykeys(idfmunch):
             val1['eppykey'] = key
             val1['eppyname'] = key1
         
-
+def removeeppykeys(idfmunch, rkeys=None):
+    """remove the eppykeys"""
+    if not rkeys:
+        rkeys = ['eppykey', 'eppyname']
+    for key, val in idfmunch.items():
+        for key1, val1 in val.items():
+            for rkey in rkeys:
+                val1.pop(rkey, None)
+    
 
 if __name__ == "__main__":
     fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
