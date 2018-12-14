@@ -8,7 +8,12 @@
 
 from io import StringIO
 import json
-from munch import DefaultMunch
+import eppy3000
+try:
+    from eppy3000.epMunch import EPMunch
+except ModuleNotFoundError as e:
+    from epMunch import EPMunch
+from munch import Munch
 
 
 def readidfjson(fname):
@@ -17,9 +22,26 @@ def readidfjson(fname):
         as_json = json.load(fname)
     else:
         as_json = json.load(open(fname, 'r'))
-    as_munch = DefaultMunch.fromDict(as_json)
+    as_munch = EPMunch.fromDict(as_json)
+    addeppykeys(as_munch)
     return as_munch
-
+    
+def addeppykeys(idfmunch):
+    """adds eppykeys needed by eppy3000"""
+    for key, val in idfmunch.items():
+        for key1, val1 in val.items():
+            val1['eppykey'] = key
+            val1['eppyname'] = key1
+        
+def removeeppykeys(idfmunch, rkeys=None):
+    """remove the eppykeys"""
+    if not rkeys:
+        rkeys = ['eppykey', 'eppyname']
+    for key, val in idfmunch.items():
+        for key1, val1 in val.items():
+            for rkey in rkeys:
+                val1.pop(rkey, None)
+    
 
 if __name__ == "__main__":
     fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
@@ -49,3 +71,4 @@ if __name__ == "__main__":
     abuilding = idf.Building.Bldg
     print(abuilding.solar_distribution)
     print(abuilding.terrain)
+    print(abuilding)

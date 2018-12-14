@@ -1,3 +1,32 @@
+2018-12-11
+----------
+
+The idf objects need following keys:
+- eppykey
+- eppyname
+- eppylen
+post process this after the read.
+
+2018-12-10
+----------
+
+If ipython is running the wrong version of python, then:
+
+Run hash -r
+From your bash shell, run::
+
+    hash -r
+
+And try running iPython again.
+
+When you've run iPython previously in a shell session, that command was cached. This command simply resets the cache. And now when you run::
+
+    ipython
+
+it will refer to the version of iPython that you installed in your virtual environment.
+
+
+
 2018-12-08
 ----------
 
