@@ -79,3 +79,10 @@ You can use idfobjects like in eppy::
 
     > Suburbs
 
+Other IDF functions
+-------------------
+
+The following function also work:
+
+- IDF.save()
+- IDF.saveas()
