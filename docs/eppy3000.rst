@@ -4,10 +4,26 @@ eppy3000 package
 Submodules
 ----------
 
+eppy3000.epMunch module
+-----------------------
+
+.. automodule:: eppy3000.epMunch
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 eppy3000.eppy3000 module
 ------------------------
 
 .. automodule:: eppy3000.eppy3000
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+eppy3000.modelmaker module
+--------------------------
+
+.. automodule:: eppy3000.modelmaker
     :members:
     :undoc-members:
     :show-inheritance:
