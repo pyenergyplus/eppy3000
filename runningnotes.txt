@@ -1,0 +1,20 @@
+notes to work thru while coding.
+
+- include arg idd in IDF (not a singleton now)
+- write an easyopen
+- sort the print of the epMunch be IDD sort order
+-
+- need idd and idd_munch functions
+    - idd.version
+    - idd.objects # dict
+    - iddobj.fieldnames
+    - iddobj.fieldvalues
+    - iddobj.fieldnames_simple
+    - iddobj.fieldvalues_simple
+    - iddobj.fieldnames_list
+    - iddobj.fieldvalues_list
+    - class IDD
+
+idd.properties['BuildingSurface:Detailed'].patternProperties['.*'].properties.vertices.items()
+
+iddMunch
