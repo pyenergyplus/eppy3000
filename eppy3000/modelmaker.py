@@ -31,6 +31,10 @@ class IDF(object):
         self.idf = readidfjson(self.idfname)
         self.idfobjects = {key:[val1 for val1 in val.values()] 
                                 for key, val in self.idf.items()}
+        if self.iddname:
+            for key in self.idfobjects.keys():
+                for idfobject in self.idfobjects[key]:
+                    idfobject['eppy_objidd'] = self.idd.iddobjects[key]
             
                                 
     def readidd(self):

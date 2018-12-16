@@ -24,8 +24,6 @@ class IDDMunch(Munch):
         """field names of the IDD object"""
         return self[fieldname]
         
-        
-
 def readidd(fname):
     """read the idd json as a munch"""
     epjs = json.load(open(fname, 'r')) # 0.079 seconds

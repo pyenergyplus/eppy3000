@@ -137,6 +137,30 @@ You can look at the property of a particular fieldname::
     >  'note': 'Name of a BranchList containing all the branches in this air loop',
     >  'object_list': ['BranchLists'],
     >  'type': 'string'}
+    
+You can also access the IDD for an IDF object from within the IDF object::
+
+    cracsystem = idf.idfobjects['AirLoopHVAC'][0]
+    pprint(crac.eppy_objidd.fieldnames())
+    pprint('-' * 8)
+    pprint(crac.eppy_objidd.fieldproperty('demand_side_inlet_node_names'))
+
+    > ['branch_list_name',
+    >  'demand_side_outlet_node_name',
+    >  'supply_side_outlet_node_names',
+    >  'connector_list_name',
+    >  'design_return_air_flow_fraction_of_supply_air_flow',
+    >  'controller_list_name',
+    >  'availability_manager_list_name',
+    >  'demand_side_inlet_node_names',
+    >  'supply_side_inlet_node_name',
+    >  'design_supply_air_flow_rate']
+    > 
+    > {'note': 'Name of a Node or NodeList containing the inlet node(s) supplying '
+    >          'air to zone equipment.',
+    >  'type': 'string'}
+
+
 
 
 
