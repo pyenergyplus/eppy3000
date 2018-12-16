@@ -142,7 +142,7 @@ You can also access the IDD for an IDF object from within the IDF object::
 
     cracsystem = idf.idfobjects['AirLoopHVAC'][0]
     pprint(crac.eppy_objidd.fieldnames())
-    pprint('-' * 8)
+    print()
     pprint(crac.eppy_objidd.fieldproperty('demand_side_inlet_node_names'))
 
     > ['branch_list_name',
