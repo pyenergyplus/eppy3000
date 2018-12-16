@@ -13,6 +13,8 @@ idd = IDD(iddfname)
 # print(idd.required)
 # print(idd.iddobjects)
 
-print(idd.iddobjects['Building'].keys())
-print()
-print(idd.iddobjects['Building'].fieldproperty('terrain')['type'])
+# print(idd.iddobjects['Building'].keys())
+# print()
+# print(idd.iddobjects['Building'].fieldproperty('terrain')['type'])
+
+print(idd.idd['properties'][].fieldnames())

@@ -31,6 +31,7 @@ class IDF(object):
         self.idf = readidfjson(self.idfname)
         self.idfobjects = {key:[val1 for val1 in val.values()] 
                                 for key, val in self.idf.items()}
+            
                                 
     def readidd(self):
         """read the idd file"""

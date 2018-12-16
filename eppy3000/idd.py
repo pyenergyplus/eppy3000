@@ -47,8 +47,7 @@ class IDD(object):
         self.required = self.idd['required']
         self.iddobjects = {key:val['patternProperties']['.*']['properties'] 
                             for key, val in self.idd['properties'].items()}
-        # self.idd['properties']['patternProperties']
-        
+                
         
         
         

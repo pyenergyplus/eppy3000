@@ -20,6 +20,14 @@ eppy3000.eppy3000 module
     :undoc-members:
     :show-inheritance:
 
+eppy3000.idd module
+-------------------
+
+.. automodule:: eppy3000.idd
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 eppy3000.modelmaker module
 --------------------------
 
