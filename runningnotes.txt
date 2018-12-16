@@ -1,3 +1,14 @@
+2018-12-16
+----------
+
+issues for the moment:
+
+- IDF() will open a new IDD for each file
+- if 'eppy_objidd' key not present - throw an IDD not available exception
+- IDD has key `items` in the JSON that name-clashes with items function in dict
+
+fixed issue #6
+
 notes to work thru while coding.
 
 - include arg idd in IDF (not a singleton now)
