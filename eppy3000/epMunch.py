@@ -7,6 +7,7 @@
 """subclass Munch"""
 
 from munch import Munch
+from eppy3000.idd import IDDMunch
 
 def printkey(key, indent=0, format=None, func=None):
     if not func:
@@ -24,6 +25,8 @@ def printkey(key, indent=0, format=None, func=None):
 
 
 def printmunch(amunch, indent=0, index=None, func=None):
+    if isinstance(amunch, IDDMunch): # don't print IDD stuff
+        return
     if not func:
         func = print
     if isinstance(amunch, Munch):
@@ -45,7 +48,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                     func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
-        elif key not in ['eppykey', 'eppyname']:
+        elif key not in ['eppykey', 'eppyname', 'eppy_objidd']:
             if index:
                 astr = '{0}{1: <36} !-  {2} #{3}'
                 func(astr.format(' '*4*(indent+1), val, key, index))
