@@ -14,7 +14,7 @@ close to release. need the following
 - copyidfobject
 - removeidfobject # popidfobject to be done later
 - see if things break on the inner lists
-- StringIO for IDD
+- StringIO for IDD - DONE
 
 notes to work thru while coding.
 

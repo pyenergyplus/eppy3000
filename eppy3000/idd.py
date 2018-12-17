@@ -7,6 +7,7 @@
 """class for the idd file"""
 
 import json
+from io import StringIO
 from munch import Munch
 
 
@@ -26,8 +27,12 @@ class IDDMunch(Munch):
         
 def readidd(fname):
     """read the idd json as a munch"""
-    epjs = json.load(open(fname, 'r')) # 0.079 seconds
-    as_munch = IDDMunch.fromDict(epjs) # 0.410 seconds
+    if isinstance(fname, StringIO):
+        as_json = json.load(fname)
+    else:
+        as_json = json.load(open(fname, 'r'))
+    # epjs = json.load(open(fname, 'r')) # 0.079 seconds
+    as_munch = IDDMunch.fromDict(as_json) # 0.410 seconds
     return as_munch
 
 
