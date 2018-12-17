@@ -100,7 +100,7 @@ Note that you have been opening the IDF file without referring to the IDD file. 
     fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
     idf = IDF(idfname=fname, iddname=iddfname)
     print(idf.idfobjects['AirLoopHVAC'][0])
-    
+
     > AirLoopHVAC                              !-  KEY
     >     CRAC system                          !-  NAME
     >     CRAC 1 Availability List             !-  availability_manager_list_name
@@ -113,11 +113,11 @@ Note that you have been opening the IDF file without referring to the IDD file. 
     >     31                                   !-  idf_order
     >     Supply Inlet Node                    !-  supply_side_inlet_node_name
     >     Supply Outlet Node                   !-  supply_side_outlet_node_names
-    
+
 Now you have access to the IDD variables::
 
     pprint(idf.idd.iddobjects['AirLoopHVAC'].fieldnames())
-    
+
     > ['branch_list_name',
     >  'demand_side_outlet_node_name',
     >  'supply_side_outlet_node_names',
@@ -128,16 +128,16 @@ Now you have access to the IDD variables::
     >  'demand_side_inlet_node_names',
     >  'supply_side_inlet_node_name',
     >  'design_supply_air_flow_rate']
-    
+
 You can look at the property of a particular fieldname::
 
     pprint(idf.idd.iddobjects['AirLoopHVAC'].fieldproperty('branch_list_name))
-    
+
     > {'data_type': 'object_list',
     >  'note': 'Name of a BranchList containing all the branches in this air loop',
     >  'object_list': ['BranchLists'],
     >  'type': 'string'}
-    
+
 You can also access the IDD for an IDF object from within the IDF object::
 
     cracsystem = idf.idfobjects['AirLoopHVAC'][0]
@@ -155,7 +155,7 @@ You can also access the IDD for an IDF object from within the IDF object::
     >  'demand_side_inlet_node_names',
     >  'supply_side_inlet_node_name',
     >  'design_supply_air_flow_rate']
-    > 
+    >
     > {'note': 'Name of a Node or NodeList containing the inlet node(s) supplying '
     >          'air to zone equipment.',
     >  'type': 'string'}
@@ -209,11 +209,12 @@ The new JSON format treats the extensible fields as an array (an array in json a
             }
         }
     }"""
-    
+
 Let us open this as an IDF()::
 
     from io import StringIO
     from eppy3000.modelmaker import IDF
+    from pprint iport pprint
 
     fhandle = StringIO(txt)
     idf = IDF(idfname=fhandle, iddname=iddfname)
@@ -249,3 +250,98 @@ Let us open this as an IDF()::
     >             Main Zone                            !-  zone_name
 
 Notice how the array items are inset. How dow we access the array items ?
+
+Let us print the field names of `BuildingSurface:Detailed` object::
+
+    surfs = idf.idfobjects["BuildingSurface:Detailed"]
+    surf = surfs[0]
+    print(surf.eppy_objidd.fieldnames())
+
+    > ['surface_type',
+    >  'number_of_vertices',
+    >  'outside_boundary_condition_object',
+    >  'construction_name',
+    >  'wind_exposure',
+    >  'vertices',
+    >  'view_factor_to_ground',
+    >  'zone_name',
+    >  'sun_exposure',
+    >  'outside_boundary_condition']
+
+Notice the field vertices. Let us print and see what is in it::
+
+    pprint(surf.vertices)
+
+    > [{'vertex_x_coordinate': 15.24,
+    >   'vertex_y_coordinate': 0.0,
+    >   'vertex_z_coordinate': 0.0},
+    >  {'vertex_x_coordinate': 0.0,
+    >   'vertex_y_coordinate': 0.0,
+    >   'vertex_z_coordinate': 0.0},
+    >  {'vertex_x_coordinate': 0.0,
+    >   'vertex_y_coordinate': 15.24,
+    >   'vertex_z_coordinate': 0.0},
+    >  {'vertex_x_coordinate': 15.24,
+    >   'vertex_y_coordinate': 15.24,
+    >   'vertex_z_coordinate': 0.0}]
+
+Now let is print one vertex::
+
+    pprint(surf.vertices[0])
+
+    > {'vertex_x_coordinate': 15.24,
+    >  'vertex_y_coordinate': 0.0,
+    >  'vertex_z_coordinate': 0.0}
+
+Looking at one coordinate::
+
+    print(surf.vertices[0].vertex_x_coordinate)
+
+    > 15.24
+
+Now modifying the vertices::
+
+    surf.vertices[0].vertex_x_coordinate = 88
+    surf.vertices.append(dict(vertex_x_coordinate=1.2,
+                            vertex_y_coordinate=2.3,
+                            vertex_z_coordinate=3.4))
+
+How did our file change? ::
+
+    print(idf)
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             Zn001:Flr001                                 !-  NAME
+    >             FLOOR                                !-  construction_name
+    >             12                                   !-  idf_max_extensible_fields
+    >             22                                   !-  idf_max_fields
+    >             27                                   !-  idf_order
+    >             4                                    !-  number_of_vertices
+    >             Surface                              !-  outside_boundary_condition
+    >             Zn001:Flr001                         !-  outside_boundary_condition_object
+    >             NoSun                                !-  sun_exposure
+    >             Floor                                !-  surface_type
+    >                                                  !-  vertices
+    >                 88                                   !-  vertex_x_coordinate #1
+    >                 0.0                                  !-  vertex_y_coordinate #1
+    >                 0.0                                  !-  vertex_z_coordinate #1
+    >                 0.0                                  !-  vertex_x_coordinate #2
+    >                 0.0                                  !-  vertex_y_coordinate #2
+    >                 0.0                                  !-  vertex_z_coordinate #2
+    >                 0.0                                  !-  vertex_x_coordinate #3
+    >                 15.24                                !-  vertex_y_coordinate #3
+    >                 0.0                                  !-  vertex_z_coordinate #3
+    >                 15.24                                !-  vertex_x_coordinate #4
+    >                 15.24                                !-  vertex_y_coordinate #4
+    >                 0.0                                  !-  vertex_z_coordinate #4
+    >                 1.2                                  !-  vertex_x_coordinate #5
+    >                 2.3                                  !-  vertex_y_coordinate #5
+    >                 3.4                                  !-  vertex_z_coordinate #5
+    >             1.0                                  !-  view_factor_to_ground
+    >             NoWind                               !-  wind_exposure
+    >             Main Zone                            !-  zone_name
+    >
+
+
+Note that we have added one set of coordinate points and changed the firat x-coordinate
+
