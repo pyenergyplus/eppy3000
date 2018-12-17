@@ -166,4 +166,86 @@ Nested lists or arrays as fields
 
 The old E+ had objects with a flat list of fields. As a result some objects needed repeating or extensible fields. An example of repeating/extensible fields are the coordinates in the object `BuildingSurface:Detailed`. These are the coordinates of the surface and the number of fields can vary depending on the shape of the surface.
 
-The new JSON format treats the extensible fields as an array (an array in json and a list in python).
+The new JSON format treats the extensible fields as an array (an array in json and a list in python). Let us explore how to access and modify these list in eppy3000. Let us look at a single surface::
+
+    txt = """
+    {
+        "BuildingSurface:Detailed": {
+            "Zn001:Flr001": {
+                "construction_name": "FLOOR",
+                "idf_max_extensible_fields": 12,
+                "idf_max_fields": 22,
+                "idf_order": 27,
+                "number_of_vertices": 4,
+                "outside_boundary_condition": "Surface",
+                "outside_boundary_condition_object": "Zn001:Flr001",
+                "sun_exposure": "NoSun",
+                "surface_type": "Floor",
+                "vertices": [
+                    {
+                        "vertex_x_coordinate": 15.24,
+                        "vertex_y_coordinate": 0.0,
+                        "vertex_z_coordinate": 0.0
+                    },
+                    {
+                        "vertex_x_coordinate": 0.0,
+                        "vertex_y_coordinate": 0.0,
+                        "vertex_z_coordinate": 0.0
+                    },
+                    {
+                        "vertex_x_coordinate": 0.0,
+                        "vertex_y_coordinate": 15.24,
+                        "vertex_z_coordinate": 0.0
+                    },
+                    {
+                        "vertex_x_coordinate": 15.24,
+                        "vertex_y_coordinate": 15.24,
+                        "vertex_z_coordinate": 0.0
+                    }
+                ],
+                "view_factor_to_ground": 1.0,
+                "wind_exposure": "NoWind",
+                "zone_name": "Main Zone"
+            }
+        }
+    }"""
+    
+Let us open this as an IDF()::
+
+    from io import StringIO
+    from eppy3000.modelmaker import IDF
+
+    fhandle = StringIO(txt)
+    idf = IDF(idfname=fhandle, iddname=iddfname)
+    print(idf)
+
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             Zn001:Flr001                         !-  NAME
+    >             FLOOR                                !-  construction_name
+    >             12                                   !-  idf_max_extensible_fields
+    >             22                                   !-  idf_max_fields
+    >             27                                   !-  idf_order
+    >             4                                    !-  number_of_vertices
+    >             Surface                              !-  outside_boundary_condition
+    >             Zn001:Flr001                         !-  outside_boundary_condition_object
+    >             NoSun                                !-  sun_exposure
+    >             Floor                                !-  surface_type
+    >                                                  !-  vertices
+    >                 15.24                                !-  vertex_x_coordinate #1
+    >                 0.0                                  !-  vertex_y_coordinate #1
+    >                 0.0                                  !-  vertex_z_coordinate #1
+    >                 0.0                                  !-  vertex_x_coordinate #2
+    >                 0.0                                  !-  vertex_y_coordinate #2
+    >                 0.0                                  !-  vertex_z_coordinate #2
+    >                 0.0                                  !-  vertex_x_coordinate #3
+    >                 15.24                                !-  vertex_y_coordinate #3
+    >                 0.0                                  !-  vertex_z_coordinate #3
+    >                 15.24                                !-  vertex_x_coordinate #4
+    >                 15.24                                !-  vertex_y_coordinate #4
+    >                 0.0                                  !-  vertex_z_coordinate #4
+    >             1.0                                  !-  view_factor_to_ground
+    >             NoWind                               !-  wind_exposure
+    >             Main Zone                            !-  zone_name
+
+Notice how the array items are inset. How dow we access the array items ?
