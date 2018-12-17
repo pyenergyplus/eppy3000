@@ -46,12 +46,12 @@ class IDF(object):
         """print this"""
         return self.idf.__repr__()
         
-    def saveas(self, filename):
+    def saveas(self, filename, indent=4):
         """saveas in filename"""
         self.idfname = filename
-        self.save(filename)
+        self.save(filename, indent=indent)
 
-    def save(self, filename=None):
+    def save(self, filename=None, indent=0):
         """save the file"""
         if not filename:
             filename = self.idfname
@@ -59,14 +59,15 @@ class IDF(object):
             tosave = self.idf.toDict()
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
-            fhandle.write(tosave.toJSON())
+            fhandle.write(tosave.toJSON(indent=indent))
             
     def newidfobject(self, key, objname, defaultvalues=True, **kwargs):
         """create a new idf object"""
         # TODO test for dup name
-        # TODO Kwargs strategy for array
+        # TODO Kwargs strategy for array - delay implementation for now, throw exception
         # TODO exceptions for wrong field name
         # TODO exception for wrong field value type
+        # TODO documentation in usage.rst
         objidd = self.idd.iddobjects[key]
         try:
             nobj = self.idf[key][objname] = Munch()

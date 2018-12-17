@@ -32,6 +32,7 @@ idf = IDF(idfname=StringIO("{}"), iddname=iddfname)
 key = "Building"
 # key = "AirLoopHVAC"
 key = "BuildingSurface:Detailed"
+key = "Schedule:Compact"
 objname = "bldg1"
 idf.newidfobject(key, objname, False)
 

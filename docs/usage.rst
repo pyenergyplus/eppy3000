@@ -161,6 +161,9 @@ You can also access the IDD for an IDF object from within the IDF object::
     >  'type': 'string'}
 
 
+Nested lists or arrays as fields
+--------------------------------
 
+The old E+ had objects with a flat list of fields. As a result some objects needed repeating or extensible fields. An example of repeating/extensible fields are the coordinates in the object `BuildingSurface:Detailed`. These are the coordinates of the surface and the number of fields can vary depending on the shape of the surface.
 
-
+The new JSON format treats the extensible fields as an array (an array in json and a list in python).

@@ -37,7 +37,7 @@ def addeppykeys(idfmunch):
 def removeeppykeys(idfmunch, rkeys=None):
     """remove the eppykeys"""
     if not rkeys:
-        rkeys = ['eppykey', 'eppyname']
+        rkeys = ['eppykey', 'eppyname', 'eppy_objidd']
     for key, val in idfmunch.items():
         for key1, val1 in val.items():
             for rkey in rkeys:

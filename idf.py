@@ -183,7 +183,8 @@ idfhandle = StringIO(idftxt)
 iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
 fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
 
-idf = IDF(idfname=idfhandle, iddname=open(iddfname, 'r'))
+idf = IDF(idfname=fname, iddname=iddfname)
+print(idf)
 
 
 # idf = IDF(idfname=fname)

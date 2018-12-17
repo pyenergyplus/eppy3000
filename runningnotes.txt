@@ -10,7 +10,7 @@ issues for the moment:
 fixed issue #6
 
 close to release. need the following
-- newidfobject
+- newidfobject - DONE
 - copyidfobject
 - removeidfobject # popidfobject to be done later
 - see if things break on the inner lists
