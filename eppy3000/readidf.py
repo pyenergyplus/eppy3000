@@ -16,12 +16,13 @@ except ModuleNotFoundError as e:
 from munch import Munch
 
 
-def readidfjson(fname):
+def readidfjson(fhandle):
     """read an json idf"""
-    if isinstance(fname, StringIO):
-        as_json = json.load(fname)
-    else:
-        as_json = json.load(open(fname, 'r'))
+    try:
+        fhandle = open(fhandle, 'r')
+    except TypeError as e:
+        pass
+    as_json = json.load(fhandle)
     as_munch = EPMunch.fromDict(as_json)
     addeppykeys(as_munch)
     return as_munch

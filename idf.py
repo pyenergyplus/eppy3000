@@ -4,7 +4,6 @@ from io import StringIO
 from eppy3000.modelmaker import IDF
 from pprint import pprint
 
-# iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
 txt = """{
     "epJSON_schema_version": "8.9.0",
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -181,9 +180,12 @@ idftxt = """
 
 fhandle = StringIO(txt)
 idfhandle = StringIO(idftxt)
-
+iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
 fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
-idf = IDF(idfname=idfhandle, iddname=fhandle)
+
+idf = IDF(idfname=idfhandle, iddname=open(iddfname, 'r'))
+
+
 # idf = IDF(idfname=fname)
 
 # pprint(idf.idd.iddobjects['AirLoopHVAC'].fieldproperty('branch_list_name'))

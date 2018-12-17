@@ -25,13 +25,13 @@ class IDDMunch(Munch):
         """field names of the IDD object"""
         return self[fieldname]
         
-def readidd(fname):
+def readidd(fhandle):
     """read the idd json as a munch"""
-    if isinstance(fname, StringIO):
-        as_json = json.load(fname)
-    else:
-        as_json = json.load(open(fname, 'r'))
-    # epjs = json.load(open(fname, 'r')) # 0.079 seconds
+    try:
+        fhandle = open(fhandle, 'r')
+    except TypeError as e:
+        pass
+    as_json = json.load(fhandle)
     as_munch = IDDMunch.fromDict(as_json) # 0.410 seconds
     return as_munch
 
