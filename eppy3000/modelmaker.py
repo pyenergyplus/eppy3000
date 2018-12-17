@@ -7,6 +7,7 @@
 """same as modelmaker in eppy"""
 
 from munch import Munch
+from pprint import pprint
 from eppy3000.readidf import readidfjson
 from eppy3000.readidd import readiddasmunch
 from eppy3000.readidf import removeeppykeys
@@ -59,3 +60,31 @@ class IDF(object):
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
             fhandle.write(tosave.toJSON())
+            
+    def newidfobject(self, key, objname, defaultvalues=True, **kwargs):
+        """create a new idf object"""
+        # TODO test for dup name
+        # TODO Kwargs strategy for array
+        # TODO exceptions for wrong field name
+        # TODO exception for wrong field value type
+        objidd = self.idd.iddobjects[key]
+        try:
+            nobj = self.idf[key][objname] = Munch()
+        except KeyError as e:
+            self.idf[key] = Munch()
+            nobj = self.idf[key][objname] = Munch()
+        for fieldname in objidd.fieldnames():
+            try:
+                if defaultvalues:
+                    nobj[fieldname] = objidd.fieldproperty(fieldname)['default']
+            except KeyError as e:
+                prop = objidd.fieldproperty(fieldname)
+                # print(fieldname, prop.keys())
+                if 'type' in prop:
+                    if prop['type'] == 'array':
+                        # pprint(prop['items'])
+                        pass
+                pass
+        for key1, val1 in kwargs.items():
+            nobj[key1] = val1
+            

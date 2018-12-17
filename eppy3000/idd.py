@@ -20,6 +20,10 @@ class IDDMunch(Munch):
     def fieldnames(self):
         """field names of the IDD object"""
         return [key for key in self.keys()]
+        
+    def fieldnames_list(self):
+        """fieldnames that contain lists"""
+        pass
 
     def fieldproperty(self, fieldname):
         """field names of the IDD object"""
