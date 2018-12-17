@@ -56,9 +56,13 @@ print(idf)
 surfs = idf.idfobjects["BuildingSurface:Detailed"]
 surf = surfs[0]
 print(surf.eppy_objidd.fieldnames())
+
 print(surf.vertices)
+
 print(surf.vertices[0])
+
 print(surf.vertices[0].vertex_x_coordinate)
+
 surf.vertices[0].vertex_x_coordinate = 88
 surf.vertices.append(dict(vertex_x_coordinate=1.2,
                         vertex_y_coordinate=2.3,

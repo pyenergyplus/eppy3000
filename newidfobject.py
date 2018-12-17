@@ -31,12 +31,18 @@ idf = IDF(idfname=StringIO("{}"), iddname=iddfname)
 #make a newidfobject
 key = "Building"
 # key = "AirLoopHVAC"
-key = "BuildingSurface:Detailed"
 key = "Schedule:Compact"
-objname = "bldg1"
-idf.newidfobject(key, objname, False)
+key = "BuildingSurface:Detailed"
+objname = "wall1"
+idf.newidfobject(key, objname, defaultvalues=False)
 
-objname = "bldg2"
-idf.newidfobject(key, objname)
+objname = "wall2"
+idf.newidfobject(key, objname, defaultvalues=True)
+objname = "wall3"
+idf.newidfobject(key, objname, defaultvalues=True,
+                outside_boundary_condition="Surface",
+                vertices=[{'vertex_x_coordinate': 15.24,
+                            'vertex_y_coordinate': 0.0,
+                            'vertex_z_coordinate': 0.0}])
 
 idf.saveas("n.json")
