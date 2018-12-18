@@ -91,6 +91,30 @@ class IDF(object):
             nobj[key1] = val1
         nobj['eppykey'] = key
         nobj['eppyname'] = objname
-        nobj['eppy_iddobj'] = objidd
+        nobj['eppy_objidd'] = objidd
         return nobj
+
+    def removeidfobject(self, key, objname):
+        """remove an idf object"""
+        return self.idf[key].pop(objname)
+
+    def copyidfobject(self, key, objname, newname):
+        """copy an idf object with a new name"""
+        # don't use the function dict.items() since the json for array has field name `items`
+        oldobj = self.idf[key][objname]
+        newobj = EPMunch()
+        self.idf[key][newname] = newobj
+        for key1 in oldobj.keys():
+            if not key1.startswith('eppy'):
+                val1 = oldobj[key1]
+                if isinstance(val1, list):
+                    newobj[key1] = list()
+                    for item in val1:
+                        newobj[key1].append(item.copy())
+                else:
+                    newobj[key1] = val1
+        newobj['eppyname'] = newname
+        newobj['eppykey'] = key
+        newobj['eppy_objidd'] = oldobj['eppy_objidd']
+        return newobj
 

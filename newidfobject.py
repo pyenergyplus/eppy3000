@@ -4,7 +4,6 @@ from io import StringIO
 from pprint import pprint
 
 from eppy3000.modelmaker import IDF
-from munch import Munch
 
 
 iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
@@ -29,15 +28,18 @@ idf = IDF(idfname=StringIO("{}"), iddname=iddfname)
 #             nobj[fieldname] = "gumby"
 #
 #make a newidfobject
-key = "Building"
-# key = "AirLoopHVAC"
-key = "Schedule:Compact"
+# key = "Building"
+# # key = "AirLoopHVAC"
+# key = "Schedule:Compact"
+
 key = "BuildingSurface:Detailed"
 objname = "wall1"
-idf.newidfobject(key, objname, defaultvalues=False)
+idf.newidfobject(key, objname)
 
 objname = "wall2"
-idf.newidfobject(key, objname, defaultvalues=True)
+idf.newidfobject(key, objname, defaultvalues=False)
+
+
 objname = "wall3"
 lastobj = idf.newidfobject(key, objname, defaultvalues=True,
                 outside_boundary_condition="Surface",
@@ -45,8 +47,12 @@ lastobj = idf.newidfobject(key, objname, defaultvalues=True,
                             'vertex_y_coordinate': 0.0,
                             'vertex_z_coordinate': 0.0}])
 
-idf.saveas("n.json")
-# pprint(idf.idf.toDict())
+# print(idf)
+# idf.saveas("n.json")
+
+# print()
+idf.removeidfobject(key, "wall1")
+# print(idf)
+# print()
+idf.copyidfobject(key, "wall3", "wall4")
 print(idf)
-print()
-print(lastobj)

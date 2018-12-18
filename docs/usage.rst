@@ -345,3 +345,139 @@ How did our file change? ::
 
 Note that we have added one set of coordinate points and changed the firat x-coordinate
 
+Deleting, Copying and Creating idfobjects
+-----------------------------------------
+
+The following functions are siilar to those in eppy.
+
+Creating new idfobjects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Let us start with a blank file::
+
+    from io import StringIO
+    from pprint import pprint
+    from eppy3000.modelmaker import IDF
+
+
+    iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
+    idf = IDF(idfname=StringIO("{}"), iddname=iddfname)
+
+Now let us create a new `BuildingSurface:Detailed` object in it::
+
+    key = "BuildingSurface:Detailed"
+    objname = "wall1"
+    idf.newidfobject(key, objname)
+    print(idf)
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall1                                !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+
+Notice how it put in all the default values. But what if we wanted to create the new object without the default values::
+
+    objname = "wall2"
+    idf.newidfobject(key, objname, defaultvalues=False)
+    print(idf)
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall1                                        !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+    >
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall2                                        !-  NAME
+
+Wall2 does not include the default values. Now let us add more values using keyword arguments::
+
+    objname = "wall3"
+    lastobj = idf.newidfobject(key, objname, defaultvalues=True,
+                    outside_boundary_condition="Surface",
+                    vertices=[{'vertex_x_coordinate': 15.24,
+                                'vertex_y_coordinate': 0.0,
+                                'vertex_z_coordinate': 0.0}])
+
+    print(idf)
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall1                                        !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+    >
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall2                                        !-  NAME
+    >
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall3                                        !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+    >             Surface                              !-  outside_boundary_condition
+    >                                                  !-  vertices
+    >                 15.24                                !-  vertex_x_coordinate #1
+    >                 0.0                                  !-  vertex_y_coordinate #1
+    >                 0.0                                  !-  vertex_z_coordinate #1
+
+
+Deleting an idfobject
+~~~~~~~~~~~~~~~~~~~~~
+
+Deleting an idfobject is equally simple::
+
+    idf.removeidfobject(key, "wall1")
+    print(idf)
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall2                                        !-  NAME
+    >
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall3                                        !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+    >             Surface                              !-  outside_boundary_condition
+    >                                                  !-  vertices
+    >                 15.24                                !-  vertex_x_coordinate #1
+    >                 0.0                                  !-  vertex_y_coordinate #1
+    >                 0.0                                  !-  vertex_z_coordinate #1
+
+How about copying an idfobject::
+
+    idf.copyidfobject(key, "wall3", "wall4")
+    print(idf)
+
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall2                                        !-  NAME
+    >
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall3                                        !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+    >             Surface                              !-  outside_boundary_condition
+    >                                                  !-  vertices
+    >                 15.24                                !-  vertex_x_coordinate #1
+    >                 0.0                                  !-  vertex_y_coordinate #1
+    >                 0.0                                  !-  vertex_z_coordinate #1
+    >
+    > BuildingSurface:Detailed                         !-  KEY
+    >             wall4                                        !-  NAME
+    >             Autocalculate                        !-  number_of_vertices
+    >             WindExposed                          !-  wind_exposure
+    >             Autocalculate                        !-  view_factor_to_ground
+    >             SunExposed                           !-  sun_exposure
+    >             Surface                              !-  outside_boundary_condition
+    >                                                  !-  vertices
+    >                 15.24                                !-  vertex_x_coordinate #1
+    >                 0.0                                  !-  vertex_y_coordinate #1
+    >                 0.0                                  !-  vertex_z_coordinate #1
