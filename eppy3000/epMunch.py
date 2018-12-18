@@ -32,19 +32,19 @@ def printmunch(amunch, indent=0, index=None, func=None):
     if isinstance(amunch, Munch):
         if 'eppykey' in amunch:
             func("")
-            func('{0: <36}{1} !-  {2}'.format(amunch['eppykey'], 
-                                        ' '*4*(indent+1), 
+            func('{0: <36}{1} !-  {2}'.format(amunch['eppykey'],
+                                        ' '*4*(indent+1),
                                         'KEY'))
-            func('{0}{1: <36}{2} !-  {3}'.format(' '*4*(indent+1), 
-                                        amunch['eppyname'], 
+            func('{0}{1: <36}{2} !-  {3}'.format(' '*4*(indent+1),
+                                        amunch['eppyname'],
                                         ' '*4*(indent), 'NAME'))
     for key, val in amunch.items():
         if isinstance(val, Munch):
-            printmunch(val, indent=indent+1, index=index, 
+            printmunch(val, indent=indent+1, index=index,
                         func=func)
         elif isinstance(val, list):
-            printkey(key, indent=3, 
-                    format= "{0}" + " " * 36 + " !-  {1}", 
+            printkey(key, indent=3,
+                    format= "{0}" + " " * 36 + " !-  {1}",
                     func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
