@@ -9,6 +9,13 @@ issues for the moment:
 
 fixed issue #6
 
+close to release. need the following
+- newidfobject - DONE
+- copyidfobject
+- removeidfobject # popidfobject to be done later - DONE
+- see if things break on the inner lists
+- StringIO for IDD - DONE
+
 notes to work thru while coding.
 
 - include arg idd in IDF (not a singleton now)

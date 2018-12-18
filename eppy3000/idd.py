@@ -7,6 +7,7 @@
 """class for the idd file"""
 
 import json
+from io import StringIO
 from munch import Munch
 
 
@@ -19,15 +20,23 @@ class IDDMunch(Munch):
     def fieldnames(self):
         """field names of the IDD object"""
         return [key for key in self.keys()]
+        
+    def fieldnames_list(self):
+        """fieldnames that contain lists"""
+        pass
 
     def fieldproperty(self, fieldname):
         """field names of the IDD object"""
         return self[fieldname]
         
-def readidd(fname):
+def readidd(fhandle):
     """read the idd json as a munch"""
-    epjs = json.load(open(fname, 'r')) # 0.079 seconds
-    as_munch = IDDMunch.fromDict(epjs) # 0.410 seconds
+    try:
+        fhandle = open(fhandle, 'r')
+    except TypeError as e:
+        pass
+    as_json = json.load(fhandle)
+    as_munch = IDDMunch.fromDict(as_json) # 0.410 seconds
     return as_munch
 
 
