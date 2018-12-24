@@ -1,3 +1,13 @@
+2018-12-24
+----------
+
+- set up one test - DONE
+- do numpy type doc
+- test setup.py - DONE 
+- deploy on pypi on pyenergyplus
+- set up travis - DONE on santoshphilip
+- set up travis on pyenergyplus
+
 2018-12-16
 ----------
 

@@ -3,6 +3,7 @@
 
 see: https://python-3-patterns-idioms-test.readthedocs.io/en/latest/index.html
 
+
 2018-12-11
 ----------
 
