@@ -17,7 +17,17 @@ from munch import Munch
 
 
 def readidfjson(fhandle):
-    """read an json idf"""
+    """read an json idf
+    
+    Parameters
+    ----------
+    fhandle: io.String, io.TextIOWrapper
+        can be a file open for read or a io.StringIO object
+
+    Returns
+    -------
+    eppy.EPMunch
+    """
     try:
         fhandle = open(fhandle, 'r')
     except TypeError as e:
