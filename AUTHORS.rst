@@ -5,9 +5,9 @@ Credits
 Development Lead
 ----------------
 
-* Santosh Philip <santosh@noemail.com>
+* Santosh Philip
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+Soon to come
