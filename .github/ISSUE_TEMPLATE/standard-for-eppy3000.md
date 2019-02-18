@@ -7,6 +7,6 @@ assignees: ''
 
 ---
 
-**Problem: ** Describe the problem here
+**Problem:** Describe the problem here
 
-**Solution:  ** If you have a potential solution, describe it here
+**Solution:** If you have a potential solution, describe it here
