@@ -1,3 +1,12 @@
+2019-06-03
+----------
+
+need to track down how to generate a JSON file from idf file.
+Looks like you have to run the simulation.
+
+You can run a JSON file in simulation
+<https://unmethours.com/question/36590/can-we-use-epjson-as-input-file-to-run-energy-simulation/>
+
 2019-06-02
 ----------
 

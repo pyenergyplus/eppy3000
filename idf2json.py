@@ -1,4 +1,50 @@
-{
+"""explore how to read the original idf to the new json"""
+
+from io import StringIO
+import json
+from munch import Munch
+
+from eppy3000 import rawidf
+from eppy3000 import readidd
+
+def readiddasmunch(fhandle):
+    """read the idd json as a munch"""
+    epjs = json.load(fhandle)
+    as_munch = Munch.fromDict(epjs)
+    return as_munch
+
+def num(s):
+    try:
+        return int(s)
+    except ValueError:
+        return float(s)
+        
+idftxt = """  
+Zone,
+    Main Zone,               !- Name
+    0,                       !- Direction of Relative North {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate;           !- Volume {m3}
+
+Zone,
+    Another Zone,               !- Name
+    90,                       !- Direction of Relative North {deg}
+    11,                       !- X Origin {m}
+    22,                       !- Y Origin {m}
+    33,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    autocalculate,           !- Ceiling Height {m}
+    autocalculate;           !- Volume {m3}
+
+"""
+
+iddjson = """ {
     "epJSON_schema_version": "8.9.0",
     "$schema": "http://json-schema.org/draft-04/schema#",
     "required": [
@@ -238,3 +284,27 @@
     },
     "epJSON_schema_build": "40101eaafd"
 }
+"""
+
+fhandle = StringIO(idftxt)
+ridf = rawidf.readrawidf(fhandle)
+# ridf can come with upper for idfobject names. need code to change them back to natural. Map between what is in iddjson and make a dict from capts to natural. test using the upper in readrawidf() that has been commented out.
+js = readiddasmunch(StringIO(iddjson))
+
+print(js.properties.Zone.legacy_idd.fields)
+print('-')
+print(js.properties.Zone.legacy_idd.numerics.fields)
+print('-')
+print(js.properties.Zone.legacy_idd.alphas.fields)
+
+idfjson = {}
+keys = ridf.keys()
+for key in keys:
+    dct = idfjson.setdefault(key, dict())
+    fields = js.properties.Zone.legacy_idd.fields
+    for idfitem in ridf[key]:
+        alst = {j:i for i, j in zip(idfitem[2:], fields[1:])}
+        dct.update({idfitem[1]:alst})
+
+
+
