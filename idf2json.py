@@ -17,9 +17,25 @@ def num(s):
     try:
         return int(s)
     except ValueError:
-        return float(s)
-        
-idftxt = """  
+        try:
+            return float(s)
+        except ValueError as e:
+            return s
+
+
+idftxt = """
+Timestep,4;
+
+Building,
+    Bldg one,                !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days
+
 Zone,
     Main Zone,               !- Name
     0,                       !- Direction of Relative North {deg}
@@ -287,24 +303,45 @@ iddjson = """ {
 """
 
 fhandle = StringIO(idftxt)
-ridf = rawidf.readrawidf(fhandle)
-# ridf can come with upper for idfobject names. need code to change them back to natural. Map between what is in iddjson and make a dict from capts to natural. test using the upper in readrawidf() that has been commented out.
+raw_idf = rawidf.readrawidf(fhandle)
+# raw_idf can come with upper for idfobject names. need code to change them back to natural. Map between what is in iddjson and make a dict from capts to natural. test using the upper in readrawidf() that has been commented out.
 js = readiddasmunch(StringIO(iddjson))
+iddpath = "/Applications/EnergyPlus-9-0-1/Energy+.schema.epJSON"
+js = readiddasmunch(open(iddpath, 'r'))
 
-print(js.properties.Zone.legacy_idd.fields)
-print('-')
-print(js.properties.Zone.legacy_idd.numerics.fields)
-print('-')
-print(js.properties.Zone.legacy_idd.alphas.fields)
+# print(js.properties.Zone.legacy_idd.fields)
+# print('-')
+# print(js.properties.Zone.legacy_idd.numerics.fields)
+# print('-')
+# print(js.properties.Zone.legacy_idd.alphas.fields)
 
+idfobjcount = {}
 idfjson = {}
-keys = ridf.keys()
+keys = raw_idf.keys()
+order = 0
 for key in keys:
+    count = idfobjcount.setdefault(key, 0)
+    idfobjcount[key] = count + 1
     dct = idfjson.setdefault(key, dict())
-    fields = js.properties.Zone.legacy_idd.fields
-    for idfitem in ridf[key]:
-        alst = {j:i for i, j in zip(idfitem[2:], fields[1:])}
-        dct.update({idfitem[1]:alst})
+    fieldnames = js.properties[key].legacy_idd.fields
+    idfobjects = raw_idf[key]
+    for idfobject in idfobjects:
+        order += 1
+        if fieldnames[0] == 'name':
+            alst = {fieldname:idfvalue for idfvalue, fieldname in zip(idfobject[2:], fieldnames[1:])}
+            dct.update({idfobjectname:alst})
+        else:
+            alst = {fieldname:idfvalue for idfvalue, fieldname in zip(idfobject[1:], fieldnames)}
+            idfobjectname = f"{key} {idfobjcount[key]}"
+        alst["idf_order"] = order
+        numericfields = js.properties[key].legacy_idd.numerics.fields
+        for fieldkey in alst.keys():
+            if fieldkey in numericfields:
+                alst[fieldkey] = num(alst[fieldkey])
+        dct.update({idfobjectname:alst})
+
+print(idfjson)
+
 
 
 
