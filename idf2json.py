@@ -1,6 +1,7 @@
 """explore how to read the original idf to the new json"""
 
 from io import StringIO
+from itertools import zip_longest
 import json
 from munch import Munch
 
@@ -22,8 +23,50 @@ def num(s):
         except ValueError as e:
             return s
 
+def grouper(iterable, n, fillvalue=None):
+    "Collect data into fixed-length chunks or blocks"
+    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
+    args = [iter(iterable)] * n
+    return zip_longest(*args, fillvalue=fillvalue)
 
 idftxt = """
+  ZoneHVAC:EquipmentList,
+    SPACE1-1 Eq,             !- Name
+    SequentialLoad,          !- Load Distribution Scheme
+    ZoneHVAC:AirDistributionUnit,  !- Zone Equipment 1 Object Type
+    SPACE1-1 ATU,            !- Zone Equipment 1 Name
+    1,                       !- Zone Equipment 1 Cooling Sequence
+    1;                       !- Zone Equipment 1 Heating or No-Load Sequence
+
+
+NodeList,
+    SPACE1-1 In Nodes,       !- Name
+    SPACE1-1 In Node;        !- Node 1 Name
+
+NodeList,
+    Supply Air Temp Nodes 1, !- Name
+    Main Cooling Coil 1 Inlet Node,  !- Node 1 Name
+    Heat Recovery Supply Outlet,  !- Node 2 Name
+    Main Heating Coil 1 Inlet Node,  !- Node 3 Name
+    Reheat Coil Air Inlet Node,  !- Node 4 Name
+    VAV Sys 1 Outlet Node;   !- Node 5 Name
+
+BuildingSurface:Detailed,
+    WALL-1PF,                !- Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name
+    PLENUM-1,                !- Zone Name
+    Outdoors,                !- Outside Boundary Condition
+    ,                        !- Outside Boundary Condition Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Vertices
+    0.0,0.0,3.0,  !- X,Y,Z ==> Vertex 1 {m}
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 2 {m}
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 3 {m}
+    30.5,0.0,3.0;  !- X,Y,Z ==> Vertex 4 {m}
+
 Timestep,4;
 
 Building,
@@ -301,8 +344,15 @@ iddjson = """ {
     "epJSON_schema_build": "40101eaafd"
 }
 """
+idftxt = """
+  OutdoorAir:NodeList,
+    OutsideAirInletNodes;    !- Node or NodeList Name 1
 
+
+"""
 fhandle = StringIO(idftxt)
+fname = "eppy3000/resources/snippets/V9_0/5Zone_Unitary_HXAssistedCoil.idf"
+fhandle = open(fname, 'r')
 raw_idf = rawidf.readrawidf(fhandle)
 # raw_idf can come with upper for idfobject names. need code to change them back to natural. Map between what is in iddjson and make a dict from capts to natural. test using the upper in readrawidf() that has been commented out.
 js = readiddasmunch(StringIO(iddjson))
@@ -327,21 +377,58 @@ for key in keys:
     idfobjects = raw_idf[key]
     for idfobject in idfobjects:
         order += 1
-        if fieldnames[0] == 'name':
-            alst = {fieldname:idfvalue for idfvalue, fieldname in zip(idfobject[2:], fieldnames[1:])}
-            dct.update({idfobjectname:alst})
-        else:
-            alst = {fieldname:idfvalue for idfvalue, fieldname in zip(idfobject[1:], fieldnames)}
+        try:
+            if fieldnames[0] == 'name':
+                alst = {fieldname:idfvalue for idfvalue, fieldname in 
+                                    zip(idfobject[2:], fieldnames[1:])}
+                idfobjectname = idfobject[1]
+                # dct.update({idfobjectname:alst})
+            else:
+                alst = {fieldname:idfvalue for idfvalue, fieldname in 
+                                        zip(idfobject[1:], fieldnames)}
+                idfobjectname = f"{key} {idfobjcount[key]}"
+        except IndexError as e:
+            alst = {fieldname:idfvalue for idfvalue, fieldname in 
+                                    zip(idfobject[1:], fieldnames)}
             idfobjectname = f"{key} {idfobjcount[key]}"
         alst["idf_order"] = order
         numericfields = js.properties[key].legacy_idd.numerics.fields
         for fieldkey in alst.keys():
             if fieldkey in numericfields:
                 alst[fieldkey] = num(alst[fieldkey])
+
+        try:
+            extension = js.properties[key].legacy_idd.extension
+            extensibles = js.properties[key].legacy_idd.extensibles
+            endvalues = idfobject[len(fieldnames) + 1:]
+            g_endvalues = grouper(endvalues, len(extensibles))
+            extvalues = [{f:t for f, t in zip(extensibles, tup)} 
+                                        for tup in g_endvalues]
+                                        
+            try:
+                e_numericfields = js.properties[key].legacy_idd.numerics.extensions
+                for e_dct in extvalues:
+                    for e_key in e_dct:
+                        if e_key in e_numericfields:
+                            e_dct[e_key] = num(e_dct[e_key])
+            except AttributeError as e:
+                pass
+                        
+            alst[extension] = extvalues
+        except AttributeError as e:
+            pass
         dct.update({idfobjectname:alst})
-
+        
+# print("-----")
 print(idfjson)
+json.dump(idfjson, open("bb.json", "w"))
+# idfjson.dump(open("bb.json", "w"))
 
 
 
 
+# a = range(1, 16)
+# i = iter(a)
+# r = list(zip_longest(i, i, i))
+# >>> print(r)
+# [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12), (13, 14, 15)]
