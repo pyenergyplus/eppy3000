@@ -2963,7 +2963,7 @@
   Output:Table:SummaryReports,
     AllSummary;              !- Report 1 Name
 
-  Output:SQlite,
+  Output:SQLite,
     simple;                  !- Option Type
 
   Output:Variable,*,Unitary System Part Load Ratio,hourly;

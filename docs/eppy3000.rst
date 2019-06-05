@@ -28,10 +28,26 @@ eppy3000.idd module
     :undoc-members:
     :show-inheritance:
 
+eppy3000.idfjsonconverter module
+--------------------------------
+
+.. automodule:: eppy3000.idfjsonconverter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 eppy3000.modelmaker module
 --------------------------
 
 .. automodule:: eppy3000.modelmaker
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+eppy3000.rawidf module
+----------------------
+
+.. automodule:: eppy3000.rawidf
     :members:
     :undoc-members:
     :show-inheritance:

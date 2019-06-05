@@ -348,11 +348,18 @@ idftxt = """
   OutdoorAir:NodeList,
     OutsideAirInletNodes;    !- Node or NodeList Name 1
 
+  OutdoorAir:NodeList,
+    Gumby;    !- Node or NodeList Name 1
 
 """
+
+# idftxt = """
+# Timestep,4;
+# Timestep,5;
+# """
 fhandle = StringIO(idftxt)
-fname = "eppy3000/resources/snippets/V9_0/5Zone_Unitary_HXAssistedCoil.idf"
-fhandle = open(fname, 'r')
+# fname = "eppy3000/resources/snippets/V9_0/5Zone_Unitary_HXAssistedCoil.idf"
+# fhandle = open(fname, 'r')
 raw_idf = rawidf.readrawidf(fhandle)
 # raw_idf can come with upper for idfobject names. need code to change them back to natural. Map between what is in iddjson and make a dict from capts to natural. test using the upper in readrawidf() that has been commented out.
 js = readiddasmunch(StringIO(iddjson))
@@ -371,24 +378,23 @@ keys = raw_idf.keys()
 order = 0
 for key in keys:
     count = idfobjcount.setdefault(key, 0)
-    idfobjcount[key] = count + 1
     dct = idfjson.setdefault(key, dict())
     fieldnames = js.properties[key].legacy_idd.fields
     idfobjects = raw_idf[key]
     for idfobject in idfobjects:
+        idfobjcount[key] = idfobjcount[key] + 1
         order += 1
         try:
             if fieldnames[0] == 'name':
-                alst = {fieldname:idfvalue for idfvalue, fieldname in 
-                                    zip(idfobject[2:], fieldnames[1:])}
+                alst = {fieldname:idfvalue for idfvalue, fieldname in zip(idfobject[2:], fieldnames[1:])}
                 idfobjectname = idfobject[1]
                 # dct.update({idfobjectname:alst})
             else:
-                alst = {fieldname:idfvalue for idfvalue, fieldname in 
+                alst = {fieldname:idfvalue for idfvalue, fieldname in
                                         zip(idfobject[1:], fieldnames)}
                 idfobjectname = f"{key} {idfobjcount[key]}"
         except IndexError as e:
-            alst = {fieldname:idfvalue for idfvalue, fieldname in 
+            alst = {fieldname:idfvalue for idfvalue, fieldname in
                                     zip(idfobject[1:], fieldnames)}
             idfobjectname = f"{key} {idfobjcount[key]}"
         alst["idf_order"] = order
@@ -402,9 +408,9 @@ for key in keys:
             extensibles = js.properties[key].legacy_idd.extensibles
             endvalues = idfobject[len(fieldnames) + 1:]
             g_endvalues = grouper(endvalues, len(extensibles))
-            extvalues = [{f:t for f, t in zip(extensibles, tup)} 
+            extvalues = [{f:t for f, t in zip(extensibles, tup)}
                                         for tup in g_endvalues]
-                                        
+
             try:
                 e_numericfields = js.properties[key].legacy_idd.numerics.extensions
                 for e_dct in extvalues:
@@ -413,15 +419,16 @@ for key in keys:
                             e_dct[e_key] = num(e_dct[e_key])
             except AttributeError as e:
                 pass
-                        
+
             alst[extension] = extvalues
         except AttributeError as e:
             pass
         dct.update({idfobjectname:alst})
-        
+
 # print("-----")
-print(idfjson)
+# print(idfjson)
 json.dump(idfjson, open("bb.json", "w"))
+print(json.dumps(idfjson, indent=2))
 # idfjson.dump(open("bb.json", "w"))
 
 
