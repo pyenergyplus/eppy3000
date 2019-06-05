@@ -29,20 +29,32 @@ def grouper(iterable, n, fillvalue=None):
     return zip_longest(*args, fillvalue=fillvalue)
 
 
+
+def keymapping(somekeys, allkeys):
+    """map the keys regardless of case"""
+    allkeys = list(allkeys)
+    somekeys = list(somekeys)
+    ll1 = [i.upper() for i in allkeys]
+    ll2 = [i.upper() for i in somekeys]
+    mapping = [(i, ll1.index(val)) for i, val in enumerate(ll2)]
+    return {somekeys[i]:allkeys[j] for i, j in mapping}
+
 def idf2json(idfhandle, epjsonhandle):
     """convert idf2json"""
     raw_idf = rawidf.readrawidf(idfhandle)
-    # raw_idf can come with upper for idfobject names. need code to change them back to natural. Map between what is in iddjson and make a dict from capts to natural. test using the upper in readrawidf() that has been commented out.
     js = readiddasmunch(epjsonhandle)
     idfobjcount = {}
     idfjson = {}
     keys = raw_idf.keys()
     order = 0
-    for key in keys:
+    mapping = keymapping(raw_idf.keys(), js.properties.keys())
+    # mapping in case the case does not match between keys
+    for akey in keys:
+        key = mapping[akey]
         count = idfobjcount.setdefault(key, 0)
         dct = idfjson.setdefault(key, dict())
         fieldnames = js.properties[key].legacy_idd.fields
-        idfobjects = raw_idf[key]
+        idfobjects = raw_idf[akey]
         for idfobject in idfobjects:
             idfobjcount[key] = idfobjcount[key] + 1
             order += 1

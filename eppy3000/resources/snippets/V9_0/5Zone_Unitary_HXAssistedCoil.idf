@@ -97,7 +97,7 @@
 ! Environmental Emissions:        None
 ! Utility Tariffs:                None
 
-  Version,9.0;
+  version,9.0;
 
   Building,
     Building,                !- Name
@@ -2963,7 +2963,7 @@
   Output:Table:SummaryReports,
     AllSummary;              !- Report 1 Name
 
-  Output:SQLite,
+  Output:SQlite,
     simple;                  !- Option Type
 
   Output:Variable,*,Unitary System Part Load Ratio,hourly;
