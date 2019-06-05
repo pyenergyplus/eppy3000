@@ -481,3 +481,11 @@ How about copying an idfobject::
     >                 15.24                                !-  vertex_x_coordinate #1
     >                 0.0                                  !-  vertex_y_coordinate #1
     >                 0.0                                  !-  vertex_z_coordinate #1
+
+
+Reading and writing IDF files
+-----------------------------
+
+Eppy3000 works with JSON files. At the time of this documentation, Energyplus is at version 9.0. This version has only IDF files in the ExampleFolder. Everyone is still using IDF files. Does this mean I cannot use eppy3000 for any real work ?
+
+Eppy3000 can read and write IDF files. So you can read and
