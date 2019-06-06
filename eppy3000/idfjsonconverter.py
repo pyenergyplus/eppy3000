@@ -63,7 +63,6 @@ def idf2json(idfhandle, epjsonhandle):
                     alst = {fieldname:idfvalue for idfvalue, fieldname in
                                         zip(idfobject[2:], fieldnames[1:])}
                     idfobjectname = idfobject[1]
-                    # dct.update({idfobjectname:alst})
                 else:
                     alst = {fieldname:idfvalue for idfvalue, fieldname in
                                             zip(idfobject[1:], fieldnames)}
