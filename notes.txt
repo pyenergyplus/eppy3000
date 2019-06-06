@@ -1,3 +1,10 @@
+2019-06-06
+----------
+
+
+python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+python3 -m twine upload --repository-url https://pypi.org/ dist/*
+
 2019-06-02
 ----------
 
