@@ -2,8 +2,12 @@
 ----------
 
 
-python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-python3 -m twine upload --repository-url https://pypi.org/ dist/*
+python3 -m twine upload dist/*
+# remove the login details in  ~/.pypirc -> to ensure you can upload from multiple accounts
+
+
+Server response (410): This API is no longer supported, instead simply upload the file.
+
 
 2019-06-02
 ----------
