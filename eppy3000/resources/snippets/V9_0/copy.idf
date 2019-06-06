@@ -1,0 +1,3674 @@
+Version,
+    9.0;                      !- version_identifier
+
+Building,
+    Building,                 !- name
+    30.0,                     !- north_axis
+    City,                     !- terrain
+    0.04,                     !- loads_convergence_tolerance_value
+    0.4,                      !- temperature_convergence_tolerance_value
+    FullExterior,             !- solar_distribution
+    25,                       !- maximum_number_of_warmup_days
+    6;                        !- minimum_number_of_warmup_days
+
+Timestep,
+    4;                        !- number_of_timesteps_per_hour
+
+SurfaceConvectionAlgorithm:Inside,
+    Simple;                   !- algorithm
+
+SurfaceConvectionAlgorithm:Outside,
+    SimpleCombined;           !- algorithm
+
+HeatBalanceAlgorithm,
+    ConductionTransferFunction; !- algorithm
+
+GlobalGeometryRules,
+    UpperLeftCorner,          !- starting_vertex_position
+    CounterClockWise,         !- vertex_entry_direction
+    relative;                 !- coordinate_system
+
+ScheduleTypeLimits,
+    Any Number;               !- name
+
+ScheduleTypeLimits,
+    Fraction,                 !- name
+    0.0,                      !- lower_limit_value
+    1.0,                      !- upper_limit_value
+    CONTINUOUS;               !- numeric_type
+
+ScheduleTypeLimits,
+    Temperature,              !- name
+    -60,                      !- lower_limit_value
+    200,                      !- upper_limit_value
+    CONTINUOUS,               !- numeric_type
+    Temperature;              !- unit_type
+
+ScheduleTypeLimits,
+    Control Type,             !- name
+    0,                        !- lower_limit_value
+    4,                        !- upper_limit_value
+    DISCRETE;                 !- numeric_type
+
+ScheduleTypeLimits,
+    On/Off,                   !- name
+    0,                        !- lower_limit_value
+    1,                        !- upper_limit_value
+    DISCRETE;                 !- numeric_type
+
+ScheduleTypeLimits,
+    FlowRate,                 !- name
+    0.0,                      !- lower_limit_value
+    10,                       !- upper_limit_value
+    CONTINUOUS;               !- numeric_type
+
+RunPeriod,
+    Feb 1 to 5,               !- name
+    2,                        !- begin_month
+    1,                        !- begin_day_of_month
+    ,                         !- begin_year
+    2,                        !- end_month
+    5,                        !- end_day_of_month
+    ,                         !- end_year
+    Tuesday,                  !- day_of_week_for_start_day
+    Yes,                      !- use_weather_file_holidays_and_special_days
+    Yes,                      !- use_weather_file_daylight_saving_period
+    No,                       !- apply_weekend_holiday_rule
+    Yes,                      !- use_weather_file_rain_indicators
+    Yes;                      !- use_weather_file_snow_indicators
+
+RunPeriod,
+    June 1 to 5,              !- name
+    6,                        !- begin_month
+    1,                        !- begin_day_of_month
+    ,                         !- begin_year
+    6,                        !- end_month
+    5,                        !- end_day_of_month
+    ,                         !- end_year
+    Tuesday,                  !- day_of_week_for_start_day
+    Yes,                      !- use_weather_file_holidays_and_special_days
+    Yes,                      !- use_weather_file_daylight_saving_period
+    No,                       !- apply_weekend_holiday_rule
+    Yes,                      !- use_weather_file_rain_indicators
+    Yes;                      !- use_weather_file_snow_indicators
+
+Site:Location,
+    CHICAGO_IL_USA TMY2-94846, !- name
+    41.78,                    !- latitude
+    -87.75,                   !- longitude
+    -6.0,                     !- time_zone
+    190.0;                    !- elevation
+
+SimulationControl,
+    Yes,                      !- do_zone_sizing_calculation
+    Yes,                      !- do_system_sizing_calculation
+    No,                       !- do_plant_sizing_calculation
+    yes,                      !- run_simulation_for_sizing_periods
+    no;                       !- run_simulation_for_weather_file_run_periods
+
+SizingPeriod:DesignDay,
+    CHICAGO_IL_USA Annual Heating 99% Design Conditions DB, !- name
+    1,                        !- month
+    8,                        !- day_of_month
+    WinterDesignDay,          !- day_type
+    -17.3,                    !- maximum_dry_bulb_temperature
+    0.0,                      !- daily_dry_bulb_temperature_range
+    ,                         !- dry_bulb_temperature_range_modifier_type
+    ,                         !- dry_bulb_temperature_range_modifier_day_schedule_name
+    Wetbulb,                  !- humidity_condition_type
+    -17.3,                    !- wetbulb_or_dewpoint_at_maximum_dry_bulb
+    ,                         !- humidity_condition_day_schedule_name
+    ,                         !- humidity_ratio_at_maximum_dry_bulb
+    ,                         !- enthalpy_at_maximum_dry_bulb
+    ,                         !- daily_wet_bulb_temperature_range
+    99063.0,                  !- barometric_pressure
+    4.9,                      !- wind_speed
+    270,                      !- wind_direction
+    No,                       !- rain_indicator
+    No,                       !- snow_indicator
+    No,                       !- daylight_saving_time_indicator
+    ASHRAEClearSky,           !- solar_model_indicator
+    ,                         !- beam_solar_day_schedule_name
+    ,                         !- diffuse_solar_day_schedule_name
+    ,                         !- ashrae_clear_sky_optical_depth_for_beam_irradiance_taub_
+    ,                         !- ashrae_clear_sky_optical_depth_for_diffuse_irradiance_taud_
+    0.0;                      !- sky_clearness
+
+SizingPeriod:DesignDay,
+    CHICAGO Ann Clg .4% Condns WB=>MDB, !- name
+    7,                        !- month
+    21,                       !- day_of_month
+    SummerDesignDay,          !- day_type
+    31.2,                     !- maximum_dry_bulb_temperature
+    10.7,                     !- daily_dry_bulb_temperature_range
+    ,                         !- dry_bulb_temperature_range_modifier_type
+    ,                         !- dry_bulb_temperature_range_modifier_day_schedule_name
+    Wetbulb,                  !- humidity_condition_type
+    25.5,                     !- wetbulb_or_dewpoint_at_maximum_dry_bulb
+    ,                         !- humidity_condition_day_schedule_name
+    ,                         !- humidity_ratio_at_maximum_dry_bulb
+    ,                         !- enthalpy_at_maximum_dry_bulb
+    ,                         !- daily_wet_bulb_temperature_range
+    99063.0,                  !- barometric_pressure
+    5.3,                      !- wind_speed
+    230,                      !- wind_direction
+    No,                       !- rain_indicator
+    No,                       !- snow_indicator
+    No,                       !- daylight_saving_time_indicator
+    ASHRAEClearSky,           !- solar_model_indicator
+    ,                         !- beam_solar_day_schedule_name
+    ,                         !- diffuse_solar_day_schedule_name
+    ,                         !- ashrae_clear_sky_optical_depth_for_beam_irradiance_taub_
+    ,                         !- ashrae_clear_sky_optical_depth_for_diffuse_irradiance_taud_
+    1.0;                      !- sky_clearness
+
+Site:GroundTemperature:BuildingSurface,
+    20.03,                    !- january_ground_temperature
+    20.03,                    !- february_ground_temperature
+    20.13,                    !- march_ground_temperature
+    20.3,                     !- april_ground_temperature
+    20.43,                    !- may_ground_temperature
+    20.52,                    !- june_ground_temperature
+    20.62,                    !- july_ground_temperature
+    20.77,                    !- august_ground_temperature
+    20.78,                    !- september_ground_temperature
+    20.55,                    !- october_ground_temperature
+    20.44,                    !- november_ground_temperature
+    20.2;                     !- december_ground_temperature
+
+Material,
+    WD10,                     !- name
+    MediumSmooth,             !- roughness
+    0.667,                    !- thickness
+    0.115,                    !- conductivity
+    513,                      !- density
+    1381,                     !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.78,                     !- solar_absorptance
+    0.78;                     !- visible_absorptance
+
+Material,
+    RG01,                     !- name
+    Rough,                    !- roughness
+    0.0127,                   !- thickness
+    1.442,                    !- conductivity
+    881.0,                    !- density
+    1674.0,                   !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.65,                     !- solar_absorptance
+    0.65;                     !- visible_absorptance
+
+Material,
+    BR01,                     !- name
+    VeryRough,                !- roughness
+    0.0094999997,             !- thickness
+    0.162,                    !- conductivity
+    1121.0,                   !- density
+    1464.0,                   !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.7,                      !- solar_absorptance
+    0.7;                      !- visible_absorptance
+
+Material,
+    IN46,                     !- name
+    VeryRough,                !- roughness
+    0.076200001,              !- thickness
+    0.023,                    !- conductivity
+    24.0,                     !- density
+    1590.0,                   !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.5,                      !- solar_absorptance
+    0.5;                      !- visible_absorptance
+
+Material,
+    WD01,                     !- name
+    MediumSmooth,             !- roughness
+    0.019099999,              !- thickness
+    0.115,                    !- conductivity
+    513.0,                    !- density
+    1381.0,                   !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.78,                     !- solar_absorptance
+    0.78;                     !- visible_absorptance
+
+Material,
+    PW03,                     !- name
+    MediumSmooth,             !- roughness
+    0.0127,                   !- thickness
+    0.115,                    !- conductivity
+    545.0,                    !- density
+    1213.0,                   !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.78,                     !- solar_absorptance
+    0.78;                     !- visible_absorptance
+
+Material,
+    IN02,                     !- name
+    Rough,                    !- roughness
+    0.090099998,              !- thickness
+    0.043000001,              !- conductivity
+    10.0,                     !- density
+    837.0,                    !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.75,                     !- solar_absorptance
+    0.75;                     !- visible_absorptance
+
+Material,
+    GP01,                     !- name
+    MediumSmooth,             !- roughness
+    0.0127,                   !- thickness
+    0.16,                     !- conductivity
+    801.0,                    !- density
+    837.0,                    !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.75,                     !- solar_absorptance
+    0.75;                     !- visible_absorptance
+
+Material,
+    GP02,                     !- name
+    MediumSmooth,             !- roughness
+    0.015900001,              !- thickness
+    0.16,                     !- conductivity
+    801.0,                    !- density
+    837.0,                    !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.75,                     !- solar_absorptance
+    0.75;                     !- visible_absorptance
+
+Material,
+    CC03,                     !- name
+    MediumRough,              !- roughness
+    0.1016,                   !- thickness
+    1.31,                     !- conductivity
+    2243.0,                   !- density
+    837.0,                    !- specific_heat
+    0.9,                      !- thermal_absorptance
+    0.65,                     !- solar_absorptance
+    0.65;                     !- visible_absorptance
+
+Material:NoMass,
+    CP01,                     !- name
+    Rough,                    !- roughness
+    0.367,                    !- thermal_resistance
+    0.9,                      !- thermal_absorptance
+    0.75,                     !- solar_absorptance
+    0.75;                     !- visible_absorptance
+
+Material:NoMass,
+    MAT-SB-U,                 !- name
+    Rough,                    !- roughness
+    0.117406666,              !- thermal_resistance
+    0.65,                     !- thermal_absorptance
+    0.65,                     !- solar_absorptance
+    0.65;                     !- visible_absorptance
+
+Material:NoMass,
+    MAT-CLNG-1,               !- name
+    Rough,                    !- roughness
+    0.65225929,               !- thermal_resistance
+    0.65,                     !- thermal_absorptance
+    0.65,                     !- solar_absorptance
+    0.65;                     !- visible_absorptance
+
+Material:NoMass,
+    MAT-FLOOR-1,              !- name
+    Rough,                    !- roughness
+    3.522199631,              !- thermal_resistance
+    0.65,                     !- thermal_absorptance
+    0.65,                     !- solar_absorptance
+    0.65;                     !- visible_absorptance
+
+Material:AirGap,
+    AL21,                     !- name
+    0.157;                    !- thermal_resistance
+
+Material:AirGap,
+    AL23,                     !- name
+    0.153;                    !- thermal_resistance
+
+Construction,
+    ROOF-1,                   !- name
+    RG01,                     !- outside_layer
+    BR01,                     !- layer_2
+    IN46,                     !- layer_3
+    WD01;                     !- layer_4
+
+Construction,
+    WALL-1,                   !- name
+    WD01,                     !- outside_layer
+    PW03,                     !- layer_2
+    IN02,                     !- layer_3
+    GP01;                     !- layer_4
+
+Construction,
+    CLNG-1,                   !- name
+    MAT-CLNG-1;               !- outside_layer
+
+Construction,
+    FLOOR-SLAB-1,             !- name
+    CC03,                     !- outside_layer
+    CP01;                     !- layer_2
+
+Construction,
+    INT-WALL-1,               !- name
+    GP02,                     !- outside_layer
+    AL21,                     !- layer_2
+    GP02;                     !- layer_3
+
+Construction,
+    Dbl Clr 3mm/13mm Air,     !- name
+    CLEAR 3MM,                !- outside_layer
+    AIR 13MM,                 !- layer_2
+    CLEAR 3MM;                !- layer_3
+
+Construction,
+    Sgl Grey 3mm,             !- name
+    GREY 3MM;                 !- outside_layer
+
+WindowMaterial:Gas,
+    AIR 6MM,                  !- name
+    Air,                      !- gas_type
+    0.0063;                   !- thickness
+
+WindowMaterial:Gas,
+    AIR 13MM,                 !- name
+    Air,                      !- gas_type
+    0.0127;                   !- thickness
+
+WindowMaterial:Gas,
+    ARGON 13MM,               !- name
+    Argon,                    !- gas_type
+    0.0127;                   !- thickness
+
+WindowMaterial:Glazing,
+    CLEAR 3MM,                !- name
+    SpectralAverage,          !- optical_data_type
+    ,                         !- window_glass_spectral_data_set_name
+    0.003,                    !- thickness
+    0.837,                    !- solar_transmittance_at_normal_incidence
+    0.075,                    !- front_side_solar_reflectance_at_normal_incidence
+    0.075,                    !- back_side_solar_reflectance_at_normal_incidence
+    0.898,                    !- visible_transmittance_at_normal_incidence
+    0.081,                    !- front_side_visible_reflectance_at_normal_incidence
+    0.081,                    !- back_side_visible_reflectance_at_normal_incidence
+    0.0,                      !- infrared_transmittance_at_normal_incidence
+    0.84,                     !- front_side_infrared_hemispherical_emissivity
+    0.84,                     !- back_side_infrared_hemispherical_emissivity
+    0.9;                      !- conductivity
+
+WindowMaterial:Glazing,
+    GREY 3MM,                 !- name
+    SpectralAverage,          !- optical_data_type
+    ,                         !- window_glass_spectral_data_set_name
+    0.003,                    !- thickness
+    0.626,                    !- solar_transmittance_at_normal_incidence
+    0.061,                    !- front_side_solar_reflectance_at_normal_incidence
+    0.061,                    !- back_side_solar_reflectance_at_normal_incidence
+    0.611,                    !- visible_transmittance_at_normal_incidence
+    0.061,                    !- front_side_visible_reflectance_at_normal_incidence
+    0.061,                    !- back_side_visible_reflectance_at_normal_incidence
+    0.0,                      !- infrared_transmittance_at_normal_incidence
+    0.84,                     !- front_side_infrared_hemispherical_emissivity
+    0.84,                     !- back_side_infrared_hemispherical_emissivity
+    0.9;                      !- conductivity
+
+WindowMaterial:Glazing,
+    CLEAR 6MM,                !- name
+    SpectralAverage,          !- optical_data_type
+    ,                         !- window_glass_spectral_data_set_name
+    0.006,                    !- thickness
+    0.775,                    !- solar_transmittance_at_normal_incidence
+    0.071,                    !- front_side_solar_reflectance_at_normal_incidence
+    0.071,                    !- back_side_solar_reflectance_at_normal_incidence
+    0.881,                    !- visible_transmittance_at_normal_incidence
+    0.08,                     !- front_side_visible_reflectance_at_normal_incidence
+    0.08,                     !- back_side_visible_reflectance_at_normal_incidence
+    0.0,                      !- infrared_transmittance_at_normal_incidence
+    0.84,                     !- front_side_infrared_hemispherical_emissivity
+    0.84,                     !- back_side_infrared_hemispherical_emissivity
+    0.9;                      !- conductivity
+
+WindowMaterial:Glazing,
+    LoE CLEAR 6MM,            !- name
+    SpectralAverage,          !- optical_data_type
+    ,                         !- window_glass_spectral_data_set_name
+    0.006,                    !- thickness
+    0.6,                      !- solar_transmittance_at_normal_incidence
+    0.17,                     !- front_side_solar_reflectance_at_normal_incidence
+    0.22,                     !- back_side_solar_reflectance_at_normal_incidence
+    0.84,                     !- visible_transmittance_at_normal_incidence
+    0.055,                    !- front_side_visible_reflectance_at_normal_incidence
+    0.078,                    !- back_side_visible_reflectance_at_normal_incidence
+    0.0,                      !- infrared_transmittance_at_normal_incidence
+    0.84,                     !- front_side_infrared_hemispherical_emissivity
+    0.1,                      !- back_side_infrared_hemispherical_emissivity
+    0.9;                      !- conductivity
+
+Schedule:Compact,
+    OCCUPY-1,                 !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: WeekDays SummerDesignDay CustomDay1 CustomDay2, !- field 2
+    Until: 8:00,              !- field 3
+    0.0,                      !- field 4
+    Until: 11:00,             !- field 5
+    1.00,                     !- field 6
+    Until: 12:00,             !- field 7
+    0.80,                     !- field 8
+    Until: 13:00,             !- field 9
+    0.40,                     !- field 10
+    Until: 14:00,             !- field 11
+    0.80,                     !- field 12
+    Until: 18:00,             !- field 13
+    1.00,                     !- field 14
+    Until: 19:00,             !- field 15
+    0.50,                     !- field 16
+    Until: 21:00,             !- field 17
+    0.10,                     !- field 18
+    Until: 24:00,             !- field 19
+    0.0,                      !- field 20
+    For: Weekends WinterDesignDay Holiday, !- field 21
+    Until: 24:00,             !- field 22
+    0.0;                      !- field 23
+
+Schedule:Compact,
+    LIGHTS-1,                 !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: WeekDays SummerDesignDay CustomDay1 CustomDay2, !- field 2
+    Until: 8:00,              !- field 3
+    0.05,                     !- field 4
+    Until: 9:00,              !- field 5
+    0.9,                      !- field 6
+    Until: 10:00,             !- field 7
+    0.95,                     !- field 8
+    Until: 11:00,             !- field 9
+    1.00,                     !- field 10
+    Until: 12:00,             !- field 11
+    0.95,                     !- field 12
+    Until: 13:00,             !- field 13
+    0.8,                      !- field 14
+    Until: 14:00,             !- field 15
+    0.9,                      !- field 16
+    Until: 18:00,             !- field 17
+    1.00,                     !- field 18
+    Until: 19:00,             !- field 19
+    0.60,                     !- field 20
+    Until: 21:00,             !- field 21
+    0.20,                     !- field 22
+    Until: 24:00,             !- field 23
+    0.05,                     !- field 24
+    For: Weekends WinterDesignDay Holiday, !- field 25
+    Until: 24:00,             !- field 26
+    0.05;                     !- field 27
+
+Schedule:Compact,
+    EQUIP-1,                  !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: WeekDays SummerDesignDay CustomDay1 CustomDay2, !- field 2
+    Until: 8:00,              !- field 3
+    0.02,                     !- field 4
+    Until: 9:00,              !- field 5
+    0.4,                      !- field 6
+    Until: 14:00,             !- field 7
+    0.9,                      !- field 8
+    Until: 15:00,             !- field 9
+    0.8,                      !- field 10
+    Until: 16:00,             !- field 11
+    0.7,                      !- field 12
+    Until: 18:00,             !- field 13
+    0.5,                      !- field 14
+    Until: 20:00,             !- field 15
+    0.3,                      !- field 16
+    Until: 24:00,             !- field 17
+    0.02,                     !- field 18
+    For: Weekends WinterDesignDay Holiday, !- field 19
+    Until: 24:00,             !- field 20
+    0.2;                      !- field 21
+
+Schedule:Compact,
+    INFIL-SCH,                !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 3/31,            !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    1.0,                      !- field 4
+    Through: 10/31,           !- field 5
+    For: AllDays,             !- field 6
+    Until: 24:00,             !- field 7
+    1.0,                      !- field 8
+    Through: 12/31,           !- field 9
+    For: AllDays,             !- field 10
+    Until: 24:00,             !- field 11
+    1.0;                      !- field 12
+
+Schedule:Compact,
+    ActSchd,                  !- name
+    Any Number,               !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    117.239997864;            !- field 4
+
+Schedule:Compact,
+    BasinHeaterSched,         !- name
+    On/Off,                   !- schedule_type_limits_name
+    Through: 1/31,            !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    1.0,                      !- field 4
+    Through: 2/2,             !- field 5
+    For: AllDays,             !- field 6
+    Until: 24:00,             !- field 7
+    0.0,                      !- field 8
+    Through: 12/31,           !- field 9
+    For: AllDays,             !- field 10
+    Until: 24:00,             !- field 11
+    1.0;                      !- field 12
+
+Schedule:Compact,
+    ShadeTransSch,            !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    0.0;                      !- field 4
+
+Schedule:Compact,
+    Htg-SetP-Sch,             !- name
+    Temperature,              !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: SummerDesignDay,     !- field 2
+    Until: 24:00,             !- field 3
+    12.8,                     !- field 4
+    For: WinterDesignDay,     !- field 5
+    Until: 24:00,             !- field 6
+    21.1,                     !- field 7
+    For: WeekDays,            !- field 8
+    Until: 7:00,              !- field 9
+    12.8,                     !- field 10
+    Until: 18:00,             !- field 11
+    21.1,                     !- field 12
+    Until: 24:00,             !- field 13
+    12.8,                     !- field 14
+    For: WeekEnds Holiday,    !- field 15
+    Until: 7:00,              !- field 16
+    12.8,                     !- field 17
+    Until: 13:00,             !- field 18
+    21.1,                     !- field 19
+    Until: 24:00,             !- field 20
+    12.8,                     !- field 21
+    For: AllOtherDays,        !- field 22
+    Until: 7:00,              !- field 23
+    12.8,                     !- field 24
+    Until: 18:00,             !- field 25
+    21.1,                     !- field 26
+    Until: 24:00,             !- field 27
+    12.8;                     !- field 28
+
+Schedule:Compact,
+    PlenumHtg-SetP-Sch,       !- name
+    Temperature,              !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    12.8;                     !- field 4
+
+Schedule:Compact,
+    Clg-SetP-Sch,             !- name
+    Temperature,              !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: SummerDesignDay,     !- field 2
+    Until: 24:00,             !- field 3
+    23.9,                     !- field 4
+    For: WinterDesignDay,     !- field 5
+    Until: 24:00,             !- field 6
+    40.0,                     !- field 7
+    For: WeekDays,            !- field 8
+    Until: 7:00,              !- field 9
+    40.0,                     !- field 10
+    Until: 18:00,             !- field 11
+    23.9,                     !- field 12
+    Until: 24:00,             !- field 13
+    40.0,                     !- field 14
+    For: WeekEnds Holiday,    !- field 15
+    Until: 7:00,              !- field 16
+    40.0,                     !- field 17
+    Until: 13:00,             !- field 18
+    23.9,                     !- field 19
+    Until: 24:00,             !- field 20
+    32.2,                     !- field 21
+    For: AllOtherDays,        !- field 22
+    Until: 7:00,              !- field 23
+    40.0,                     !- field 24
+    Until: 18:00,             !- field 25
+    23.9,                     !- field 26
+    Until: 24:00,             !- field 27
+    40.0;                     !- field 28
+
+Schedule:Compact,
+    PlenumClg-SetP-Sch,       !- name
+    Temperature,              !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    40.0;                     !- field 4
+
+Schedule:Compact,
+    Zone Control Type Sched,  !- name
+    Control Type,             !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: SummerDesignDay,     !- field 2
+    Until: 24:00,             !- field 3
+    2,                        !- field 4
+    For: WinterDesignDay,     !- field 5
+    Until: 24:00,             !- field 6
+    1,                        !- field 7
+    For: AllOtherDays,        !- field 8
+    Until: 24:00,             !- field 9
+    4;                        !- field 10
+
+Schedule:Compact,
+    Min OA Sched,             !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: Weekdays,            !- field 2
+    Until: 6:00,              !- field 3
+    0.3,                      !- field 4
+    Until: 18:00,             !- field 5
+    1.0,                      !- field 6
+    Until: 24:00,             !- field 7
+    0.3,                      !- field 8
+    For: SummerDesignDay,     !- field 9
+    Until: 24:00,             !- field 10
+    1.0,                      !- field 11
+    For: WinterDesignDay,     !- field 12
+    Until: 24:00,             !- field 13
+    1.0,                      !- field 14
+    For: AllOtherDays,        !- field 15
+    Until: 24:00,             !- field 16
+    0.3;                      !- field 17
+
+Schedule:Compact,
+    FanAvailSched,            !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 3/31,            !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    1.0,                      !- field 4
+    Through: 9/30,            !- field 5
+    For: WeekDays,            !- field 6
+    Until: 7:00,              !- field 7
+    0.0,                      !- field 8
+    Until: 17:00,             !- field 9
+    1.0,                      !- field 10
+    Until: 24:00,             !- field 11
+    0.0,                      !- field 12
+    For: SummerDesignDay WinterDesignDay, !- field 13
+    Until: 24:00,             !- field 14
+    1.0,                      !- field 15
+    For: AllOtherDays,        !- field 16
+    Until: 24:00,             !- field 17
+    0.0,                      !- field 18
+    Through: 12/31,           !- field 19
+    For: AllDays,             !- field 20
+    Until: 24:00,             !- field 21
+    1.0;                      !- field 22
+
+Schedule:Compact,
+    CoolingCoilAvailSched,    !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 3/31,            !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    0.0,                      !- field 4
+    Through: 9/30,            !- field 5
+    For: WeekDays,            !- field 6
+    Until: 7:00,              !- field 7
+    0.0,                      !- field 8
+    Until: 17:00,             !- field 9
+    1.0,                      !- field 10
+    Until: 24:00,             !- field 11
+    0.0,                      !- field 12
+    For: SummerDesignDay WinterDesignDay, !- field 13
+    Until: 24:00,             !- field 14
+    1.0,                      !- field 15
+    For: AllOtherDays,        !- field 16
+    Until: 24:00,             !- field 17
+    0.0,                      !- field 18
+    Through: 12/31,           !- field 19
+    For: AllDays,             !- field 20
+    Until: 24:00,             !- field 21
+    0.0;                      !- field 22
+
+Schedule:Compact,
+    ReheatCoilAvailSched,     !- name
+    Fraction,                 !- schedule_type_limits_name
+    Through: 3/31,            !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    1.0,                      !- field 4
+    Through: 9/30,            !- field 5
+    For: WeekDays,            !- field 6
+    Until: 7:00,              !- field 7
+    0.0,                      !- field 8
+    Until: 17:00,             !- field 9
+    1.0,                      !- field 10
+    Until: 24:00,             !- field 11
+    0.0,                      !- field 12
+    For: SummerDesignDay WinterDesignDay, !- field 13
+    Until: 24:00,             !- field 14
+    1.0,                      !- field 15
+    For: AllOtherDays,        !- field 16
+    Until: 24:00,             !- field 17
+    0.0,                      !- field 18
+    Through: 12/31,           !- field 19
+    For: AllDays,             !- field 20
+    Until: 24:00,             !- field 21
+    1.0;                      !- field 22
+
+Schedule:Compact,
+    Seasonal Reset Supply Air Temp Sch, !- name
+    Temperature,              !- schedule_type_limits_name
+    Through: 3/31,            !- field 1
+    For: AllDays,             !- field 2
+    Until: 24:00,             !- field 3
+    17.0,                     !- field 4
+    Through: 9/30,            !- field 5
+    For: AllDays,             !- field 6
+    Until: 24:00,             !- field 7
+    12.0,                     !- field 8
+    Through: 12/31,           !- field 9
+    For: AllDays,             !- field 10
+    Until: 24:00,             !- field 11
+    17.0;                     !- field 12
+
+Schedule:Compact,
+    Min OARequirements Sched, !- name
+    Any Number,               !- schedule_type_limits_name
+    Through: 12/31,           !- field 1
+    For: Weekdays SummerDesignDay WinterDesignDay, !- field 2
+    Until: 24:00,             !- field 3
+    1.0,                      !- field 4
+    For: AllOtherDays,        !- field 5
+    Until: 24:00,             !- field 6
+    0.25;                     !- field 7
+
+Zone,
+    PLENUM-1,                 !- name
+    0,                        !- direction_of_relative_north
+    0,                        !- x_origin
+    0,                        !- y_origin
+    0,                        !- z_origin
+    1,                        !- type
+    1,                        !- multiplier
+    0.609600067,              !- ceiling_height
+    283.2;                    !- volume
+
+Zone,
+    SPACE1-1,                 !- name
+    0,                        !- direction_of_relative_north
+    0,                        !- x_origin
+    0,                        !- y_origin
+    0,                        !- z_origin
+    1,                        !- type
+    1,                        !- multiplier
+    2.438400269,              !- ceiling_height
+    239.247360229;            !- volume
+
+Zone,
+    SPACE2-1,                 !- name
+    0,                        !- direction_of_relative_north
+    0,                        !- x_origin
+    0,                        !- y_origin
+    0,                        !- z_origin
+    1,                        !- type
+    1,                        !- multiplier
+    2.438400269,              !- ceiling_height
+    103.311355591;            !- volume
+
+Zone,
+    SPACE3-1,                 !- name
+    0,                        !- direction_of_relative_north
+    0,                        !- x_origin
+    0,                        !- y_origin
+    0,                        !- z_origin
+    1,                        !- type
+    1,                        !- multiplier
+    2.438400269,              !- ceiling_height
+    239.247360229;            !- volume
+
+Zone,
+    SPACE4-1,                 !- name
+    0,                        !- direction_of_relative_north
+    0,                        !- x_origin
+    0,                        !- y_origin
+    0,                        !- z_origin
+    1,                        !- type
+    1,                        !- multiplier
+    2.438400269,              !- ceiling_height
+    103.311355591;            !- volume
+
+Zone,
+    SPACE5-1,                 !- name
+    0,                        !- direction_of_relative_north
+    0,                        !- x_origin
+    0,                        !- y_origin
+    0,                        !- z_origin
+    1,                        !- type
+    1,                        !- multiplier
+    2.438400269,              !- ceiling_height
+    447.682556152;            !- volume
+
+BuildingSurface:Detailed,
+    WALL-1PF,                 !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    0.0,                      !- vertex_y_coordinate 1
+    3.0,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    0.0,                      !- vertex_y_coordinate 4
+    3.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    WALL-1PR,                 !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    0.0,                      !- vertex_y_coordinate 1
+    3.0,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    3.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    WALL-1PB,                 !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    3.0,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    0.0,                      !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    3.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    WALL-1PL,                 !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    3.0,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    0.0,                      !- vertex_x_coordinate 4
+    0.0,                      !- vertex_y_coordinate 4
+    3.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    TOP-1,                    !- name
+    ROOF,                     !- surface_type
+    ROOF-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    3.0,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    3.0,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    3.0,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    3.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C1-1P,                    !- name
+    FLOOR,                    !- surface_type
+    CLNG-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C1-1,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C2-1P,                    !- name
+    FLOOR,                    !- surface_type
+    CLNG-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C2-1,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C3-1P,                    !- name
+    FLOOR,                    !- surface_type
+    CLNG-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C3-1,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C4-1P,                    !- name
+    FLOOR,                    !- surface_type
+    CLNG-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C4-1,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C5-1P,                    !- name
+    FLOOR,                    !- surface_type
+    CLNG-1,                   !- construction_name
+    PLENUM-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C5-1,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    FRONT-1,                  !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    SPACE1-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    0.0,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    0.0,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C1-1,                     !- name
+    CEILING,                  !- surface_type
+    CLNG-1,                   !- construction_name
+    SPACE1-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C1-1P,                    !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    F1-1,                     !- name
+    FLOOR,                    !- surface_type
+    FLOOR-SLAB-1,             !- construction_name
+    SPACE1-1,                 !- zone_name
+    Ground,                   !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    0.0,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    0.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB12,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE1-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB21,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    0.0,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB14,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE1-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB41,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    0.0,                      !- vertex_x_coordinate 4
+    0.0,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB15,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE1-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB51,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    RIGHT-1,                  !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    SPACE2-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    0.0,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C2-1,                     !- name
+    CEILING,                  !- surface_type
+    CLNG-1,                   !- construction_name
+    SPACE2-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C2-1P,                    !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    F2-1,                     !- name
+    FLOOR,                    !- surface_type
+    FLOOR-SLAB-1,             !- construction_name
+    SPACE2-1,                 !- zone_name
+    Ground,                   !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    0.0,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    0.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB21,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE2-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB12,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    0.0,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB23,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE2-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB32,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB25,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE2-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB52,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    BACK-1,                   !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    SPACE3-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    30.5,                     !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    0.0,                      !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C3-1,                     !- name
+    CEILING,                  !- surface_type
+    CLNG-1,                   !- construction_name
+    SPACE3-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C3-1P,                    !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    F3-1,                     !- name
+    FLOOR,                    !- surface_type
+    FLOOR-SLAB-1,             !- construction_name
+    SPACE3-1,                 !- zone_name
+    Ground,                   !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    0.0,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    0.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB32,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE3-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB23,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    30.5,                     !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    30.5,                     !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB34,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE3-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB43,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB35,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE3-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB53,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    LEFT-1,                   !- name
+    WALL,                     !- surface_type
+    WALL-1,                   !- construction_name
+    SPACE4-1,                 !- zone_name
+    Outdoors,                 !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    SunExposed,               !- sun_exposure
+    WindExposed,              !- wind_exposure
+    0.5,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    15.2,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    0.0,                      !- vertex_x_coordinate 4
+    0.0,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C4-1,                     !- name
+    CEILING,                  !- surface_type
+    CLNG-1,                   !- construction_name
+    SPACE4-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C4-1P,                    !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    15.2,                     !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    F4-1,                     !- name
+    FLOOR,                    !- surface_type
+    FLOOR-SLAB-1,             !- construction_name
+    SPACE4-1,                 !- zone_name
+    Ground,                   !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    0.0,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    0.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB41,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE4-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB14,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    0.0,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB43,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE4-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB34,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    0.0,                      !- vertex_x_coordinate 3
+    15.2,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    0.0,                      !- vertex_x_coordinate 4
+    15.2,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB45,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE4-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB54,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    C5-1,                     !- name
+    CEILING,                  !- surface_type
+    CLNG-1,                   !- construction_name
+    SPACE5-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    C5-1P,                    !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    2.4,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    2.4,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    F5-1,                     !- name
+    FLOOR,                    !- surface_type
+    FLOOR-SLAB-1,             !- construction_name
+    SPACE5-1,                 !- zone_name
+    Ground,                   !- outside_boundary_condition
+    ,                         !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    0.0,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    0.0;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB51,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE5-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB15,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB52,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE5-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB25,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    3.7,                      !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    3.7,                      !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    26.8,                     !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    26.8,                     !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB53,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE5-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB35,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    26.8,                     !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    26.8,                     !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    11.6,                     !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    11.6,                     !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+BuildingSurface:Detailed,
+    SB54,                     !- name
+    WALL,                     !- surface_type
+    INT-WALL-1,               !- construction_name
+    SPACE5-1,                 !- zone_name
+    Surface,                  !- outside_boundary_condition
+    SB45,                     !- outside_boundary_condition_object
+    NoSun,                    !- sun_exposure
+    NoWind,                   !- wind_exposure
+    0.0,                      !- view_factor_to_ground
+    4,                        !- number_of_vertices
+    3.7,                      !- vertex_x_coordinate 1
+    11.6,                     !- vertex_y_coordinate 1
+    2.4,                      !- vertex_z_coordinate 1
+    3.7,                      !- vertex_x_coordinate 2
+    11.6,                     !- vertex_y_coordinate 2
+    0.0,                      !- vertex_z_coordinate 2
+    3.7,                      !- vertex_x_coordinate 3
+    3.7,                      !- vertex_y_coordinate 3
+    0.0,                      !- vertex_z_coordinate 3
+    3.7,                      !- vertex_x_coordinate 4
+    3.7,                      !- vertex_y_coordinate 4
+    2.4;                      !- vertex_z_coordinate 4
+
+ZoneInfiltration:DesignFlowRate,
+    SPACE1-1 Infil 1,         !- name
+    SPACE1-1,                 !- zone_or_zonelist_name
+    INFIL-SCH,                !- schedule_name
+    flow/zone,                !- design_flow_rate_calculation_method
+    0.0167,                   !- design_flow_rate
+    ,                         !- flow_per_zone_floor_area
+    ,                         !- flow_per_exterior_surface_area
+    ,                         !- air_changes_per_hour
+    0,                        !- constant_term_coefficient
+    0,                        !- temperature_term_coefficient
+    0.2237,                   !- velocity_term_coefficient
+    0;                        !- velocity_squared_term_coefficient
+
+ZoneInfiltration:DesignFlowRate,
+    SPACE2-1 Infil 1,         !- name
+    SPACE2-1,                 !- zone_or_zonelist_name
+    INFIL-SCH,                !- schedule_name
+    flow/zone,                !- design_flow_rate_calculation_method
+    0.00717,                  !- design_flow_rate
+    ,                         !- flow_per_zone_floor_area
+    ,                         !- flow_per_exterior_surface_area
+    ,                         !- air_changes_per_hour
+    0,                        !- constant_term_coefficient
+    0,                        !- temperature_term_coefficient
+    0.2237,                   !- velocity_term_coefficient
+    0;                        !- velocity_squared_term_coefficient
+
+ZoneInfiltration:DesignFlowRate,
+    SPACE3-1 Infil 1,         !- name
+    SPACE3-1,                 !- zone_or_zonelist_name
+    INFIL-SCH,                !- schedule_name
+    flow/zone,                !- design_flow_rate_calculation_method
+    0.0167,                   !- design_flow_rate
+    ,                         !- flow_per_zone_floor_area
+    ,                         !- flow_per_exterior_surface_area
+    ,                         !- air_changes_per_hour
+    0,                        !- constant_term_coefficient
+    0,                        !- temperature_term_coefficient
+    0.2237,                   !- velocity_term_coefficient
+    0;                        !- velocity_squared_term_coefficient
+
+ZoneInfiltration:DesignFlowRate,
+    SPACE4-1 Infil 1,         !- name
+    SPACE4-1,                 !- zone_or_zonelist_name
+    INFIL-SCH,                !- schedule_name
+    flow/zone,                !- design_flow_rate_calculation_method
+    0.00717,                  !- design_flow_rate
+    ,                         !- flow_per_zone_floor_area
+    ,                         !- flow_per_exterior_surface_area
+    ,                         !- air_changes_per_hour
+    0,                        !- constant_term_coefficient
+    0,                        !- temperature_term_coefficient
+    0.2237,                   !- velocity_term_coefficient
+    0;                        !- velocity_squared_term_coefficient
+
+ZoneInfiltration:DesignFlowRate,
+    SPACE5-1 Infil 1,         !- name
+    SPACE5-1,                 !- zone_or_zonelist_name
+    INFIL-SCH,                !- schedule_name
+    flow/zone,                !- design_flow_rate_calculation_method
+    0.031089,                 !- design_flow_rate
+    ,                         !- flow_per_zone_floor_area
+    ,                         !- flow_per_exterior_surface_area
+    ,                         !- air_changes_per_hour
+    0,                        !- constant_term_coefficient
+    0,                        !- temperature_term_coefficient
+    0.2237,                   !- velocity_term_coefficient
+    0;                        !- velocity_squared_term_coefficient
+
+People,
+    SPACE1-1 People 1,        !- name
+    SPACE1-1,                 !- zone_or_zonelist_name
+    OCCUPY-1,                 !- number_of_people_schedule_name
+    people,                   !- number_of_people_calculation_method
+    11,                       !- number_of_people
+    ,                         !- people_per_zone_floor_area
+    ,                         !- zone_floor_area_per_person
+    0.3,                      !- fraction_radiant
+    AutoCalculate,            !- sensible_heat_fraction
+    ActSchd;                  !- activity_level_schedule_name
+
+People,
+    SPACE2-1 People 1,        !- name
+    SPACE2-1,                 !- zone_or_zonelist_name
+    OCCUPY-1,                 !- number_of_people_schedule_name
+    people,                   !- number_of_people_calculation_method
+    5,                        !- number_of_people
+    ,                         !- people_per_zone_floor_area
+    ,                         !- zone_floor_area_per_person
+    0.3,                      !- fraction_radiant
+    AutoCalculate,            !- sensible_heat_fraction
+    ActSchd;                  !- activity_level_schedule_name
+
+People,
+    SPACE3-1 People 1,        !- name
+    SPACE3-1,                 !- zone_or_zonelist_name
+    OCCUPY-1,                 !- number_of_people_schedule_name
+    people,                   !- number_of_people_calculation_method
+    11,                       !- number_of_people
+    ,                         !- people_per_zone_floor_area
+    ,                         !- zone_floor_area_per_person
+    0.3,                      !- fraction_radiant
+    AutoCalculate,            !- sensible_heat_fraction
+    ActSchd;                  !- activity_level_schedule_name
+
+People,
+    SPACE4-1 People 1,        !- name
+    SPACE4-1,                 !- zone_or_zonelist_name
+    OCCUPY-1,                 !- number_of_people_schedule_name
+    people,                   !- number_of_people_calculation_method
+    5,                        !- number_of_people
+    ,                         !- people_per_zone_floor_area
+    ,                         !- zone_floor_area_per_person
+    0.3,                      !- fraction_radiant
+    AutoCalculate,            !- sensible_heat_fraction
+    ActSchd;                  !- activity_level_schedule_name
+
+People,
+    SPACE5-1 People 1,        !- name
+    SPACE5-1,                 !- zone_or_zonelist_name
+    OCCUPY-1,                 !- number_of_people_schedule_name
+    people,                   !- number_of_people_calculation_method
+    20,                       !- number_of_people
+    ,                         !- people_per_zone_floor_area
+    ,                         !- zone_floor_area_per_person
+    0.3,                      !- fraction_radiant
+    AutoCalculate,            !- sensible_heat_fraction
+    ActSchd;                  !- activity_level_schedule_name
+
+Lights,
+    SPACE1-1 Lights 1,        !- name
+    SPACE1-1,                 !- zone_or_zonelist_name
+    LIGHTS-1,                 !- schedule_name
+    LightingLevel,            !- design_level_calculation_method
+    1584,                     !- lighting_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0.2,                      !- return_air_fraction
+    0.59,                     !- fraction_radiant
+    0.2,                      !- fraction_visible
+    0,                        !- fraction_replaceable
+    GeneralLights;            !- end_use_subcategory
+
+Lights,
+    SPACE2-1 Lights 1,        !- name
+    SPACE2-1,                 !- zone_or_zonelist_name
+    LIGHTS-1,                 !- schedule_name
+    LightingLevel,            !- design_level_calculation_method
+    684,                      !- lighting_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0.2,                      !- return_air_fraction
+    0.59,                     !- fraction_radiant
+    0.2,                      !- fraction_visible
+    0,                        !- fraction_replaceable
+    GeneralLights;            !- end_use_subcategory
+
+Lights,
+    SPACE3-1 Lights 1,        !- name
+    SPACE3-1,                 !- zone_or_zonelist_name
+    LIGHTS-1,                 !- schedule_name
+    LightingLevel,            !- design_level_calculation_method
+    1584,                     !- lighting_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0.2,                      !- return_air_fraction
+    0.59,                     !- fraction_radiant
+    0.2,                      !- fraction_visible
+    0,                        !- fraction_replaceable
+    GeneralLights;            !- end_use_subcategory
+
+Lights,
+    SPACE4-1 Lights 1,        !- name
+    SPACE4-1,                 !- zone_or_zonelist_name
+    LIGHTS-1,                 !- schedule_name
+    LightingLevel,            !- design_level_calculation_method
+    684,                      !- lighting_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0.2,                      !- return_air_fraction
+    0.59,                     !- fraction_radiant
+    0.2,                      !- fraction_visible
+    0,                        !- fraction_replaceable
+    GeneralLights;            !- end_use_subcategory
+
+Lights,
+    SPACE5-1 Lights 1,        !- name
+    SPACE5-1,                 !- zone_or_zonelist_name
+    LIGHTS-1,                 !- schedule_name
+    LightingLevel,            !- design_level_calculation_method
+    2964,                     !- lighting_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0.2,                      !- return_air_fraction
+    0.59,                     !- fraction_radiant
+    0.2,                      !- fraction_visible
+    0,                        !- fraction_replaceable
+    GeneralLights;            !- end_use_subcategory
+
+ElectricEquipment,
+    SPACE1-1 ElecEq 1,        !- name
+    SPACE1-1,                 !- zone_or_zonelist_name
+    EQUIP-1,                  !- schedule_name
+    EquipmentLevel,           !- design_level_calculation_method
+    1056,                     !- design_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0,                        !- fraction_latent
+    0.3,                      !- fraction_radiant
+    0;                        !- fraction_lost
+
+ElectricEquipment,
+    SPACE2-1 ElecEq 1,        !- name
+    SPACE2-1,                 !- zone_or_zonelist_name
+    EQUIP-1,                  !- schedule_name
+    EquipmentLevel,           !- design_level_calculation_method
+    456,                      !- design_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0,                        !- fraction_latent
+    0.3,                      !- fraction_radiant
+    0;                        !- fraction_lost
+
+ElectricEquipment,
+    SPACE3-1 ElecEq 1,        !- name
+    SPACE3-1,                 !- zone_or_zonelist_name
+    EQUIP-1,                  !- schedule_name
+    EquipmentLevel,           !- design_level_calculation_method
+    1056,                     !- design_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0,                        !- fraction_latent
+    0.3,                      !- fraction_radiant
+    0;                        !- fraction_lost
+
+ElectricEquipment,
+    SPACE4-1 ElecEq 1,        !- name
+    SPACE4-1,                 !- zone_or_zonelist_name
+    EQUIP-1,                  !- schedule_name
+    EquipmentLevel,           !- design_level_calculation_method
+    456,                      !- design_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0,                        !- fraction_latent
+    0.3,                      !- fraction_radiant
+    0;                        !- fraction_lost
+
+ElectricEquipment,
+    SPACE5-1 ElecEq 1,        !- name
+    SPACE5-1,                 !- zone_or_zonelist_name
+    EQUIP-1,                  !- schedule_name
+    EquipmentLevel,           !- design_level_calculation_method
+    1976,                     !- design_level
+    ,                         !- watts_per_zone_floor_area
+    ,                         !- watts_per_person
+    0,                        !- fraction_latent
+    0.3,                      !- fraction_radiant
+    0;                        !- fraction_lost
+
+FenestrationSurface:Detailed,
+    WF-1,                     !- name
+    WINDOW,                   !- surface_type
+    Dbl Clr 3mm/13mm Air,     !- construction_name
+    FRONT-1,                  !- building_surface_name
+    ,                         !- outside_boundary_condition_object
+    0.5,                      !- view_factor_to_ground
+    ,                         !- frame_and_divider_name
+    1,                        !- multiplier
+    4,                        !- number_of_vertices
+    3.0,                      !- vertex_1_x_coordinate
+    0.0,                      !- vertex_1_y_coordinate
+    2.1,                      !- vertex_1_z_coordinate
+    3.0,                      !- vertex_2_x_coordinate
+    0.0,                      !- vertex_2_y_coordinate
+    0.9,                      !- vertex_2_z_coordinate
+    16.8,                     !- vertex_3_x_coordinate
+    0.0,                      !- vertex_3_y_coordinate
+    0.9,                      !- vertex_3_z_coordinate
+    16.8,                     !- vertex_4_x_coordinate
+    0.0,                      !- vertex_4_y_coordinate
+    2.1;                      !- vertex_4_z_coordinate
+
+FenestrationSurface:Detailed,
+    DF-1,                     !- name
+    GLASSDOOR,                !- surface_type
+    Sgl Grey 3mm,             !- construction_name
+    FRONT-1,                  !- building_surface_name
+    ,                         !- outside_boundary_condition_object
+    0.5,                      !- view_factor_to_ground
+    ,                         !- frame_and_divider_name
+    1,                        !- multiplier
+    4,                        !- number_of_vertices
+    21.3,                     !- vertex_1_x_coordinate
+    0.0,                      !- vertex_1_y_coordinate
+    2.1,                      !- vertex_1_z_coordinate
+    21.3,                     !- vertex_2_x_coordinate
+    0.0,                      !- vertex_2_y_coordinate
+    0.0,                      !- vertex_2_z_coordinate
+    23.8,                     !- vertex_3_x_coordinate
+    0.0,                      !- vertex_3_y_coordinate
+    0.0,                      !- vertex_3_z_coordinate
+    23.8,                     !- vertex_4_x_coordinate
+    0.0,                      !- vertex_4_y_coordinate
+    2.1;                      !- vertex_4_z_coordinate
+
+FenestrationSurface:Detailed,
+    WR-1,                     !- name
+    WINDOW,                   !- surface_type
+    Dbl Clr 3mm/13mm Air,     !- construction_name
+    RIGHT-1,                  !- building_surface_name
+    ,                         !- outside_boundary_condition_object
+    0.5,                      !- view_factor_to_ground
+    ,                         !- frame_and_divider_name
+    1,                        !- multiplier
+    4,                        !- number_of_vertices
+    30.5,                     !- vertex_1_x_coordinate
+    3.8,                      !- vertex_1_y_coordinate
+    2.1,                      !- vertex_1_z_coordinate
+    30.5,                     !- vertex_2_x_coordinate
+    3.8,                      !- vertex_2_y_coordinate
+    0.9,                      !- vertex_2_z_coordinate
+    30.5,                     !- vertex_3_x_coordinate
+    11.4,                     !- vertex_3_y_coordinate
+    0.9,                      !- vertex_3_z_coordinate
+    30.5,                     !- vertex_4_x_coordinate
+    11.4,                     !- vertex_4_y_coordinate
+    2.1;                      !- vertex_4_z_coordinate
+
+FenestrationSurface:Detailed,
+    WB-1,                     !- name
+    WINDOW,                   !- surface_type
+    Dbl Clr 3mm/13mm Air,     !- construction_name
+    BACK-1,                   !- building_surface_name
+    ,                         !- outside_boundary_condition_object
+    0.5,                      !- view_factor_to_ground
+    ,                         !- frame_and_divider_name
+    1,                        !- multiplier
+    4,                        !- number_of_vertices
+    27.4,                     !- vertex_1_x_coordinate
+    15.2,                     !- vertex_1_y_coordinate
+    2.1,                      !- vertex_1_z_coordinate
+    27.4,                     !- vertex_2_x_coordinate
+    15.2,                     !- vertex_2_y_coordinate
+    0.9,                      !- vertex_2_z_coordinate
+    13.7,                     !- vertex_3_x_coordinate
+    15.2,                     !- vertex_3_y_coordinate
+    0.9,                      !- vertex_3_z_coordinate
+    13.7,                     !- vertex_4_x_coordinate
+    15.2,                     !- vertex_4_y_coordinate
+    2.1;                      !- vertex_4_z_coordinate
+
+FenestrationSurface:Detailed,
+    DB-1,                     !- name
+    GLASSDOOR,                !- surface_type
+    Sgl Grey 3mm,             !- construction_name
+    BACK-1,                   !- building_surface_name
+    ,                         !- outside_boundary_condition_object
+    0.5,                      !- view_factor_to_ground
+    ,                         !- frame_and_divider_name
+    1,                        !- multiplier
+    4,                        !- number_of_vertices
+    9.1,                      !- vertex_1_x_coordinate
+    15.2,                     !- vertex_1_y_coordinate
+    2.1,                      !- vertex_1_z_coordinate
+    9.1,                      !- vertex_2_x_coordinate
+    15.2,                     !- vertex_2_y_coordinate
+    0.0,                      !- vertex_2_z_coordinate
+    7.0,                      !- vertex_3_x_coordinate
+    15.2,                     !- vertex_3_y_coordinate
+    0.0,                      !- vertex_3_z_coordinate
+    7.0,                      !- vertex_4_x_coordinate
+    15.2,                     !- vertex_4_y_coordinate
+    2.1;                      !- vertex_4_z_coordinate
+
+FenestrationSurface:Detailed,
+    WL-1,                     !- name
+    WINDOW,                   !- surface_type
+    Dbl Clr 3mm/13mm Air,     !- construction_name
+    LEFT-1,                   !- building_surface_name
+    ,                         !- outside_boundary_condition_object
+    0.5,                      !- view_factor_to_ground
+    ,                         !- frame_and_divider_name
+    1,                        !- multiplier
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_1_x_coordinate
+    11.4,                     !- vertex_1_y_coordinate
+    2.1,                      !- vertex_1_z_coordinate
+    0.0,                      !- vertex_2_x_coordinate
+    11.4,                     !- vertex_2_y_coordinate
+    0.9,                      !- vertex_2_z_coordinate
+    0.0,                      !- vertex_3_x_coordinate
+    3.8,                      !- vertex_3_y_coordinate
+    0.9,                      !- vertex_3_z_coordinate
+    0.0,                      !- vertex_4_x_coordinate
+    3.8,                      !- vertex_4_y_coordinate
+    2.1;                      !- vertex_4_z_coordinate
+
+Shading:Zone:Detailed,
+    Main South Overhang,      !- name
+    FRONT-1,                  !- base_surface_name
+    ShadeTransSch,            !- transmittance_schedule_name
+    4,                        !- number_of_vertices
+    0.0,                      !- vertex_x_coordinate 1
+    -1.3,                     !- vertex_y_coordinate 1
+    2.2,                      !- vertex_z_coordinate 1
+    0.0,                      !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.2,                      !- vertex_z_coordinate 2
+    19.8,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.2,                      !- vertex_z_coordinate 3
+    19.8,                     !- vertex_x_coordinate 4
+    -1.3,                     !- vertex_y_coordinate 4
+    2.2;                      !- vertex_z_coordinate 4
+
+Shading:Zone:Detailed,
+    South Door Overhang,      !- name
+    FRONT-1,                  !- base_surface_name
+    ShadeTransSch,            !- transmittance_schedule_name
+    4,                        !- number_of_vertices
+    21.0,                     !- vertex_x_coordinate 1
+    -2.0,                     !- vertex_y_coordinate 1
+    2.6,                      !- vertex_z_coordinate 1
+    21.0,                     !- vertex_x_coordinate 2
+    0.0,                      !- vertex_y_coordinate 2
+    2.6,                      !- vertex_z_coordinate 2
+    24.1,                     !- vertex_x_coordinate 3
+    0.0,                      !- vertex_y_coordinate 3
+    2.6,                      !- vertex_z_coordinate 3
+    24.1,                     !- vertex_x_coordinate 4
+    -2.0,                     !- vertex_y_coordinate 4
+    2.6;                      !- vertex_z_coordinate 4
+
+Sizing:Parameters,
+    1.25,                     !- heating_sizing_factor
+    1.15,                     !- cooling_sizing_factor
+    ;                         !- timesteps_in_averaging_window
+
+Sizing:Zone,
+    SPACE1-1,                 !- zone_or_zonelist_name
+    SupplyAirTemperature,     !- zone_cooling_design_supply_air_temperature_input_method
+    16.0,                     !- zone_cooling_design_supply_air_temperature
+    ,                         !- zone_cooling_design_supply_air_temperature_difference
+    SupplyAirTemperature,     !- zone_heating_design_supply_air_temperature_input_method
+    50.0,                     !- zone_heating_design_supply_air_temperature
+    ,                         !- zone_heating_design_supply_air_temperature_difference
+    0.009,                    !- zone_cooling_design_supply_air_humidity_ratio
+    0.004,                    !- zone_heating_design_supply_air_humidity_ratio
+    ZoneMinOARequirements,    !- design_specification_outdoor_air_object_name
+    0.0,                      !- zone_heating_sizing_factor
+    0.0,                      !- zone_cooling_sizing_factor
+    DesignDay,                !- cooling_design_air_flow_method
+    0,                        !- cooling_design_air_flow_rate
+    ,                         !- cooling_minimum_air_flow_per_zone_floor_area
+    ,                         !- cooling_minimum_air_flow
+    ,                         !- cooling_minimum_air_flow_fraction
+    DesignDay,                !- heating_design_air_flow_method
+    0,                        !- heating_design_air_flow_rate
+    ,                         !- heating_maximum_air_flow_per_zone_floor_area
+    ,                         !- heating_maximum_air_flow
+    ;                         !- heating_maximum_air_flow_fraction
+
+Sizing:Zone,
+    SPACE2-1,                 !- zone_or_zonelist_name
+    SupplyAirTemperature,     !- zone_cooling_design_supply_air_temperature_input_method
+    16.0,                     !- zone_cooling_design_supply_air_temperature
+    ,                         !- zone_cooling_design_supply_air_temperature_difference
+    SupplyAirTemperature,     !- zone_heating_design_supply_air_temperature_input_method
+    50.0,                     !- zone_heating_design_supply_air_temperature
+    ,                         !- zone_heating_design_supply_air_temperature_difference
+    0.009,                    !- zone_cooling_design_supply_air_humidity_ratio
+    0.004,                    !- zone_heating_design_supply_air_humidity_ratio
+    ZoneMinOARequirements,    !- design_specification_outdoor_air_object_name
+    0.0,                      !- zone_heating_sizing_factor
+    0.0,                      !- zone_cooling_sizing_factor
+    DesignDay,                !- cooling_design_air_flow_method
+    0,                        !- cooling_design_air_flow_rate
+    ,                         !- cooling_minimum_air_flow_per_zone_floor_area
+    ,                         !- cooling_minimum_air_flow
+    ,                         !- cooling_minimum_air_flow_fraction
+    DesignDay,                !- heating_design_air_flow_method
+    0,                        !- heating_design_air_flow_rate
+    ,                         !- heating_maximum_air_flow_per_zone_floor_area
+    ,                         !- heating_maximum_air_flow
+    ;                         !- heating_maximum_air_flow_fraction
+
+Sizing:Zone,
+    SPACE3-1,                 !- zone_or_zonelist_name
+    SupplyAirTemperature,     !- zone_cooling_design_supply_air_temperature_input_method
+    16.0,                     !- zone_cooling_design_supply_air_temperature
+    ,                         !- zone_cooling_design_supply_air_temperature_difference
+    SupplyAirTemperature,     !- zone_heating_design_supply_air_temperature_input_method
+    50.0,                     !- zone_heating_design_supply_air_temperature
+    ,                         !- zone_heating_design_supply_air_temperature_difference
+    0.009,                    !- zone_cooling_design_supply_air_humidity_ratio
+    0.004,                    !- zone_heating_design_supply_air_humidity_ratio
+    ZoneMinOARequirements,    !- design_specification_outdoor_air_object_name
+    0.0,                      !- zone_heating_sizing_factor
+    0.0,                      !- zone_cooling_sizing_factor
+    DesignDay,                !- cooling_design_air_flow_method
+    0,                        !- cooling_design_air_flow_rate
+    ,                         !- cooling_minimum_air_flow_per_zone_floor_area
+    ,                         !- cooling_minimum_air_flow
+    ,                         !- cooling_minimum_air_flow_fraction
+    DesignDay,                !- heating_design_air_flow_method
+    0,                        !- heating_design_air_flow_rate
+    ,                         !- heating_maximum_air_flow_per_zone_floor_area
+    ,                         !- heating_maximum_air_flow
+    ;                         !- heating_maximum_air_flow_fraction
+
+Sizing:Zone,
+    SPACE4-1,                 !- zone_or_zonelist_name
+    SupplyAirTemperature,     !- zone_cooling_design_supply_air_temperature_input_method
+    16.0,                     !- zone_cooling_design_supply_air_temperature
+    ,                         !- zone_cooling_design_supply_air_temperature_difference
+    SupplyAirTemperature,     !- zone_heating_design_supply_air_temperature_input_method
+    50.0,                     !- zone_heating_design_supply_air_temperature
+    ,                         !- zone_heating_design_supply_air_temperature_difference
+    0.009,                    !- zone_cooling_design_supply_air_humidity_ratio
+    0.004,                    !- zone_heating_design_supply_air_humidity_ratio
+    ZoneMinOARequirements,    !- design_specification_outdoor_air_object_name
+    0.0,                      !- zone_heating_sizing_factor
+    0.0,                      !- zone_cooling_sizing_factor
+    DesignDay,                !- cooling_design_air_flow_method
+    0,                        !- cooling_design_air_flow_rate
+    ,                         !- cooling_minimum_air_flow_per_zone_floor_area
+    ,                         !- cooling_minimum_air_flow
+    ,                         !- cooling_minimum_air_flow_fraction
+    DesignDay,                !- heating_design_air_flow_method
+    0,                        !- heating_design_air_flow_rate
+    ,                         !- heating_maximum_air_flow_per_zone_floor_area
+    ,                         !- heating_maximum_air_flow
+    ;                         !- heating_maximum_air_flow_fraction
+
+Sizing:Zone,
+    SPACE5-1,                 !- zone_or_zonelist_name
+    SupplyAirTemperature,     !- zone_cooling_design_supply_air_temperature_input_method
+    16.0,                     !- zone_cooling_design_supply_air_temperature
+    ,                         !- zone_cooling_design_supply_air_temperature_difference
+    SupplyAirTemperature,     !- zone_heating_design_supply_air_temperature_input_method
+    50.0,                     !- zone_heating_design_supply_air_temperature
+    ,                         !- zone_heating_design_supply_air_temperature_difference
+    0.009,                    !- zone_cooling_design_supply_air_humidity_ratio
+    0.004,                    !- zone_heating_design_supply_air_humidity_ratio
+    ZoneMinOARequirements,    !- design_specification_outdoor_air_object_name
+    0.0,                      !- zone_heating_sizing_factor
+    0.0,                      !- zone_cooling_sizing_factor
+    DesignDay,                !- cooling_design_air_flow_method
+    0,                        !- cooling_design_air_flow_rate
+    ,                         !- cooling_minimum_air_flow_per_zone_floor_area
+    ,                         !- cooling_minimum_air_flow
+    ,                         !- cooling_minimum_air_flow_fraction
+    DesignDay,                !- heating_design_air_flow_method
+    0,                        !- heating_design_air_flow_rate
+    ,                         !- heating_maximum_air_flow_per_zone_floor_area
+    ,                         !- heating_maximum_air_flow
+    ;                         !- heating_maximum_air_flow_fraction
+
+Sizing:System,
+    VAV Sys 1,                !- airloop_name
+    sensible,                 !- type_of_load_to_size_on
+    autosize,                 !- design_outdoor_air_flow_rate
+    0.3,                      !- central_heating_maximum_system_air_flow_ratio
+    7.0,                      !- preheat_design_temperature
+    0.008,                    !- preheat_design_humidity_ratio
+    11.0,                     !- precool_design_temperature
+    0.008,                    !- precool_design_humidity_ratio
+    16.0,                     !- central_cooling_design_supply_air_temperature
+    18.0,                     !- central_heating_design_supply_air_temperature
+    noncoincident,            !- type_of_zone_sum_to_use
+    no,                       !- 100_outdoor_air_in_cooling
+    no,                       !- 100_outdoor_air_in_heating
+    0.009,                    !- central_cooling_design_supply_air_humidity_ratio
+    0.009,                    !- central_heating_design_supply_air_humidity_ratio
+    DesignDay,                !- cooling_supply_air_flow_rate_method
+    0,                        !- cooling_supply_air_flow_rate
+    ,                         !- cooling_supply_air_flow_rate_per_floor_area
+    ,                         !- cooling_fraction_of_autosized_cooling_supply_air_flow_rate
+    ,                         !- cooling_supply_air_flow_rate_per_unit_cooling_capacity
+    DesignDay,                !- heating_supply_air_flow_rate_method
+    0,                        !- heating_supply_air_flow_rate
+    ,                         !- heating_supply_air_flow_rate_per_floor_area
+    ,                         !- heating_fraction_of_autosized_heating_supply_air_flow_rate
+    ,                         !- heating_fraction_of_autosized_cooling_supply_air_flow_rate
+    ,                         !- heating_supply_air_flow_rate_per_unit_heating_capacity
+    ,                         !- system_outdoor_air_method
+    1.0,                      !- zone_maximum_outdoor_air_fraction
+    CoolingDesignCapacity,    !- cooling_design_capacity_method
+    autosize,                 !- cooling_design_capacity
+    ,                         !- cooling_design_capacity_per_floor_area
+    ,                         !- fraction_of_autosized_cooling_design_capacity
+    HeatingDesignCapacity,    !- heating_design_capacity_method
+    autosize,                 !- heating_design_capacity
+    ,                         !- heating_design_capacity_per_floor_area
+    ,                         !- fraction_of_autosized_heating_design_capacity
+    VAV;                      !- central_cooling_capacity_control_method
+
+Curve:Biquadratic,
+    VarSpeedCoolCapFT,        !- name
+    0.476428,                 !- coefficient1_constant
+    0.0401147,                !- coefficient2_x
+    0.000226411,              !- coefficient3_x_2
+    -0.000827136,             !- coefficient4_y
+    -7.3224e-06,              !- coefficient5_y_2
+    -0.000446278,             !- coefficient6_x_y
+    12.77778,                 !- minimum_value_of_x
+    23.88889,                 !- maximum_value_of_x
+    23.88889,                 !- minimum_value_of_y
+    46.11111,                 !- maximum_value_of_y
+    ,                         !- minimum_curve_output
+    ,                         !- maximum_curve_output
+    Temperature,              !- input_unit_type_for_x
+    Temperature,              !- input_unit_type_for_y
+    Dimensionless;            !- output_unit_type
+
+Curve:Biquadratic,
+    VarSpeedCoolEIRFT,        !- name
+    0.632475,                 !- coefficient1_constant
+    -0.0121321,               !- coefficient2_x
+    0.000507773,              !- coefficient3_x_2
+    0.0155377,                !- coefficient4_y
+    0.00027284,               !- coefficient5_y_2
+    -0.000679201,             !- coefficient6_x_y
+    12.77778,                 !- minimum_value_of_x
+    23.88889,                 !- maximum_value_of_x
+    23.88889,                 !- minimum_value_of_y
+    46.11111,                 !- maximum_value_of_y
+    ,                         !- minimum_curve_output
+    ,                         !- maximum_curve_output
+    Temperature,              !- input_unit_type_for_x
+    Temperature,              !- input_unit_type_for_y
+    Dimensionless;            !- output_unit_type
+
+Curve:Biquadratic,
+    VarSpeedCoolCapLSFT,      !- name
+    0.476428,                 !- coefficient1_constant
+    0.0401147,                !- coefficient2_x
+    0.000226411,              !- coefficient3_x_2
+    -0.000827136,             !- coefficient4_y
+    -7.3224e-06,              !- coefficient5_y_2
+    -0.000446278,             !- coefficient6_x_y
+    12.77778,                 !- minimum_value_of_x
+    23.88889,                 !- maximum_value_of_x
+    23.88889,                 !- minimum_value_of_y
+    46.11111,                 !- maximum_value_of_y
+    ,                         !- minimum_curve_output
+    ,                         !- maximum_curve_output
+    Temperature,              !- input_unit_type_for_x
+    Temperature,              !- input_unit_type_for_y
+    Dimensionless;            !- output_unit_type
+
+Curve:Biquadratic,
+    VarSpeedCoolEIRLSFT,      !- name
+    0.774645,                 !- coefficient1_constant
+    -0.0343731,               !- coefficient2_x
+    0.000783173,              !- coefficient3_x_2
+    0.0146596,                !- coefficient4_y
+    0.000488851,              !- coefficient5_y_2
+    -0.000752036,             !- coefficient6_x_y
+    12.77778,                 !- minimum_value_of_x
+    23.88889,                 !- maximum_value_of_x
+    23.88889,                 !- minimum_value_of_y
+    46.11111,                 !- maximum_value_of_y
+    ,                         !- minimum_curve_output
+    ,                         !- maximum_curve_output
+    Temperature,              !- input_unit_type_for_x
+    Temperature,              !- input_unit_type_for_y
+    Dimensionless;            !- output_unit_type
+
+Curve:Biquadratic,
+    HPCoolingEIRFTemp4,       !- name
+    0.0001514017,             !- coefficient1_constant
+    0.0655062896,             !- coefficient2_x
+    -0.0020370821,            !- coefficient3_x_2
+    0.0067823041,             !- coefficient4_y
+    0.0004087196,             !- coefficient5_y_2
+    -0.0003552302,            !- coefficient6_x_y
+    13.89,                    !- minimum_value_of_x
+    22.22,                    !- maximum_value_of_x
+    12.78,                    !- minimum_value_of_y
+    51.67,                    !- maximum_value_of_y
+    0.5141,                   !- minimum_curve_output
+    1.7044,                   !- maximum_curve_output
+    Temperature,              !- input_unit_type_for_x
+    Temperature,              !- input_unit_type_for_y
+    Dimensionless;            !- output_unit_type
+
+Curve:Biquadratic,
+    HPCoolingCAPFTemp4,       !- name
+    1.3544202152,             !- coefficient1_constant
+    -0.0493402773,            !- coefficient2_x
+    0.0022649843,             !- coefficient3_x_2
+    0.0008517727,             !- coefficient4_y
+    -4.26316e-05,             !- coefficient5_y_2
+    -0.0003364517,            !- coefficient6_x_y
+    13.89,                    !- minimum_value_of_x
+    22.22,                    !- maximum_value_of_x
+    12.78,                    !- minimum_value_of_y
+    51.67,                    !- maximum_value_of_y
+    0.7923,                   !- minimum_curve_output
+    1.2736,                   !- maximum_curve_output
+    Temperature,              !- input_unit_type_for_x
+    Temperature,              !- input_unit_type_for_y
+    Dimensionless;            !- output_unit_type
+
+Curve:Cubic,
+    PackagedRatedCoolCapFFlow, !- name
+    0.47278589,               !- coefficient1_constant
+    1.2433415,                !- coefficient2_x
+    -1.0387055,               !- coefficient3_x_2
+    0.32257813,               !- coefficient4_x_3
+    0.5,                      !- minimum_value_of_x
+    1.5,                      !- maximum_value_of_x
+    ,                         !- minimum_curve_output
+    ,                         !- maximum_curve_output
+    Dimensionless,            !- input_unit_type_for_x
+    Dimensionless;            !- output_unit_type
+
+Curve:Cubic,
+    PackagedRatedCoolEIRFFlow, !- name
+    1.0079484,                !- coefficient1_constant
+    0.34544129,               !- coefficient2_x
+    -0.6922891,               !- coefficient3_x_2
+    0.33889943,               !- coefficient4_x_3
+    0.5,                      !- minimum_value_of_x
+    1.5,                      !- maximum_value_of_x
+    ,                         !- minimum_curve_output
+    ,                         !- maximum_curve_output
+    Dimensionless,            !- input_unit_type_for_x
+    Dimensionless;            !- output_unit_type
+
+Curve:Cubic,
+    HPACFFF,                  !- name
+    1.0,                      !- coefficient1_constant
+    0.0,                      !- coefficient2_x
+    0.0,                      !- coefficient3_x_2
+    0.0,                      !- coefficient4_x_3
+    0.5,                      !- minimum_value_of_x
+    1.5;                      !- maximum_value_of_x
+
+Curve:Quadratic,
+    VarSpeedCyclingPLFFPLR,   !- name
+    0.85,                     !- coefficient1_constant
+    0.15,                     !- coefficient2_x
+    0.0,                      !- coefficient3_x_2
+    0.0,                      !- minimum_value_of_x
+    1.0;                      !- maximum_value_of_x
+
+Curve:Quadratic,
+    HPACCOOLPLFFPLR,          !- name
+    1.0,                      !- coefficient1_constant
+    0.0,                      !- coefficient2_x
+    0.0,                      !- coefficient3_x_2
+    0.5,                      !- minimum_value_of_x
+    1.5;                      !- maximum_value_of_x
+
+OutdoorAir:NodeList,
+    OutsideAirInletNodes;     !- node_or_nodelist_name 1
+
+NodeList,
+    OutsideAirInletNodes,     !- name
+    Outside Air Inlet Node 1; !- node_name 1
+
+NodeList,
+    SPACE1-1 In Nodes,        !- name
+    SPACE1-1 In Node;         !- node_name 1
+
+NodeList,
+    SPACE2-1 In Nodes,        !- name
+    SPACE2-1 In Node;         !- node_name 1
+
+NodeList,
+    SPACE3-1 In Nodes,        !- name
+    SPACE3-1 In Node;         !- node_name 1
+
+NodeList,
+    SPACE4-1 In Nodes,        !- name
+    SPACE4-1 In Node;         !- node_name 1
+
+NodeList,
+    SPACE5-1 In Nodes,        !- name
+    SPACE5-1 In Node;         !- node_name 1
+
+NodeList,
+    Supply Air Temp Nodes 1,  !- name
+    Main Cooling Coil 1 Inlet Node, !- node_name 1
+    Heat Recovery Supply Outlet, !- node_name 2
+    Main Heating Coil 1 Inlet Node, !- node_name 3
+    Reheat Coil Air Inlet Node, !- node_name 4
+    VAV Sys 1 Outlet Node;    !- node_name 5
+
+ZoneHVAC:EquipmentConnections,
+    SPACE1-1,                 !- zone_name
+    SPACE1-1 Eq,              !- zone_conditioning_equipment_list_name
+    SPACE1-1 In Nodes,        !- zone_air_inlet_node_or_nodelist_name
+    ,                         !- zone_air_exhaust_node_or_nodelist_name
+    SPACE1-1 Node,            !- zone_air_node_name
+    SPACE1-1 Out Node;        !- zone_return_air_node_or_nodelist_name
+
+ZoneHVAC:EquipmentConnections,
+    SPACE2-1,                 !- zone_name
+    SPACE2-1 Eq,              !- zone_conditioning_equipment_list_name
+    SPACE2-1 In Nodes,        !- zone_air_inlet_node_or_nodelist_name
+    ,                         !- zone_air_exhaust_node_or_nodelist_name
+    SPACE2-1 Node,            !- zone_air_node_name
+    SPACE2-1 Out Node;        !- zone_return_air_node_or_nodelist_name
+
+ZoneHVAC:EquipmentConnections,
+    SPACE3-1,                 !- zone_name
+    SPACE3-1 Eq,              !- zone_conditioning_equipment_list_name
+    SPACE3-1 In Nodes,        !- zone_air_inlet_node_or_nodelist_name
+    ,                         !- zone_air_exhaust_node_or_nodelist_name
+    SPACE3-1 Node,            !- zone_air_node_name
+    SPACE3-1 Out Node;        !- zone_return_air_node_or_nodelist_name
+
+ZoneHVAC:EquipmentConnections,
+    SPACE4-1,                 !- zone_name
+    SPACE4-1 Eq,              !- zone_conditioning_equipment_list_name
+    SPACE4-1 In Nodes,        !- zone_air_inlet_node_or_nodelist_name
+    ,                         !- zone_air_exhaust_node_or_nodelist_name
+    SPACE4-1 Node,            !- zone_air_node_name
+    SPACE4-1 Out Node;        !- zone_return_air_node_or_nodelist_name
+
+ZoneHVAC:EquipmentConnections,
+    SPACE5-1,                 !- zone_name
+    SPACE5-1 Eq,              !- zone_conditioning_equipment_list_name
+    SPACE5-1 In Nodes,        !- zone_air_inlet_node_or_nodelist_name
+    ,                         !- zone_air_exhaust_node_or_nodelist_name
+    SPACE5-1 Node,            !- zone_air_node_name
+    SPACE5-1 Out Node;        !- zone_return_air_node_or_nodelist_name
+
+ZoneControl:Thermostat,
+    SPACE1-1 Control,         !- name
+    SPACE1-1,                 !- zone_or_zonelist_name
+    Zone Control Type Sched,  !- control_type_schedule_name
+    ThermostatSetpoint:SingleCooling, !- control_1_object_type
+    CoolingSetPoint,          !- control_1_name
+    ThermostatSetpoint:SingleHeating, !- control_2_object_type
+    HeatingSetpoint,          !- control_2_name
+    ThermostatSetpoint:DualSetpoint, !- control_3_object_type
+    DualSetPoint;             !- control_3_name
+
+ZoneControl:Thermostat,
+    SPACE2-1 Control,         !- name
+    SPACE2-1,                 !- zone_or_zonelist_name
+    Zone Control Type Sched,  !- control_type_schedule_name
+    ThermostatSetpoint:SingleCooling, !- control_1_object_type
+    CoolingSetPoint,          !- control_1_name
+    ThermostatSetpoint:SingleHeating, !- control_2_object_type
+    HeatingSetpoint,          !- control_2_name
+    ThermostatSetpoint:DualSetpoint, !- control_3_object_type
+    DualSetPoint;             !- control_3_name
+
+ZoneControl:Thermostat,
+    SPACE3-1 Control,         !- name
+    SPACE3-1,                 !- zone_or_zonelist_name
+    Zone Control Type Sched,  !- control_type_schedule_name
+    ThermostatSetpoint:SingleCooling, !- control_1_object_type
+    CoolingSetPoint,          !- control_1_name
+    ThermostatSetpoint:SingleHeating, !- control_2_object_type
+    HeatingSetpoint,          !- control_2_name
+    ThermostatSetpoint:DualSetpoint, !- control_3_object_type
+    DualSetPoint;             !- control_3_name
+
+ZoneControl:Thermostat,
+    SPACE4-1 Control,         !- name
+    SPACE4-1,                 !- zone_or_zonelist_name
+    Zone Control Type Sched,  !- control_type_schedule_name
+    ThermostatSetpoint:SingleCooling, !- control_1_object_type
+    CoolingSetPoint,          !- control_1_name
+    ThermostatSetpoint:SingleHeating, !- control_2_object_type
+    HeatingSetpoint,          !- control_2_name
+    ThermostatSetpoint:DualSetpoint, !- control_3_object_type
+    DualSetPoint;             !- control_3_name
+
+ZoneControl:Thermostat,
+    SPACE5-1 Control,         !- name
+    SPACE5-1,                 !- zone_or_zonelist_name
+    Zone Control Type Sched,  !- control_type_schedule_name
+    ThermostatSetpoint:SingleCooling, !- control_1_object_type
+    CoolingSetPoint,          !- control_1_name
+    ThermostatSetpoint:SingleHeating, !- control_2_object_type
+    HeatingSetpoint,          !- control_2_name
+    ThermostatSetpoint:DualSetpoint, !- control_3_object_type
+    DualSetPoint;             !- control_3_name
+
+ThermostatSetpoint:SingleHeating,
+    HeatingSetpoint,          !- name
+    Htg-SetP-Sch;             !- setpoint_temperature_schedule_name
+
+ThermostatSetpoint:SingleHeating,
+    PlenumHeatingSetpoint,    !- name
+    PlenumHtg-SetP-Sch;       !- setpoint_temperature_schedule_name
+
+ThermostatSetpoint:SingleCooling,
+    CoolingSetpoint,          !- name
+    Clg-SetP-Sch;             !- setpoint_temperature_schedule_name
+
+ThermostatSetpoint:SingleCooling,
+    PlenumCoolingSetpoint,    !- name
+    PlenumClg-SetP-Sch;       !- setpoint_temperature_schedule_name
+
+ThermostatSetpoint:DualSetpoint,
+    DualSetPoint,             !- name
+    Htg-SetP-Sch,             !- heating_setpoint_temperature_schedule_name
+    Clg-SetP-Sch;             !- cooling_setpoint_temperature_schedule_name
+
+ZoneHVAC:EquipmentList,
+    SPACE1-1 Eq,              !- name
+    SequentialLoad,           !- load_distribution_scheme
+    ZoneHVAC:AirDistributionUnit, !- zone_equipment_object_type 1
+    SPACE1-1 ATU,             !- zone_equipment_name 1
+    1,                        !- zone_equipment_cooling_sequence 1
+    1;                        !- zone_equipment_heating_or_no_load_sequence 1
+
+ZoneHVAC:EquipmentList,
+    SPACE2-1 Eq,              !- name
+    SequentialLoad,           !- load_distribution_scheme
+    ZoneHVAC:AirDistributionUnit, !- zone_equipment_object_type 1
+    SPACE2-1 ATU,             !- zone_equipment_name 1
+    1,                        !- zone_equipment_cooling_sequence 1
+    1;                        !- zone_equipment_heating_or_no_load_sequence 1
+
+ZoneHVAC:EquipmentList,
+    SPACE3-1 Eq,              !- name
+    SequentialLoad,           !- load_distribution_scheme
+    ZoneHVAC:AirDistributionUnit, !- zone_equipment_object_type 1
+    SPACE3-1 ATU,             !- zone_equipment_name 1
+    1,                        !- zone_equipment_cooling_sequence 1
+    1;                        !- zone_equipment_heating_or_no_load_sequence 1
+
+ZoneHVAC:EquipmentList,
+    SPACE4-1 Eq,              !- name
+    SequentialLoad,           !- load_distribution_scheme
+    ZoneHVAC:AirDistributionUnit, !- zone_equipment_object_type 1
+    SPACE4-1 ATU,             !- zone_equipment_name 1
+    1,                        !- zone_equipment_cooling_sequence 1
+    1;                        !- zone_equipment_heating_or_no_load_sequence 1
+
+ZoneHVAC:EquipmentList,
+    SPACE5-1 Eq,              !- name
+    SequentialLoad,           !- load_distribution_scheme
+    ZoneHVAC:AirDistributionUnit, !- zone_equipment_object_type 1
+    SPACE5-1 ATU,             !- zone_equipment_name 1
+    1,                        !- zone_equipment_cooling_sequence 1
+    1;                        !- zone_equipment_heating_or_no_load_sequence 1
+
+ZoneHVAC:AirDistributionUnit,
+    SPACE1-1 ATU,             !- name
+    SPACE1-1 In Node,         !- air_distribution_unit_outlet_node_name
+    AirTerminal:SingleDuct:VAV:Reheat, !- air_terminal_object_type
+    SPACE1-1 VAV Reheat;      !- air_terminal_name
+
+ZoneHVAC:AirDistributionUnit,
+    SPACE2-1 ATU,             !- name
+    SPACE2-1 In Node,         !- air_distribution_unit_outlet_node_name
+    AirTerminal:SingleDuct:VAV:Reheat, !- air_terminal_object_type
+    SPACE2-1 VAV Reheat;      !- air_terminal_name
+
+ZoneHVAC:AirDistributionUnit,
+    SPACE3-1 ATU,             !- name
+    SPACE3-1 In Node,         !- air_distribution_unit_outlet_node_name
+    AirTerminal:SingleDuct:VAV:Reheat, !- air_terminal_object_type
+    SPACE3-1 VAV Reheat;      !- air_terminal_name
+
+ZoneHVAC:AirDistributionUnit,
+    SPACE4-1 ATU,             !- name
+    SPACE4-1 In Node,         !- air_distribution_unit_outlet_node_name
+    AirTerminal:SingleDuct:VAV:Reheat, !- air_terminal_object_type
+    SPACE4-1 VAV Reheat;      !- air_terminal_name
+
+ZoneHVAC:AirDistributionUnit,
+    SPACE5-1 ATU,             !- name
+    SPACE5-1 In Node,         !- air_distribution_unit_outlet_node_name
+    AirTerminal:SingleDuct:VAV:Reheat, !- air_terminal_object_type
+    SPACE5-1 VAV Reheat;      !- air_terminal_name
+
+AirTerminal:SingleDuct:VAV:Reheat,
+    SPACE1-1 VAV Reheat,      !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    SPACE1-1 Zone Coil Air In Node, !- damper_air_outlet_node_name
+    SPACE1-1 ATU In Node,     !- air_inlet_node_name
+    autosize,                 !- maximum_air_flow_rate
+    Constant,                 !- zone_minimum_air_flow_input_method
+    0.1,                      !- constant_minimum_air_flow_fraction
+    ,                         !- fixed_minimum_air_flow_rate
+    ,                         !- minimum_air_flow_fraction_schedule_name
+    Coil:Heating:Fuel,        !- reheat_coil_object_type
+    SPACE1-1 Zone Coil,       !- reheat_coil_name
+    0.0,                      !- maximum_hot_water_or_steam_flow_rate
+    0.0,                      !- minimum_hot_water_or_steam_flow_rate
+    SPACE1-1 In Node,         !- air_outlet_node_name
+    0.001,                    !- convergence_tolerance
+    ReverseWithLimits,        !- damper_heating_action
+    0.002032,                 !- maximum_flow_per_zone_floor_area_during_reheat
+    AutoCalculate,            !- maximum_flow_fraction_during_reheat
+    ,                         !- maximum_reheat_air_temperature
+    ZoneMinOARequirements;    !- design_specification_outdoor_air_object_name
+
+AirTerminal:SingleDuct:VAV:Reheat,
+    SPACE2-1 VAV Reheat,      !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    SPACE2-1 Zone Coil Air In Node, !- damper_air_outlet_node_name
+    SPACE2-1 ATU In Node,     !- air_inlet_node_name
+    autosize,                 !- maximum_air_flow_rate
+    Constant,                 !- zone_minimum_air_flow_input_method
+    0.1,                      !- constant_minimum_air_flow_fraction
+    ,                         !- fixed_minimum_air_flow_rate
+    ,                         !- minimum_air_flow_fraction_schedule_name
+    Coil:Heating:Fuel,        !- reheat_coil_object_type
+    SPACE2-1 Zone Coil,       !- reheat_coil_name
+    0.0,                      !- maximum_hot_water_or_steam_flow_rate
+    0.0,                      !- minimum_hot_water_or_steam_flow_rate
+    SPACE2-1 In Node,         !- air_outlet_node_name
+    0.001,                    !- convergence_tolerance
+    ReverseWithLimits,        !- damper_heating_action
+    0.002032,                 !- maximum_flow_per_zone_floor_area_during_reheat
+    ,                         !- maximum_flow_fraction_during_reheat
+    ,                         !- maximum_reheat_air_temperature
+    ZoneMinOARequirements;    !- design_specification_outdoor_air_object_name
+
+AirTerminal:SingleDuct:VAV:Reheat,
+    SPACE3-1 VAV Reheat,      !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    SPACE3-1 Zone Coil Air In Node, !- damper_air_outlet_node_name
+    SPACE3-1 ATU In Node,     !- air_inlet_node_name
+    autosize,                 !- maximum_air_flow_rate
+    Constant,                 !- zone_minimum_air_flow_input_method
+    0.1,                      !- constant_minimum_air_flow_fraction
+    ,                         !- fixed_minimum_air_flow_rate
+    ,                         !- minimum_air_flow_fraction_schedule_name
+    Coil:Heating:Fuel,        !- reheat_coil_object_type
+    SPACE3-1 Zone Coil,       !- reheat_coil_name
+    0.0,                      !- maximum_hot_water_or_steam_flow_rate
+    0.0,                      !- minimum_hot_water_or_steam_flow_rate
+    SPACE3-1 In Node,         !- air_outlet_node_name
+    0.001,                    !- convergence_tolerance
+    ReverseWithLimits,        !- damper_heating_action
+    0.002032,                 !- maximum_flow_per_zone_floor_area_during_reheat
+    ,                         !- maximum_flow_fraction_during_reheat
+    ,                         !- maximum_reheat_air_temperature
+    ZoneMinOARequirements;    !- design_specification_outdoor_air_object_name
+
+AirTerminal:SingleDuct:VAV:Reheat,
+    SPACE4-1 VAV Reheat,      !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    SPACE4-1 Zone Coil Air In Node, !- damper_air_outlet_node_name
+    SPACE4-1 ATU In Node,     !- air_inlet_node_name
+    autosize,                 !- maximum_air_flow_rate
+    Constant,                 !- zone_minimum_air_flow_input_method
+    0.1,                      !- constant_minimum_air_flow_fraction
+    ,                         !- fixed_minimum_air_flow_rate
+    ,                         !- minimum_air_flow_fraction_schedule_name
+    Coil:Heating:Fuel,        !- reheat_coil_object_type
+    SPACE4-1 Zone Coil,       !- reheat_coil_name
+    0.0,                      !- maximum_hot_water_or_steam_flow_rate
+    0.0,                      !- minimum_hot_water_or_steam_flow_rate
+    SPACE4-1 In Node,         !- air_outlet_node_name
+    0.001,                    !- convergence_tolerance
+    ReverseWithLimits,        !- damper_heating_action
+    0.002032,                 !- maximum_flow_per_zone_floor_area_during_reheat
+    ,                         !- maximum_flow_fraction_during_reheat
+    ,                         !- maximum_reheat_air_temperature
+    ZoneMinOARequirements;    !- design_specification_outdoor_air_object_name
+
+AirTerminal:SingleDuct:VAV:Reheat,
+    SPACE5-1 VAV Reheat,      !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    SPACE5-1 Zone Coil Air In Node, !- damper_air_outlet_node_name
+    SPACE5-1 ATU In Node,     !- air_inlet_node_name
+    autosize,                 !- maximum_air_flow_rate
+    Constant,                 !- zone_minimum_air_flow_input_method
+    0.1,                      !- constant_minimum_air_flow_fraction
+    ,                         !- fixed_minimum_air_flow_rate
+    ,                         !- minimum_air_flow_fraction_schedule_name
+    Coil:Heating:Fuel,        !- reheat_coil_object_type
+    SPACE5-1 Zone Coil,       !- reheat_coil_name
+    0.0,                      !- maximum_hot_water_or_steam_flow_rate
+    0.0,                      !- minimum_hot_water_or_steam_flow_rate
+    SPACE5-1 In Node,         !- air_outlet_node_name
+    0.001,                    !- convergence_tolerance
+    ReverseWithLimits,        !- damper_heating_action
+    0.002032,                 !- maximum_flow_per_zone_floor_area_during_reheat
+    ,                         !- maximum_flow_fraction_during_reheat
+    ,                         !- maximum_reheat_air_temperature
+    ZoneMinOARequirements;    !- design_specification_outdoor_air_object_name
+
+DesignSpecification:OutdoorAir,
+    ZoneMinOARequirements,    !- name
+    Sum,                      !- outdoor_air_method
+    0.00472,                  !- outdoor_air_flow_per_person
+    0.001,                    !- outdoor_air_flow_per_zone_floor_area
+    ,                         !- outdoor_air_flow_per_zone
+    ,                         !- outdoor_air_flow_air_changes_per_hour
+    Min OARequirements Sched; !- outdoor_air_schedule_name
+
+Coil:Heating:Fuel,
+    SPACE1-1 Zone Coil,       !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    autosize,                 !- nominal_capacity
+    SPACE1-1 Zone Coil Air In Node, !- air_inlet_node_name
+    SPACE1-1 In Node;         !- air_outlet_node_name
+
+Coil:Heating:Fuel,
+    SPACE2-1 Zone Coil,       !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    autosize,                 !- nominal_capacity
+    SPACE2-1 Zone Coil Air In Node, !- air_inlet_node_name
+    SPACE2-1 In Node;         !- air_outlet_node_name
+
+Coil:Heating:Fuel,
+    SPACE3-1 Zone Coil,       !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    autosize,                 !- nominal_capacity
+    SPACE3-1 Zone Coil Air In Node, !- air_inlet_node_name
+    SPACE3-1 In Node;         !- air_outlet_node_name
+
+Coil:Heating:Fuel,
+    SPACE4-1 Zone Coil,       !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    autosize,                 !- nominal_capacity
+    SPACE4-1 Zone Coil Air In Node, !- air_inlet_node_name
+    SPACE4-1 In Node;         !- air_outlet_node_name
+
+Coil:Heating:Fuel,
+    SPACE5-1 Zone Coil,       !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    autosize,                 !- nominal_capacity
+    SPACE5-1 Zone Coil Air In Node, !- air_inlet_node_name
+    SPACE5-1 In Node;         !- air_outlet_node_name
+
+Coil:Heating:Fuel,
+    Humidistat Reheat Coil 1, !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    32000,                    !- nominal_capacity
+    Reheat Coil Air Inlet Node, !- air_inlet_node_name
+    VAV Sys 1 Outlet Node,    !- air_outlet_node_name
+    VAV Sys 1 Outlet Node;    !- temperature_setpoint_node_name
+
+Coil:Heating:Fuel,
+    Main heating Coil 1,      !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    NaturalGas,               !- fuel_type
+    0.8,                      !- burner_efficiency
+    autosize,                 !- nominal_capacity
+    Main Heating Coil 1 Inlet Node, !- air_inlet_node_name
+    Reheat Coil Air Inlet Node, !- air_outlet_node_name
+    ;                         !- temperature_setpoint_node_name
+
+AirLoopHVAC:ReturnPath,
+    ReturnAirPath1,           !- name
+    PLENUM-1 Out Node,        !- return_air_path_outlet_node_name
+    AirLoopHVAC:ReturnPlenum, !- component_object_type 1
+    Return-Plenum-1;          !- component_name 1
+
+AirLoopHVAC:ReturnPlenum,
+    Return-Plenum-1,          !- name
+    PLENUM-1,                 !- zone_name
+    PLENUM-1 Node,            !- zone_node_name
+    PLENUM-1 Out Node,        !- outlet_node_name
+    ,                         !- induced_air_outlet_node_or_nodelist_name
+    SPACE1-1 Out Node,        !- inlet_node_name 1
+    SPACE2-1 Out Node,        !- inlet_node_name 2
+    SPACE3-1 Out Node,        !- inlet_node_name 3
+    SPACE4-1 Out Node,        !- inlet_node_name 4
+    SPACE5-1 Out Node;        !- inlet_node_name 5
+
+AirLoopHVAC:SupplyPath,
+    Zone Supply Air Path 1,   !- name
+    Zone Eq In Node,          !- supply_air_path_inlet_node_name
+    AirLoopHVAC:ZoneSplitter, !- component_object_type 1
+    Zone Supply Air Splitter 1; !- component_name 1
+
+AirLoopHVAC:ZoneSplitter,
+    Zone Supply Air Splitter 1, !- name
+    Zone Eq In Node,          !- inlet_node_name
+    SPACE1-1 ATU In Node,     !- outlet_node_name 1
+    SPACE2-1 ATU In Node,     !- outlet_node_name 2
+    SPACE3-1 ATU In Node,     !- outlet_node_name 3
+    SPACE4-1 ATU In Node,     !- outlet_node_name 4
+    SPACE5-1 ATU In Node;     !- outlet_node_name 5
+
+AirLoopHVAC,
+    VAV Sys 1,                !- name
+    ,                         !- controller_list_name
+    VAV Sys 1 Avail List,     !- availability_manager_list_name
+    autosize,                 !- design_supply_air_flow_rate
+    VAV Sys 1 Branches,       !- branch_list_name
+    ,                         !- connector_list_name
+    VAV Sys 1 Inlet Node,     !- supply_side_inlet_node_name
+    PLENUM-1 Out Node,        !- demand_side_outlet_node_name
+    Zone Eq In Node,          !- demand_side_inlet_node_names
+    VAV Sys 1 Outlet Node;    !- supply_side_outlet_node_names
+
+AvailabilityManagerAssignmentList,
+    VAV Sys 1 Avail List,     !- name
+    AvailabilityManager:Scheduled, !- availability_manager_object_type 1
+    VAV Sys 1 Avail;          !- availability_manager_name 1
+
+AvailabilityManager:Scheduled,
+    VAV Sys 1 Avail,          !- name
+    FanAvailSched;            !- schedule_name
+
+BranchList,
+    VAV Sys 1 Branches,       !- name
+    VAV Sys 1 Main Branch;    !- branch_name 1
+
+Branch,
+    VAV Sys 1 Main Branch,    !- name
+    ,                         !- pressure_drop_curve_name
+    AirLoopHVAC:OutdoorAirSystem, !- component_object_type 1
+    OA Sys 1,                 !- component_name 1
+    VAV Sys 1 Inlet Node,     !- component_inlet_node_name 1
+    Mixed Air Node 1,         !- component_outlet_node_name 1
+    AirLoopHVAC:UnitarySystem, !- component_object_type 2
+    GasHeat DXAC Furnace 1,   !- component_name 2
+    Mixed Air Node 1,         !- component_inlet_node_name 2
+    VAV Sys 1 Outlet Node;    !- component_outlet_node_name 2
+
+AirLoopHVAC:UnitarySystem,
+    GasHeat DXAC Furnace 1,   !- name
+    Setpoint,                 !- control_type
+    ,                         !- controlling_zone_or_thermostat_location
+    CoolReheat,               !- dehumidification_control_type
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    Mixed Air Node 1,         !- air_inlet_node_name
+    VAV Sys 1 Outlet Node,    !- air_outlet_node_name
+    Fan:VariableVolume,       !- supply_fan_object_type
+    Supply Fan 1,             !- supply_fan_name
+    BlowThrough,              !- fan_placement
+    ,                         !- supply_air_fan_operating_mode_schedule_name
+    Coil:Heating:Fuel,        !- heating_coil_object_type
+    Main Heating Coil 1,      !- heating_coil_name
+    ,                         !- dx_heating_coil_sizing_ratio
+    CoilSystem:Cooling:DX:HeatExchangerAssisted, !- cooling_coil_object_type
+    Heat Exchanger Assisted Cooling Coil 1, !- cooling_coil_name
+    ,                         !- use_doas_dx_cooling_coil
+    ,                         !- minimum_supply_air_temperature
+    ,                         !- latent_load_control
+    Coil:Heating:Fuel,        !- supplemental_heating_coil_object_type
+    Humidistat Reheat Coil 1, !- supplemental_heating_coil_name
+    SupplyAirFlowRate,        !- cooling_supply_air_flow_rate_method
+    autosize,                 !- cooling_supply_air_flow_rate
+    ,                         !- cooling_supply_air_flow_rate_per_floor_area
+    ,                         !- cooling_fraction_of_autosized_cooling_supply_air_flow_rate
+    ,                         !- cooling_supply_air_flow_rate_per_unit_of_capacity
+    SupplyAirFlowRate,        !- heating_supply_air_flow_rate_method
+    autosize,                 !- heating_supply_air_flow_rate
+    ,                         !- heating_supply_air_flow_rate_per_floor_area
+    ,                         !- heating_fraction_of_autosized_heating_supply_air_flow_rate
+    ,                         !- heating_supply_air_flow_rate_per_unit_of_capacity
+    SupplyAirFlowRate,        !- no_load_supply_air_flow_rate_method
+    autosize,                 !- no_load_supply_air_flow_rate
+    ,                         !- no_load_supply_air_flow_rate_per_floor_area
+    ,                         !- no_load_fraction_of_autosized_cooling_supply_air_flow_rate
+    ,                         !- no_load_fraction_of_autosized_heating_supply_air_flow_rate
+    ,                         !- no_load_supply_air_flow_rate_per_unit_of_capacity_during_cooling_operation
+    ,                         !- no_load_supply_air_flow_rate_per_unit_of_capacity_during_heating_operation
+    80;                       !- maximum_supply_air_temperature
+
+SetpointManager:Scheduled,
+    Supply Air Hum Rate Manager 1, !- name
+    MaximumHumidityRatio,     !- control_variable
+    Supply Air Hum Rate Schedule, !- schedule_name
+    VAV Sys 1 Outlet Node;    !- setpoint_node_or_nodelist_name
+
+SetpointManager:Scheduled,
+    Supply Air Hum Rate Manager 2, !- name
+    MaximumHumidityRatio,     !- control_variable
+    Supply Air Hum Rate Schedule, !- schedule_name
+    Main Heating Coil 1 Inlet Node; !- setpoint_node_or_nodelist_name
+
+SetpointManager:Scheduled,
+    Supply Air Temp Manager 1, !- name
+    Temperature,              !- control_variable
+    Seasonal Reset Supply Air Temp Sch, !- schedule_name
+    Supply Air Temp Nodes 1;  !- setpoint_node_or_nodelist_name
+
+Schedule:Constant,
+    Supply Air Hum Rate Schedule, !- name
+    ,                         !- schedule_type_limits_name
+    0.006;                    !- hourly_value
+
+AirLoopHVAC:OutdoorAirSystem,
+    OA Sys 1,                 !- name
+    OA Sys 1 Controllers,     !- controller_list_name
+    OA Sys 1 Equipment,       !- outdoor_air_equipment_list_name
+    VAV Sys 1 Avail List;     !- availability_manager_list_name
+
+AirLoopHVAC:ControllerList,
+    OA Sys 1 Controllers,     !- name
+    Controller:OutdoorAir,    !- controller_1_object_type
+    OA Controller 1;          !- controller_1_name
+
+AirLoopHVAC:OutdoorAirSystem:EquipmentList,
+    OA Sys 1 Equipment,       !- name
+    OutdoorAir:Mixer,         !- component_1_object_type
+    OA Mixing Box 1;          !- component_1_name
+
+OutdoorAir:Mixer,
+    OA Mixing Box 1,          !- name
+    Mixed Air Node 1,         !- mixed_air_node_name
+    Outside Air Inlet Node 1, !- outdoor_air_stream_node_name
+    Relief Air Outlet Node 1, !- relief_air_stream_node_name
+    VAV Sys 1 Inlet Node;     !- return_air_stream_node_name
+
+CoilSystem:Cooling:DX:HeatExchangerAssisted,
+    Heat Exchanger Assisted Cooling Coil 1, !- name
+    HeatExchanger:AirToAir:SensibleAndLatent, !- heat_exchanger_object_type
+    Heat Exchanger Assisted DX 1, !- heat_exchanger_name
+    Coil:Cooling:DX:VariableSpeed, !- cooling_coil_object_type
+    Main Cooling Coil 1;      !- cooling_coil_name
+
+HeatExchanger:AirToAir:SensibleAndLatent,
+    Heat Exchanger Assisted DX 1, !- name
+    ReheatCoilAvailSched,     !- availability_schedule_name
+    autosize,                 !- nominal_supply_air_flow_rate
+    0.7,                      !- sensible_effectiveness_at_100_heating_air_flow
+    0.65,                     !- latent_effectiveness_at_100_heating_air_flow
+    0.7,                      !- sensible_effectiveness_at_75_heating_air_flow
+    0.65,                     !- latent_effectiveness_at_75_heating_air_flow
+    0.7,                      !- sensible_effectiveness_at_100_cooling_air_flow
+    0.65,                     !- latent_effectiveness_at_100_cooling_air_flow
+    0.7,                      !- sensible_effectiveness_at_75_cooling_air_flow
+    0.65,                     !- latent_effectiveness_at_75_cooling_air_flow
+    Main Cooling Coil 1 Inlet Node, !- supply_air_inlet_node_name
+    Heat Recovery Supply Outlet, !- supply_air_outlet_node_name
+    Heat Recovery Exhuast Inlet Node, !- exhaust_air_inlet_node_name
+    MAIN HEATING COIL 1 INLET NODE, !- exhaust_air_outlet_node_name
+    0,                        !- nominal_electric_power
+    Yes,                      !- supply_air_outlet_temperature_control
+    Plate,                    !- heat_exchanger_type
+    MinimumExhaustTemperature, !- frost_control_type
+    1.7,                      !- threshold_temperature
+    0.083,                    !- initial_defrost_time_fraction
+    0.012,                    !- rate_of_defrost_time_fraction_increase
+    Yes;                      !- economizer_lockout
+
+Coil:Cooling:DX:VariableSpeed,
+    Main Cooling Coil 1,      !- name
+    Heat Recovery Supply Outlet, !- indoor_air_inlet_node_name
+    Heat Recovery Exhuast Inlet Node, !- indoor_air_outlet_node_name
+    1.0,                      !- number_of_speeds
+    1.0,                      !- nominal_speed_level
+    AUTOSIZE,                 !- gross_rated_total_cooling_capacity_at_selected_nominal_speed_level
+    AUTOSIZE,                 !- rated_air_flow_rate_at_selected_nominal_speed_level
+    0.0,                      !- nominal_time_for_condensate_to_begin_leaving_the_coil
+    0.0,                      !- initial_moisture_evaporation_rate_divided_by_steady_state_ac_latent_capacity
+    HPACCOOLPLFFPLR,          !- energy_part_load_fraction_curve_name
+    ,                         !- condenser_air_inlet_node_name
+    AirCooled,                !- condenser_type
+    ,                         !- evaporative_condenser_pump_rated_power_consumption
+    0.0,                      !- crankcase_heater_capacity
+    10.0,                     !- maximum_outdoor_dry_bulb_temperature_for_crankcase_heater_operation
+    ,                         !- minimum_outdoor_dry_bulb_temperature_for_compressor_operation
+    ,                         !- supply_water_storage_tank_name
+    ,                         !- condensate_collection_water_storage_tank_name
+    ,                         !- basin_heater_capacity
+    ,                         !- basin_heater_setpoint_temperature
+    ,                         !- basin_heater_operating_schedule_name
+    36991.44197,              !- speed_1_reference_unit_gross_rated_total_cooling_capacity
+    0.75,                     !- speed_1_reference_unit_gross_rated_sensible_heat_ratio
+    3.866381837,              !- speed_1_reference_unit_gross_rated_cooling_cop
+    3.776,                    !- speed_1_reference_unit_rated_air_flow_rate
+    10.62,                    !- speed_1_reference_unit_rated_condenser_air_flow_rate
+    ,                         !- speed_1_reference_unit_rated_pad_effectiveness_of_evap_precooling
+    HPCoolingCAPFTemp4,       !- speed_1_total_cooling_capacity_function_of_temperature_curve_name
+    HPACFFF,                  !- speed_1_total_cooling_capacity_function_of_air_flow_fraction_curve_name
+    HPCoolingEIRFTemp4,       !- speed_1_energy_input_ratio_function_of_temperature_curve_name
+    HPACFFF;                  !- speed_1_energy_input_ratio_function_of_air_flow_fraction_curve_name
+
+OutdoorAir:Node,
+    Main Cooling Coil 1 Condenser Node, !- name
+    -1.0;                     !- height_above_ground
+
+Fan:VariableVolume,
+    Supply Fan 1,             !- name
+    FanAvailSched,            !- availability_schedule_name
+    0.7,                      !- fan_total_efficiency
+    600.0,                    !- pressure_rise
+    autosize,                 !- maximum_flow_rate
+    Fraction,                 !- fan_power_minimum_flow_rate_input_method
+    0.25,                     !- fan_power_minimum_flow_fraction
+    ,                         !- fan_power_minimum_air_flow_rate
+    0.9,                      !- motor_efficiency
+    1.0,                      !- motor_in_airstream_fraction
+    0.0015302446,             !- fan_power_coefficient_1
+    0.0052080574,             !- fan_power_coefficient_2
+    1.1086242,                !- fan_power_coefficient_3
+    -0.11635563,              !- fan_power_coefficient_4
+    0.0,                      !- fan_power_coefficient_5
+    Mixed Air Node 1,         !- air_inlet_node_name
+    Main Cooling Coil 1 Inlet Node; !- air_outlet_node_name
+
+Controller:OutdoorAir,
+    OA Controller 1,          !- name
+    Relief Air Outlet Node 1, !- relief_air_outlet_node_name
+    VAV Sys 1 Inlet Node,     !- return_air_node_name
+    Mixed Air Node 1,         !- mixed_air_node_name
+    Outside Air Inlet Node 1, !- actuator_node_name
+    autosize,                 !- minimum_outdoor_air_flow_rate
+    autosize,                 !- maximum_outdoor_air_flow_rate
+    FixedDryBulb,             !- economizer_control_type
+    ModulateFlow,             !- economizer_control_action_type
+    19.0,                     !- economizer_maximum_limit_dry_bulb_temperature
+    ,                         !- economizer_maximum_limit_enthalpy
+    ,                         !- economizer_maximum_limit_dewpoint_temperature
+    ,                         !- electronic_enthalpy_limit_curve_name
+    4.0,                      !- economizer_minimum_limit_dry_bulb_temperature
+    NoLockout,                !- lockout_type
+    FixedMinimum,             !- minimum_limit_type
+    Min OA Sched;             !- minimum_outdoor_air_schedule_name
+
+Output:Variable,
+    *,                        !- key_value
+    Site Outdoor Air Drybulb Temperature, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air Temperature,     !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air System Sensible Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air System Sensible Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Air Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Air Inlet Temperature, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Air Inlet Humidity Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Latent Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Air Outlet Temperature, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Air Outlet Humidity Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Sensible Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Total Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Part Load Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Electric Power, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Runtime Fraction, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Source Side Heat Transfer Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Electric Power, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Runtime Fraction, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Basin Heater Electric Power, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Cooling Coil Basin Heater Electric Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Fan Electric Power,       !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heating Coil Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heating Coil Gas Rate,    !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    People Occupant Count,    !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air Terminal VAV Damper Position, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air Terminal Minimum Air Flow Fraction, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air Terminal Outdoor Air Volume Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE1-1 In Node,         !- key_value
+    System Node Temperature,  !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE2-1 In Node,         !- key_value
+    System Node Temperature,  !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE3-1 In Node,         !- key_value
+    System Node Temperature,  !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE4-1 In Node,         !- key_value
+    System Node Temperature,  !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    System Node Temperature,  !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    System Node Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE2-1 In Node,         !- key_value
+    System Node Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE3-1 In Node,         !- key_value
+    System Node Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE4-1 In Node,         !- key_value
+    System Node Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    SPACE5-1 In Node,         !- key_value
+    System Node Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Air System Outdoor Air Flow Fraction, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Air System Outdoor Air Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Air System Mixed Air Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    VAV Sys 1 Outlet Node,    !- key_value
+    System Node Temperature,  !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    VAV Sys 1 Outlet Node,    !- key_value
+    System Node Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    VAV Sys 1 Outlet Node,    !- key_value
+    System Node Setpoint Temperature, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    VAV Sys 1 Outlet Node,    !- key_value
+    System Node Humidity Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Part Load Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Total Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Sensible Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Latent Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Total Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Sensible Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Latent Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Ancillary Electric Power, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Dehumidification Induced Heating Demand Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Fan Part Load Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Compressor Part Load Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Frost Control Status, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Heating Ancillary Electric Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Cycling Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Unitary System Compressor Speed Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Operative Temperature, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Mean Air Dewpoint Temperature, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Mean Air Humidity Ratio, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Zone Air Relative Humidity, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Sensible Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Sensible Heating Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Latent Gain Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Latent Gain Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Total Heating Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Total Heating Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Sensible Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Sensible Cooling Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Latent Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Latent Cooling Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Total Cooling Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Total Cooling Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Electric Power, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Electric Energy, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Sensible Effectiveness, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Latent Effectiveness, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Supply Air Bypass Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Exhaust Air Bypass Mass Flow Rate, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:Variable,
+    *,                        !- key_value
+    Heat Exchanger Defrost Time Fraction, !- variable_name
+    hourly;                   !- reporting_frequency
+
+Output:VariableDictionary,
+    IDF;                      !- key_field
+
+Output:Surfaces:Drawing,
+    dxf;                      !- report_type
+
+OutputControl:Table:Style,
+    HTML,                     !- column_separator
+    InchPound;                !- unit_conversion
+
+Output:Table:SummaryReports,
+    AllSummary;               !- report_name 1
+
+Output:SQLite,
+    simple;                   !- option_type

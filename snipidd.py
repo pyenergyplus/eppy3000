@@ -6,7 +6,7 @@ iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
 idd = readidd.readiddasmunch(iddfname)
 
 props = idd['properties']
-selectedkey = "BuildingSurface:Detailed"
+selectedkey = "Zone"
 keys = [key for key in props.keys() if key != selectedkey]
 for key in keys:
     props.pop(key)

@@ -481,3 +481,29 @@ How about copying an idfobject::
     >                 15.24                                !-  vertex_x_coordinate #1
     >                 0.0                                  !-  vertex_y_coordinate #1
     >                 0.0                                  !-  vertex_z_coordinate #1
+
+
+Reading and writing IDF files
+-----------------------------
+
+Eppy3000 works with JSON files. At the time of this documentation, Energyplus is at version 9.0. This version has only IDF files in the ExampleFolder. Everyone is still using IDF files. Does this mean I cannot use eppy3000 for any real work ?
+
+If you can read and write IDF files from eppy3000, then eppy3000 would be usable. Here is how you can read an IDF file::
+
+    from eppy3000 import idfjsonconverter
+
+    fname = "./eppy3000/resources/snippets/V9_0/5Zone_Unitary_HXAssistedCoil.idf"
+    schemapath = "/Applications/EnergyPlus-9-0-1/Energy+.schema.epJSON"
+    idfhandle = open(fname, 'r')
+
+    jsonstr = idfjsonconverter.idf2json(idfhandle, open(schemapath, 'r'))
+    jsonfile = "5Zone_Unitary_HXAssistedCoil.json"
+    open(jsonfile, 'w').write(jsonstr)
+    
+Then you can read a JSON file and convert it to IDF::
+
+    jsonhandle = open(jsonfile, 'r')
+    idfcopystr = idfjsonconverter.json2idf(jsonhandle, open(schemapath, 'r'))
+    outfile = "5Zone_Unitary_HXAssistedCoil_copy.idf"
+    open(outfile, 'w').write(idfcopystr)
+    
