@@ -1,3 +1,12 @@
+2019-06-08
+----------
+
+Need to revisit the naming conventions
+
+- idfobject -> epobject
+- idfobjects -> epobjects
+- ? -> epkey
+
 2019-06-03
 ----------
 
