@@ -7,6 +7,10 @@ Need to revisit the naming conventions
 - idfobjects -> epobjects
 - ? -> epkey
 
+- idf -> epj
+- idd -> epschema
+- *.idf -> *.epJSON
+
 2019-06-03
 ----------
 

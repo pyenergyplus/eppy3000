@@ -9,22 +9,25 @@
 from munch import Munch
 from eppy3000.idd import IDDMunch
 
-def printkey(key, indent=0, format=None, func=None):
+def printkey(key, indent=0, formatstr=None, func=None):
+    """document the use of func=lines.append"""
     if not func:
         func = print
     if not indent:
         func("")
         func("")
+        indent = 0
     elif indent == 1:
         func("")
-    if not format:
-        format = '{}{}'
-        func(format.format(' '*4*indent, key))
+    if not formatstr:
+        formatstr = '{}{}'
+        func(formatstr.format(' '*4*indent, key))
     else:
-        func(format.format(' '*4*indent, key))
+        func(formatstr.format(' '*4*indent, key))
 
 
 def printmunch(amunch, indent=0, index=None, func=None):
+    """document the use of func=lines.append"""
     if isinstance(amunch, IDDMunch): # don't print IDD stuff
         return
     if not func:
@@ -44,7 +47,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                         func=func)
         elif isinstance(val, list):
             printkey(key, indent=3,
-                    format= "{0}" + " " * 36 + " !-  {1}",
+                    formatstr= "{0}" + " " * 36 + " !-  {1}",
                     func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
