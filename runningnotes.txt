@@ -5,7 +5,12 @@ Need to revisit the naming conventions
 
 - idfobject -> epobject
 - idfobjects -> epobjects
-- ? -> epkey
+- key -> epkey
+- Name -> objectname
+
+- idf -> epj
+- idd -> epschema
+- *.idf -> *.epJSON
 
 2019-06-03
 ----------
