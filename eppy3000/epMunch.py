@@ -10,7 +10,9 @@ from munch import Munch
 from eppy3000.idd import IDDMunch
 
 def printkey(key, indent=0, formatstr=None, func=None):
-    """document the use of func=lines.append"""
+    """Prints the key in epMunch with the right indentation
+    
+    Used internally by printmunch"""
     if not func:
         func = print
     if not indent:
@@ -27,43 +29,116 @@ def printkey(key, indent=0, formatstr=None, func=None):
 
 
 def printmunch(amunch, indent=0, index=None, func=None):
-    """document the use of func=lines.append"""
-    if isinstance(amunch, IDDMunch): # don't print IDD stuff
+    """This prints the epMunch object
+    
+    In effect, it can print the epJSON file 
+    which may have nested epMunch objects in it. Or it can 
+    print a single epMunch object. 
+    printmunch is called recursively until all epMunch
+    objects are exhausted. It will also  print a list of 
+    epMunch objects that can occur within an epJSON file
+    
+    It has been tested for epJSON files. The is no guarantee
+    that will work on a more complex nesting of epMunch objects
+    
+    An epJSON object such as::
+    
+
+         "Heating Setpoint Schedule": {
+             "data": [
+                 {
+                     "field": "Through: 12/31"
+                 },
+                 {
+                     "field": "For: AllDays"
+                 },
+                 {
+                     "field": "Until: 24:00"
+                 },
+                 {
+                     "field": 15.0
+                 }
+             ],
+             "idf_max_extensible_fields": 4,
+             "idf_max_fields": 6,
+             "idf_order": 59,
+             "schedule_type_limits_name": "Any Number"
+         },
+    
+    will print out as::
+    
+
+        Schedule:Compact                                 !-  EP_KEY
+                    Heating Setpoint Schedule            !-  EPJOBJECT_NAME
+                                                         !-  data
+                        Through: 12/31                       !-  field #1
+                        For: AllDays                         !-  field #2
+                        Until: 24:00                         !-  field #3
+                        15.0                                 !-  field #4
+                    4                                    !-  idf_max_extensible_fields
+                    6                                    !-  idf_max_fields
+                    59                                   !-  idf_order
+                    Any Number                           !-  schedule_type_limits_name
+    
+    which is much more easy on human eyes
+
+    Parameters
+    ----------
+    amunch: epMunch
+        an EpMunch object that may have more nested EpMunch objects within
+    indent: int
+        Used internally to indent the output
+    index: int
+        used internally to give index numbers to repeating items in a list
+    func: function
+        default func = print
+        you can get a list by::
+    
+            lines = []
+            printmunch(amunch, func=line.append)
+            # lines will be a list of lines
+
+    Returns
+    -------
+    None
+    """
+    if isinstance(amunch, IDDMunch):  # don't print IDD stuff
         return
     if not func:
         func = print
     if isinstance(amunch, Munch):
         if 'eppykey' in amunch:
             func("")
-            func('{0: <36}{1} !-  {2}'.format(amunch['eppykey'],
-                                        ' '*4*(indent+1),
-                                        'KEY'))
-            func('{0}{1: <36}{2} !-  {3}'.format(' '*4*(indent+1),
-                                        amunch['eppyname'],
-                                        ' '*4*(indent), 'NAME'))
+            func(f"{amunch['eppykey']:<36}{' '*4*(indent+1)} !-  EP_KEY")
+            ind1 = ' '*4*(indent+1)
+            ind2 = ' '*4*(indent-1)
+            func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME")
     for key, val in amunch.items():
         if isinstance(val, Munch):
             printmunch(val, indent=indent+1, index=index,
-                        func=func)
+                       func=func)
         elif isinstance(val, list):
+            print("i have a list")
             printkey(key, indent=3,
-                    formatstr= "{0}" + " " * 36 + " !-  {1}",
-                    func=func)
+                     formatstr="{0}" + " " * 36 + " !-  {1}",
+                     func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
         elif key not in ['eppykey', 'eppyname', 'eppy_objidd']:
             if index:
-                astr = '{0}{1: <36} !-  {2} #{3}'
-                func(astr.format(' '*4*(indent+1), val, key, index))
+                ind = ' '*4*(indent+1)
+                func(f"{ind}{val:<36} !-  {key} #{index}")
             else:
-                astr = '{0}{1: <36} !-  {2}'
-                func(astr.format(' '*4*(indent+1), val, key))
+                ind = ' '*4*(indent+1)
+                func(f"{ind}{val:<36} !-  {key}")
+
 
 class EPMunch(Munch):
     """Subclass of Munch for eppy3000"""
     def __init__(self, *args, **kwargs):
         super(EPMunch, self).__init__(*args, **kwargs)
 
+    # TODO : __repr__ and __str__ ahould b different
     def __repr__(self):
         """print this as a snippet"""
         lines = []
