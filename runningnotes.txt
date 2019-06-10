@@ -8,6 +8,10 @@ for singleton - use to nesure not reading the schemea.json many times.
 google search for borg
 https://www.google.com/search?q=python+borg&oq=python+borg&aqs=chrome..69i57j69i61.2400j0j1&sourceid=chrome&ie=UTF-8
 
+also see
+https://www.oreilly.com/library/view/python-cookbook/0596001673/ch05s16.html
+possibly use this.
+
 2019-06-09
 ----------
 
