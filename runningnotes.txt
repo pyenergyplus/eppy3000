@@ -1,3 +1,28 @@
+2019-06-10
+----------
+
+see
+https://code.activestate.com/recipes/66531/
+for singleton - use to nesure not reading the schemea.json many times.
+
+google search for borg
+https://www.google.com/search?q=python+borg&oq=python+borg&aqs=chrome..69i57j69i61.2400j0j1&sourceid=chrome&ie=UTF-8
+
+2019-06-09
+----------
+
+Status
+- got some
+    - test coverage (check coverage to see what is left)
+    - lint
+    - doc string
+TODO :
+    - change names as shown below
+    - pytest for idf2json etc -> can announce.
+    - continue with coverage
+    - integrate idf2json to Class EPJSON
+    - use witheppy300 and py90_1eppy3000 to push eppy3000
+
 2019-06-08
 ----------
 
