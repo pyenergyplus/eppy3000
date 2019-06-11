@@ -1,3 +1,12 @@
+2019-06-11
+----------
+
+try keeping a schema in a module.
+It gets imported only once
+
+- done tests for idfjjsonconverter
+- use this test code to test all the files in the Example folder
+
 2019-06-10
 ----------
 
@@ -62,7 +71,7 @@ Look very feasible
 - to save as idf - again use legacy idf def in the epjson
 
 pathway
-- start with simple objects and test run it 
+- start with simple objects and test run it
 - then work with more complex objects
 - finally test with all the files in the example folder
 
@@ -72,7 +81,7 @@ pathway
 
 - set up one test - DONE
 - do numpy type doc
-- test setup.py - DONE 
+- test setup.py - DONE
 - deploy on pypi on pyenergyplus
 - set up travis - DONE on santoshphilip
 - set up travis on pyenergyplus
