@@ -3,6 +3,7 @@
 from io import StringIO
 
 from munch import Munch
+import pytest
 
 from eppy3000 import idfjsonconverter
 from tests import schemafortesting
@@ -128,5 +129,5 @@ def test_readiddasmunch():
     assert isinstance(result, Munch)
 
     schemahandle = list()
-    result = idfjsonconverter.readiddasmunch(schemahandle)
-    assert isinstance(result, Munch)
+    with pytest.raises(TypeError):
+        result = idfjsonconverter.readiddasmunch(schemahandle)
