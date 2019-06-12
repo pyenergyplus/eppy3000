@@ -13,9 +13,15 @@ def readiddasmunch(fhandle):
         epjs = json.load(fhandle)
         as_munch = Munch.fromDict(epjs)
     except AttributeError as e:
-        fhandle = open(fhandle, 'r')
-        epjs = json.load(fhandle)
-        as_munch = Munch.fromDict(epjs)
+        try:
+            fhandle = open(fhandle, 'r')
+            epjs = json.load(fhandle)
+            as_munch = Munch.fromDict(epjs)
+        except TypeError as e:
+            if isinstance(fhandle, Munch):
+                return fhandle
+            else:
+                raise TypeError(f"expected str, bytes or os.PathLike object or Munch, not {type(fhandle)}")
     return as_munch
 
 def num(s):

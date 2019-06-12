@@ -119,13 +119,14 @@ def test_readiddasmunch():
     schemahandle = open(SCHEMA_FILE, 'r')
     result = idfjsonconverter.readiddasmunch(schemahandle)
     assert isinstance(result, Munch)
+
     result = idfjsonconverter.readiddasmunch(SCHEMA_FILE)
-    assert isinstance(result, Munch)
-    schemahandle = Munch.fromDict(dict(a=1, b=2))
-    print(schemahandle)
-    result = idfjsonconverter.readiddasmunch(SCHEMA_FILE)
-    print(result)
-    # assert False
-    # TODO start here
     assert isinstance(result, Munch)
 
+    schemahandle = Munch.fromDict(dict(a=1, b=2))
+    result = idfjsonconverter.readiddasmunch(schemahandle)
+    assert isinstance(result, Munch)
+
+    schemahandle = list()
+    result = idfjsonconverter.readiddasmunch(schemahandle)
+    assert isinstance(result, Munch)
