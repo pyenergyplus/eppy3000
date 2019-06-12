@@ -9,8 +9,13 @@ from eppy3000 import rawidf
 
 def readiddasmunch(fhandle):
     """read the idd json as a munch"""
-    epjs = json.load(fhandle)
-    as_munch = Munch.fromDict(epjs)
+    try:
+        epjs = json.load(fhandle)
+        as_munch = Munch.fromDict(epjs)
+    except AttributeError as e:
+        fhandle = open(fhandle, 'r')
+        epjs = json.load(fhandle)
+        as_munch = Munch.fromDict(epjs)
     return as_munch
 
 def num(s):

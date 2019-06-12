@@ -1,10 +1,13 @@
 """py.test for idfjsonconverter"""
 
 from io import StringIO
+
+from munch import Munch
+
 from eppy3000 import idfjsonconverter
 from tests import schemafortesting
 
-schema_file = schemafortesting.schema_file
+SCHEMA_FILE = schemafortesting.schema_file
 
 def test_keymapping():
     """py.test for keymapping"""
@@ -100,13 +103,29 @@ Zone,
         # convert idf to json, then json to idf and lastly idf to json
         # compare the first json and last json
         idfhandle = StringIO(idftxt)
-        epjsonhandle = open(schema_file)
+        epjsonhandle = open(SCHEMA_FILE)
         jsonresult1 = idfjsonconverter.idf2json(idfhandle, epjsonhandle)
         jsonhandle = StringIO(jsonresult1)
-        epjsonhandle = open(schema_file)
+        epjsonhandle = open(SCHEMA_FILE)
         idfresult1 = idfjsonconverter.json2idf(jsonhandle, epjsonhandle)
 
         idfhandle = StringIO(idfresult1)
-        epjsonhandle = open(schema_file)
+        epjsonhandle = open(SCHEMA_FILE)
         jsonresult2 = idfjsonconverter.idf2json(idfhandle, epjsonhandle)
         assert jsonresult1 == jsonresult2
+
+def test_readiddasmunch():
+    """py.test for readiddasmunch"""
+    schemahandle = open(SCHEMA_FILE, 'r')
+    result = idfjsonconverter.readiddasmunch(schemahandle)
+    assert isinstance(result, Munch)
+    result = idfjsonconverter.readiddasmunch(SCHEMA_FILE)
+    assert isinstance(result, Munch)
+    schemahandle = Munch.fromDict(dict(a=1, b=2))
+    print(schemahandle)
+    result = idfjsonconverter.readiddasmunch(SCHEMA_FILE)
+    print(result)
+    # assert False
+    # TODO start here
+    assert isinstance(result, Munch)
+
