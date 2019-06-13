@@ -118,13 +118,12 @@ def printmunch(amunch, indent=0, index=None, func=None):
             printmunch(val, indent=indent+1, index=index,
                        func=func)
         elif isinstance(val, list):
-            print("i have a list")
             printkey(key, indent=3,
                      formatstr="{0}" + " " * 36 + " !-  {1}",
                      func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
-        elif key not in ['eppykey', 'eppyname', 'eppy_objidd']:
+        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema']:
             if index:
                 ind = ' '*4*(indent+1)
                 func(f"{ind}{val:<36} !-  {key} #{index}")

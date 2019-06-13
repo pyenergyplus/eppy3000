@@ -2,8 +2,11 @@
 It will be loaded only once, since that is how imports work"""
 
 import os
+import json
 
-import pytest
+from munch import Munch
+
+# import pytest
 
 # from eppy import modeleditor
 # from eppy.tests.test_runner import versiontuple
@@ -17,6 +20,9 @@ VERSION = '9-0-1'  # current default for integration tests on local system
 SCHEMA_FILES = os.path.join(RESOURCES_DIR, 'schema')
 TEST_SCHEMA = f"V{VERSION[:3].replace('-', '_')}/Energy+.schema.epJSON"
 schema_file = os.path.join(SCHEMA_FILES, TEST_SCHEMA)
+
+epjs = json.load(open(schema_file, 'r'))
+schema = Munch.fromDict(epjs)
 
 print("loaded schemafortesting")
 

@@ -21,7 +21,7 @@ def readiddasmunch(fhandle):
             if isinstance(fhandle, Munch):
                 return fhandle
             else:
-                raise TypeError(f"expected str, bytes or os.PathLike object or Munch, not {type(fhandle)}")
+                raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")
     return as_munch
 
 def num(s):
@@ -79,6 +79,7 @@ def idf2json(idfhandle, epjsonhandle):
                                             zip(idfobject[1:], fieldnames)}
                     idfobjectname = f"{key} {idfobjcount[key]}"
             except IndexError as e:
+                # catches "if fieldnames[0] == 'name':" when fieldnames = []
                 alst = {fieldname:idfvalue for idfvalue, fieldname in
                                         zip(idfobject[1:], fieldnames)}
                 idfobjectname = f"{key} {idfobjcount[key]}"

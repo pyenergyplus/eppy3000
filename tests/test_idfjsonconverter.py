@@ -97,6 +97,9 @@ Zone,
     autocalculate,           !- Ceiling Height {m}
     autocalculate;           !- Volume {m3}
 
+OutdoorAir:NodeList,
+    OutsideAirInletNodes;    !- Node or NodeList Name 1
+
 """,
 ),  # idftxt
     )
@@ -104,15 +107,15 @@ Zone,
         # convert idf to json, then json to idf and lastly idf to json
         # compare the first json and last json
         idfhandle = StringIO(idftxt)
-        epjsonhandle = open(SCHEMA_FILE)
-        jsonresult1 = idfjsonconverter.idf2json(idfhandle, epjsonhandle)
+        epsjsonschema = schemafortesting.schema
+        jsonresult1 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
         jsonhandle = StringIO(jsonresult1)
-        epjsonhandle = open(SCHEMA_FILE)
-        idfresult1 = idfjsonconverter.json2idf(jsonhandle, epjsonhandle)
+        epsjsonschema = schemafortesting.schema
+        idfresult1 = idfjsonconverter.json2idf(jsonhandle, epsjsonschema)
 
         idfhandle = StringIO(idfresult1)
-        epjsonhandle = open(SCHEMA_FILE)
-        jsonresult2 = idfjsonconverter.idf2json(idfhandle, epjsonhandle)
+        epsjsonschema = schemafortesting.schema
+        jsonresult2 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
         assert jsonresult1 == jsonresult2
 
 def test_readiddasmunch():
@@ -124,7 +127,7 @@ def test_readiddasmunch():
     result = idfjsonconverter.readiddasmunch(SCHEMA_FILE)
     assert isinstance(result, Munch)
 
-    schemahandle = Munch.fromDict(dict(a=1, b=2))
+    schemahandle = schemafortesting.schema
     result = idfjsonconverter.readiddasmunch(schemahandle)
     assert isinstance(result, Munch)
 
