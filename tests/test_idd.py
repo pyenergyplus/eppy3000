@@ -10,6 +10,7 @@
 from io import StringIO
 from eppy3000 import idd
 
+
 def test_IDD():
     """py.test for IDD"""
     txt = """{
@@ -213,17 +214,25 @@ def test_IDD():
         }
     },
     "epJSON_schema_build": "40101eaafd"
-}"""
+}"""   # noqa: E501
 
     # expected
     version = "8.9.0"
     required = ['Building', 'GlobalGeometryRules']
     iddobjectskeys = ['Building', 'OutdoorAir:NodeList']
-    buildingkeys = ['solar_distribution', 'terrain', 'north_axis', 'maximum_number_of_warmup_days', 'loads_convergence_tolerance_value', 'temperature_convergence_tolerance_value', 'minimum_number_of_warmup_days']
+    buildingkeys = ['solar_distribution', 'terrain', 'north_axis',
+                    'maximum_number_of_warmup_days',
+                    'loads_convergence_tolerance_value',
+                    'temperature_convergence_tolerance_value',
+                    'minimum_number_of_warmup_days']
     buildingterraintype = "string"
-    bfieldnames = ['solar_distribution', 'terrain', 'north_axis', 'maximum_number_of_warmup_days', 'loads_convergence_tolerance_value', 'temperature_convergence_tolerance_value', 'minimum_number_of_warmup_days']
-    fieldnameslist = None # not yet coded
-    
+    bfieldnames = ['solar_distribution', 'terrain', 'north_axis',
+                   'maximum_number_of_warmup_days',
+                   'loads_convergence_tolerance_value',
+                   'temperature_convergence_tolerance_value',
+                   'minimum_number_of_warmup_days']
+    fieldnameslist = None  # not yet coded
+
     # print(idd.iddobjects.keys())
     # dict_keys(['Building'])
 
@@ -235,6 +244,9 @@ def test_IDD():
     assert required == result.required
     assert iddobjectskeys == list(result.iddobjects.keys())
     assert buildingkeys == list(result.iddobjects['Building'].keys())
-    assert buildingterraintype == result.iddobjects['Building'].fieldproperty('terrain')['type']
+
+    bldg = result.iddobjects['Building']
+    assert buildingterraintype == bldg.fieldproperty('terrain')['type']
     assert bfieldnames == result.iddobjects['Building'].fieldnames()
-    assert fieldnameslist == result.iddobjects['OutdoorAir:NodeList'].fieldnames_list()
+    oairnode = result.iddobjects['OutdoorAir:NodeList']
+    assert fieldnameslist == oairnode.fieldnames_list()
