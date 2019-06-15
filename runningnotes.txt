@@ -1,3 +1,14 @@
+2019-06-15
+----------
+
+- modelmaker needs tests
+- find the files where modelmake is imported
+    - ./arrays.py
+    - ./idf.py
+    - ./json2idf.py
+    - ./newidfobject.py
+    - ./snipidf.py
+
 2019-06-11
 ----------
 
@@ -13,13 +24,16 @@ It gets imported only once
 see
 https://code.activestate.com/recipes/66531/
 for singleton - use to nesure not reading the schemea.json many times.
+NOT USED
 
 google search for borg
 https://www.google.com/search?q=python+borg&oq=python+borg&aqs=chrome..69i57j69i61.2400j0j1&sourceid=chrome&ie=UTF-8
+NOT USED
 
 also see
 https://www.oreilly.com/library/view/python-cookbook/0596001673/ch05s16.html
 possibly use this.
+NOT USED
 
 2019-06-09
 ----------
@@ -64,6 +78,7 @@ You can run a JSON file in simulation
 
 issue #20
 read idf file
+DONE
 
 Look very feasible
 - use the witheppy read using noeppy function to read the idf file in
@@ -80,9 +95,9 @@ pathway
 ----------
 
 - set up one test - DONE
-- do numpy type doc
+- do numpy type doc - MOSLTY DONE
 - test setup.py - DONE
-- deploy on pypi on pyenergyplus
+- deploy on pypi on pyenergyplus - DONE
 - set up travis - DONE on santoshphilip
 - set up travis on pyenergyplus
 
