@@ -1,3 +1,55 @@
+2019-06-15
+----------
+
+- modelmaker needs tests
+- find the files where modelmake is imported
+    - ./arrays.py
+    - ./idf.py
+    - ./json2idf.py
+    - ./newidfobject.py
+    - ./snipidf.py
+
+2019-06-11
+----------
+
+try keeping a schema in a module.
+It gets imported only once
+
+- done tests for idfjjsonconverter
+- use this test code to test all the files in the Example folder
+
+2019-06-10
+----------
+
+see
+https://code.activestate.com/recipes/66531/
+for singleton - use to nesure not reading the schemea.json many times.
+NOT USED
+
+google search for borg
+https://www.google.com/search?q=python+borg&oq=python+borg&aqs=chrome..69i57j69i61.2400j0j1&sourceid=chrome&ie=UTF-8
+NOT USED
+
+also see
+https://www.oreilly.com/library/view/python-cookbook/0596001673/ch05s16.html
+possibly use this.
+NOT USED
+
+2019-06-09
+----------
+
+Status
+- got some
+    - test coverage (check coverage to see what is left)
+    - lint
+    - doc string
+TODO :
+    - change names as shown below
+    - pytest for idf2json etc -> can announce.
+    - continue with coverage
+    - integrate idf2json to Class EPJSON
+    - use witheppy300 and py90_1eppy3000 to push eppy3000
+
 2019-06-08
 ----------
 
@@ -26,6 +78,7 @@ You can run a JSON file in simulation
 
 issue #20
 read idf file
+DONE
 
 Look very feasible
 - use the witheppy read using noeppy function to read the idf file in
@@ -33,7 +86,7 @@ Look very feasible
 - to save as idf - again use legacy idf def in the epjson
 
 pathway
-- start with simple objects and test run it 
+- start with simple objects and test run it
 - then work with more complex objects
 - finally test with all the files in the example folder
 
@@ -42,9 +95,9 @@ pathway
 ----------
 
 - set up one test - DONE
-- do numpy type doc
-- test setup.py - DONE 
-- deploy on pypi on pyenergyplus
+- do numpy type doc - MOSLTY DONE
+- test setup.py - DONE
+- deploy on pypi on pyenergyplus - DONE
 - set up travis - DONE on santoshphilip
 - set up travis on pyenergyplus
 

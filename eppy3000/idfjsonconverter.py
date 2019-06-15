@@ -9,8 +9,19 @@ from eppy3000 import rawidf
 
 def readiddasmunch(fhandle):
     """read the idd json as a munch"""
-    epjs = json.load(fhandle)
-    as_munch = Munch.fromDict(epjs)
+    try:
+        epjs = json.load(fhandle)
+        as_munch = Munch.fromDict(epjs)
+    except AttributeError as e:
+        try:
+            fhandle = open(fhandle, 'r')
+            epjs = json.load(fhandle)
+            as_munch = Munch.fromDict(epjs)
+        except TypeError as e:
+            if isinstance(fhandle, Munch):
+                return fhandle
+            else:
+                raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")
     return as_munch
 
 def num(s):
@@ -68,6 +79,7 @@ def idf2json(idfhandle, epjsonhandle):
                                             zip(idfobject[1:], fieldnames)}
                     idfobjectname = f"{key} {idfobjcount[key]}"
             except IndexError as e:
+                # catches "if fieldnames[0] == 'name':" when fieldnames = []
                 alst = {fieldname:idfvalue for idfvalue, fieldname in
                                         zip(idfobject[1:], fieldnames)}
                 idfobjectname = f"{key} {idfobjcount[key]}"

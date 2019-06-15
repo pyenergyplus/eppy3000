@@ -10,10 +10,11 @@ from io import StringIO
 import json
 
 # one works from ipython, the other from the script
-try:
-    from eppy3000.epMunch import EPMunch
-except ModuleNotFoundError as e:
-    from epMunch import EPMunch
+# try:
+#     from eppy3000.epMunch import EPMunch
+# except ModuleNotFoundError as e:
+#     from epMunch import EPMunch
+from eppy3000.epMunch import EPMunch
 
 
 def readidfjson(fhandle):
@@ -100,32 +101,32 @@ def removeeppykeys(idfmunch, rkeys=None):
                 epobject.pop(rkey, None)
 
 
-if __name__ == "__main__":
-    fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
-    idf = readidfjson(fname)
-    crac = idf.AirLoopHVAC["CRAC system"]
-    print(crac.branch_list_name)
-    txt = """
-    {
-        "Building": {
-            "Bldg": {
-                "idf_max_extensible_fields": 0,
-                "idf_max_fields": 8,
-                "idf_order": 3,
-                "loads_convergence_tolerance_value": 0.05,
-                "maximum_number_of_warmup_days": 30,
-                "minimum_number_of_warmup_days": 6,
-                "north_axis": 0.0,
-                "solar_distribution": "MinimalShadowing",
-                "temperature_convergence_tolerance_value": 0.05,
-                "terrain": "Suburbs"
-            }
-        }
-    }
-    """
-    sio = StringIO(txt)
-    idf = readidfjson(sio)
-    abuilding = idf.Building.Bldg
-    print(abuilding.solar_distribution)
-    print(abuilding.terrain)
-    print(abuilding)
+# if __name__ == "__main__":
+    # fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
+    # idf = readidfjson(fname)
+    # crac = idf.AirLoopHVAC["CRAC system"]
+    # print(crac.branch_list_name)
+    # txt = """
+    # {
+    #     "Building": {
+    #         "Bldg": {
+    #             "idf_max_extensible_fields": 0,
+    #             "idf_max_fields": 8,
+    #             "idf_order": 3,
+    #             "loads_convergence_tolerance_value": 0.05,
+    #             "maximum_number_of_warmup_days": 30,
+    #             "minimum_number_of_warmup_days": 6,
+    #             "north_axis": 0.0,
+    #             "solar_distribution": "MinimalShadowing",
+    #             "temperature_convergence_tolerance_value": 0.05,
+    #             "terrain": "Suburbs"
+    #         }
+    #     }
+    # }
+    # """
+    # sio = StringIO(txt)
+    # idf = readidfjson(sio)
+    # abuilding = idf.Building.Bldg
+    # print(abuilding.solar_distribution)
+    # print(abuilding.terrain)
+    # print(abuilding)

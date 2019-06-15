@@ -9,6 +9,7 @@
 import json
 from io import StringIO
 
+import eppy3000
 import eppy3000.readidf as readidf
 from eppy3000 import epMunch
 from eppy3000.idd import IDDMunch
@@ -47,7 +48,7 @@ def test_printmunch():
         (dict(a=dict(aa=dict(z=-1, y=-2))), 0, None,
         ['',
          'a                                                !-  EP_KEY',
-         '            aa                                   !-  EPJOBJECT_NAME', 
+         '            aa                                   !-  EPJOBJECT_NAME',
          '            -1                                   !-  z',
          '            -2                                   !-  y']
         ),  # dct, indent, index, expected
@@ -136,7 +137,7 @@ class TestEPMunch(object):
         result = self.amunch.__repr__()
         assert result == expected
 
-        
+
     def test_str(self):
         """py.test for EPMunch.__str__"""
         lst = [

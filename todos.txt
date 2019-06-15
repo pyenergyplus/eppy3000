@@ -1,0 +1,4 @@
+2019-06-15
+----------
+
+- use idfjsonconverter to test conversion of all files in example folder
