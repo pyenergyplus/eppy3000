@@ -1,3 +1,9 @@
+# Copyright (c) 2019 Santosh Philip
+# =======================================================================
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# =======================================================================
 """convertion functions - to convert from JSON to IDF and in reverse."""
 
 import json
@@ -5,24 +11,8 @@ from munch import Munch
 from itertools import zip_longest
 
 from eppy3000 import rawidf
+from eppy3000.idd import readiddasmunch
 
-
-def readiddasmunch(fhandle):
-    """read the idd json as a munch"""
-    try:
-        epjs = json.load(fhandle)
-        as_munch = Munch.fromDict(epjs)
-    except AttributeError as e:
-        try:
-            fhandle = open(fhandle, 'r')
-            epjs = json.load(fhandle)
-            as_munch = Munch.fromDict(epjs)
-        except TypeError as e:
-            if isinstance(fhandle, Munch):
-                return fhandle
-            else:
-                raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")
-    return as_munch
 
 def num(s):
     try:

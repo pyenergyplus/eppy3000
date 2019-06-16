@@ -10,6 +10,28 @@ import json
 from munch import Munch
 
 
+def readiddasmunch(fhandle):
+    """read the idd json as a munch"""
+    try:
+        epjs = json.load(fhandle)
+        as_munch = IDDMunch.fromDict(epjs)
+        print(1)
+    except AttributeError as e:
+        try:
+            fhandle = open(fhandle, 'r')
+            epjs = json.load(fhandle)
+            as_munch = IDDMunch.fromDict(epjs)
+            print(2)
+        except TypeError as e:
+            if isinstance(fhandle, IDDMunch):
+                print(3)
+                return fhandle
+            else:
+                print(4)
+                raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")
+    return as_munch
+
+
 class IDDMunch(Munch):
     """Munch subcalssed to for the IDD json"""
     def __init__(self, *args, **kwargs):
@@ -28,17 +50,6 @@ class IDDMunch(Munch):
         return self[fieldname]
 
 
-def readidd(fhandle):
-    """read the idd json as a munch"""
-    try:
-        fhandle = open(fhandle, 'r')
-    except TypeError as e:
-        pass
-    as_json = json.load(fhandle)
-    as_munch = IDDMunch.fromDict(as_json)  # 0.410 seconds
-    return as_munch
-
-
 class IDD(object):
     """hold the data from the json idd file """
     def __init__(self, iddname):
@@ -48,7 +59,7 @@ class IDD(object):
 
     def read(self):
         """read the json file"""
-        self.idd = readidd(self.iddname)
+        self.idd = readiddasmunch(self.iddname)
         self.version = self.idd['epJSON_schema_version']
         self.required = self.idd['required']
         self.iddobjects = {key: val['patternProperties']['.*']['properties']

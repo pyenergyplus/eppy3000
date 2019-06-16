@@ -5,7 +5,7 @@ import os
 import json
 
 from munch import Munch
-
+from eppy3000 import idd
 # import pytest
 
 # from eppy import modeleditor
@@ -21,10 +21,7 @@ SCHEMA_FILES = os.path.join(RESOURCES_DIR, 'schema')
 TEST_SCHEMA = f"V{VERSION[:3].replace('-', '_')}/Energy+.schema.epJSON"
 schema_file = os.path.join(SCHEMA_FILES, TEST_SCHEMA)
 
-epjs = json.load(open(schema_file, 'r'))
-schema = Munch.fromDict(epjs)
-
-print("loaded schemafortesting")
+schema = idd.readiddasmunch(schema_file)
 
 
 # IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
