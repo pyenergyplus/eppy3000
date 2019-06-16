@@ -254,8 +254,7 @@ def test_IDD():
                    'temperature_convergence_tolerance_value',
                    'minimum_number_of_warmup_days']
     fieldnameslist = None  # not yet coded
-
-
+    #
     # tests
     fhandle = StringIO(txt)
     result = idd.IDD(fhandle)

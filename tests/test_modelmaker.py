@@ -12,6 +12,7 @@ from io import StringIO
 from eppy3000 import modelmaker
 from tests import schemafortesting
 
+
 def test_IDF():
     """py.test for IDF"""
     txt = """
@@ -60,7 +61,7 @@ def test_IDF():
     surfs = result.idfobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
-    
+
     expected = 15.24
     result = modelmaker.IDF(idfname=StringIO(txt),
                             iddname=schemafortesting.schema_file)

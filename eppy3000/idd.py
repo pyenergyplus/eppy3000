@@ -28,7 +28,7 @@ def readiddasmunch(fhandle):
                 return fhandle
             else:
                 print(4)
-                raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")
+                raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")  # noqa: E501
     return as_munch
 
 

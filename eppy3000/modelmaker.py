@@ -7,12 +7,12 @@
 """same as modelmaker in eppy"""
 
 from munch import Munch
-from pprint import pprint
 from eppy3000.readidf import readidfjson
 from eppy3000.idd import readiddasmunch
 from eppy3000.readidf import removeeppykeys
 from eppy3000.idd import IDD
 from eppy3000.epMunch import EPMunch
+
 
 class IDF(object):
     def __init__(self, idfname=None, epw=None, iddname=None):
@@ -26,18 +26,17 @@ class IDF(object):
 
     def readiddasmunch(self):
         """Read the idd file - will become a frozen singleton"""
-        asmunch = readiddasmunch(self.iddname)
+        readiddasmunch(self.iddname)
 
     def read(self):
         """read the idf file"""
         self.idf = readidfjson(self.idfname)
-        self.idfobjects = {key:[val1 for val1 in val.values()]
-                                for key, val in self.idf.items()}
+        self.idfobjects = {key: [val1 for val1 in val.values()]
+                           for key, val in self.idf.items()}
         if self.iddname:
             for key in self.idfobjects.keys():
                 for idfobject in self.idfobjects[key]:
                     idfobject['eppy_objidd'] = self.idd.iddobjects[key]
-
 
     def readidd(self):
         """read the idd file"""
@@ -65,7 +64,8 @@ class IDF(object):
     def newidfobject(self, key, objname, defaultvalues=True, **kwargs):
         """create a new idf object"""
         # TODO test for dup name
-        # TODO Kwargs strategy for array - delay implementation for now, throw exception
+        # TODO Kwargs strategy for array -
+        #     delay implementation for now, throw exception
         # TODO exceptions for wrong field name
         # TODO exception for wrong field value type
         # TODO documentation in usage.rst
@@ -78,7 +78,8 @@ class IDF(object):
         for fieldname in objidd.fieldnames():
             try:
                 if defaultvalues:
-                    nobj[fieldname] = objidd.fieldproperty(fieldname)['default']
+                    fieldfprop = objidd.fieldproperty(fieldname)
+                    nobj[fieldname] = fieldfprop['default']
             except KeyError as e:
                 prop = objidd.fieldproperty(fieldname)
                 # print(fieldname, prop.keys())
@@ -100,7 +101,8 @@ class IDF(object):
 
     def copyidfobject(self, key, objname, newname):
         """copy an idf object with a new name"""
-        # don't use the function dict.items() since the json for array has field name `items`
+        # don't use the function dict.items() since the json for array has
+        # field name `items`
         oldobj = self.idf[key][objname]
         newobj = EPMunch()
         self.idf[key][newname] = newobj
@@ -117,5 +119,3 @@ class IDF(object):
         newobj['eppykey'] = key
         newobj['eppy_objidd'] = oldobj['eppy_objidd']
         return newobj
-
-

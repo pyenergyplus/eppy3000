@@ -9,9 +9,10 @@
 from munch import Munch
 from eppy3000.idd import IDDMunch
 
+
 def printkey(key, indent=0, formatstr=None, func=None):
     """Prints the key in epMunch with the right indentation
-    
+
     Used internally by printmunch"""
     if not func:
         func = print
@@ -30,19 +31,19 @@ def printkey(key, indent=0, formatstr=None, func=None):
 
 def printmunch(amunch, indent=0, index=None, func=None):
     """This prints the epMunch object
-    
-    In effect, it can print the epJSON file 
-    which may have nested epMunch objects in it. Or it can 
-    print a single epMunch object. 
+
+    In effect, it can print the epJSON file
+    which may have nested epMunch objects in it. Or it can
+    print a single epMunch object.
     printmunch is called recursively until all epMunch
-    objects are exhausted. It will also  print a list of 
+    objects are exhausted. It will also  print a list of
     epMunch objects that can occur within an epJSON file
-    
+
     It has been tested for epJSON files. The is no guarantee
     that will work on a more complex nesting of epMunch objects
-    
+
     An epJSON object such as::
-    
+
 
          "Heating Setpoint Schedule": {
              "data": [
@@ -64,9 +65,9 @@ def printmunch(amunch, indent=0, index=None, func=None):
              "idf_order": 59,
              "schedule_type_limits_name": "Any Number"
          },
-    
+
     will print out as::
-    
+
 
         Schedule:Compact                                 !-  EP_KEY
                     Heating Setpoint Schedule            !-  EPJOBJECT_NAME
@@ -79,7 +80,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                     6                                    !-  idf_max_fields
                     59                                   !-  idf_order
                     Any Number                           !-  schedule_type_limits_name
-    
+
     which is much more easy on human eyes
 
     Parameters
@@ -93,7 +94,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
     func: function
         default func = print
         you can get a list by::
-    
+
             lines = []
             printmunch(amunch, func=line.append)
             # lines will be a list of lines
@@ -101,7 +102,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
     Returns
     -------
     None
-    """
+    """   # noqa: E501
     if isinstance(amunch, IDDMunch):  # don't print IDD stuff
         return
     if not func:
