@@ -7,7 +7,6 @@
 """convertion functions - to convert from JSON to IDF and in reverse."""
 
 import json
-from munch import Munch
 from itertools import zip_longest
 
 from eppy3000 import rawidf
@@ -23,12 +22,12 @@ def num(s):
         except ValueError as e:
             return s
 
+
 def grouper(iterable, n, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
     args = [iter(iterable)] * n
     return zip_longest(*args, fillvalue=fillvalue)
-
 
 
 def keymapping(somekeys, allkeys):
@@ -38,7 +37,8 @@ def keymapping(somekeys, allkeys):
     ll1 = [i.upper() for i in allkeys]
     ll2 = [i.upper() for i in somekeys]
     mapping = [(i, ll1.index(val)) for i, val in enumerate(ll2)]
-    return {somekeys[i]:allkeys[j] for i, j in mapping}
+    return {somekeys[i]: allkeys[j] for i, j in mapping}
+
 
 def idf2json(idfhandle, epjsonhandle):
     """convert idf2json"""
@@ -52,7 +52,7 @@ def idf2json(idfhandle, epjsonhandle):
     # mapping in case the case does not match between keys
     for akey in keys:
         key = mapping[akey]
-        count = idfobjcount.setdefault(key, 0)
+        idfobjcount.setdefault(key, 0)
         dct = idfjson.setdefault(key, dict())
         fieldnames = js.properties[key].legacy_idd.fields
         idfobjects = raw_idf[akey]
@@ -61,17 +61,17 @@ def idf2json(idfhandle, epjsonhandle):
             order += 1
             try:
                 if fieldnames[0] == 'name':
-                    alst = {fieldname:idfvalue for idfvalue, fieldname in
-                                        zip(idfobject[2:], fieldnames[1:])}
+                    alst = {fieldname: idfvalue for idfvalue, fieldname in
+                            zip(idfobject[2:], fieldnames[1:])}
                     idfobjectname = idfobject[1]
                 else:
-                    alst = {fieldname:idfvalue for idfvalue, fieldname in
-                                            zip(idfobject[1:], fieldnames)}
+                    alst = {fieldname: idfvalue for idfvalue, fieldname in
+                            zip(idfobject[1:], fieldnames)}
                     idfobjectname = f"{key} {idfobjcount[key]}"
             except IndexError as e:
                 # catches "if fieldnames[0] == 'name':" when fieldnames = []
-                alst = {fieldname:idfvalue for idfvalue, fieldname in
-                                        zip(idfobject[1:], fieldnames)}
+                alst = {fieldname: idfvalue for idfvalue, fieldname in
+                        zip(idfobject[1:], fieldnames)}
                 idfobjectname = f"{key} {idfobjcount[key]}"
             alst["idf_order"] = order
             numericfields = js.properties[key].legacy_idd.numerics.fields
@@ -84,11 +84,12 @@ def idf2json(idfhandle, epjsonhandle):
                 extensibles = js.properties[key].legacy_idd.extensibles
                 endvalues = idfobject[len(fieldnames) + 1:]
                 g_endvalues = grouper(endvalues, len(extensibles))
-                extvalues = [{f:t for f, t in zip(extensibles, tup)}
-                                            for tup in g_endvalues]
+                extvalues = [{f: t for f, t in zip(extensibles, tup)}
+                             for tup in g_endvalues]
 
                 try:
-                    e_numericfields = js.properties[key].legacy_idd.numerics.extensions
+                    legacyidd = js.properties[key].legacy_idd
+                    e_numericfields = legacyidd.numerics.extensions
                     for e_dct in extvalues:
                         for e_key in e_dct:
                             if e_key in e_numericfields:
@@ -99,8 +100,9 @@ def idf2json(idfhandle, epjsonhandle):
                 alst[extension] = extvalues
             except AttributeError as e:
                 pass
-            dct.update({idfobjectname:alst})
+            dct.update({idfobjectname: alst})
     return json.dumps(idfjson, indent=2)
+
 
 def json2idf(jsonhandle, epjsonhandle):
     """convert JSON to IDF"""
@@ -128,8 +130,6 @@ def json2idf(jsonhandle, epjsonhandle):
                     else:
                         value = None
                         fieldval.append((fieldname, value))
-
-
             try:
                 extension = js.properties[key].legacy_idd.extension
                 extensibles = js.properties[key].legacy_idd.extensibles
@@ -138,7 +138,7 @@ def json2idf(jsonhandle, epjsonhandle):
                         fieldval.append((f"{fld} {i + 1}", tup[fld]))
             except AttributeError as e:
                 pass
-            fieldval = [(fld, val) for fld, val in fieldval if val != None]
+            fieldval = [(fld, val) for fld, val in fieldval if val is not None]
             lastfield = len(fieldval) - 1
             sep = comma
             lines.append(f"{key},")
