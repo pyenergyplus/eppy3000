@@ -9,6 +9,28 @@
 
 from io import StringIO
 from eppy3000 import idd
+import pytest
+
+from tests import schemafortesting
+
+
+def test_readiddasmunch():
+    """py.test for readiddasmunch"""
+    SCHEMA_FILE = schemafortesting.schema_file
+    schemahandle = open(SCHEMA_FILE, 'r')
+    result = idd.readiddasmunch(schemahandle)
+    assert isinstance(result, idd.IDDMunch)
+
+    result = idd.readiddasmunch(SCHEMA_FILE)
+    assert isinstance(result, idd.IDDMunch)
+
+    schemahandle = schemafortesting.schema
+    result = idd.readiddasmunch(schemahandle)
+    assert isinstance(result, idd.IDDMunch)
+
+    schemahandle = list()
+    with pytest.raises(TypeError):
+        result = idd.readiddasmunch(schemahandle)
 
 
 def test_IDD():
@@ -233,8 +255,6 @@ def test_IDD():
                    'minimum_number_of_warmup_days']
     fieldnameslist = None  # not yet coded
 
-    # print(idd.iddobjects.keys())
-    # dict_keys(['Building'])
 
     # tests
     fhandle = StringIO(txt)
@@ -244,7 +264,7 @@ def test_IDD():
     assert required == result.required
     assert iddobjectskeys == list(result.iddobjects.keys())
     assert buildingkeys == list(result.iddobjects['Building'].keys())
-
+    #
     bldg = result.iddobjects['Building']
     assert buildingterraintype == bldg.fieldproperty('terrain')['type']
     assert bfieldnames == result.iddobjects['Building'].fieldnames()

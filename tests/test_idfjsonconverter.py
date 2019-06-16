@@ -1,3 +1,9 @@
+# Copyright (c) 2019 Santosh Philip
+# =======================================================================
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+# =======================================================================
 """py.test for idfjsonconverter"""
 
 from io import StringIO
@@ -118,19 +124,3 @@ OutdoorAir:NodeList,
         jsonresult2 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
         assert jsonresult1 == jsonresult2
 
-def test_readiddasmunch():
-    """py.test for readiddasmunch"""
-    schemahandle = open(SCHEMA_FILE, 'r')
-    result = idfjsonconverter.readiddasmunch(schemahandle)
-    assert isinstance(result, Munch)
-
-    result = idfjsonconverter.readiddasmunch(SCHEMA_FILE)
-    assert isinstance(result, Munch)
-
-    schemahandle = schemafortesting.schema
-    result = idfjsonconverter.readiddasmunch(schemahandle)
-    assert isinstance(result, Munch)
-
-    schemahandle = list()
-    with pytest.raises(TypeError):
-        result = idfjsonconverter.readiddasmunch(schemahandle)
