@@ -3,8 +3,10 @@
 
 keeping track  of name changes
 
-- idf -> epj
-    - makes idfobject -> epjobject
+- idf -> epj - DONE
+    - makes idfobject -> epjobjectj - DONE
+    - makes idfmunch -> epjmunchj - DONE
+        - make them to epobject, epmunchj - DONE
 2019-06-15
 ----------
 

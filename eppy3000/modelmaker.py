@@ -31,12 +31,12 @@ class IDF(object):
     def read(self):
         """read the epj file"""
         self.epj = readepjjson(self.epjname)
-        self.epjobjects = {key: [val1 for val1 in val.values()]
+        self.epobjects = {key: [val1 for val1 in val.values()]
                            for key, val in self.epj.items()}
         if self.epschemaname:
-            for key in self.epjobjects.keys():
-                for epjobject in self.epjobjects[key]:
-                    epjobject['eppy_objepschema'] = self.epschema.epschemaobjects[key]
+            for key in self.epobjects.keys():
+                for epobject in self.epobjects[key]:
+                    epobject['eppy_objepschema'] = self.epschema.epschemaobjects[key]
 
     def readepschema(self):
         """read the epschema file"""
@@ -61,7 +61,7 @@ class IDF(object):
             removeeppykeys(tosave)
             fhandle.write(tosave.toJSON(indent=indent))
 
-    def newepjobject(self, key, objname, defaultvalues=True, **kwargs):
+    def newepobject(self, key, objname, defaultvalues=True, **kwargs):
         """create a new epj object"""
         # TODO test for dup name
         # TODO Kwargs strategy for array -
@@ -95,11 +95,11 @@ class IDF(object):
         nobj['eppy_objepschema'] = objepschema
         return nobj
 
-    def removeepjobject(self, key, objname):
+    def removeepobject(self, key, objname):
         """remove an epj object"""
         return self.epj[key].pop(objname)
 
-    def copyepjobject(self, key, objname, newname):
+    def copyepobject(self, key, objname, newname):
         """copy an epj object with a new name"""
         # don't use the function dict.items() since the json for array has
         # field name `items`

@@ -38,7 +38,7 @@ def readepjjson(fhandle):
     return as_munch
 
 
-def addeppykeys(epjmunch):
+def addeppykeys(epmunch):
     """adds eppykeys needed by eppy3000
 
     The way E+ json is structured:
@@ -60,7 +60,7 @@ def addeppykeys(epjmunch):
 
     Parameters
     ----------
-    epjmunch: eppy3000.epMunch.EPMunch
+    epmunch: eppy3000.epMunch.EPMunch
         This is the E+ file as seen by eppy3000
 
     Returns
@@ -68,13 +68,13 @@ def addeppykeys(epjmunch):
     None
 
     """
-    for key, epobjects in epjmunch.items():
+    for key, epobjects in epmunch.items():
         for name, epobject in epobjects.items():
             epobject['eppykey'] = key
             epobject['eppyname'] = name
 
 
-def removeeppykeys(epjmunch, rkeys=None):
+def removeeppykeys(epmunch, rkeys=None):
     """remove the eppykeys
 
     This will remove all the additional keys that eppy added
@@ -82,7 +82,7 @@ def removeeppykeys(epjmunch, rkeys=None):
 
     Parameters
     ----------
-    epjmunch: eppy3000.epMunch.EPMunch
+    epmunch: eppy3000.epMunch.EPMunch
         This is the E+ file as seen by eppy3000
     rkeys: list
         These are the keys to be removed. if rkeys is None then
@@ -94,7 +94,7 @@ def removeeppykeys(epjmunch, rkeys=None):
     """
     if not rkeys:
         rkeys = ['eppykey', 'eppyname', 'eppy_objepschema']
-    for key, epobjects in epjmunch.items():
+    for key, epobjects in epmunch.items():
         for name, epobject in epobjects.items():
             for rkey in rkeys:
                 epobject.pop(rkey, None)

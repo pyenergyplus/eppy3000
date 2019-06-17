@@ -30,8 +30,8 @@ def test_addeppykeys():
             b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)))
     dctstr = json.dumps(dct)
     fhandle = StringIO(dctstr)
-    epjmunch = readepj.readepjjson(fhandle)
-    epobject = epjmunch.a.aa
+    epmunch = readepj.readepjjson(fhandle)
+    epobject = epmunch.a.aa
     assert 'eppykey' in epobject
     assert 'eppyname' in epobject
 
@@ -44,15 +44,15 @@ def test_removeeppykeys():
     dctstr = json.dumps(dct)
     # test for rkeys=None
     fhandle = StringIO(dctstr)
-    epjmunch = readepj.readepjjson(fhandle)
-    readepj.removeeppykeys(epjmunch)
-    epobject = epjmunch.a.aa
+    epmunch = readepj.readepjjson(fhandle)
+    readepj.removeeppykeys(epmunch)
+    epobject = epmunch.a.aa
     assert 'eppykey' not in epobject
     assert 'eppyname' not in epobject
     # test for rkeys=['eppykey']
     fhandle = StringIO(dctstr)
-    epjmunch = readepj.readepjjson(fhandle)
-    readepj.removeeppykeys(epjmunch, rkeys=['eppykey'])
-    epobject = epjmunch.a.aa
+    epmunch = readepj.readepjjson(fhandle)
+    readepj.removeeppykeys(epmunch, rkeys=['eppykey'])
+    epobject = epmunch.a.aa
     assert 'eppykey' not in epobject
     assert 'eppyname' in epobject
