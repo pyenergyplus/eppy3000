@@ -72,10 +72,6 @@ Need to revisit the naming conventions
 - idf -> epj
 - idd -> epschema
 - *.idf -> *.epJSON
-- IDD -> EPSchema
-- idd -> epschema
-- idf -> epj
-- IDF -> EPJ
 
 2019-06-03
 ----------

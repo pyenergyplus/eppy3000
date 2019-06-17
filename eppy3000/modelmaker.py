@@ -14,9 +14,9 @@ from eppy3000.epschema import EPSchema
 from eppy3000.epMunch import EPMunch
 
 
-class EPJ(object):
+class IDF(object):
     def __init__(self, epjname=None, epw=None, epschemaname=None):
-        super(EPJ, self).__init__()
+        super(IDF, self).__init__()
         self.epjname = epjname
         self.epw = epw
         self.epschemaname = epschemaname
