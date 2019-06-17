@@ -2,25 +2,37 @@
 Usage
 =====
 
+Note for original eppy users
+----------------------------
+
+Some of the classic eppy names have changed in eppy3000. This refelcts the using of JSON files instead of IDF files. Some of the name changes are:
+
+- idf -> epj
+- IDF -> EPJ
+- idfobject -> epobject
+- idd -> epschema
+- IDD -> EPSchema 
+
+
+
 Read the file
 -------------
 
 To use eppy3000 in a project::
 
-    from eppy3000.modelmaker import IDF
+    from eppy3000.modelmaker import EPJ
 
     fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
-    idf = IDF(fname)
+    epj = EPJ(fname)
 
-    print(idf.idfobjects['AirLoopHVAC'][0]) # print formattin is slightly broken
-
+    print(epj.epobjects['AirLoopHVAC'][0])
 
 Use the dot syntax
 ------------------
 
 Or in more detail::
 
-    from eppy3000.modelmaker import IDF
+    from eppy3000.modelmaker import EPJ
     from io import StringIO
 
     txt = """
@@ -43,8 +55,8 @@ Or in more detail::
     """
 
     sio = StringIO(txt)
-    idf = IDF(sio)
-    abuilding = idf.idf.Building.Bldg
+    epj = EPJ(sio)
+    abuilding = epj.epj.Building.Bldg
     print(abuilding.solar_distribution)
     print(abuilding.terrain)
 
@@ -53,8 +65,8 @@ Or in more detail::
 
     print(abuilding)
 
-    > Building                                 !-  KEY
-    >     Bldg                                 !-  NAME
+    > Building                                 !-  EP_KEY
+    >     Bldg                             !-  EPJOBJECT_NAME
     >     0                                    !-  idf_max_extensible_fields
     >     8                                    !-  idf_max_fields
     >     3                                    !-  idf_order
@@ -65,41 +77,40 @@ Or in more detail::
     >     MinimalShadowing                     !-  solar_distribution
     >     0.05                                 !-  temperature_convergence_tolerance_value
     >     Suburbs                              !-  terrain
-    >
 
 
-IDF.idfobjects[key]
+EPJ.epjobjects[epkey]
 -------------------
 
-You can use idfobjects like in eppy::
+You can use epjobjects like in eppy::
 
-    buildings = idf.idfobjects["Building"]
+    buildings = epj.epjobjects["Building"]
     abuilding = buildings[0]
     print(abuilding.terrain)
 
     > Suburbs
 
-Other IDF functions
+Other EPJ functions
 -------------------
 
 The following function also work:
 
-- IDF.save()
-- IDF.saveas()
+- EPJ.save()
+- EPJ.saveas()
 
 
-Accessing the IDD
+Accessing the EPSchema
 -----------------
 
-Note that you have been opening the IDF file without referring to the IDD file. You can also open the IDF file with an IDD file. The code would look like this::
+Note that you have been opening the EPJ file without referring to the EPSchema file. You can also open the EPJ file with an EPSchema file. The code would look like this::
 
-    from eppy3000.modelmaker import IDF
+    from eppy3000.modelmaker import EPJ
     from pprint import pprint
 
-    iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
+    epschemafname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
     fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
-    idf = IDF(idfname=fname, iddname=iddfname)
-    print(idf.idfobjects['AirLoopHVAC'][0])
+    epj = EPJ(epjname=fname, epschemaname=epschemafname)
+    print(epj.epjobjects['AirLoopHVAC'][0])
 
     > AirLoopHVAC                              !-  KEY
     >     CRAC system                          !-  NAME
@@ -114,9 +125,9 @@ Note that you have been opening the IDF file without referring to the IDD file. 
     >     Supply Inlet Node                    !-  supply_side_inlet_node_name
     >     Supply Outlet Node                   !-  supply_side_outlet_node_names
 
-Now you have access to the IDD variables::
+Now you have access to the EPSchema variables::
 
-    pprint(idf.idd.iddobjects['AirLoopHVAC'].fieldnames())
+    pprint(epj.epschema.epschemaobjects['AirLoopHVAC'].fieldnames())
 
     > ['branch_list_name',
     >  'demand_side_outlet_node_name',
@@ -131,19 +142,19 @@ Now you have access to the IDD variables::
 
 You can look at the property of a particular fieldname::
 
-    pprint(idf.idd.iddobjects['AirLoopHVAC'].fieldproperty('branch_list_name))
+    pprint(epj.epschema.epschemaobjects['AirLoopHVAC'].fieldproperty('branch_list_name))
 
     > {'data_type': 'object_list',
     >  'note': 'Name of a BranchList containing all the branches in this air loop',
     >  'object_list': ['BranchLists'],
     >  'type': 'string'}
 
-You can also access the IDD for an IDF object from within the IDF object::
+You can also access the EPSchema for an EPJ object from within the EPJ object::
 
-    cracsystem = idf.idfobjects['AirLoopHVAC'][0]
-    pprint(crac.eppy_objidd.fieldnames())
+    cracsystem = epj.epjobjects['AirLoopHVAC'][0]
+    pprint(crac.eppy_objepschema.fieldnames())
     print()
-    pprint(crac.eppy_objidd.fieldproperty('demand_side_inlet_node_names'))
+    pprint(crac.eppy_objepschema.fieldproperty('demand_side_inlet_node_names'))
 
     > ['branch_list_name',
     >  'demand_side_outlet_node_name',
@@ -210,15 +221,15 @@ The new JSON format treats the extensible fields as an array (an array in json a
         }
     }"""
 
-Let us open this as an IDF()::
+Let us open this as an EPJ()::
 
     from io import StringIO
-    from eppy3000.modelmaker import IDF
+    from eppy3000.modelmaker import EPJ
     from pprint iport pprint
 
     fhandle = StringIO(txt)
-    idf = IDF(idfname=fhandle, iddname=iddfname)
-    print(idf)
+    epj = EPJ(epjname=fhandle, epschemaname=epschemafname)
+    print(epj)
 
 
     > BuildingSurface:Detailed                         !-  KEY
@@ -253,9 +264,9 @@ Notice how the array items are inset. How dow we access the array items ?
 
 Let us print the field names of `BuildingSurface:Detailed` object::
 
-    surfs = idf.idfobjects["BuildingSurface:Detailed"]
+    surfs = epj.epjobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
-    print(surf.eppy_objidd.fieldnames())
+    print(surf.eppy_objepschema.fieldnames())
 
     > ['surface_type',
     >  'number_of_vertices',
@@ -308,7 +319,7 @@ Now modifying the vertices::
 
 How did our file change? ::
 
-    print(idf)
+    print(epj)
 
     > BuildingSurface:Detailed                         !-  KEY
     >             Zn001:Flr001                                 !-  NAME
@@ -345,30 +356,30 @@ How did our file change? ::
 
 Note that we have added one set of coordinate points and changed the firat x-coordinate
 
-Deleting, Copying and Creating idfobjects
+Deleting, Copying and Creating epjobjects
 -----------------------------------------
 
-The following functions are siilar to those in eppy.
+The following functions are similar to those in eppy.
 
-Creating new idfobjects
+Creating new epjobjects
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Let us start with a blank file::
 
     from io import StringIO
     from pprint import pprint
-    from eppy3000.modelmaker import IDF
+    from eppy3000.modelmaker import EPJ
 
 
-    iddfname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
-    idf = IDF(idfname=StringIO("{}"), iddname=iddfname)
+    epschemafname = "/Applications/EnergyPlus-8-9-0/Energy+.schema.epJSON"
+    epj = EPJ(epjname=StringIO("{}"), epschemaname=epschemafname)
 
 Now let us create a new `BuildingSurface:Detailed` object in it::
 
-    key = "BuildingSurface:Detailed"
+    epkey = "BuildingSurface:Detailed"
     objname = "wall1"
-    idf.newidfobject(key, objname)
-    print(idf)
+    epj.newepjobject(epkey, objname)
+    print(epj)
 
     > BuildingSurface:Detailed                         !-  KEY
     >             wall1                                !-  NAME
@@ -380,8 +391,8 @@ Now let us create a new `BuildingSurface:Detailed` object in it::
 Notice how it put in all the default values. But what if we wanted to create the new object without the default values::
 
     objname = "wall2"
-    idf.newidfobject(key, objname, defaultvalues=False)
-    print(idf)
+    epj.newepjobject(epkey, objname, defaultvalues=False)
+    print(epj)
 
     > BuildingSurface:Detailed                         !-  KEY
     >             wall1                                        !-  NAME
@@ -396,13 +407,13 @@ Notice how it put in all the default values. But what if we wanted to create the
 Wall2 does not include the default values. Now let us add more values using keyword arguments::
 
     objname = "wall3"
-    lastobj = idf.newidfobject(key, objname, defaultvalues=True,
+    lastobj = epj.newepjobject(epkey, objname, defaultvalues=True,
                     outside_boundary_condition="Surface",
                     vertices=[{'vertex_x_coordinate': 15.24,
                                 'vertex_y_coordinate': 0.0,
                                 'vertex_z_coordinate': 0.0}])
 
-    print(idf)
+    print(epj)
 
     > BuildingSurface:Detailed                         !-  KEY
     >             wall1                                        !-  NAME
@@ -427,13 +438,13 @@ Wall2 does not include the default values. Now let us add more values using keyw
     >                 0.0                                  !-  vertex_z_coordinate #1
 
 
-Deleting an idfobject
+Deleting an epjobject
 ~~~~~~~~~~~~~~~~~~~~~
 
-Deleting an idfobject is equally simple::
+Deleting an epjobject is equally simple::
 
-    idf.removeidfobject(key, "wall1")
-    print(idf)
+    epj.removeepjobject(epkey, "wall1")
+    print(epj)
 
     > BuildingSurface:Detailed                         !-  KEY
     >             wall2                                        !-  NAME
@@ -450,10 +461,10 @@ Deleting an idfobject is equally simple::
     >                 0.0                                  !-  vertex_y_coordinate #1
     >                 0.0                                  !-  vertex_z_coordinate #1
 
-How about copying an idfobject::
+How about copying an epjobject::
 
-    idf.copyidfobject(key, "wall3", "wall4")
-    print(idf)
+    epj.copyepjobject(epkey, "wall3", "wall4")
+    print(epj)
 
     > BuildingSurface:Detailed                         !-  KEY
     >             wall2                                        !-  NAME
