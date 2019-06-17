@@ -11,6 +11,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+
 def removecomment(astr, cphrase):
     """
     the comment is similar to that in python.
@@ -27,14 +28,15 @@ def removecomment(astr, cphrase):
     # return string.join(alist, linesep)
     return '\n'.join(alist)
 
+
 def readrawidf(fhandle):
-    """read the idf file as a dict. Dict keys are idfobjkeys, dict values are list in list"""
+    """read the idf file as a dict. Dict keys are idfobjkeys,
+    dict values are list in list"""
     astr = fhandle.read()
     nocom = removecomment(astr, '!')
     idfst = nocom
-    scount = 0
     alist = idfst.split(';')
-    rawidf = {}
+    rawdata = {}
     for element in alist:
         lst = element.split(',')
         lst = [item.strip() for item in lst]
@@ -43,20 +45,21 @@ def readrawidf(fhandle):
         key = lst[0].strip()
         if not key:
             continue
-        rawidf.setdefault(key, [])
-        rawidf[key].append(lst)
-    return rawidf
+        rawdata.setdefault(key, [])
+        rawdata[key].append(lst)
+    return rawdata
 
-def rawidf2str(rawidf, order=None): # rname var rawidf -> potential nameclash
-    """string rep of rawidf"""
+
+def rawidf2str(rawdata, order=None):  # rname var rawidf -> potential nameclash
+    """string rep of rawdata"""
     lst = []
     if order:
         keys = order
     else:
-        keys = rawidf.keys()
+        keys = rawdata.keys()
     for key in keys:
         try:
-            for vals in rawidf[key]:
+            for vals in rawdata[key]:
                 lst.append('{},'.format(key))
                 for val in vals[1:]:
                     lst.append('     {},'.format(val))
@@ -66,5 +69,3 @@ def rawidf2str(rawidf, order=None): # rname var rawidf -> potential nameclash
         except KeyError as e:
             continue
     return '\n'.join(lst)
-
-

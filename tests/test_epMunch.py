@@ -9,7 +9,6 @@
 import json
 from io import StringIO
 
-import eppy3000
 import eppy3000.readidf as readidf
 from eppy3000 import epMunch
 from eppy3000.idd import IDDMunch
@@ -116,6 +115,7 @@ def test_printmunch_ofIDD():
     epMunch.printmunch(amunch)
     assert result == expected
 
+
 class TestEPMunch(object):
     """py.test for EPMunch"""
     def setup(self):
@@ -136,7 +136,6 @@ class TestEPMunch(object):
         expected = "\n".join(lst)
         result = self.amunch.__repr__()
         assert result == expected
-
 
     def test_str(self):
         """py.test for EPMunch.__str__"""

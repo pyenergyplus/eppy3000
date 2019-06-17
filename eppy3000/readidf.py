@@ -6,7 +6,6 @@
 # =======================================================================
 """read idf json file and have eppy like functionality"""
 
-from io import StringIO
 import json
 
 # one works from ipython, the other from the script
@@ -37,7 +36,7 @@ def readidfjson(fhandle):
     as_munch = EPMunch.fromDict(as_json)
     addeppykeys(as_munch)
     return as_munch
-    
+
 
 def addeppykeys(idfmunch):
     """adds eppykeys needed by eppy3000

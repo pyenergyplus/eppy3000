@@ -8,21 +8,19 @@
 
 from io import StringIO
 
-from munch import Munch
-import pytest
-
 from eppy3000 import idfjsonconverter
 from tests import schemafortesting
 
 SCHEMA_FILE = schemafortesting.schema_file
 
+
 def test_keymapping():
     """py.test for keymapping"""
-    data = (
-    (
-    ('Gumby', 'Softy'),
-    ('gumby', 'so', 'softy', 'Kamby'),
-    {'Gumby': 'gumby', 'Softy': 'softy'}), # somekeys, allkeys, expected
+    data = ((
+        ('Gumby', 'Softy'),
+        ('gumby', 'so', 'softy', 'Kamby'),
+        {'Gumby': 'gumby', 'Softy': 'softy'}),
+        # somekeys, allkeys, expected
     )
     for somekeys, allkeys, expected in data:
         result = idfjsonconverter.keymapping(somekeys, allkeys)
@@ -106,7 +104,7 @@ Zone,
 OutdoorAir:NodeList,
     OutsideAirInletNodes;    !- Node or NodeList Name 1
 
-""",
+""",  # noqa: E501
 ),  # idftxt
     )
     for idftxt, in data:
@@ -123,4 +121,3 @@ OutdoorAir:NodeList,
         epsjsonschema = schemafortesting.schema
         jsonresult2 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
         assert jsonresult1 == jsonresult2
-
