@@ -57,14 +57,14 @@ def test_IDF():
         }
     }"""
     expected = 15.24
-    result = modelmaker.IDF(idfname=StringIO(txt))
-    surfs = result.idfobjects["BuildingSurface:Detailed"]
+    result = modelmaker.IDF(epjname=StringIO(txt))
+    surfs = result.epjobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
 
     expected = 15.24
-    result = modelmaker.IDF(idfname=StringIO(txt),
+    result = modelmaker.IDF(epjname=StringIO(txt),
                             epschemaname=schemafortesting.schema_file)
-    surfs = result.idfobjects["BuildingSurface:Detailed"]
+    surfs = result.epjobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate

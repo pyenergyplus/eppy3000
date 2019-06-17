@@ -1,3 +1,10 @@
+2019-06-17
+----------
+
+keeping track  of name changes
+
+- idf -> epj
+    - makes idfobject -> epjobject
 2019-06-15
 ----------
 

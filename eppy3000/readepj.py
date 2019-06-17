@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # =======================================================================
-"""read idf json file and have eppy like functionality"""
+"""read epj json file and have eppy like functionality"""
 
 import json
 
@@ -16,8 +16,8 @@ import json
 from eppy3000.epMunch import EPMunch
 
 
-def readidfjson(fhandle):
-    """read an json idf
+def readepjjson(fhandle):
+    """read an json epj
 
     Parameters
     ----------
@@ -38,7 +38,7 @@ def readidfjson(fhandle):
     return as_munch
 
 
-def addeppykeys(idfmunch):
+def addeppykeys(epjmunch):
     """adds eppykeys needed by eppy3000
 
     The way E+ json is structured:
@@ -60,7 +60,7 @@ def addeppykeys(idfmunch):
 
     Parameters
     ----------
-    idfmunch: eppy3000.epMunch.EPMunch
+    epjmunch: eppy3000.epMunch.EPMunch
         This is the E+ file as seen by eppy3000
 
     Returns
@@ -68,13 +68,13 @@ def addeppykeys(idfmunch):
     None
 
     """
-    for key, epobjects in idfmunch.items():
+    for key, epobjects in epjmunch.items():
         for name, epobject in epobjects.items():
             epobject['eppykey'] = key
             epobject['eppyname'] = name
 
 
-def removeeppykeys(idfmunch, rkeys=None):
+def removeeppykeys(epjmunch, rkeys=None):
     """remove the eppykeys
 
     This will remove all the additional keys that eppy added
@@ -82,7 +82,7 @@ def removeeppykeys(idfmunch, rkeys=None):
 
     Parameters
     ----------
-    idfmunch: eppy3000.epMunch.EPMunch
+    epjmunch: eppy3000.epMunch.EPMunch
         This is the E+ file as seen by eppy3000
     rkeys: list
         These are the keys to be removed. if rkeys is None then
@@ -94,38 +94,7 @@ def removeeppykeys(idfmunch, rkeys=None):
     """
     if not rkeys:
         rkeys = ['eppykey', 'eppyname', 'eppy_objepschema']
-    for key, epobjects in idfmunch.items():
+    for key, epobjects in epjmunch.items():
         for name, epobject in epobjects.items():
             for rkey in rkeys:
                 epobject.pop(rkey, None)
-
-
-# if __name__ == "__main__":
-    # fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
-    # idf = readidfjson(fname)
-    # crac = idf.AirLoopHVAC["CRAC system"]
-    # print(crac.branch_list_name)
-    # txt = """
-    # {
-    #     "Building": {
-    #         "Bldg": {
-    #             "idf_max_extensible_fields": 0,
-    #             "idf_max_fields": 8,
-    #             "idf_order": 3,
-    #             "loads_convergence_tolerance_value": 0.05,
-    #             "maximum_number_of_warmup_days": 30,
-    #             "minimum_number_of_warmup_days": 6,
-    #             "north_axis": 0.0,
-    #             "solar_distribution": "MinimalShadowing",
-    #             "temperature_convergence_tolerance_value": 0.05,
-    #             "terrain": "Suburbs"
-    #         }
-    #     }
-    # }
-    # """
-    # sio = StringIO(txt)
-    # idf = readidfjson(sio)
-    # abuilding = idf.Building.Bldg
-    # print(abuilding.solar_distribution)
-    # print(abuilding.terrain)
-    # print(abuilding)
