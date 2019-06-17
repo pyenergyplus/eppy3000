@@ -7,7 +7,7 @@
 """subclass Munch"""
 
 from munch import Munch
-from eppy3000.idd import IDDMunch
+from eppy3000.epschema import EPSchemaMunch
 
 
 def printkey(key, indent=0, formatstr=None, func=None):
@@ -103,7 +103,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
     -------
     None
     """   # noqa: E501
-    if isinstance(amunch, IDDMunch):  # don't print IDD stuff
+    if isinstance(amunch, EPSchemaMunch):  # don't print EPSchema stuff
         return
     if not func:
         func = print

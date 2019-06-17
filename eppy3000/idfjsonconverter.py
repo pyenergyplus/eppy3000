@@ -10,7 +10,7 @@ import json
 from itertools import zip_longest
 
 from eppy3000 import rawidf
-from eppy3000.idd import readiddasmunch
+from eppy3000.epschema import read_epschema_asmunch
 
 
 def num(s):
@@ -43,7 +43,7 @@ def keymapping(somekeys, allkeys):
 def idf2json(idfhandle, epjsonhandle):
     """convert idf2json"""
     raw_idf = rawidf.readrawidf(idfhandle)
-    js = readiddasmunch(epjsonhandle)
+    js = read_epschema_asmunch(epjsonhandle)
     idfobjcount = {}
     idfjson = {}
     keys = raw_idf.keys()
@@ -107,8 +107,8 @@ def idf2json(idfhandle, epjsonhandle):
 def json2idf(jsonhandle, epjsonhandle):
     """convert JSON to IDF"""
     lines = []
-    js = readiddasmunch(epjsonhandle)
-    idfjs = readiddasmunch(jsonhandle)
+    js = read_epschema_asmunch(epjsonhandle)
+    idfjs = read_epschema_asmunch(jsonhandle)
 
     for key in idfjs.keys():
         for name in idfjs[key].keys():

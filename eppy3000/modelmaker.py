@@ -8,39 +8,39 @@
 
 from munch import Munch
 from eppy3000.readidf import readidfjson
-from eppy3000.idd import readiddasmunch
+from eppy3000.epschema import read_epschema_asmunch
 from eppy3000.readidf import removeeppykeys
-from eppy3000.idd import IDD
+from eppy3000.epschema import EPSchema
 from eppy3000.epMunch import EPMunch
 
 
 class IDF(object):
-    def __init__(self, idfname=None, epw=None, iddname=None):
+    def __init__(self, idfname=None, epw=None, epschemaname=None):
         super(IDF, self).__init__()
         self.idfname = idfname
         self.epw = epw
-        self.iddname = iddname
-        if self.iddname:
-            self.readidd()
+        self.epschemaname = epschemaname
+        if self.epschemaname:
+            self.readepschema()
         self.read()
 
-    def readiddasmunch(self):
-        """Read the idd file - will become a frozen singleton"""
-        readiddasmunch(self.iddname)
+    def read_epschema_asmunch(self):
+        """Read the epschema file - will become a frozen singleton"""
+        read_epschema_asmunch(self.epschemaname)
 
     def read(self):
         """read the idf file"""
         self.idf = readidfjson(self.idfname)
         self.idfobjects = {key: [val1 for val1 in val.values()]
                            for key, val in self.idf.items()}
-        if self.iddname:
+        if self.epschemaname:
             for key in self.idfobjects.keys():
                 for idfobject in self.idfobjects[key]:
-                    idfobject['eppy_objidd'] = self.idd.iddobjects[key]
+                    idfobject['eppy_objepschema'] = self.epschema.epschemaobjects[key]
 
-    def readidd(self):
-        """read the idd file"""
-        self.idd = IDD(self.iddname)
+    def readepschema(self):
+        """read the epschema file"""
+        self.epschema = EPSchema(self.epschemaname)
 
     def __repr__(self):
         """print this"""
@@ -69,19 +69,19 @@ class IDF(object):
         # TODO exceptions for wrong field name
         # TODO exception for wrong field value type
         # TODO documentation in usage.rst
-        objidd = self.idd.iddobjects[key]
+        objepschema = self.epschema.epschemaobjects[key]
         try:
             nobj = self.idf[key][objname] = EPMunch()
         except KeyError as e:
             self.idf[key] = EPMunch()
             nobj = self.idf[key][objname] = EPMunch()
-        for fieldname in objidd.fieldnames():
+        for fieldname in objepschema.fieldnames():
             try:
                 if defaultvalues:
-                    fieldfprop = objidd.fieldproperty(fieldname)
+                    fieldfprop = objepschema.fieldproperty(fieldname)
                     nobj[fieldname] = fieldfprop['default']
             except KeyError as e:
-                prop = objidd.fieldproperty(fieldname)
+                prop = objepschema.fieldproperty(fieldname)
                 # print(fieldname, prop.keys())
                 if 'type' in prop:
                     if prop['type'] == 'array':
@@ -92,7 +92,7 @@ class IDF(object):
             nobj[key1] = val1
         nobj['eppykey'] = key
         nobj['eppyname'] = objname
-        nobj['eppy_objidd'] = objidd
+        nobj['eppy_objepschema'] = objepschema
         return nobj
 
     def removeidfobject(self, key, objname):
@@ -117,5 +117,5 @@ class IDF(object):
                     newobj[key1] = val1
         newobj['eppyname'] = newname
         newobj['eppykey'] = key
-        newobj['eppy_objidd'] = oldobj['eppy_objidd']
+        newobj['eppy_objepschema'] = oldobj['eppy_objepschema']
         return newobj

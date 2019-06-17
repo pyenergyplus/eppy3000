@@ -11,7 +11,7 @@ from io import StringIO
 
 import eppy3000.readidf as readidf
 from eppy3000 import epMunch
-from eppy3000.idd import IDDMunch
+from eppy3000.epschema import EPSchemaMunch
 
 
 def test_printkey():
@@ -107,9 +107,9 @@ def test_printmunch_withprint(capsys):
     assert captured.out == expected + '\n'
 
 
-def test_printmunch_ofIDD():
-    """py.test for printmunch id you try to print IDDMunch"""
-    amunch = IDDMunch(dict(a=1))
+def test_printmunch_ofEPSchema():
+    """py.test for printmunch id you try to print EPSchemaMunch"""
+    amunch = EPSchemaMunch(dict(a=1))
     expected = []
     result = []
     epMunch.printmunch(amunch)

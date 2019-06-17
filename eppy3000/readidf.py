@@ -86,14 +86,14 @@ def removeeppykeys(idfmunch, rkeys=None):
         This is the E+ file as seen by eppy3000
     rkeys: list
         These are the keys to be removed. if rkeys is None then
-        rkeys is set to ['eppykey', 'eppyname', 'eppy_objidd']
+        rkeys is set to ['eppykey', 'eppyname', 'eppy_objepschema']
 
     Returns
     -------
     None
     """
     if not rkeys:
-        rkeys = ['eppykey', 'eppyname', 'eppy_objidd']
+        rkeys = ['eppykey', 'eppyname', 'eppy_objepschema']
     for key, epobjects in idfmunch.items():
         for name, epobject in epobjects.items():
             for rkey in rkeys:

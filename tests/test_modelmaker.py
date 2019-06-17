@@ -64,7 +64,7 @@ def test_IDF():
 
     expected = 15.24
     result = modelmaker.IDF(idfname=StringIO(txt),
-                            iddname=schemafortesting.schema_file)
+                            epschemaname=schemafortesting.schema_file)
     surfs = result.idfobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
