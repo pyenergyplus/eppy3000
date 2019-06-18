@@ -5,36 +5,36 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # =======================================================================
 
-"""py.test for idd.py"""
+"""py.test for epschema.py"""
 
 from io import StringIO
-from eppy3000 import idd
+from eppy3000 import epschema
 import pytest
 
 from tests import schemafortesting
 
 
-def test_readiddasmunch():
-    """py.test for readiddasmunch"""
+def test_read_epschema_asmunch():
+    """py.test for read_epschema_asmunch"""
     SCHEMA_FILE = schemafortesting.schema_file
     schemahandle = open(SCHEMA_FILE, 'r')
-    result = idd.readiddasmunch(schemahandle)
-    assert isinstance(result, idd.IDDMunch)
+    result = epschema.read_epschema_asmunch(schemahandle)
+    assert isinstance(result, epschema.EPSchemaMunch)
 
-    result = idd.readiddasmunch(SCHEMA_FILE)
-    assert isinstance(result, idd.IDDMunch)
+    result = epschema.read_epschema_asmunch(SCHEMA_FILE)
+    assert isinstance(result, epschema.EPSchemaMunch)
 
     schemahandle = schemafortesting.schema
-    result = idd.readiddasmunch(schemahandle)
-    assert isinstance(result, idd.IDDMunch)
+    result = epschema.read_epschema_asmunch(schemahandle)
+    assert isinstance(result, epschema.EPSchemaMunch)
 
     schemahandle = list()
     with pytest.raises(TypeError):
-        result = idd.readiddasmunch(schemahandle)
+        result = epschema.read_epschema_asmunch(schemahandle)
 
 
-def test_IDD():
-    """py.test for IDD"""
+def test_EPSchema():
+    """py.test for EPSchema"""
     txt = """{
     "epJSON_schema_version": "8.9.0",
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -241,7 +241,7 @@ def test_IDD():
     # expected
     version = "8.9.0"
     required = ['Building', 'GlobalGeometryRules']
-    iddobjectskeys = ['Building', 'OutdoorAir:NodeList']
+    epschemaobjectskeys = ['Building', 'OutdoorAir:NodeList']
     buildingkeys = ['solar_distribution', 'terrain', 'north_axis',
                     'maximum_number_of_warmup_days',
                     'loads_convergence_tolerance_value',
@@ -257,15 +257,15 @@ def test_IDD():
     #
     # tests
     fhandle = StringIO(txt)
-    result = idd.IDD(fhandle)
+    result = epschema.EPSchema(fhandle)
 
     assert version == result.version
     assert required == result.required
-    assert iddobjectskeys == list(result.iddobjects.keys())
-    assert buildingkeys == list(result.iddobjects['Building'].keys())
+    assert epschemaobjectskeys == list(result.epschemaobjects.keys())
+    assert buildingkeys == list(result.epschemaobjects['Building'].keys())
     #
-    bldg = result.iddobjects['Building']
+    bldg = result.epschemaobjects['Building']
     assert buildingterraintype == bldg.fieldproperty('terrain')['type']
-    assert bfieldnames == result.iddobjects['Building'].fieldnames()
-    oairnode = result.iddobjects['OutdoorAir:NodeList']
+    assert bfieldnames == result.epschemaobjects['Building'].fieldnames()
+    oairnode = result.epschemaobjects['OutdoorAir:NodeList']
     assert fieldnameslist == oairnode.fieldnames_list()

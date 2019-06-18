@@ -4,26 +4,26 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # =======================================================================
-"""class for the idd file"""
+"""class for the epschema file"""
 
 import json
 from munch import Munch
 
 
-def readiddasmunch(fhandle):
-    """read the idd json as a munch"""
+def read_epschema_asmunch(fhandle):
+    """read the epschema json as a munch"""
     try:
         epjs = json.load(fhandle)
-        as_munch = IDDMunch.fromDict(epjs)
+        as_munch = EPSchemaMunch.fromDict(epjs)
         print(1)
     except AttributeError as e:
         try:
             fhandle = open(fhandle, 'r')
             epjs = json.load(fhandle)
-            as_munch = IDDMunch.fromDict(epjs)
+            as_munch = EPSchemaMunch.fromDict(epjs)
             print(2)
         except TypeError as e:
-            if isinstance(fhandle, IDDMunch):
+            if isinstance(fhandle, EPSchemaMunch):
                 print(3)
                 return fhandle
             else:
@@ -32,13 +32,13 @@ def readiddasmunch(fhandle):
     return as_munch
 
 
-class IDDMunch(Munch):
-    """Munch subcalssed to for the IDD json"""
+class EPSchemaMunch(Munch):
+    """Munch subcalssed to for the EPSchema json"""
     def __init__(self, *args, **kwargs):
-        super(IDDMunch, self).__init__(*args, **kwargs)
+        super(EPSchemaMunch, self).__init__(*args, **kwargs)
 
     def fieldnames(self):
-        """field names of the IDD object"""
+        """field names of the EPSchema object"""
         return [key for key in self.keys()]
 
     def fieldnames_list(self):
@@ -46,21 +46,21 @@ class IDDMunch(Munch):
         pass
 
     def fieldproperty(self, fieldname):
-        """field names of the IDD object"""
+        """field names of the EPSchema object"""
         return self[fieldname]
 
 
-class IDD(object):
-    """hold the data from the json idd file """
-    def __init__(self, iddname):
-        super(IDD, self).__init__()
-        self.iddname = iddname
+class EPSchema(object):
+    """hold the data from the json epschema file """
+    def __init__(self, epschemaname):
+        super(EPSchema, self).__init__()
+        self.epschemaname = epschemaname
         self.read()
 
     def read(self):
         """read the json file"""
-        self.idd = readiddasmunch(self.iddname)
-        self.version = self.idd['epJSON_schema_version']
-        self.required = self.idd['required']
-        self.iddobjects = {key: val['patternProperties']['.*']['properties']
-                           for key, val in self.idd['properties'].items()}
+        self.epschema = read_epschema_asmunch(self.epschemaname)
+        self.version = self.epschema['epJSON_schema_version']
+        self.required = self.epschema['required']
+        self.epschemaobjects = {key: val['patternProperties']['.*']['properties']
+                           for key, val in self.epschema['properties'].items()}

@@ -9,9 +9,9 @@
 import json
 from io import StringIO
 
-import eppy3000.readidf as readidf
+import eppy3000.readepj as readepj
 from eppy3000 import epMunch
-from eppy3000.idd import IDDMunch
+from eppy3000.epschema import EPSchemaMunch
 
 
 def test_printkey():
@@ -81,7 +81,7 @@ def test_printmunch():
     for dct, indent, index, expected in data:
         dctstr = json.dumps(dct)
         fhandle = StringIO(dctstr)
-        amunch = readidf.readidfjson(fhandle)
+        amunch = readepj.readepjjson(fhandle)
         result = []
         epMunch.printmunch(amunch, indent, index, result.append)
         assert result == expected
@@ -101,15 +101,15 @@ def test_printmunch_withprint(capsys):
         )
     dctstr = json.dumps(dct)
     fhandle = StringIO(dctstr)
-    amunch = readidf.readidfjson(fhandle)
+    amunch = readepj.readepjjson(fhandle)
     epMunch.printmunch(amunch, indent, index)
     captured = capsys.readouterr()
     assert captured.out == expected + '\n'
 
 
-def test_printmunch_ofIDD():
-    """py.test for printmunch id you try to print IDDMunch"""
-    amunch = IDDMunch(dict(a=1))
+def test_printmunch_ofEPSchema():
+    """py.test for printmunch id you try to print EPSchemaMunch"""
+    amunch = EPSchemaMunch(dict(a=1))
     expected = []
     result = []
     epMunch.printmunch(amunch)
@@ -122,7 +122,7 @@ class TestEPMunch(object):
         dct = dict(a=dict(aa=dict(z=-1, y=-2)))
         dctstr = json.dumps(dct)
         fhandle = StringIO(dctstr)
-        self.amunch = readidf.readidfjson(fhandle)
+        self.amunch = readepj.readepjjson(fhandle)
 
     def test_repr(self):
         """py.test for EPMunch.__repr__"""
