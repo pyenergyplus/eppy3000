@@ -1,3 +1,15 @@
+2020-04-12
+----------
+
+Maybe solution to eppy vs eppy3000 issue:
+- original thought was
+    - develop eppy3000 as a natural flow
+    - develop eppy independently with eppy300 functionality
+- new possibility
+     - import eppy into eppy300
+     - have connection between eppy3000 data-structure and eppy data-structure
+         - so when one changes, the other changes
+
 2019-06-06
 ----------
 
