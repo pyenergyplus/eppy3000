@@ -41,7 +41,20 @@ def keymapping(somekeys, allkeys):
 
 
 def idf2json(idfhandle, epjsonhandle):
-    """convert idf2json"""
+    """converts the E+ file in the old IDF format to the new JSON format
+
+    Parameters
+    ----------
+    jsonhandle: io.TextIOWrapper, io.StringIO
+        This is the E+ file in the old IDF format
+    epjsonhandle: io.TextIOWrapper, io.StringIO
+        This is the epjson file (eqv. of the IDD file in the old format)
+
+    Returns
+    -------
+    str 
+        E+ file in the old JSON format
+    """
     raw_idf = rawidf.readrawidf(idfhandle)
     js = read_epschema_asmunch(epjsonhandle)
     idfobjcount = {}
@@ -105,7 +118,20 @@ def idf2json(idfhandle, epjsonhandle):
 
 
 def json2idf(jsonhandle, epjsonhandle):
-    """convert JSON to IDF"""
+    """converts the E+ file new JSON format to the old IDF format
+
+    Parameters
+    ----------
+    jsonhandle: io.TextIOWrapper, io.StringIO
+        This is the E+ file in the new JSON format
+    epjsonhandle: io.TextIOWrapper, io.StringIO
+        This is the epjson file (eqv. of the IDD file in the old format)
+
+    Returns
+    -------
+    str 
+        E+ file in the old IDF format
+    """
     lines = []
     js = read_epschema_asmunch(epjsonhandle)
     idfjs = read_epschema_asmunch(jsonhandle)

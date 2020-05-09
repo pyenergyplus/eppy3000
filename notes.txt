@@ -1,3 +1,18 @@
+2020-05-09
+----------
+
+Usage in docs still talk about IDF. It is now EPJ.
+needs to be updated
+(does it really need to be epj)
+
+EPJ.__repr__ is printing human readable format
+EPJ.__str__ should do that not `.__repr__`
+
+I need the __repr__ to work correctly now !!!! :-(
+open a new issue on this ... so that I can focus on it.
+
+
+
 2020-04-12
 ----------
 
@@ -78,7 +93,14 @@ all dev will bein python3
 
 # First time
 python3 -m venv ~/venvs/eppy3000
+python3.7 -m venv ~/venvs/eppy3000
 source ~/venvs/eppy3000/bin/activate
+
+if you want to run with eppy installed:
+python3 -m venv ~/venvs/eppy3000_eppy
+python3.7 -m venv ~/venvs/eppy3000_eppy
+source ~/venvs/eppy3000_eppy/bin/activate
+
 
 2018-10-15
 ----------
