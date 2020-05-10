@@ -103,9 +103,7 @@ OutdoorAir:NodeList,
         iddhandle = open(iddfile, 'r')
         iddtxt = iddhandle.read()
         iddstringio = StringIO(iddtxt)
-        # convert idf to json, then json to idf and lastly idf to json
-        # compare the first json and last json
-        # - change this to as below
+
         # convert idf to epj, then epj to idf and lastly idf to jpj
         # compare the first epj.json and last epj.json
         idfhandle = StringIO(idftxt)

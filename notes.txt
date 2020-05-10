@@ -1,3 +1,14 @@
+2020-05-10
+----------
+
+issue #34 fully works here
+issue #35 is hand coded into #34
+
+do a merge request for #35
+(#35 has to be canceled and a newly worded issue has to be opened)
+do a separate merge request for #34 after merging in #35
+this will keep it clean on the maintainer end
+
 2020-05-09
 ----------
 
