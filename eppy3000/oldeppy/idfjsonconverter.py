@@ -16,17 +16,14 @@ from eppy import modeleditor
 from eppy.modeleditor import IDF
 
 
-def idf2json(idfhandle, epjsonhandle):
-    """convert iidf to json. return a eppy3000.IDF structure"""
+def idf2idj(idf, epjsonhandle):
+    """convert idf to json. return a eppy3000.IDF structure"""
+    idfhandle = StringIO(idf.idfstr())
     return eppy3000.idfjsonconverter.idf2json(idfhandle, epjsonhandle)
     
     
-def json2idf(jsonhandle, epjsonhandle, iddhandle=None):
+def epj2idf(epj, epjsonhandle, iddhandle=None):
     """convert json to idf"""
-    print('in function:', iddhandle)
+    jsonhandle = epj.savecopy()
     idfstr =  eppy3000.idfjsonconverter.json2idf(jsonhandle, epjsonhandle) 
-    if iddhandle:
-        return eppy.openidf(StringIO(idfstr), idd=iddhandle)
-        # IDF.setiddname(iddhandle)
-        # return IDF(StringIO(idfstr))
-    return eppy.openidf(StringIO(idfstr))
+    return eppy.openidf(StringIO(idfstr), idd=iddhandle)

@@ -4,15 +4,17 @@ from io import StringIO
 
 # from eppy3000 import idfjsonconverter
 from tests import schemafortesting
+from eppy3000.modelmaker import EPJ
 import eppy3000.oldeppy.idfjsonconverter as idfjsonconverter
 import eppy
 
 SCHEMA_FILE = schemafortesting.schema_file
+# TODO iddfile is hardcoded -> needs to be fixed
 iddfile = "/Users/santoshphilip/Documents/coolshadow/github/eppy3000/eppy3000/resources/snippets/V9_1/iddV9_1_snippet.idd"
 
 
-def test_idf2json_json2idf():
-    """py.test for idf2json and json2idf"""
+def test_idf2idj_epj2idf():
+    """py.test for idf2idj and epj2idf"""
     # rearranged the order of so that it matches the order in the idd file. 
     # So the tests can pass
     data = (("""
@@ -98,20 +100,27 @@ OutdoorAir:NodeList,
 ),  # idftxt
     )
     for idftxt, in data:
-        # convert idf to json, then json to idf and lastly idf to json
-        # compare the first json and last json
-        idfhandle = StringIO(idftxt)
-        epsjsonschema = schemafortesting.schema
-        jsonresult1 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
-        jsonhandle = StringIO(jsonresult1)
-        epsjsonschema = schemafortesting.schema
-
         iddhandle = open(iddfile, 'r')
         iddtxt = iddhandle.read()
         iddstringio = StringIO(iddtxt)
-        idfresult1 = idfjsonconverter.json2idf(jsonhandle, epsjsonschema, iddhandle=iddstringio)
+        # convert idf to json, then json to idf and lastly idf to json
+        # compare the first json and last json
+        # - change this to as below
+        # convert idf to epj, then epj to idf and lastly idf to jpj
+        # compare the first epj.json and last epj.json
+        idfhandle = StringIO(idftxt)
+        idf = eppy.openidf(idfhandle, idd=iddstringio)
+        epsjsonschema = schemafortesting.schema
+        jsonresult1 = idfjsonconverter.idf2idj(idf, epsjsonschema)
+        jsonhandle = StringIO(jsonresult1)
+        epsjsonschema = schemafortesting.schema
+
+        
+        epj = EPJ(jsonhandle)
+        idfresult1 = idfjsonconverter.epj2idf(epj, epsjsonschema, iddhandle=iddstringio)
 
         idfhandle = StringIO(idfresult1.idfstr())
         epsjsonschema = schemafortesting.schema
-        jsonresult2 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
+        idf = eppy.openidf(idfhandle, iddstringio)
+        jsonresult2 = idfjsonconverter.idf2idj(idf, epsjsonschema)
         assert jsonresult1 == jsonresult2
