@@ -2,7 +2,7 @@
 ----------
 
 coded EPJ.savecopy that can return a StringIO.
-see if you cna use this to fix issue #34.
+see if you can use this to fix issue #34.
 
 2020-05-09
 ----------
