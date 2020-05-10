@@ -1,3 +1,20 @@
+2020-05-10
+----------
+
+coded EPJ.savecopy that can return a StringIO.
+see if you cna use this to fix issue #34.
+
+2020-05-09
+----------
+
+use epj.save to save to an StringIO
+to make a __repr__
+
+urgh !!!
+- there are some epjobject names that dot notation does not work with
+    - BuildingSurface:Detailed 
+    - I guess we have to get at it by idfbojects
+    
 2019-06-06
 ----------
 

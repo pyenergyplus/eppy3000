@@ -8,6 +8,7 @@
 
 
 from io import StringIO
+import json
 
 from eppy3000 import modelmaker
 from tests import schemafortesting
@@ -68,3 +69,9 @@ def test_EPJ():
     surfs = result.epobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
+    # - 
+    expected = json.loads(txt)
+    epj =  modelmaker.EPJ(epjname=StringIO(txt))
+    jsonstr = epj.jsonstr()
+    result = json.loads(jsonstr)
+    assert result == expected

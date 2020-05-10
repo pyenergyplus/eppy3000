@@ -15,19 +15,15 @@ def read_epschema_asmunch(fhandle):
     try:
         epjs = json.load(fhandle)
         as_munch = EPSchemaMunch.fromDict(epjs)
-        print(1)
     except AttributeError as e:
         try:
             fhandle = open(fhandle, 'r')
             epjs = json.load(fhandle)
             as_munch = EPSchemaMunch.fromDict(epjs)
-            print(2)
         except TypeError as e:
             if isinstance(fhandle, EPSchemaMunch):
-                print(3)
                 return fhandle
             else:
-                print(4)
                 raise TypeError(f"expected str, bytes, os.PathLike object or Munch, not {type(fhandle)}")  # noqa: E501
     return as_munch
 
