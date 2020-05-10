@@ -6,6 +6,7 @@
 # =======================================================================
 """same as modelmaker in eppy"""
 
+from io import StringIO
 from munch import Munch
 from eppy3000.readepj import readepjjson
 from eppy3000.epschema import read_epschema_asmunch
@@ -50,8 +51,24 @@ class EPJ(object):
         """saveas in filename"""
         self.epjname = filename
         self.save(filename, indent=indent)
+        
+    def savecopy(self, filename=None, indent=4):
+        """save a copy of the file 
+        if filename==None: return copy in StringIO
+        NOT unit TESTED at all. Not even use tested"""
+        if filename:
+            self.save(filename=filename, indent=indent)
+        else:
+            tosave = self.epj.toDict()
+            tosave = Munch.fromDict(tosave)
+            removeeppykeys(tosave)
+            fhandle = StringIO()
+            fhandle.write(tosave.toJSON(indent=indent))
+            fhandle.seek(0)
+            return fhandle
+            
 
-    def save(self, filename=None, indent=0):
+    def save(self, filename=None, indent=4):
         """save the file"""
         if not filename:
             filename = self.epjname
@@ -60,6 +77,11 @@ class EPJ(object):
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
             fhandle.write(tosave.toJSON(indent=indent))
+            
+    def jsonstr(self, indent=4):
+        """return a json string of the file"""
+        fhandle = self.savecopy(indent=indent)
+        return '\n'.join([line.rstrip() for line in fhandle])
 
     def newepobject(self, key, objname, defaultvalues=True, **kwargs):
         """create a new epj object"""

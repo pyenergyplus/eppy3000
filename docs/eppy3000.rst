@@ -20,10 +20,10 @@ eppy3000.eppy3000 module
     :undoc-members:
     :show-inheritance:
 
-eppy3000.idd module
--------------------
+eppy3000.epschema module
+------------------------
 
-.. automodule:: eppy3000.idd
+.. automodule:: eppy3000.epschema
     :members:
     :undoc-members:
     :show-inheritance:
@@ -52,18 +52,10 @@ eppy3000.rawidf module
     :undoc-members:
     :show-inheritance:
 
-eppy3000.readidd module
+eppy3000.readepj module
 -----------------------
 
-.. automodule:: eppy3000.readidd
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-eppy3000.readidf module
------------------------
-
-.. automodule:: eppy3000.readidf
+.. automodule:: eppy3000.readepj
     :members:
     :undoc-members:
     :show-inheritance:
