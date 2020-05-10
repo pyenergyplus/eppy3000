@@ -1,6 +1,8 @@
 """these test have to be run manually since eppy may not be installed"""
 
 from io import StringIO
+from pathlib import Path
+import os
 
 # from eppy3000 import idfjsonconverter
 from tests import schemafortesting
@@ -9,9 +11,11 @@ import eppy3000.oldeppy.idfjsonconverter as idfjsonconverter
 import eppy
 
 SCHEMA_FILE = schemafortesting.schema_file
-# TODO iddfile is hardcoded -> needs to be fixed
-iddfile = "/Users/santoshphilip/Documents/coolshadow/github/eppy3000/eppy3000/resources/snippets/V9_1/iddV9_1_snippet.idd"
 
+# path for iddfile -> clean this later
+THIS_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+IDDFILE = THIS_DIR / os.pardir / 'eppy3000/resources/snippets/V9_1/iddV9_1_snippet.idd'
+iddfile = IDDFILE
 
 def test_idf2idj_epj2idf():
     """py.test for idf2idj and epj2idf"""

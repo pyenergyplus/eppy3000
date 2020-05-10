@@ -1,6 +1,15 @@
 2020-05-10
 ----------
 
+Jupyter Notebook Tools for Sphinx
+- Install nbsphinx. (pip install nbsphinx)
+- Edit your conf.py and add 'nbsphinx' to extensions .
+- Edit your index. rst and add the names of your *. ipynb files to the toctree .
+- Run Sphinx!
+
+2020-05-10
+----------
+
 issue #34 fully works here
 issue #35 is hand coded into #34
 
