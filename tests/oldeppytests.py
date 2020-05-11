@@ -7,7 +7,8 @@ import os
 # from eppy3000 import idfjsonconverter
 from tests import schemafortesting
 from eppy3000.modelmaker import EPJ
-import eppy3000.oldeppy.idfjsonconverter as idfjsonconverter
+# import eppy3000.oldeppy.idfjsonconverter as idfjsonconverter
+import eppy3000.oldeppy as oldeppy
 import eppy
 
 SCHEMA_FILE = schemafortesting.schema_file
@@ -108,21 +109,20 @@ OutdoorAir:NodeList,
         iddtxt = iddhandle.read()
         iddstringio = StringIO(iddtxt)
 
-        # convert idf to epj, then epj to idf and lastly idf to jpj
+        # convert idf to epj, then epj to idf and lastly idf to epj
         # compare the first epj.json and last epj.json
         idfhandle = StringIO(idftxt)
         idf = eppy.openidf(idfhandle, idd=iddstringio)
         epsjsonschema = schemafortesting.schema
-        jsonresult1 = idfjsonconverter.idf2idj(idf, epsjsonschema)
-        jsonhandle = StringIO(jsonresult1)
-        epsjsonschema = schemafortesting.schema
 
-        
-        epj = EPJ(jsonhandle)
-        idfresult1 = idfjsonconverter.epj2idf(epj, epsjsonschema, iddhandle=iddstringio)
+        # idf to epj
+        epj1 = oldeppy.idf2epj(idf, epsjsonschema)
 
-        idfhandle = StringIO(idfresult1.idfstr())
-        epsjsonschema = schemafortesting.schema
-        idf = eppy.openidf(idfhandle, iddstringio)
-        jsonresult2 = idfjsonconverter.idf2idj(idf, epsjsonschema)
-        assert jsonresult1 == jsonresult2
+        # epj to idf
+        idf1 = oldeppy.epj2idf(epj1, epsjsonschema, iddhandle=iddstringio)
+
+        # idf to epj
+        epj2 = oldeppy.idf2epj(idf1, epsjsonschema)
+
+        # compare epj1 and epj2
+        assert epj1.jsonstr() == epj2.jsonstr()
