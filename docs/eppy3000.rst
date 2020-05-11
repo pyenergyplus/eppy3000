@@ -1,6 +1,14 @@
 eppy3000 package
 ================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    eppy3000.experimental
+    eppy3000.oldeppy
+
 Submodules
 ----------
 

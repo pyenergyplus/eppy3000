@@ -30,6 +30,8 @@ def test_keymapping():
 def test_idf2json_json2idf():
     """py.test for idf2json and json2idf"""
     data = (("""
+  Version,9.1;
+
   ZoneHVAC:EquipmentList,
     SPACE1-1 Eq,             !- Name
     SequentialLoad,          !- Load Distribution Scheme

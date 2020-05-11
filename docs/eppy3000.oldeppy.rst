@@ -1,0 +1,22 @@
+eppy3000.oldeppy package
+========================
+
+Submodules
+----------
+
+eppy3000.oldeppy.idfjsonconverter module
+----------------------------------------
+
+.. automodule:: eppy3000.oldeppy.idfjsonconverter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: eppy3000.oldeppy
+    :members:
+    :undoc-members:
+    :show-inheritance:

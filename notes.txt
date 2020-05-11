@@ -1,20 +1,50 @@
 2020-05-10
 ----------
 
-coded EPJ.savecopy that can return a StringIO.
-see if you can use this to fix issue #34.
+Jupyter Notebook Tools for Sphinx
+- Install nbsphinx. (pip install nbsphinx)
+- Edit your conf.py and add 'nbsphinx' to extensions .
+- Edit your index. rst and add the names of your *. ipynb files to the toctree .
+- Run Sphinx!
+
+2020-05-10
+----------
+
+issue #34 fully works here
+issue #35 is hand coded into #34
+
+do a merge request for #35
+(#35 has to be canceled and a newly worded issue has to be opened)
+do a separate merge request for #34 after merging in #35
+this will keep it clean on the maintainer end
 
 2020-05-09
 ----------
 
-use epj.save to save to an StringIO
-to make a __repr__
+Usage in docs still talk about IDF. It is now EPJ.
+needs to be updated
+(does it really need to be epj)
 
-urgh !!!
-- there are some epjobject names that dot notation does not work with
-    - BuildingSurface:Detailed 
-    - I guess we have to get at it by idfbojects
-    
+EPJ.__repr__ is printing human readable format
+EPJ.__str__ should do that not `.__repr__`
+
+I need the __repr__ to work correctly now !!!! :-(
+open a new issue on this ... so that I can focus on it.
+
+
+
+2020-04-12
+----------
+
+Maybe solution to eppy vs eppy3000 issue:
+- original thought was
+    - develop eppy3000 as a natural flow
+    - develop eppy independently with eppy300 functionality
+- new possibility
+     - import eppy into eppy300
+     - have connection between eppy3000 data-structure and eppy data-structure
+         - so when one changes, the other changes
+
 2019-06-06
 ----------
 
@@ -83,7 +113,14 @@ all dev will bein python3
 
 # First time
 python3 -m venv ~/venvs/eppy3000
+python3.7 -m venv ~/venvs/eppy3000
 source ~/venvs/eppy3000/bin/activate
+
+if you want to run with eppy installed:
+python3 -m venv ~/venvs/eppy3000_eppy
+python3.7 -m venv ~/venvs/eppy3000_eppy
+source ~/venvs/eppy3000_eppy/bin/activate
+
 
 2018-10-15
 ----------

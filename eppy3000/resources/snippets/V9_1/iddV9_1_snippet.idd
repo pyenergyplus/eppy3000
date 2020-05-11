@@ -1,0 +1,3044 @@
+!IDD_Version 9.1.0
+Version,
+      \memo Specifies the EnergyPlus version of the IDF file.
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \default 9.1
+
+
+Building,
+       \memo Describes parameters that are used during the simulation
+       \memo of the building. There are necessary correlations between the entries for
+       \memo this object and some entries in the Site:WeatherStation and
+       \memo Site:HeightVariation objects, specifically the Terrain field.
+       \unique-object
+       \required-object
+       \min-fields 8
+  A1 , \field Name
+       \retaincase
+       \default NONE
+  N1 , \field North Axis
+       \note degrees from true North
+       \units deg
+       \type real
+       \default 0.0
+  A2 , \field Terrain
+       \note  Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest
+       \type choice
+       \key Country
+       \key Suburbs
+       \key City
+       \key Ocean
+       \key Urban
+       \default Suburbs
+  N2 , \field Loads Convergence Tolerance Value
+       \note Loads Convergence Tolerance Value is a fraction of load
+       \type real
+       \minimum> 0.0
+       \maximum .5
+       \default .04
+  N3 , \field Temperature Convergence Tolerance Value
+       \units deltaC
+       \type real
+       \minimum> 0.0
+       \maximum .5
+       \default .4
+  A3 , \field Solar Distribution
+       \note  MinimalShadowing | FullExterior | FullInteriorAndExterior | FullExteriorWithReflections | FullInteriorAndExteriorWithReflections
+       \type choice
+       \key MinimalShadowing
+       \key FullExterior
+       \key FullInteriorAndExterior
+       \key FullExteriorWithReflections
+       \key FullInteriorAndExteriorWithReflections
+       \default FullExterior
+  N4 , \field Maximum Number of Warmup Days
+       \note EnergyPlus will only use as many warmup days as needed to reach convergence tolerance.
+       \note This field's value should NOT be set less than 25.
+       \type integer
+       \minimum> 0
+       \default 25
+  N5 ; \field Minimum Number of Warmup Days
+       \note The minimum number of warmup days that produce enough temperature and flux history
+       \note to start EnergyPlus simulation for all reference buildings was suggested to be 6.
+       \note When this field is greater than the maximum warmup days defined previous field
+       \note the maximum number of warmup days will be reset to the minimum value entered here.
+       \note Warmup days will be set to be the value you entered when it is less than the default 6.
+       \type integer
+       \minimum> 0
+       \default 6
+
+Timestep,
+       \memo Specifies the "basic" timestep for the simulation. The
+       \memo value entered here is also known as the Zone Timestep.  This is used in
+       \memo the Zone Heat Balance Model calculation as the driving timestep for heat
+       \memo transfer and load calculations.
+       \unique-object
+       \format singleLine
+  N1 ; \field Number of Timesteps per Hour
+       \note Number in hour: normal validity 4 to 60: 6 suggested
+       \note Must be evenly divisible into 60
+       \note Allowable values include 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, and 60
+       \note Normal 6 is minimum as lower values may cause inaccuracies
+       \note A minimum value of 20 is suggested for both ConductionFiniteDifference
+       \note and CombinedHeatAndMoistureFiniteElement surface heat balance algorithms
+       \note A minimum of 12 is suggested for simulations involving a Vegetated Roof (Material:RoofVegetation).
+       \default 6
+       \type integer
+       \minimum 1
+       \maximum 60
+
+Zone,
+       \memo Defines a thermal zone of the building.
+  \format vertices
+  A1 , \field Name
+       \required-field
+       \type alpha
+       \reference ZoneNames
+       \reference OutFaceEnvNames
+       \reference ZoneAndZoneListNames
+       \reference AirflowNetworkNodeAndZoneNames
+  N1 , \field Direction of Relative North
+       \units deg
+       \type real
+       \default 0
+  N2 , \field X Origin
+       \units m
+       \type real
+       \default 0
+  N3 , \field Y Origin
+       \units m
+       \type real
+       \default 0
+  N4 , \field Z Origin
+       \units m
+       \type real
+       \default 0
+  N5 , \field Type
+       \type integer
+       \maximum 1
+       \minimum 1
+       \default 1
+  N6 , \field Multiplier
+       \type integer
+       \minimum 1
+       \default 1
+  N7 , \field Ceiling Height
+       \note If this field is 0.0, negative or autocalculate, then the average height
+       \note of the zone is automatically calculated and used in subsequent calculations.
+       \note If this field is positive, then the number entered here will be used.
+       \note Note that the Zone Ceiling Height is the distance from the Floor to
+       \note the Ceiling in the Zone, not an absolute height from the ground.
+       \units m
+       \type real
+       \autocalculatable
+       \default autocalculate
+  N8 , \field Volume
+       \note If this field is 0.0, negative or autocalculate, then the volume of the zone
+       \note is automatically calculated and used in subsequent calculations.
+       \note If this field is positive, then the number entered here will be used.
+       \units m3
+       \type real
+       \autocalculatable
+       \default autocalculate
+  N9 , \field Floor Area
+       \note If this field is 0.0, negative or autocalculate, then the floor area of the zone
+       \note is automatically calculated and used in subsequent calculations.
+       \note If this field is positive, then the number entered here will be used.
+       \units m2
+       \type real
+       \autocalculatable
+       \default autocalculate
+  A2 , \field Zone Inside Convection Algorithm
+       \type choice
+       \key Simple
+       \key TARP
+       \key CeilingDiffuser
+       \key AdaptiveConvectionAlgorithm
+       \key TrombeWall
+       \note Will default to same value as SurfaceConvectionAlgorithm:Inside object
+       \note setting this field overrides the default SurfaceConvectionAlgorithm:Inside for this zone
+       \note Simple = constant natural convection (ASHRAE)
+       \note TARP = variable natural convection based on temperature difference (ASHRAE)
+       \note CeilingDiffuser = ACH based forced and mixed convection correlations
+       \note  for ceiling diffuser configuration with simple natural convection limit
+       \note AdaptiveConvectionAlgorithm = dynamic selection of convection models based on conditions
+       \note TrombeWall = variable natural convection in an enclosed rectangular cavity
+  A3,  \field Zone Outside Convection Algorithm
+       \note Will default to same value as SurfaceConvectionAlgorithm:Outside object
+       \note setting this field overrides the default SurfaceConvectionAlgorithm:Outside for this zone
+       \type choice
+       \key SimpleCombined
+       \key TARP
+       \key DOE-2
+       \key MoWiTT
+       \key AdaptiveConvectionAlgorithm
+       \note SimpleCombined = Combined radiation and convection coefficient using simple ASHRAE model
+       \note TARP = correlation from models developed by ASHRAE, Walton, and Sparrow et. al.
+       \note MoWiTT = correlation from measurements by Klems and Yazdanian for smooth surfaces
+       \note DOE-2 = correlation from measurements by Klems and Yazdanian for rough surfaces
+       \note AdaptiveConvectionAlgorithm = dynamic selection of correlations based on conditions
+  A4;  \field Part of Total Floor Area
+       \type choice
+       \key Yes
+       \key No
+       \default Yes
+
+BuildingSurface:Detailed,
+  \memo Allows for detailed entry of building heat transfer surfaces.  Does not include subsurfaces such as windows or doors.
+  \extensible:3 -- duplicate last set of x,y,z coordinates (last 3 fields), remembering to remove ; from "inner" fields.
+  \format vertices
+  \min-fields 19
+  A1 , \field Name
+       \required-field
+       \type alpha
+       \reference SurfaceNames
+       \reference SurfAndSubSurfNames
+       \reference AllHeatTranSurfNames
+       \reference OutFaceEnvNames
+       \reference AllHeatTranAngFacNames
+       \reference RadiantSurfaceNames
+       \reference AllShadingAndHTSurfNames
+       \reference FloorSurfaceNames
+  A2 , \field Surface Type
+       \required-field
+       \type choice
+       \key Floor
+       \key Wall
+       \key Ceiling
+       \key Roof
+  A3 , \field Construction Name
+       \required-field
+       \note To be matched with a construction in this input file
+       \type object-list
+       \object-list ConstructionNames
+  A4 , \field Zone Name
+       \required-field
+       \note Zone the surface is a part of
+       \type object-list
+       \object-list ZoneNames
+  A5 , \field Outside Boundary Condition
+       \required-field
+       \type choice
+       \key Adiabatic
+       \key Surface
+       \key Zone
+       \key Outdoors
+       \key Foundation
+       \key Ground
+       \key GroundFCfactorMethod
+       \key OtherSideCoefficients
+       \key OtherSideConditionsModel
+       \key GroundSlabPreprocessorAverage
+       \key GroundSlabPreprocessorCore
+       \key GroundSlabPreprocessorPerimeter
+       \key GroundBasementPreprocessorAverageWall
+       \key GroundBasementPreprocessorAverageFloor
+       \key GroundBasementPreprocessorUpperWall
+       \key GroundBasementPreprocessorLowerWall
+  A6,  \field Outside Boundary Condition Object
+       \type object-list
+       \object-list OutFaceEnvNames
+       \note Non-blank only if the field Outside Boundary Condition is Surface,
+       \note Zone, OtherSideCoefficients or OtherSideConditionsModel
+       \note If Surface, specify name of corresponding surface in adjacent zone or
+       \note specify current surface name for internal partition separating like zones
+       \note If Zone, specify the name of the corresponding zone and
+       \note the program will generate the corresponding interzone surface
+       \note If Foundation, specify the name of the corresponding Foundation object and
+       \note the program will calculate the heat transfer appropriately
+       \note If OtherSideCoefficients, specify name of SurfaceProperty:OtherSideCoefficients
+       \note If OtherSideConditionsModel, specify name of SurfaceProperty:OtherSideConditionsModel
+  A7 , \field Sun Exposure
+       \type choice
+       \key SunExposed
+       \key NoSun
+       \default SunExposed
+  A8,  \field Wind Exposure
+       \type choice
+       \key WindExposed
+       \key NoWind
+       \default WindExposed
+  N1,  \field View Factor to Ground
+       \type real
+       \note From the exterior of the surface
+       \note Unused if one uses the "reflections" options in Solar Distribution in Building input
+       \note unless a DaylightingDevice:Shelf or DaylightingDevice:Tubular object has been specified.
+       \note autocalculate will automatically calculate this value from the tilt of the surface
+       \autocalculatable
+       \minimum 0.0
+       \maximum 1.0
+       \default autocalculate
+  N2 , \field Number of Vertices
+       \note shown with 120 vertex coordinates -- extensible object
+       \note  "extensible" -- duplicate last set of x,y,z coordinates (last 3 fields),
+       \note remembering to remove ; from "inner" fields.
+       \note for clarity in any error messages, renumber the fields as well.
+       \note (and changing z terminator to a comma "," for all but last one which needs a semi-colon ";")
+       \autocalculatable
+       \minimum 3
+       \default autocalculate
+       \note vertices are given in GlobalGeometryRules coordinates -- if relative, all surface coordinates
+       \note are "relative" to the Zone Origin.  If world, then building and zone origins are used
+       \note for some internal calculations, but all coordinates are given in an "absolute" system.
+  N3,  \field Vertex 1 X-coordinate
+       \begin-extensible
+       \required-field
+       \units m
+       \type real
+  N4 , \field Vertex 1 Y-coordinate
+       \required-field
+       \units m
+       \type real
+  N5 , \field Vertex 1 Z-coordinate
+       \required-field
+       \units m
+       \type real
+  N6,  \field Vertex 2 X-coordinate
+       \required-field
+       \units m
+       \type real
+  N7,  \field Vertex 2 Y-coordinate
+       \required-field
+       \units m
+       \type real
+  N8,  \field Vertex 2 Z-coordinate
+       \required-field
+       \units m
+       \type real
+  N9,  \field Vertex 3 X-coordinate
+       \required-field
+       \units m
+       \type real
+  N10, \field Vertex 3 Y-coordinate
+       \required-field
+       \units m
+       \type real
+  N11, \field Vertex 3 Z-coordinate
+       \required-field
+       \units m
+       \type real
+  N12, \field Vertex 4 X-coordinate
+       \units m
+       \type real
+  N13, \field Vertex 4 Y-coordinate
+       \type real
+       \units m
+  N14, \field Vertex 4 Z-coordinate
+       \units m
+       \type real
+  N15, \field Vertex 5 X-coordinate
+       \units m
+       \type real
+  N16, \field Vertex 5 Y-coordinate
+       \type real
+       \units m
+  N17, \field Vertex 5 Z-coordinate
+       \units m
+       \type real
+  N18, \field Vertex 6 X-coordinate
+       \units m
+       \type real
+  N19, \field Vertex 6 Y-coordinate
+       \type real
+       \units m
+  N20, \field Vertex 6 Z-coordinate
+       \units m
+       \type real
+  N21, \field Vertex 7 X-coordinate
+       \units m
+       \type real
+  N22, \field Vertex 7 Y-coordinate
+       \type real
+       \units m
+  N23, \field Vertex 7 Z-coordinate
+       \units m
+       \type real
+  N24, \field Vertex 8 X-coordinate
+       \units m
+       \type real
+  N25, \field Vertex 8 Y-coordinate
+       \type real
+       \units m
+  N26, \field Vertex 8 Z-coordinate
+       \units m
+       \type real
+  N27, \field Vertex 9 X-coordinate
+       \units m
+       \type real
+  N28, \field Vertex 9 Y-coordinate
+       \type real
+       \units m
+  N29, \field Vertex 9 Z-coordinate
+       \units m
+       \type real
+  N30, \field Vertex 10 X-coordinate
+       \units m
+       \type real
+  N31, \field Vertex 10 Y-coordinate
+       \type real
+       \units m
+  N32, \field Vertex 10 Z-coordinate
+       \units m
+       \type real
+  N33, \field Vertex 11 X-coordinate
+       \units m
+       \type real
+  N34, \field Vertex 11 Y-coordinate
+       \type real
+       \units m
+  N35, \field Vertex 11 Z-coordinate
+       \units m
+       \type real
+  N36, \field Vertex 12 X-coordinate
+       \units m
+       \type real
+  N37, \field Vertex 12 Y-coordinate
+       \type real
+       \units m
+  N38, \field Vertex 12 Z-coordinate
+       \units m
+       \type real
+  N39, \field Vertex 13 X-coordinate
+       \units m
+       \type real
+  N40, \field Vertex 13 Y-coordinate
+       \type real
+       \units m
+  N41, \field Vertex 13 Z-coordinate
+       \units m
+       \type real
+  N42, \field Vertex 14 X-coordinate
+       \units m
+       \type real
+  N43, \field Vertex 14 Y-coordinate
+       \type real
+       \units m
+  N44, \field Vertex 14 Z-coordinate
+       \units m
+       \type real
+  N45, \field Vertex 15 X-coordinate
+       \units m
+       \type real
+  N46, \field Vertex 15 Y-coordinate
+       \type real
+       \units m
+  N47, \field Vertex 15 Z-coordinate
+       \units m
+       \type real
+  N48, \field Vertex 16 X-coordinate
+       \units m
+       \type real
+  N49, \field Vertex 16 Y-coordinate
+       \type real
+       \units m
+  N50, \field Vertex 16 Z-coordinate
+       \units m
+       \type real
+  N51, \field Vertex 17 X-coordinate
+       \units m
+       \type real
+  N52, \field Vertex 17 Y-coordinate
+       \type real
+       \units m
+  N53, \field Vertex 17 Z-coordinate
+       \units m
+       \type real
+  N54, \field Vertex 18 X-coordinate
+       \units m
+       \type real
+  N55, \field Vertex 18 Y-coordinate
+       \type real
+       \units m
+  N56, \field Vertex 18 Z-coordinate
+       \units m
+       \type real
+  N57, \field Vertex 19 X-coordinate
+       \units m
+       \type real
+  N58, \field Vertex 19 Y-coordinate
+       \type real
+       \units m
+  N59, \field Vertex 19 Z-coordinate
+       \units m
+       \type real
+  N60, \field Vertex 20 X-coordinate
+       \units m
+       \type real
+  N61, \field Vertex 20 Y-coordinate
+       \type real
+       \units m
+  N62, \field Vertex 20 Z-coordinate
+       \units m
+       \type real
+  N63, \field Vertex 21 X-coordinate
+       \units m
+       \type real
+  N64, \field Vertex 21 Y-coordinate
+       \type real
+       \units m
+  N65, \field Vertex 21 Z-coordinate
+       \units m
+       \type real
+  N66, \field Vertex 22 X-coordinate
+       \units m
+       \type real
+  N67, \field Vertex 22 Y-coordinate
+       \type real
+       \units m
+  N68, \field Vertex 22 Z-coordinate
+       \units m
+       \type real
+  N69, \field Vertex 23 X-coordinate
+       \units m
+       \type real
+  N70, \field Vertex 23 Y-coordinate
+       \type real
+       \units m
+  N71, \field Vertex 23 Z-coordinate
+       \units m
+       \type real
+  N72, \field Vertex 24 X-coordinate
+       \units m
+       \type real
+  N73, \field Vertex 24 Y-coordinate
+       \type real
+       \units m
+  N74, \field Vertex 24 Z-coordinate
+       \units m
+       \type real
+  N75, \field Vertex 25 X-coordinate
+       \units m
+       \type real
+  N76, \field Vertex 25 Y-coordinate
+       \type real
+       \units m
+  N77, \field Vertex 25 Z-coordinate
+       \units m
+       \type real
+  N78, \field Vertex 26 X-coordinate
+       \units m
+       \type real
+  N79, \field Vertex 26 Y-coordinate
+       \type real
+       \units m
+  N80, \field Vertex 26 Z-coordinate
+       \units m
+       \type real
+  N81, \field Vertex 27 X-coordinate
+       \units m
+       \type real
+  N82, \field Vertex 27 Y-coordinate
+       \type real
+       \units m
+  N83, \field Vertex 27 Z-coordinate
+       \units m
+       \type real
+  N84, \field Vertex 28 X-coordinate
+       \units m
+       \type real
+  N85, \field Vertex 28 Y-coordinate
+       \type real
+       \units m
+  N86, \field Vertex 28 Z-coordinate
+       \units m
+       \type real
+  N87, \field Vertex 29 X-coordinate
+       \units m
+       \type real
+  N88, \field Vertex 29 Y-coordinate
+       \type real
+       \units m
+  N89, \field Vertex 29 Z-coordinate
+       \units m
+       \type real
+  N90, \field Vertex 30 X-coordinate
+       \units m
+       \type real
+  N91, \field Vertex 30 Y-coordinate
+       \type real
+       \units m
+  N92, \field Vertex 30 Z-coordinate
+       \units m
+       \type real
+  N93, \field Vertex 31 X-coordinate
+       \units m
+       \type real
+  N94, \field Vertex 31 Y-coordinate
+       \units m
+       \type real
+  N95, \field Vertex 31 Z-coordinate
+       \units m
+       \type real
+  N96, \field Vertex 32 X-coordinate
+       \units m
+       \type real
+  N97, \field Vertex 32 Y-coordinate
+       \units m
+       \type real
+  N98, \field Vertex 32 Z-coordinate
+       \units m
+       \type real
+  N99, \field Vertex 33 X-coordinate
+       \units m
+       \type real
+  N100, \field Vertex 33 Y-coordinate
+       \units m
+       \type real
+  N101, \field Vertex 33 Z-coordinate
+       \units m
+       \type real
+  N102, \field Vertex 34 X-coordinate
+       \units m
+       \type real
+  N103, \field Vertex 34 Y-coordinate
+       \units m
+       \type real
+  N104, \field Vertex 34 Z-coordinate
+       \units m
+       \type real
+  N105, \field Vertex 35 X-coordinate
+       \units m
+       \type real
+  N106, \field Vertex 35 Y-coordinate
+       \units m
+       \type real
+  N107, \field Vertex 35 Z-coordinate
+       \units m
+       \type real
+  N108, \field Vertex 36 X-coordinate
+       \units m
+       \type real
+  N109, \field Vertex 36 Y-coordinate
+       \units m
+       \type real
+  N110, \field Vertex 36 Z-coordinate
+       \units m
+       \type real
+  N111, \field Vertex 37 X-coordinate
+       \units m
+       \type real
+  N112, \field Vertex 37 Y-coordinate
+       \units m
+       \type real
+  N113, \field Vertex 37 Z-coordinate
+       \units m
+       \type real
+  N114, \field Vertex 38 X-coordinate
+       \units m
+       \type real
+  N115, \field Vertex 38 Y-coordinate
+       \units m
+       \type real
+  N116, \field Vertex 38 Z-coordinate
+       \units m
+       \type real
+  N117, \field Vertex 39 X-coordinate
+       \units m
+       \type real
+  N118, \field Vertex 39 Y-coordinate
+       \units m
+       \type real
+  N119, \field Vertex 39 Z-coordinate
+       \units m
+       \type real
+  N120, \field Vertex 40 X-coordinate
+       \units m
+       \type real
+  N121, \field Vertex 40 Y-coordinate
+       \units m
+       \type real
+  N122, \field Vertex 40 Z-coordinate
+       \units m
+       \type real
+  N123, \field Vertex 41 X-coordinate
+       \units m
+       \type real
+  N124, \field Vertex 41 Y-coordinate
+       \units m
+       \type real
+  N125, \field Vertex 41 Z-coordinate
+       \units m
+       \type real
+  N126, \field Vertex 42 X-coordinate
+       \units m
+       \type real
+  N127, \field Vertex 42 Y-coordinate
+       \units m
+       \type real
+  N128, \field Vertex 42 Z-coordinate
+       \units m
+       \type real
+  N129, \field Vertex 43 X-coordinate
+       \units m
+       \type real
+  N130, \field Vertex 43 Y-coordinate
+       \units m
+       \type real
+  N131, \field Vertex 43 Z-coordinate
+       \units m
+       \type real
+  N132, \field Vertex 44 X-coordinate
+       \units m
+       \type real
+  N133, \field Vertex 44 Y-coordinate
+       \units m
+       \type real
+  N134, \field Vertex 44 Z-coordinate
+       \units m
+       \type real
+  N135, \field Vertex 45 X-coordinate
+       \units m
+       \type real
+  N136, \field Vertex 45 Y-coordinate
+       \units m
+       \type real
+  N137, \field Vertex 45 Z-coordinate
+       \units m
+       \type real
+  N138, \field Vertex 46 X-coordinate
+       \units m
+       \type real
+  N139, \field Vertex 46 Y-coordinate
+       \units m
+       \type real
+  N140, \field Vertex 46 Z-coordinate
+       \units m
+       \type real
+  N141, \field Vertex 47 X-coordinate
+       \units m
+       \type real
+  N142, \field Vertex 47 Y-coordinate
+       \units m
+       \type real
+  N143, \field Vertex 47 Z-coordinate
+       \units m
+       \type real
+  N144, \field Vertex 48 X-coordinate
+       \units m
+       \type real
+  N145, \field Vertex 48 Y-coordinate
+       \units m
+       \type real
+  N146, \field Vertex 48 Z-coordinate
+       \units m
+       \type real
+  N147, \field Vertex 49 X-coordinate
+       \units m
+       \type real
+  N148, \field Vertex 49 Y-coordinate
+       \units m
+       \type real
+  N149, \field Vertex 49 Z-coordinate
+       \units m
+       \type real
+  N150, \field Vertex 50 X-coordinate
+       \units m
+       \type real
+  N151, \field Vertex 50 Y-coordinate
+       \units m
+       \type real
+  N152, \field Vertex 50 Z-coordinate
+       \units m
+       \type real
+  N153, \field Vertex 51 X-coordinate
+       \units m
+       \type real
+  N154, \field Vertex 51 Y-coordinate
+       \units m
+       \type real
+  N155, \field Vertex 51 Z-coordinate
+       \units m
+       \type real
+  N156, \field Vertex 52 X-coordinate
+       \units m
+       \type real
+  N157, \field Vertex 52 Y-coordinate
+       \units m
+       \type real
+  N158, \field Vertex 52 Z-coordinate
+       \units m
+       \type real
+  N159, \field Vertex 53 X-coordinate
+       \units m
+       \type real
+  N160, \field Vertex 53 Y-coordinate
+       \units m
+       \type real
+  N161, \field Vertex 53 Z-coordinate
+       \units m
+       \type real
+  N162, \field Vertex 54 X-coordinate
+       \units m
+       \type real
+  N163, \field Vertex 54 Y-coordinate
+       \units m
+       \type real
+  N164, \field Vertex 54 Z-coordinate
+       \units m
+       \type real
+  N165, \field Vertex 55 X-coordinate
+       \units m
+       \type real
+  N166, \field Vertex 55 Y-coordinate
+       \units m
+       \type real
+  N167, \field Vertex 55 Z-coordinate
+       \units m
+       \type real
+  N168, \field Vertex 56 X-coordinate
+       \units m
+       \type real
+  N169, \field Vertex 56 Y-coordinate
+       \units m
+       \type real
+  N170, \field Vertex 56 Z-coordinate
+       \units m
+       \type real
+  N171, \field Vertex 57 X-coordinate
+       \units m
+       \type real
+  N172, \field Vertex 57 Y-coordinate
+       \units m
+       \type real
+  N173, \field Vertex 57 Z-coordinate
+       \units m
+       \type real
+  N174, \field Vertex 58 X-coordinate
+       \units m
+       \type real
+  N175, \field Vertex 58 Y-coordinate
+       \units m
+       \type real
+  N176, \field Vertex 58 Z-coordinate
+       \units m
+       \type real
+  N177, \field Vertex 59 X-coordinate
+       \units m
+       \type real
+  N178, \field Vertex 59 Y-coordinate
+       \units m
+       \type real
+  N179, \field Vertex 59 Z-coordinate
+       \units m
+       \type real
+  N180, \field Vertex 60 X-coordinate
+       \units m
+       \type real
+  N181, \field Vertex 60 Y-coordinate
+       \units m
+       \type real
+  N182, \field Vertex 60 Z-coordinate
+       \units m
+       \type real
+  N183, \field Vertex 61 X-coordinate
+       \units m
+       \type real
+  N184, \field Vertex 61 Y-coordinate
+       \units m
+       \type real
+  N185, \field Vertex 61 Z-coordinate
+       \units m
+       \type real
+  N186, \field Vertex 62 X-coordinate
+       \units m
+       \type real
+  N187, \field Vertex 62 Y-coordinate
+       \units m
+       \type real
+  N188, \field Vertex 62 Z-coordinate
+       \units m
+       \type real
+  N189, \field Vertex 63 X-coordinate
+       \units m
+       \type real
+  N190, \field Vertex 63 Y-coordinate
+       \units m
+       \type real
+  N191, \field Vertex 63 Z-coordinate
+       \units m
+       \type real
+  N192, \field Vertex 64 X-coordinate
+       \units m
+       \type real
+  N193, \field Vertex 64 Y-coordinate
+       \units m
+       \type real
+  N194, \field Vertex 64 Z-coordinate
+       \units m
+       \type real
+  N195, \field Vertex 65 X-coordinate
+       \units m
+       \type real
+  N196, \field Vertex 65 Y-coordinate
+       \units m
+       \type real
+  N197, \field Vertex 65 Z-coordinate
+       \units m
+       \type real
+  N198, \field Vertex 66 X-coordinate
+       \units m
+       \type real
+  N199, \field Vertex 66 Y-coordinate
+       \units m
+       \type real
+  N200, \field Vertex 66 Z-coordinate
+       \units m
+       \type real
+  N201, \field Vertex 67 X-coordinate
+       \units m
+       \type real
+  N202, \field Vertex 67 Y-coordinate
+       \units m
+       \type real
+  N203, \field Vertex 67 Z-coordinate
+       \units m
+       \type real
+  N204, \field Vertex 68 X-coordinate
+       \units m
+       \type real
+  N205, \field Vertex 68 Y-coordinate
+       \units m
+       \type real
+  N206, \field Vertex 68 Z-coordinate
+       \units m
+       \type real
+  N207, \field Vertex 69 X-coordinate
+       \units m
+       \type real
+  N208, \field Vertex 69 Y-coordinate
+       \units m
+       \type real
+  N209, \field Vertex 69 Z-coordinate
+       \units m
+       \type real
+  N210, \field Vertex 70 X-coordinate
+       \units m
+       \type real
+  N211, \field Vertex 70 Y-coordinate
+       \units m
+       \type real
+  N212, \field Vertex 70 Z-coordinate
+       \units m
+       \type real
+  N213, \field Vertex 71 X-coordinate
+       \units m
+       \type real
+  N214, \field Vertex 71 Y-coordinate
+       \units m
+       \type real
+  N215, \field Vertex 71 Z-coordinate
+       \units m
+       \type real
+  N216, \field Vertex 72 X-coordinate
+       \units m
+       \type real
+  N217, \field Vertex 72 Y-coordinate
+       \units m
+       \type real
+  N218, \field Vertex 72 Z-coordinate
+       \units m
+       \type real
+  N219, \field Vertex 73 X-coordinate
+       \units m
+       \type real
+  N220, \field Vertex 73 Y-coordinate
+       \units m
+       \type real
+  N221, \field Vertex 73 Z-coordinate
+       \units m
+       \type real
+  N222, \field Vertex 74 X-coordinate
+       \units m
+       \type real
+  N223, \field Vertex 74 Y-coordinate
+       \units m
+       \type real
+  N224, \field Vertex 74 Z-coordinate
+       \units m
+       \type real
+  N225, \field Vertex 75 X-coordinate
+       \units m
+       \type real
+  N226, \field Vertex 75 Y-coordinate
+       \units m
+       \type real
+  N227, \field Vertex 75 Z-coordinate
+       \units m
+       \type real
+  N228, \field Vertex 76 X-coordinate
+       \units m
+       \type real
+  N229, \field Vertex 76 Y-coordinate
+       \units m
+       \type real
+  N230, \field Vertex 76 Z-coordinate
+       \units m
+       \type real
+  N231, \field Vertex 77 X-coordinate
+       \units m
+       \type real
+  N232, \field Vertex 77 Y-coordinate
+       \units m
+       \type real
+  N233, \field Vertex 77 Z-coordinate
+       \units m
+       \type real
+  N234, \field Vertex 78 X-coordinate
+       \units m
+       \type real
+  N235, \field Vertex 78 Y-coordinate
+       \units m
+       \type real
+  N236, \field Vertex 78 Z-coordinate
+       \units m
+       \type real
+  N237, \field Vertex 79 X-coordinate
+       \units m
+       \type real
+  N238, \field Vertex 79 Y-coordinate
+       \units m
+       \type real
+  N239, \field Vertex 79 Z-coordinate
+       \units m
+       \type real
+  N240, \field Vertex 80 X-coordinate
+       \units m
+       \type real
+  N241, \field Vertex 80 Y-coordinate
+       \units m
+       \type real
+  N242, \field Vertex 80 Z-coordinate
+       \units m
+       \type real
+  N243, \field Vertex 81 X-coordinate
+       \units m
+       \type real
+  N244, \field Vertex 81 Y-coordinate
+       \units m
+       \type real
+  N245, \field Vertex 81 Z-coordinate
+       \units m
+       \type real
+  N246, \field Vertex 82 X-coordinate
+       \units m
+       \type real
+  N247, \field Vertex 82 Y-coordinate
+       \units m
+       \type real
+  N248, \field Vertex 82 Z-coordinate
+       \units m
+       \type real
+  N249, \field Vertex 83 X-coordinate
+       \units m
+       \type real
+  N250, \field Vertex 83 Y-coordinate
+       \units m
+       \type real
+  N251, \field Vertex 83 Z-coordinate
+       \units m
+       \type real
+  N252, \field Vertex 84 X-coordinate
+       \units m
+       \type real
+  N253, \field Vertex 84 Y-coordinate
+       \units m
+       \type real
+  N254, \field Vertex 84 Z-coordinate
+       \units m
+       \type real
+  N255, \field Vertex 85 X-coordinate
+       \units m
+       \type real
+  N256, \field Vertex 85 Y-coordinate
+       \units m
+       \type real
+  N257, \field Vertex 85 Z-coordinate
+       \units m
+       \type real
+  N258, \field Vertex 86 X-coordinate
+       \units m
+       \type real
+  N259, \field Vertex 86 Y-coordinate
+       \units m
+       \type real
+  N260, \field Vertex 86 Z-coordinate
+       \units m
+       \type real
+  N261, \field Vertex 87 X-coordinate
+       \units m
+       \type real
+  N262, \field Vertex 87 Y-coordinate
+       \units m
+       \type real
+  N263, \field Vertex 87 Z-coordinate
+       \units m
+       \type real
+  N264, \field Vertex 88 X-coordinate
+       \units m
+       \type real
+  N265, \field Vertex 88 Y-coordinate
+       \units m
+       \type real
+  N266, \field Vertex 88 Z-coordinate
+       \units m
+       \type real
+  N267, \field Vertex 89 X-coordinate
+       \units m
+       \type real
+  N268, \field Vertex 89 Y-coordinate
+       \units m
+       \type real
+  N269, \field Vertex 89 Z-coordinate
+       \units m
+       \type real
+  N270, \field Vertex 90 X-coordinate
+       \units m
+       \type real
+  N271, \field Vertex 90 Y-coordinate
+       \units m
+       \type real
+  N272, \field Vertex 90 Z-coordinate
+       \units m
+       \type real
+  N273, \field Vertex 91 X-coordinate
+       \units m
+       \type real
+  N274, \field Vertex 91 Y-coordinate
+       \units m
+       \type real
+  N275, \field Vertex 91 Z-coordinate
+       \units m
+       \type real
+  N276, \field Vertex 92 X-coordinate
+       \units m
+       \type real
+  N277, \field Vertex 92 Y-coordinate
+       \units m
+       \type real
+  N278, \field Vertex 92 Z-coordinate
+       \units m
+       \type real
+  N279, \field Vertex 93 X-coordinate
+       \units m
+       \type real
+  N280, \field Vertex 93 Y-coordinate
+       \units m
+       \type real
+  N281, \field Vertex 93 Z-coordinate
+       \units m
+       \type real
+  N282, \field Vertex 94 X-coordinate
+       \units m
+       \type real
+  N283, \field Vertex 94 Y-coordinate
+       \units m
+       \type real
+  N284, \field Vertex 94 Z-coordinate
+       \units m
+       \type real
+  N285, \field Vertex 95 X-coordinate
+       \units m
+       \type real
+  N286, \field Vertex 95 Y-coordinate
+       \units m
+       \type real
+  N287, \field Vertex 95 Z-coordinate
+       \units m
+       \type real
+  N288, \field Vertex 96 X-coordinate
+       \units m
+       \type real
+  N289, \field Vertex 96 Y-coordinate
+       \units m
+       \type real
+  N290, \field Vertex 96 Z-coordinate
+       \units m
+       \type real
+  N291, \field Vertex 97 X-coordinate
+       \units m
+       \type real
+  N292, \field Vertex 97 Y-coordinate
+       \units m
+       \type real
+  N293, \field Vertex 97 Z-coordinate
+       \units m
+       \type real
+  N294, \field Vertex 98 X-coordinate
+       \units m
+       \type real
+  N295, \field Vertex 98 Y-coordinate
+       \units m
+       \type real
+  N296, \field Vertex 98 Z-coordinate
+       \units m
+       \type real
+  N297, \field Vertex 99 X-coordinate
+       \units m
+       \type real
+  N298, \field Vertex 99 Y-coordinate
+       \units m
+       \type real
+  N299, \field Vertex 99 Z-coordinate
+       \units m
+       \type real
+  N300, \field Vertex 100 X-coordinate
+       \units m
+       \type real
+  N301, \field Vertex 100 Y-coordinate
+       \units m
+       \type real
+  N302, \field Vertex 100 Z-coordinate
+       \units m
+       \type real
+  N303, \field Vertex 101 X-coordinate
+       \units m
+       \type real
+  N304, \field Vertex 101 Y-coordinate
+       \units m
+       \type real
+  N305, \field Vertex 101 Z-coordinate
+       \units m
+       \type real
+  N306, \field Vertex 102 X-coordinate
+       \units m
+       \type real
+  N307, \field Vertex 102 Y-coordinate
+       \units m
+       \type real
+  N308, \field Vertex 102 Z-coordinate
+       \units m
+       \type real
+  N309, \field Vertex 103 X-coordinate
+       \units m
+       \type real
+  N310, \field Vertex 103 Y-coordinate
+       \units m
+       \type real
+  N311, \field Vertex 103 Z-coordinate
+       \units m
+       \type real
+  N312, \field Vertex 104 X-coordinate
+       \units m
+       \type real
+  N313, \field Vertex 104 Y-coordinate
+       \units m
+       \type real
+  N314, \field Vertex 104 Z-coordinate
+       \units m
+       \type real
+  N315, \field Vertex 105 X-coordinate
+       \units m
+       \type real
+  N316, \field Vertex 105 Y-coordinate
+       \units m
+       \type real
+  N317, \field Vertex 105 Z-coordinate
+       \units m
+       \type real
+  N318, \field Vertex 106 X-coordinate
+       \units m
+       \type real
+  N319, \field Vertex 106 Y-coordinate
+       \units m
+       \type real
+  N320, \field Vertex 106 Z-coordinate
+       \units m
+       \type real
+  N321, \field Vertex 107 X-coordinate
+       \units m
+       \type real
+  N322, \field Vertex 107 Y-coordinate
+       \units m
+       \type real
+  N323, \field Vertex 107 Z-coordinate
+       \units m
+       \type real
+  N324, \field Vertex 108 X-coordinate
+       \units m
+       \type real
+  N325, \field Vertex 108 Y-coordinate
+       \units m
+       \type real
+  N326, \field Vertex 108 Z-coordinate
+       \units m
+       \type real
+  N327, \field Vertex 109 X-coordinate
+       \units m
+       \type real
+  N328, \field Vertex 109 Y-coordinate
+       \units m
+       \type real
+  N329, \field Vertex 109 Z-coordinate
+       \units m
+       \type real
+  N330, \field Vertex 110 X-coordinate
+       \units m
+       \type real
+  N331, \field Vertex 110 Y-coordinate
+       \units m
+       \type real
+  N332, \field Vertex 110 Z-coordinate
+       \units m
+       \type real
+  N333, \field Vertex 111 X-coordinate
+       \units m
+       \type real
+  N334, \field Vertex 111 Y-coordinate
+       \units m
+       \type real
+  N335, \field Vertex 111 Z-coordinate
+       \units m
+       \type real
+  N336, \field Vertex 112 X-coordinate
+       \units m
+       \type real
+  N337, \field Vertex 112 Y-coordinate
+       \units m
+       \type real
+  N338, \field Vertex 112 Z-coordinate
+       \units m
+       \type real
+  N339, \field Vertex 113 X-coordinate
+       \units m
+       \type real
+  N340, \field Vertex 113 Y-coordinate
+       \units m
+       \type real
+  N341, \field Vertex 113 Z-coordinate
+       \units m
+       \type real
+  N342, \field Vertex 114 X-coordinate
+       \units m
+       \type real
+  N343, \field Vertex 114 Y-coordinate
+       \units m
+       \type real
+  N344, \field Vertex 114 Z-coordinate
+       \units m
+       \type real
+  N345, \field Vertex 115 X-coordinate
+       \units m
+       \type real
+  N346, \field Vertex 115 Y-coordinate
+       \units m
+       \type real
+  N347, \field Vertex 115 Z-coordinate
+       \units m
+       \type real
+  N348, \field Vertex 116 X-coordinate
+       \units m
+       \type real
+  N349, \field Vertex 116 Y-coordinate
+       \units m
+       \type real
+  N350, \field Vertex 116 Z-coordinate
+       \units m
+       \type real
+  N351, \field Vertex 117 X-coordinate
+       \units m
+       \type real
+  N352, \field Vertex 117 Y-coordinate
+       \units m
+       \type real
+  N353, \field Vertex 117 Z-coordinate
+       \units m
+       \type real
+  N354, \field Vertex 118 X-coordinate
+       \units m
+       \type real
+  N355, \field Vertex 118 Y-coordinate
+       \units m
+       \type real
+  N356, \field Vertex 118 Z-coordinate
+       \units m
+       \type real
+  N357, \field Vertex 119 X-coordinate
+       \units m
+       \type real
+  N358, \field Vertex 119 Y-coordinate
+       \units m
+       \type real
+  N359, \field Vertex 119 Z-coordinate
+       \units m
+       \type real
+  N360, \field Vertex 120 X-coordinate
+       \units m
+       \type real
+  N361, \field Vertex 120 Y-coordinate
+       \units m
+       \type real
+  N362; \field Vertex 120 Z-coordinate
+       \units m
+       \type real
+
+
+ZoneHVAC:EquipmentList,
+       \extensible:6 Duplicate the six fields Zone Equipment Object Type through Sequential Heating Fraction
+       \memo List equipment in simulation order.  Note that an ZoneHVAC:AirDistributionUnit or
+       \memo AirTerminal:SingleDuct:Uncontrolled object must be listed in this statement if there is a forced
+       \memo air system serving the zone from the air loop.
+       \memo Equipment is simulated in the order specified by Zone Equipment Cooling Sequence and
+       \memo Zone Equipment Heating or No-Load Sequence, depending on the thermostat request.
+       \memo For equipment of similar type, assign sequence 1 to the first system intended to
+       \memo serve that type of load.  For situations where one or more equipment types has limited capacity or
+       \memo limited control, order the sequence so that the most controllable piece of equipment runs last.
+       \memo For example, with a dedicated outdoor air system (DOAS), the air terminal for the DOAS
+       \memo should be assigned Heating Sequence = 1 and Cooling Sequence = 1.  Any other equipment should
+       \memo be assigned sequence 2 or higher so that it will see the net load after the DOAS air is added
+       \memo to the zone.
+       \min-fields 8
+  A1 , \field Name
+       \required-field
+       \reference ZoneEquipmentLists
+  A2 , \field Load Distribution Scheme
+       \type choice
+       \key SequentialLoad
+       \key UniformLoad
+       \key UniformPLR
+       \key SequentialUniformPLR
+       \default SequentialLoad
+  A3 , \field Zone Equipment 1 Object Type
+       \begin-extensible
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+       \required-field
+  A4 , \field Zone Equipment 1 Name
+       \required-field
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N1 , \field Zone Equipment 1 Cooling Sequence
+       \required-field
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N2 , \field Zone Equipment 1 Heating or No-Load Sequence
+       \required-field
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N3 , \field Zone Equipment 1 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N4 , \field Zone Equipment 1 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A5 , \field Zone Equipment 2 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A6 , \field Zone Equipment 2 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N5 , \field Zone Equipment 2 Cooling Sequence
+       \type integer
+       \minimum 1
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N6 , \field Zone Equipment 2 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N7 , \field Zone Equipment 2 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N8 , \field Zone Equipment 2 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A7 , \field Zone Equipment 3 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A8 , \field Zone Equipment 3 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N9 , \field Zone Equipment 3 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N10, \field Zone Equipment 3 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N11, \field Zone Equipment 3 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N12, \field Zone Equipment 3 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A9 , \field Zone Equipment 4 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A10, \field Zone Equipment 4 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N13, \field Zone Equipment 4 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N14, \field Zone Equipment 4 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N15, \field Zone Equipment 4 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N16, \field Zone Equipment 4 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A11, \field Zone Equipment 5 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A12, \field Zone Equipment 5 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N17, \field Zone Equipment 5 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N18, \field Zone Equipment 5 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N19, \field Zone Equipment 5 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N20, \field Zone Equipment 5 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A13, \field Zone Equipment 6 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A14, \field Zone Equipment 6 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N21, \field Zone Equipment 6 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N22, \field Zone Equipment 6 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N23, \field Zone Equipment 6 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N24, \field Zone Equipment 6 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A15, \field Zone Equipment 7 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A16, \field Zone Equipment 7 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N25, \field Zone Equipment 7 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N26, \field Zone Equipment 7 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N27, \field Zone Equipment 7 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N28, \field Zone Equipment 7 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A17, \field Zone Equipment 8 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A18, \field Zone Equipment 8 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N29, \field Zone Equipment 8 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N30, \field Zone Equipment 8 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N31, \field Zone Equipment 8 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N32, \field Zone Equipment 8 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A19, \field Zone Equipment 9 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A20, \field Zone Equipment 9 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N33, \field Zone Equipment 9 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N34, \field Zone Equipment 9 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N35, \field Zone Equipment 9 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N36, \field Zone Equipment 9 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A21, \field Zone Equipment 10 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A22, \field Zone Equipment 10 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N37, \field Zone Equipment 10 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N38, \field Zone Equipment 10 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N39, \field Zone Equipment 10 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N40, \field Zone Equipment 10 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A23, \field Zone Equipment 11 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A24, \field Zone Equipment 11 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N41, \field Zone Equipment 11 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N42, \field Zone Equipment 11 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N43, \field Zone Equipment 11 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N44, \field Zone Equipment 11 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A25, \field Zone Equipment 12 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A26, \field Zone Equipment 12 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N45, \field Zone Equipment 12 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N46, \field Zone Equipment 12 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N47, \field Zone Equipment 12 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N48, \field Zone Equipment 12 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A27, \field Zone Equipment 13 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A28, \field Zone Equipment 13 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N49, \field Zone Equipment 13 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N50, \field Zone Equipment 13 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N51, \field Zone Equipment 13 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N52, \field Zone Equipment 13 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A29, \field Zone Equipment 14 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A30, \field Zone Equipment 14 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N53, \field Zone Equipment 14 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N54, \field Zone Equipment 14 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N55, \field Zone Equipment 14 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N56, \field Zone Equipment 14 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A31, \field Zone Equipment 15 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A32, \field Zone Equipment 15 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N57, \field Zone Equipment 15 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N58, \field Zone Equipment 15 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N59, \field Zone Equipment 15 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N60, \field Zone Equipment 15 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A33, \field Zone Equipment 16 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A34, \field Zone Equipment 16 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N61, \field Zone Equipment 16 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N62, \field Zone Equipment 16 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N63, \field Zone Equipment 16 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N64, \field Zone Equipment 16 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A35, \field Zone Equipment 17 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A36, \field Zone Equipment 17 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N65, \field Zone Equipment 17 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N66, \field Zone Equipment 17 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N67, \field Zone Equipment 17 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N68, \field Zone Equipment 17 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  A37, \field Zone Equipment 18 Object Type
+       \type choice
+       \key ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+       \key ZoneHVAC:AirDistributionUnit
+       \key AirTerminal:SingleDuct:Uncontrolled
+       \key ZoneHVAC:EnergyRecoveryVentilator
+       \key ZoneHVAC:EvaporativeCoolerUnit
+       \key ZoneHVAC:HybridUnitaryHVAC
+       \key ZoneHVAC:ForcedAir:UserDefined
+       \key ZoneHVAC:FourPipeFanCoil
+       \key ZoneHVAC:OutdoorAirUnit
+       \key ZoneHVAC:PackagedTerminalAirConditioner
+       \key ZoneHVAC:PackagedTerminalHeatPump
+       \key ZoneHVAC:UnitHeater
+       \key ZoneHVAC:UnitVentilator
+       \key ZoneHVAC:VentilatedSlab
+       \key ZoneHVAC:WaterToAirHeatPump
+       \key ZoneHVAC:WindowAirConditioner
+       \key ZoneHVAC:Baseboard:RadiantConvective:Electric
+       \key ZoneHVAC:Baseboard:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:RadiantConvective:Steam
+       \key ZoneHVAC:CoolingPanel:RadiantConvective:Water
+       \key ZoneHVAC:Baseboard:Convective:Electric
+       \key ZoneHVAC:Baseboard:Convective:Water
+       \key ZoneHVAC:HighTemperatureRadiant
+       \key ZoneHVAC:LowTemperatureRadiant:VariableFlow
+       \key ZoneHVAC:LowTemperatureRadiant:ConstantFlow
+       \key ZoneHVAC:LowTemperatureRadiant:Electric
+       \key ZoneHVAC:Dehumidifier:DX
+       \key ZoneHVAC:IdealLoadsAirSystem
+       \key ZoneHVAC:RefrigerationChillerSet
+       \key Fan:ZoneExhaust
+       \key WaterHeater:HeatPump:PumpedCondenser
+       \key WaterHeater:HeatPump:WrappedCondenser
+       \key HeatExchanger:AirToAir:FlatPlate
+       \key AirLoopHVAC:UnitarySystem
+  A38, \field Zone Equipment 18 Name
+       \type object-list
+       \object-list ZoneEquipmentNames
+  N69, \field Zone Equipment 18 Cooling Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests cooling
+  N70, \field Zone Equipment 18 Heating or No-Load Sequence
+       \type integer
+       \minimum 0
+       \note Specifies the zone equipment simulation order
+       \note when the zone thermostat requests heating or no load
+  N71, \field Zone Equipment 18 Sequential Cooling Fraction
+       \note The fraction of the remaining cooling load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+  N72; \field Zone Equipment 18 Sequential Heating Fraction
+       \note The fraction of the remaining heating load this equipment will attempt to serve
+       \note if the load distribution scheme is SequentialLoad, otherwise ignored.
+       \type real
+       \minimum 0.0
+       \maximum 1.0
+       \default 1.0
+
+NodeList,
+  \min-fields 2
+       \extensible:1 Just duplicate last field and comments (changing numbering, please)
+       \memo This object is used in places where lists of nodes may be
+       \memo needed, e.g. ZoneHVAC:EquipmentConnections field Zone Air Inlet Node or NodeList Name
+  A1 , \field Name
+       \required-field
+       \type node
+  A2 , \field Node 1 Name
+       \required-field
+       \begin-extensible
+       \type node
+  A3 , \field Node 2 Name
+       \type node
+  A4 , \field Node 3 Name
+       \type node
+  A5 , \field Node 4 Name
+       \type node
+  A6 , \field Node 5 Name
+       \type node
+  A7 , \field Node 6 Name
+       \type node
+  A8 , \field Node 7 Name
+       \type node
+  A9 , \field Node 8 Name
+       \type node
+  A10, \field Node 9 Name
+       \type node
+  A11, \field Node 10 Name
+       \type node
+  A12, \field Node 11 Name
+       \type node
+  A13, \field Node 12 Name
+       \type node
+  A14, \field Node 13 Name
+       \type node
+  A15, \field Node 14 Name
+       \type node
+  A16, \field Node 15 Name
+       \type node
+  A17, \field Node 16 Name
+       \type node
+  A18, \field Node 17 Name
+       \type node
+  A19, \field Node 18 Name
+       \type node
+  A20, \field Node 19 Name
+       \type node
+  A21, \field Node 20 Name
+       \type node
+  A22, \field Node 21 Name
+       \type node
+  A23, \field Node 22 Name
+       \type node
+  A24, \field Node 23 Name
+       \type node
+  A25, \field Node 24 Name
+       \type node
+  A26, \field Node 25 Name
+       \type node
+  A27, \field Node 26 Name
+       \type node
+  A28, \field Node 27 Name
+       \type node
+  A29, \field Node 28 Name
+       \type node
+  A30, \field Node 29 Name
+       \type node
+  A31, \field Node 30 Name
+       \type node
+  A32, \field Node 31 Name
+       \type node
+  A33, \field Node 32 Name
+       \type node
+  A34, \field Node 33 Name
+       \type node
+  A35, \field Node 34 Name
+       \type node
+  A36, \field Node 35 Name
+       \type node
+  A37, \field Node 36 Name
+       \type node
+  A38, \field Node 37 Name
+       \type node
+  A39, \field Node 38 Name
+       \type node
+  A40, \field Node 39 Name
+       \type node
+  A41, \field Node 40 Name
+       \type node
+  A42, \field Node 41 Name
+       \type node
+  A43, \field Node 42 Name
+       \type node
+  A44, \field Node 43 Name
+       \type node
+  A45, \field Node 44 Name
+       \type node
+  A46, \field Node 45 Name
+       \type node
+  A47, \field Node 46 Name
+       \type node
+  A48, \field Node 47 Name
+       \type node
+  A49, \field Node 48 Name
+       \type node
+  A50, \field Node 49 Name
+       \type node
+  A51, \field Node 50 Name
+       \type node
+  A52, \field Node 51 Name
+       \type node
+  A53, \field Node 52 Name
+       \type node
+  A54, \field Node 53 Name
+       \type node
+  A55, \field Node 54 Name
+       \type node
+  A56, \field Node 55 Name
+       \type node
+  A57, \field Node 56 Name
+       \type node
+  A58, \field Node 57 Name
+       \type node
+  A59, \field Node 58 Name
+       \type node
+  A60, \field Node 59 Name
+       \type node
+  A61, \field Node 60 Name
+       \type node
+  A62, \field Node 61 Name
+       \type node
+  A63, \field Node 62 Name
+       \type node
+  A64, \field Node 63 Name
+       \type node
+  A65, \field Node 64 Name
+       \type node
+  A66, \field Node 65 Name
+       \type node
+  A67, \field Node 66 Name
+       \type node
+  A68, \field Node 67 Name
+       \type node
+  A69, \field Node 68 Name
+       \type node
+  A70, \field Node 69 Name
+       \type node
+  A71, \field Node 70 Name
+       \type node
+  A72, \field Node 71 Name
+       \type node
+  A73, \field Node 72 Name
+       \type node
+  A74, \field Node 73 Name
+       \type node
+  A75, \field Node 74 Name
+       \type node
+  A76, \field Node 75 Name
+       \type node
+  A77, \field Node 76 Name
+       \type node
+  A78, \field Node 77 Name
+       \type node
+  A79, \field Node 78 Name
+       \type node
+  A80, \field Node 79 Name
+       \type node
+  A81, \field Node 80 Name
+       \type node
+  A82, \field Node 81 Name
+       \type node
+  A83, \field Node 82 Name
+       \type node
+  A84, \field Node 83 Name
+       \type node
+  A85, \field Node 84 Name
+       \type node
+  A86, \field Node 85 Name
+       \type node
+  A87, \field Node 86 Name
+       \type node
+  A88, \field Node 87 Name
+       \type node
+  A89, \field Node 88 Name
+       \type node
+  A90, \field Node 89 Name
+       \type node
+  A91, \field Node 90 Name
+       \type node
+  A92, \field Node 91 Name
+       \type node
+  A93, \field Node 92 Name
+       \type node
+  A94, \field Node 93 Name
+       \type node
+  A95, \field Node 94 Name
+       \type node
+  A96, \field Node 95 Name
+       \type node
+  A97, \field Node 96 Name
+       \type node
+  A98, \field Node 97 Name
+       \type node
+  A99, \field Node 98 Name
+       \type node
+  A100, \field Node 99 Name
+        \type node
+  A101, \field Node 100 Name
+        \type node
+  A102,A103,A104,A105,A106,A107,A108,A109,A110,A111, \note fields as indicated
+  A112,A113,A114,A115,A116,A117,A118,A119,A120,A121, \note fields as indicated
+  A122,A123,A124,A125,A126,A127,A128,A129,A130,A131, \note fields as indicated
+  A132,A133,A134,A135,A136,A137,A138,A139,A140,A141, \note fields as indicated
+  A142,A143,A144,A145,A146,A147,A148,A149,A150,A151, \note fields as indicated
+  A152,A153,A154,A155,A156,A157,A158,A159,A160,A161, \note fields as indicated
+  A162,A163,A164,A165,A166,A167,A168,A169,A170,A171, \note fields as indicated
+  A172,A173,A174,A175,A176,A177,A178,A179,A180,A181, \note fields as indicated
+  A182,A183,A184,A185,A186,A187,A188,A189,A190,A191, \note fields as indicated
+  A192,A193,A194,A195,A196,A197,A198,A199,A200,A201, \note fields as indicated
+  A202,A203,A204,A205,A206,A207,A208,A209,A210,A211, \note fields as indicated
+  A212,A213,A214,A215,A216,A217,A218,A219,A220,A221, \note fields as indicated
+  A222,A223,A224,A225,A226,A227,A228,A229,A230,A231, \note fields as indicated
+  A232,A233,A234,A235,A236,A237,A238,A239,A240,A241, \note fields as indicated
+  A242,A243,A244,A245,A246,A247,A248,A249,A250,A251, \note fields as indicated
+  A252,A253,A254,A255,A256,A257,A258,A259,A260,A261, \note fields as indicated
+  A262,A263,A264,A265,A266,A267,A268,A269,A270,A271, \note fields as indicated
+  A272,A273,A274,A275,A276,A277,A278,A279,A280,A281, \note fields as indicated
+  A282,A283,A284,A285,A286,A287,A288,A289,A290,A291, \note fields as indicated
+  A292,A293,A294,A295,A296,A297,A298,A299,A300,A301, \note fields as indicated
+  A302,A303,A304,A305,A306,A307,A308,A309,A310,A311, \note fields as indicated
+  A312,A313,A314,A315,A316,A317,A318,A319,A320,A321, \note fields as indicated
+  A322,A323,A324,A325,A326,A327,A328,A329,A330,A331, \note fields as indicated
+  A332,A333,A334,A335,A336,A337,A338,A339,A340,A341, \note fields as indicated
+  A342,A343,A344,A345,A346,A347,A348,A349,A350,A351, \note fields as indicated
+  A352,A353,A354,A355,A356,A357,A358,A359,A360,A361, \note fields as indicated
+  A362,A363,A364,A365,A366,A367,A368,A369,A370,A371, \note fields as indicated
+  A372,A373,A374,A375,A376,A377,A378,A379,A380,A381, \note fields as indicated
+  A382,A383,A384,A385,A386,A387,A388,A389,A390,A391, \note fields as indicated
+  A392,A393,A394,A395,A396,A397,A398,A399,A400,A401, \note fields as indicated
+  A402,A403,A404,A405,A406,A407,A408,A409,A410,A411, \note fields as indicated
+  A412,A413,A414,A415,A416,A417,A418,A419,A420,A421, \note fields as indicated
+  A422,A423,A424,A425,A426,A427,A428,A429,A430,A431, \note fields as indicated
+  A432,A433,A434,A435,A436,A437,A438,A439,A440,A441, \note fields as indicated
+  A442,A443,A444,A445,A446,A447,A448,A449,A450,A451, \note fields as indicated
+  A452,A453,A454,A455,A456,A457,A458,A459,A460,A461, \note fields as indicated
+  A462,A463,A464,A465,A466,A467,A468,A469,A470,A471, \note fields as indicated
+  A472,A473,A474,A475,A476,A477,A478,A479,A480,A481, \note fields as indicated
+  A482,A483,A484,A485,A486,A487,A488,A489,A490,A491, \note fields as indicated
+  A492,A493,A494,A495,A496,A497,A498,A499,A500,A501; \note fields as indicated
+
+OutdoorAir:NodeList,
+       \extensible:1 Just duplicate last field and comments (changing numbering, please)
+       \memo This object sets the temperature and humidity conditions
+       \memo for an outdoor air node using the weather data values.
+       \memo to vary outdoor air node conditions with height above ground
+       \memo use OutdoorAir:Node instead of this object.
+       \memo This object may be used more than once.
+       \memo The same node name may not appear in both an OutdoorAir:Node object and
+       \memo an OutdoorAir:NodeList object.
+  A1 , \field Node or NodeList Name 1
+       \required-field
+       \type node
+       \begin-extensible
+  A2 , \field Node or NodeList Name 2
+       \type node
+  A3 , \field Node or NodeList Name 3
+       \type node
+  A4 , \field Node or NodeList Name 4
+       \type node
+  A5 , \field Node or NodeList Name 5
+       \type node
+  A6 , \field Node or NodeList Name 6
+       \type node
+  A7 , \field Node or NodeList Name 7
+       \type node
+  A8 , \field Node or NodeList Name 8
+       \type node
+  A9 , \field Node or NodeList Name 9
+       \type node
+  A10, \field Node or NodeList Name 10
+       \type node
+  A11, \field Node or NodeList Name 11
+       \type node
+  A12, \field Node or NodeList Name 12
+       \type node
+  A13, \field Node or NodeList Name 13
+       \type node
+  A14, \field Node or NodeList Name 14
+       \type node
+  A15, \field Node or NodeList Name 15
+       \type node
+  A16, \field Node or NodeList Name 16
+       \type node
+  A17, \field Node or NodeList Name 17
+       \type node
+  A18, \field Node or NodeList Name 18
+       \type node
+  A19, \field Node or NodeList Name 19
+       \type node
+  A20, \field Node or NodeList Name 20
+       \type node
+  A21, \field Node or NodeList Name 21
+       \type node
+  A22, \field Node or NodeList Name 22
+       \type node
+  A23, \field Node or NodeList Name 23
+       \type node
+  A24, \field Node or NodeList Name 24
+       \type node
+  A25, \field Node or NodeList Name 25
+       \type node
+  A26, \field Node or NodeList Name 26
+       \type node
+  A27, \field Node or NodeList Name 27
+       \type node
+  A28, \field Node or NodeList Name 28
+       \type node
+  A29, \field Node or NodeList Name 29
+       \type node
+  A30, \field Node or NodeList Name 30
+       \type node
+  A31, \field Node or NodeList Name 31
+       \type node
+  A32, \field Node or NodeList Name 32
+       \type node
+  A33, \field Node or NodeList Name 33
+       \type node
+  A34, \field Node or NodeList Name 34
+       \type node
+  A35, \field Node or NodeList Name 35
+       \type node
+  A36, \field Node or NodeList Name 36
+       \type node
+  A37, \field Node or NodeList Name 37
+       \type node
+  A38, \field Node or NodeList Name 38
+       \type node
+  A39, \field Node or NodeList Name 39
+       \type node
+  A40, \field Node or NodeList Name 40
+       \type node
+  A41, \field Node or NodeList Name 41
+       \type node
+  A42, \field Node or NodeList Name 42
+       \type node
+  A43, \field Node or NodeList Name 43
+       \type node
+  A44, \field Node or NodeList Name 44
+       \type node
+  A45, \field Node or NodeList Name 45
+       \type node
+  A46, \field Node or NodeList Name 46
+       \type node
+  A47, \field Node or NodeList Name 47
+       \type node
+  A48, \field Node or NodeList Name 48
+       \type node
+  A49, \field Node or NodeList Name 49
+       \type node
+  A50, \field Node or NodeList Name 50
+       \type node
+  A51, \field Node or NodeList Name 51
+       \type node
+  A52, \field Node or NodeList Name 52
+       \type node
+  A53, \field Node or NodeList Name 53
+       \type node
+  A54, \field Node or NodeList Name 54
+       \type node
+  A55, \field Node or NodeList Name 55
+       \type node
+  A56, \field Node or NodeList Name 56
+       \type node
+  A57, \field Node or NodeList Name 57
+       \type node
+  A58, \field Node or NodeList Name 58
+       \type node
+  A59, \field Node or NodeList Name 59
+       \type node
+  A60, \field Node or NodeList Name 60
+       \type node
+  A61, \field Node or NodeList Name 61
+       \type node
+  A62, \field Node or NodeList Name 62
+       \type node
+  A63, \field Node or NodeList Name 63
+       \type node
+  A64, \field Node or NodeList Name 64
+       \type node
+  A65, \field Node or NodeList Name 65
+       \type node
+  A66, \field Node or NodeList Name 66
+       \type node
+  A67, \field Node or NodeList Name 67
+       \type node
+  A68, \field Node or NodeList Name 68
+       \type node
+  A69, \field Node or NodeList Name 69
+       \type node
+  A70, \field Node or NodeList Name 70
+       \type node
+  A71, \field Node or NodeList Name 71
+       \type node
+  A72, \field Node or NodeList Name 72
+       \type node
+  A73, \field Node or NodeList Name 73
+       \type node
+  A74, \field Node or NodeList Name 74
+       \type node
+  A75, \field Node or NodeList Name 75
+       \type node
+  A76, \field Node or NodeList Name 76
+       \type node
+  A77, \field Node or NodeList Name 77
+       \type node
+  A78, \field Node or NodeList Name 78
+       \type node
+  A79, \field Node or NodeList Name 79
+       \type node
+  A80, \field Node or NodeList Name 80
+       \type node
+  A81, \field Node or NodeList Name 81
+       \type node
+  A82, \field Node or NodeList Name 82
+       \type node
+  A83, \field Node or NodeList Name 83
+       \type node
+  A84, \field Node or NodeList Name 84
+       \type node
+  A85, \field Node or NodeList Name 85
+       \type node
+  A86, \field Node or NodeList Name 86
+       \type node
+  A87, \field Node or NodeList Name 87
+       \type node
+  A88, \field Node or NodeList Name 88
+       \type node
+  A89, \field Node or NodeList Name 89
+       \type node
+  A90, \field Node or NodeList Name 90
+       \type node
+  A91, \field Node or NodeList Name 91
+       \type node
+  A92, \field Node or NodeList Name 92
+       \type node
+  A93, \field Node or NodeList Name 93
+       \type node
+  A94, \field Node or NodeList Name 94
+       \type node
+  A95, \field Node or NodeList Name 95
+       \type node
+  A96, \field Node or NodeList Name 96
+       \type node
+  A97, \field Node or NodeList Name 97
+       \type node
+  A98, \field Node or NodeList Name 98
+       \type node
+  A99, \field Node or NodeList Name 99
+       \type node
+  A100, \field Node or NodeList Name 100
+        \type node
+  A101,A102,A103,A104,A105,A106,A107,A108,A109,A110, \note fields as indicated
+  A111,A112,A113,A114,A115,A116,A117,A118,A119,A120, \note fields as indicated
+  A121,A122,A123,A124,A125,A126,A127,A128,A129,A130, \note fields as indicated
+  A131,A132,A133,A134,A135,A136,A137,A138,A139,A140, \note fields as indicated
+  A141,A142,A143,A144,A145,A146,A147,A148,A149,A150, \note fields as indicated
+  A151,A152,A153,A154,A155,A156,A157,A158,A159,A160, \note fields as indicated
+  A161,A162,A163,A164,A165,A166,A167,A168,A169,A170, \note fields as indicated
+  A171,A172,A173,A174,A175,A176,A177,A178,A179,A180, \note fields as indicated
+  A181,A182,A183,A184,A185,A186,A187,A188,A189,A190, \note fields as indicated
+  A191,A192,A193,A194,A195,A196,A197,A198,A199,A200, \note fields as indicated
+  A201,A202,A203,A204,A205,A206,A207,A208,A209,A210, \note fields as indicated
+  A211,A212,A213,A214,A215,A216,A217,A218,A219,A220, \note fields as indicated
+  A221,A222,A223,A224,A225,A226,A227,A228,A229,A230, \note fields as indicated
+  A231,A232,A233,A234,A235,A236,A237,A238,A239,A240, \note fields as indicated
+  A241,A242,A243,A244,A245,A246,A247,A248,A249,A250, \note fields as indicated
+  A251,A252,A253,A254,A255,A256,A257,A258,A259,A260, \note fields as indicated
+  A261,A262,A263,A264,A265,A266,A267,A268,A269,A270, \note fields as indicated
+  A271,A272,A273,A274,A275,A276,A277,A278,A279,A280, \note fields as indicated
+  A281,A282,A283,A284,A285,A286,A287,A288,A289,A290, \note fields as indicated
+  A291,A292,A293,A294,A295,A296,A297,A298,A299,A300, \note fields as indicated
+  A301,A302,A303,A304,A305,A306,A307,A308,A309,A310, \note fields as indicated
+  A311,A312,A313,A314,A315,A316,A317,A318,A319,A320, \note fields as indicated
+  A321,A322,A323,A324,A325,A326,A327,A328,A329,A330, \note fields as indicated
+  A331,A332,A333,A334,A335,A336,A337,A338,A339,A340, \note fields as indicated
+  A341,A342,A343,A344,A345,A346,A347,A348,A349,A350, \note fields as indicated
+  A351,A352,A353,A354,A355,A356,A357,A358,A359,A360, \note fields as indicated
+  A361,A362,A363,A364,A365,A366,A367,A368,A369,A370, \note fields as indicated
+  A371,A372,A373,A374,A375,A376,A377,A378,A379,A380, \note fields as indicated
+  A381,A382,A383,A384,A385,A386,A387,A388,A389,A390, \note fields as indicated
+  A391,A392,A393,A394,A395,A396,A397,A398,A399,A400, \note fields as indicated
+  A401,A402,A403,A404,A405,A406,A407,A408,A409,A410, \note fields as indicated
+  A411,A412,A413,A414,A415,A416,A417,A418,A419,A420, \note fields as indicated
+  A421,A422,A423,A424,A425,A426,A427,A428,A429,A430, \note fields as indicated
+  A431,A432,A433,A434,A435,A436,A437,A438,A439,A440, \note fields as indicated
+  A441,A442,A443,A444,A445,A446,A447,A448,A449,A450, \note fields as indicated
+  A451,A452,A453,A454,A455,A456,A457,A458,A459,A460, \note fields as indicated
+  A461,A462,A463,A464,A465,A466,A467,A468,A469,A470, \note fields as indicated
+  A471,A472,A473,A474,A475,A476,A477,A478,A479,A480, \note fields as indicated
+  A481,A482,A483,A484,A485,A486,A487,A488,A489,A490, \note fields as indicated
+  A491,A492,A493,A494,A495,A496,A497,A498,A499,A500; \note fields as indicated
+
