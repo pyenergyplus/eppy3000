@@ -37,7 +37,7 @@ setup(
     include_package_data=True,
     keywords='eppy3000',
     name='eppy3000',
-    packages=find_packages(include=['eppy3000']),
+    packages=find_packages(include=['eppy3000', 'eppy3000.*']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
