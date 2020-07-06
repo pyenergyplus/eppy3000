@@ -8,7 +8,8 @@ Welcome to eppy3000's documentation!
    readme
    installation
    usage
-   tutorial
+   tutorial1
+   tutorial2
    usewitheppy
    modules
    contributing
