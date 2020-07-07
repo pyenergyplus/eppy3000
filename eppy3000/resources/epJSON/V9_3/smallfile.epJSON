@@ -1,0 +1,39 @@
+{
+    "Version": {
+        "Version 1": {
+            "version_identifier": "9.3",
+            "idf_order": 1
+        }
+    },
+    "SimulationControl": {
+        "SimulationControl 1": {
+            "do_zone_sizing_calculation": "Yes",
+            "do_system_sizing_calculation": "Yes",
+            "do_plant_sizing_calculation": "Yes",
+            "run_simulation_for_sizing_periods": "No",
+            "run_simulation_for_weather_file_run_periods": "Yes",
+            "idf_order": 2
+        }
+    },
+    "Building": {
+        "Empire State Building": {
+            "north_axis": 30,
+            "terrain": "City",
+            "loads_convergence_tolerance_value": 0.04,
+            "temperature_convergence_tolerance_value": 0.4,
+            "solar_distribution": "FullExterior",
+            "maximum_number_of_warmup_days": 25,
+            "minimum_number_of_warmup_days": 6,
+            "idf_order": 3
+        }
+    },
+    "Site:Location": {
+        "CHICAGO_IL_USA TMY2-94846": {
+            "latitude": 41.78,
+            "longitude": -87.75,
+            "time_zone": -6,
+            "elevation": 190,
+            "idf_order": 4
+        }
+    }
+}
