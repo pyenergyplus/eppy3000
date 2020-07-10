@@ -1,3 +1,20 @@
+2020-07-10
+----------
+
+There seems to be a regex in the schema.epJSON
+
+    - ".*"
+    - "^.*\\S.*$"
+
+a code snippet looks like::
+
+    <snip>
+    "ZoneCapacitanceMultiplier:ResearchSpecial": {
+            "patternProperties": {
+                "^.*\\S.*$": {
+                    "type": "object",
+     <snip>
+
 2020-05-11
 ----------
 
@@ -11,34 +28,35 @@ added experimental folder
 ----------
 
 Jupyter Notebook Tools for Sphinx
+
 - Install nbsphinx. (pip install nbsphinx)
 - Edit your conf.py and add 'nbsphinx' to extensions .
-- Edit your index. rst and add the names of your *. ipynb files to the toctree .
+- Edit your index. rst and add the names of your ``*.`` ipynb files to the toctree .
 - Run Sphinx!
 
 2020-05-10
 ----------
 
-issue #34 fully works here
-issue #35 is hand coded into #34
+- issue #34 fully works here
+- issue #35 is hand coded into #34
 
-do a merge request for #35
-(#35 has to be canceled and a newly worded issue has to be opened)
-do a separate merge request for #34 after merging in #35
-this will keep it clean on the maintainer end
+- do a merge request for #35
+- (#35 has to be canceled and a newly worded issue has to be opened)
+- do a separate merge request for #34 after merging in #35
+- this will keep it clean on the maintainer end
 
 2020-05-09
 ----------
 
-Usage in docs still talk about IDF. It is now EPJ.
-needs to be updated
-(does it really need to be epj)
+- Usage in docs still talk about IDF. It is now EPJ.
+- needs to be updated
+- (does it really need to be epj)
 
-EPJ.__repr__ is printing human readable format
-EPJ.__str__ should do that not `.__repr__`
+- EPJ.__repr__ is printing human readable format
+- EPJ.__str__ should do that not `.__repr__`
 
-I need the __repr__ to work correctly now !!!! :-(
-open a new issue on this ... so that I can focus on it.
+- I need the __repr__ to work correctly now !!!! :-(
+- open a new issue on this ... so that I can focus on it.
 
 
 
@@ -46,6 +64,7 @@ open a new issue on this ... so that I can focus on it.
 ----------
 
 Maybe solution to eppy vs eppy3000 issue:
+
 - original thought was
     - develop eppy3000 as a natural flow
     - develop eppy independently with eppy300 functionality
@@ -57,12 +76,13 @@ Maybe solution to eppy vs eppy3000 issue:
 2019-06-06
 ----------
 
+::
 
-python3 -m twine upload dist/*
-# remove the login details in  ~/.pypirc -> to ensure you can upload from multiple accounts
+    python3 -m twine upload dist/*
+    # remove the login details in  ~/.pypirc -> to ensure you can upload from multiple accounts
 
 
-Server response (410): This API is no longer supported, instead simply upload the file.
+    Server response (410): This API is no longer supported, instead simply upload the file.
 
 
 2019-06-02
@@ -86,9 +106,11 @@ see: https://python-3-patterns-idioms-test.readthedocs.io/en/latest/index.html
 ----------
 
 The idf objects need following keys:
+
 - eppykey
 - eppyname
 - eppylen
+
 post process this after the read.
 
 2018-12-10
@@ -97,6 +119,7 @@ post process this after the read.
 If ipython is running the wrong version of python, then:
 
 Run hash -r
+
 From your bash shell, run::
 
     hash -r
@@ -114,25 +137,31 @@ it will refer to the version of iPython that you installed in your virtual envir
 2018-12-08
 ----------
 
-git remote add upstream https://github.com/pyenergyplus/eppy3000.git
-git pull --rebase upstream master
+::
 
-removed eppy3000 for python2
-all dev will bein python3
+    git remote add upstream https://github.com/pyenergyplus/eppy3000.git
+    git pull --rebase upstream master
 
-# First time
-python3 -m venv ~/venvs/eppy3000
-python3.7 -m venv ~/venvs/eppy3000
-source ~/venvs/eppy3000/bin/activate
+- removed eppy3000 for python2
+- all dev will bein python3
 
-if you want to run with eppy installed:
-python3 -m venv ~/venvs/eppy3000_eppy
-python3.7 -m venv ~/venvs/eppy3000_eppy
-source ~/venvs/eppy3000_eppy/bin/activate
+::
+
+    # First time
+    python3 -m venv ~/venvs/eppy3000
+    python3.7 -m venv ~/venvs/eppy3000
+    source ~/venvs/eppy3000/bin/activate
+
+    # if you want to run with eppy installed:
+    python3 -m venv ~/venvs/eppy3000_eppy
+    python3.7 -m venv ~/venvs/eppy3000_eppy
+    source ~/venvs/eppy3000_eppy/bin/activate
 
 
 2018-10-15
 ----------
 
-mkvirtualenv --python=python2 eppy3000
-git push https://'pyenergyplus':'B_password'@github.com/pyenergyplus/eppy3000.git
+::
+
+    mkvirtualenv --python=python2 eppy3000
+    git push https://'pyenergyplus':'B_password'@github.com/pyenergyplus/eppy3000.git
