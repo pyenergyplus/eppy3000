@@ -55,8 +55,19 @@ class EPSchema(object):
 
     def read(self):
         """read the json file"""
+        def prop_in_patternProp(val):
+            """return the property in patternProperty
+            """
+            # assume that val['patternProperties'] has a single key, val
+            # key is either ".*" or "^.*\\S.*$"
+            for key in val['patternProperties'].keys():
+                return val['patternProperties'][key]
         self.epschema = read_epschema_asmunch(self.epschemaname)
         self.version = self.epschema['epJSON_schema_version']
         self.required = self.epschema['required']
-        self.epschemaobjects = {key: val['patternProperties']['.*']['properties']
+        # self.epschemaobjects = {key: val['patternProperties']['.*']['properties']
+        #                    for key, val in self.epschema['properties'].items()}
+        # the above line stopped working in E+ V9.3. ".*" stopped being the only key
+        # workaround is below
+        self.epschemaobjects = {key: prop_in_patternProp(val)['properties']
                            for key, val in self.epschema['properties'].items()}
