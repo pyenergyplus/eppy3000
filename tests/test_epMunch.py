@@ -46,16 +46,16 @@ def test_printmunch():
     data = (
         (dict(a=dict(aa=dict(z=-1, y=-2))), 0, None,
         ['',
-         'a                                                !-  EP_KEY',
-         '            aa                                   !-  EPJOBJECT_NAME',
+         'a                                                !-  EP_KEY         # use .eppykey',
+         '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',
          '            -1                                   !-  z',
          '            -2                                   !-  y']
         ),  # dct, indent, index, expected
         (dict(a=dict(aa=dict(z=-1, y=[dict(zz=1), dict(zz=2)]))),
         0, None,
         ['',
-         'a                                                !-  EP_KEY',
-         '            aa                                   !-  EPJOBJECT_NAME',
+         'a                                                !-  EP_KEY         # use .eppykey',
+         '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',
          '            -1                                   !-  z',
          '                                                 !-  y',
          '                1                                    !-  zz #1',
@@ -64,16 +64,16 @@ def test_printmunch():
         (dict(a=dict(aa=dict(z=-1, y=-2))),
         0, 3,
         ['',
-         'a                                                !-  EP_KEY',
-         '            aa                                   !-  EPJOBJECT_NAME',
+         'a                                                !-  EP_KEY         # use .eppykey',
+         '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',
          '            -1                                   !-  z #3',
          '            -2                                   !-  y #3']
         ),  # dct, indent, index, expected
         (dict(a=dict(aa=dict(z=-1, y=-2))),
         0, None,
         ['',
-         'a                                                !-  EP_KEY',
-         '            aa                                   !-  EPJOBJECT_NAME',
+         'a                                                !-  EP_KEY         # use .eppykey',
+         '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',
          '            -1                                   !-  z',
          '            -2                                   !-  y']
         ),  # dct, indent, index, expected
@@ -94,8 +94,8 @@ def test_printmunch_withprint(capsys):
         0, None,
         '\n'.join(
             ['',
-             'a                                                !-  EP_KEY',
-             '            aa                                   !-  EPJOBJECT_NAME',  # noqa: E501
+             'a                                                !-  EP_KEY         # use .eppykey',
+             '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
              '            -1                                   !-  z',
              '            -2                                   !-  y'])
         )
@@ -128,8 +128,8 @@ class TestEPMunch(object):
         """py.test for EPMunch.__repr__"""
         lst = [
             '',
-            'a                                                !-  EP_KEY',
-            '            aa                                   !-  EPJOBJECT_NAME',  # noqa: E501
+            'a                                                !-  EP_KEY         # use .eppykey',
+            '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
             '            -1                                   !-  z',
             '            -2                                   !-  y'
         ]
@@ -141,8 +141,8 @@ class TestEPMunch(object):
         """py.test for EPMunch.__str__"""
         lst = [
             '',
-            'a                                                !-  EP_KEY',
-            '            aa                                   !-  EPJOBJECT_NAME',  # noqa: E501
+            'a                                                !-  EP_KEY         # use .eppykey',
+            '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
             '            -1                                   !-  z',
             '            -2                                   !-  y'
         ]

@@ -110,10 +110,10 @@ def printmunch(amunch, indent=0, index=None, func=None):
     if isinstance(amunch, Munch):
         if 'eppykey' in amunch:
             func("")
-            func(f"{amunch['eppykey']:<36}{' '*4*(indent+1)} !-  EP_KEY")
+            func(f"{amunch['eppykey']:<36}{' '*4*(indent+1)} !-  EP_KEY         # use .eppykey")
             ind1 = ' '*4*(indent+1)
             ind2 = ' '*4*(indent-1)
-            func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME")
+            func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname")
     for key, val in amunch.items():
         if isinstance(val, Munch):
             printmunch(val, indent=indent+1, index=index,
