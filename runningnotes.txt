@@ -1,3 +1,9 @@
+2020-07-15 18:34
+----------------
+
+- ``eppykey`` and ``eppyname`` shoule engage setattr and getattr
+- right now ``eppykey`` and ``eppyname`` are just fields the epMunch unconnected to the JSON
+
 2020-07-05 11:41
 ----------------
 

@@ -34,6 +34,12 @@ class EPJ(object):
         self.epj = readepjjson(self.epjname)
         self.epobjects = {key: [val1 for val1 in val.values()]
                            for key, val in self.epj.items()}
+        # TODO: the above line should get the epobjects from the schema
+        # This should happen whenever the schema is read. 
+        # in case the schema reding happens far in the future
+        # eppy3000 should partilly work even without the schema
+        # - 
+        # this may be the place to inser EPJ.epj into self.epobjects
         if self.epschemaname:
             for key in self.epobjects.keys():
                 for epobject in self.epobjects[key]:
