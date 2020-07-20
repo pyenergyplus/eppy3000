@@ -93,7 +93,7 @@ def removeeppykeys(epmunch, rkeys=None):
     None
     """
     if not rkeys:
-        rkeys = ['eppykey', 'eppyname', 'eppy_objepschema']
+        rkeys = ['eppykey', 'eppyname', 'eppy_objepschema', 'eppy_epj']
     for key, epobjects in epmunch.items():
         for name, epobject in epobjects.items():
             for rkey in rkeys:

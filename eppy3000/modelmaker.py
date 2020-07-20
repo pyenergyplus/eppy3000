@@ -40,6 +40,9 @@ class EPJ(object):
         # eppy3000 should partilly work even without the schema
         # - 
         # this may be the place to inser EPJ.epj into self.epobjects
+        for epobjects in self.epobjects.values():
+            for epobject in epobjects:
+                epobject['eppy_epj'] = self.epj
         if self.epschemaname:
             for key in self.epobjects.keys():
                 for epobject in self.epobjects[key]:
