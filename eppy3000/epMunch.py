@@ -115,6 +115,8 @@ def printmunch(amunch, indent=0, index=None, func=None):
             ind2 = ' '*4*(indent-1)
             func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname")
     for key, val in amunch.items():
+        if key == 'eppy_epj':
+            continue # prevents an infinite recurse
         if isinstance(val, Munch):
             printmunch(val, indent=indent+1, index=index,
                        func=func)
@@ -124,7 +126,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                      func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
-        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema']:
+        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema', 'eppy_epj']:
             if index:
                 ind = ' '*4*(indent+1)
                 func(f"{ind}{val:<36} !-  {key} #{index}")
@@ -148,3 +150,15 @@ class EPMunch(Munch):
     def __str__(self):
         """same as __repr__"""
         return self.__repr__()
+
+    def __setattr__(self, name, value):
+        """deals with names starting with eppy
+        """
+        if name == 'eppyname':
+            epobjects_dict = self.eppy_epj[self.eppykey]
+            epobject = epobjects_dict.pop(self.eppyname)
+            epobjects_dict[value] = epobject
+            epobject['eppyname'] = value
+        if name.startswith('eppy'):
+            pass # do nothing - but cannot be initialized
+                 # apparently can be initialized ??
