@@ -140,7 +140,7 @@ class EPMunch(Munch):
     def __init__(self, *args, **kwargs):
         super(EPMunch, self).__init__(*args, **kwargs)
 
-    # TODO : __repr__ and __str__ ahould b different
+    # TODO : __repr__ and __str__ ahould be different
     def __repr__(self):
         """print this as a snippet"""
         lines = []

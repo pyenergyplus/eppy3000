@@ -39,7 +39,9 @@ class EPJ(object):
         # in case the schema reding happens far in the future
         # eppy3000 should partilly work even without the schema
         # - 
-        # this may be the place to inser EPJ.epj into self.epobjects
+        
+        # insert epj into the epjobject
+        # this allows the epjobject to access all other objects in the epj
         for epobjects in self.epobjects.values():
             for epobject in epobjects:
                 epobject['eppy_epj'] = self.epj
@@ -100,6 +102,7 @@ class EPJ(object):
         # TODO exceptions for wrong field name
         # TODO exception for wrong field value type
         # TODO documentation in usage.rst
+        # should self.epobjects be updated here
         objepschema = self.epschema.epschemaobjects[key]
         try:
             nobj = self.epj[key][objname] = EPMunch()
@@ -128,12 +131,14 @@ class EPJ(object):
 
     def removeepobject(self, key, objname):
         """remove an epj object"""
+        # should self.epobjects be updated here
         return self.epj[key].pop(objname)
 
     def copyepobject(self, key, objname, newname):
         """copy an epj object with a new name"""
         # don't use the function dict.items() since the json for array has
         # field name `items`
+        # should self.epobjects be updated here
         oldobj = self.epj[key][objname]
         newobj = EPMunch()
         self.epj[key][newname] = newobj

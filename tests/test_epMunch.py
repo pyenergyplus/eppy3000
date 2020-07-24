@@ -116,7 +116,7 @@ def test_printmunch_ofEPSchema():
     assert result == expected
 
 
-class TestEPMunch(object):
+class TestEPMunch_simple(object):
     """py.test for EPMunch"""
     def setup(self):
         dct = dict(a=dict(aa=dict(z=-1, y=-2)))
@@ -142,6 +142,7 @@ class TestEPMunch(object):
         lst = [
             '',
             'a                                                !-  EP_KEY         # use .eppykey',
+        # should self.epobjects be updated here
             '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
             '            -1                                   !-  z',
             '            -2                                   !-  y'

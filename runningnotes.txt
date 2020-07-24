@@ -1,7 +1,12 @@
+2020-07-22 06:20
+----------------
+
+redo tests with fixtures in test_modelmaker.py
+
 2020-07-15 18:34
 ----------------
 
-- ``eppykey`` and ``eppyname`` shoule engage setattr and getattr
+- ``eppykey`` and ``eppyname`` shoule engage setattr and getattr - DONE
 - right now ``eppykey`` and ``eppyname`` are just fields the epMunch unconnected to the JSON
 
 2020-07-05 11:41

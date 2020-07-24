@@ -1,8 +1,9 @@
 2020-07-21
 ----------
 
-- Need a test for printmuch or the __repr__, seems very fragile
+- Need a test for printmuch or the __repr__, seems very fragile - DONE for __repr__
 - need tests for __setattr__ change
+- specifically look for issues with 'eppy*' fields
 
 2020-07-20
 ----------

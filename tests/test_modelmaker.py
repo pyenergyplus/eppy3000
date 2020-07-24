@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Santosh Philip
+# Copyright (c) 2019-2020 Santosh Philip
 # =======================================================================
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,13 +9,33 @@
 
 from io import StringIO
 import json
+import pytest
 
 from eppy3000 import modelmaker
 from tests import schemafortesting
 
+@pytest.fixture
+def version_txt():
+    """txt of version"""
+    txt = """{
+    "Version": {
+        "Version 1": {
+            "version_identifier": "9.3",
+            "idf_order": 1
+        }
+    },
+    "SimulationControl": {},
+    "Building": {},
+    "Site:Location": {}
+}
 
-def test_EPJ():
-    """py.test for EPJ"""
+    """
+    return txt
+
+
+@pytest.fixture
+def epj_txt1():
+    """fixture for first epj"""
     txt = """
     {
         "BuildingSurface:Detailed": {
@@ -57,6 +77,12 @@ def test_EPJ():
             }
         }
     }"""
+    return txt
+    
+
+def test_EPJ(epj_txt1):
+    """py.test for EPJ"""
+    txt = epj_txt1
     expected = 15.24
     result = modelmaker.EPJ(epjname=StringIO(txt))
     surfs = result.epobjects["BuildingSurface:Detailed"]
@@ -75,3 +101,13 @@ def test_EPJ():
     jsonstr = epj.jsonstr()
     result = json.loads(jsonstr)
     assert result == expected
+
+def test_EPJ_repr_(version_txt):
+    """pytest for __repr__ in EPJ"""
+    expected = """
+Version                                          !-  EP_KEY         # use .eppykey
+            Version 1                            !-  EPJOBJECT_NAME # use .eppyname
+            9.3                                  !-  version_identifier
+            1                                    !-  idf_order"""
+    epj = modelmaker.EPJ(epjname=StringIO(version_txt))
+    assert expected == epj.__repr__()
