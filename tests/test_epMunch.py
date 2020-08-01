@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Santosh Philip
+# Copyright (c) 2019-2020 Santosh Philip
 # =======================================================================
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,6 +8,7 @@
 
 import json
 from io import StringIO
+import pytest
 
 import eppy3000.readepj as readepj
 from eppy3000 import epMunch
@@ -150,3 +151,93 @@ class TestEPMunch_simple(object):
         expected = "\n".join(lst)
         result = self.amunch.__str__()
         assert result == expected
+
+
+@pytest.fixture
+def simplemunch(request):
+    """simple epmuch for tests"""
+    dct = dict(a=dict(aa=dict(z=-1, y=-2)))
+    dctstr = json.dumps(dct)
+    fhandle = StringIO(dctstr)
+    amunch = readepj.readepjjson(fhandle)
+    # print('\n-----------------')
+    # print('fixturename : %s' % request.fixturename)
+    # print('scope       : %s' % request.scope)
+    # print('function    : %s' % request.function.__name__)
+    # print('cls         : %s' % request.cls)
+    # print('module      : %s' % request.module.__name__)
+    # print('fspath      : %s' % request.fspath)
+    # print('-----------------')
+
+    request.cls.amunch = amunch
+    # see this link for more on how request works
+    # https://docs.pytest.org/en/stable/fixture.html#request-context
+    # still not clear to me right now
+    #
+    # You can pick up amunch in the test as self.amunch
+
+    # print('\n-----------------')
+    # print('fixturename : %s' % request.fixturename)
+    # print('scope       : %s' % request.scope)
+    # print('function    : %s' % request.function.__name__)
+    # print('cls         : %s' % request.cls)
+    # print('module      : %s' % request.module.__name__)
+    # print('fspath      : %s' % request.fspath)
+    # print('-----------------')
+    yield
+
+@pytest.mark.usefixtures('simplemunch')
+class TestEPMunch_simple1(object):
+    """py.test for EPMunch"""
+    def test_repr(self):
+        """py.test for EPMunch.__repr__"""
+        lst = [
+            '',
+            'a                                                !-  EP_KEY         # use .eppykey',
+            '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
+            '            -1                                   !-  z',
+            '            -2                                   !-  y'
+        ]
+        expected = "\n".join(lst)
+        result = self.amunch.__repr__()
+        assert result == expected
+
+    def test_str(self):
+        """py.test for EPMunch.__str__"""
+        lst = [
+            '',
+            'a                                                !-  EP_KEY         # use .eppykey',
+        # should self.epobjects be updated here
+            '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
+            '            -1                                   !-  z',
+            '            -2                                   !-  y'
+        ]
+        expected = "\n".join(lst)
+        result = self.amunch.__str__()
+        assert result == expected
+
+    # add an eppy_ field
+    # change and eppy_field
+    # test to see if it works
+    @pytest.mark.parametrize('fname, fvalue, expected', [
+        ('eppy_field', 52, 52), # fname, fvalue, expected
+        ])
+    def test_add_eppy_field(self, fname, fvalue, expected):
+        """test adding a field that starts with 'eppy'"""
+        # add a key, value
+        print(1)
+        self.amunch[fname] = fvalue
+        assert self.amunch[fname] == expected
+        print(2)
+        self.amunch.eppy_hardcoded = fvalue
+        print('add key', type(self.amunch), self.amunch.keys())
+        assert self.amunch['eppy_hardcoded'] == expected
+        # change a value
+        newvalue = 'new value'
+        print(fname, self.amunch[fname], expected, newvalue)
+        print(3)
+        self.amunch[fname] = newvalue
+        assert self.amunch[fname] == expected
+        print(4)
+        self.amunch.eppy_hardcoded = newvalue
+        assert self.amunch.eppy_hardcoded == expected # value should not change

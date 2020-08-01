@@ -1,3 +1,17 @@
+2020-07-29
+----------
+
+looks like we need a::
+
+    class EPObject(EPMunch)
+    
+to deal with eppy field names. EPMunch can deal with all the objects higher in heirarchy
+
+2020-07-26
+----------
+
+- should this be coded so that it is possible to work in the raw json or the epMunch
+
 2020-07-21
 ----------
 

@@ -151,14 +151,34 @@ class EPMunch(Munch):
         """same as __repr__"""
         return self.__repr__()
 
+    def __setitem__(self, key, value):
+        """docstring for __setintem__"""
+        print('in setitem', key, value)
+        if key in self:
+            if key.startswith('eppy'): # TODO: test if it is a string
+                pass # user is not allowed to change eppy fields
+                # TODO: code for eppyname
+            else:
+                super(EPMunch, self).__setitem__(key, value)
+        else:
+            super(EPMunch, self).__setitem__(key, value)
+
     def __setattr__(self, name, value):
         """deals with names starting with eppy
         """
+        if name.startswith('eppy'):
+            print('in epMunch', name, value, self.keys())
+            if name in self:
+                pass # if the key exists, user cannot change it
+            else:
+                super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+        else:
+            super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
         if name == 'eppyname':
+            # if 'eppyname' is changed, the following actions happen in the parent dict
+            # the old key (value of 'eppyname') is popped and a new key is added
+            # with the same value
             epobjects_dict = self.eppy_epj[self.eppykey]
             epobject = epobjects_dict.pop(self.eppyname)
             epobjects_dict[value] = epobject
             epobject['eppyname'] = value
-        if name.startswith('eppy'):
-            pass # do nothing - but cannot be initialized
-                 # apparently can be initialized ??
