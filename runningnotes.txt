@@ -1,3 +1,71 @@
+2020-08-04 08:08
+----------------
+
+tracking issue 57 branches
+
+- master -> i57_key -> i57_key1
+- master -> i57_key2
+
+basic structure of epJSON format::
+
+    {
+        "epjobjects_1": {
+            "epj_1_name_1": {
+                "field1": 1,
+                "field2": 2
+            },
+            "epj_1_name_2": {
+                "field1": 3,
+                "field2": 4
+            }
+        },
+        "epjobjects_2": {
+            "epj_2_name_1": {
+                "field1": 1,
+                "field2": 2
+            },
+            "epj_2_name_2": {
+                "field1": 3,
+                "field2": 4
+            }
+        }
+    }
+
+analyzing it::
+
+
+    {
+    A.     "epjobjects_1": {
+    A.1        "epj_1_name_1": {
+                    "field1": 1,
+                    "field2": 2
+                },
+    A.2        "epj_1_name_2": {
+                    "field1": 3,
+                    "field2": 4
+                }
+            },
+    B.     "epjobjects_2": {
+    B.1        "epj_2_name_1": {
+                    "field1": 1,
+                    "field2": 2
+                },
+    B.2        "epj_2_name_2": {
+                    "field1": 3,
+                    "field2": 4
+                }
+            }
+    }
+
+The epobjects are:
+
+- A.1
+- A.2
+- B.1
+- B.3
+- These epbojects have to be descendant of Munch -> EPMunch
+- anything above this can be a Munch (escept for the print functionality)
+
 2020-07-05 11:41
 ----------------
 
@@ -6,6 +74,8 @@ Working on Tutorial
 - consider naming conventions:
     - import eppy as eppy2000
     - import eppy3000 as eppy
+
+Does not work - abandonded this idea
 
 2020-07-04 20:07
 ----------------
@@ -27,6 +97,7 @@ keeping track  of name changes
     - makes idfobject -> epjobjectj - DONE
     - makes idfmunch -> epjmunchj - DONE
         - make them to epobject, epmunchj - DONE
+
 2019-06-15
 ----------
 
@@ -68,10 +139,12 @@ NOT USED
 ----------
 
 Status
+
 - got some
     - test coverage (check coverage to see what is left)
     - lint
     - doc string
+
 TODO :
     - change names as shown below
     - pytest for idf2json etc -> can announce.
@@ -91,7 +164,7 @@ Need to revisit the naming conventions
 
 - idf -> epj
 - idd -> epschema
-- *.idf -> *.epJSON
+- \*.idf -> \*.epJSON
 
 2019-06-03
 ----------
