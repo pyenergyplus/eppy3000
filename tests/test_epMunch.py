@@ -189,32 +189,6 @@ def simplemunch(request):
 @pytest.mark.usefixtures('simplemunch')
 class TestEPMunch_simple1(object):
     """py.test for EPMunch"""
-    def test_repr(self):
-        """py.test for EPMunch.__repr__"""
-        lst = [
-            '',
-            'a                                                !-  EP_KEY         # use .eppykey',
-            '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
-            '            -1                                   !-  z',
-            '            -2                                   !-  y'
-        ]
-        expected = "\n".join(lst)
-        result = self.amunch.__repr__()
-        assert result == expected
-
-    def test_str(self):
-        """py.test for EPMunch.__str__"""
-        lst = [
-            '',
-            'a                                                !-  EP_KEY         # use .eppykey',
-        # should self.epobjects be updated here
-            '            aa                                   !-  EPJOBJECT_NAME # use .eppyname',  # noqa: E501
-            '            -1                                   !-  z',
-            '            -2                                   !-  y'
-        ]
-        expected = "\n".join(lst)
-        result = self.amunch.__str__()
-        assert result == expected
 
     # add an eppy_ field
     # change and eppy_field
@@ -224,20 +198,32 @@ class TestEPMunch_simple1(object):
         ])
     def test_add_eppy_field(self, fname, fvalue, expected):
         """test adding a field that starts with 'eppy'"""
+        # start with epMunch objects that are not epobjects
         # add a key, value
-        print(1)
         self.amunch[fname] = fvalue
         assert self.amunch[fname] == expected
-        print(2)
         self.amunch.eppy_hardcoded = fvalue
-        print('add key', type(self.amunch), self.amunch.keys())
         assert self.amunch['eppy_hardcoded'] == expected
         # change a value
         newvalue = 'new value'
-        print(fname, self.amunch[fname], expected, newvalue)
-        print(3)
         self.amunch[fname] = newvalue
-        assert self.amunch[fname] == expected
-        print(4)
+        assert self.amunch[fname] == newvalue # since it is not an epobject
+                                              # it should change
         self.amunch.eppy_hardcoded = newvalue
-        assert self.amunch.eppy_hardcoded == expected # value should not change
+        assert self.amunch.eppy_hardcoded == newvalue# value should not change
+        # 
+        # Now test epMunch objects that are epobjects 
+        # add a key, value
+        # 
+        self.amunch.a.aa[fname] = fvalue
+        assert self.amunch.a.aa[fname] == expected
+        self.amunch.a.aa.eppy_hardcoded = fvalue
+        assert self.amunch.a.aa['eppy_hardcoded'] == expected
+        # change a value
+        newvalue = 'new value'
+        self.amunch.a.aa[fname] = newvalue
+        assert self.amunch.a.aa[fname] == expected # since it is an epobject
+                                              # it should not change
+        self.amunch.a.aa.eppy_hardcoded = newvalue
+        assert self.amunch.a.aa.eppy_hardcoded == expected # since it is an epobject
+                                              # it should not change
