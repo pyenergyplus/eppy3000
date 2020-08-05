@@ -1,3 +1,11 @@
+2020-08-04 17:17
+----------------
+
+- It is not making sense to have two subclasses of Munch (EPMunch and EPObject)
+- tag the epobject with a key 'eppy_epobject' and make decisions based on that
+    - May allow you to upgrade the print mechanism (__repr__, __str__)
+    - I think works right now, but is fragile
+
 2020-08-04 08:08
 ----------------
 
