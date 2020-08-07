@@ -13,6 +13,8 @@ import pytest
 import eppy3000.readepj as readepj
 from eppy3000 import epMunch
 from eppy3000.epschema import EPSchemaMunch
+from munch import Munch
+from eppy3000.readepj import removeeppykeys
 
 
 def test_printkey():
@@ -227,3 +229,52 @@ class TestEPMunch_simple1(object):
         self.amunch.a.aa.eppy_hardcoded = newvalue
         assert self.amunch.a.aa.eppy_hardcoded == expected # since it is an epobject
                                               # it should not change
+
+def test_change_eppyname():
+    """pytest for changing eppyname""" 
+    # make the epmunch
+    dct = dict(a=dict(aa=dict(z=-1, y=-2), bb=dict(z=1, y=2)))
+    dctstr = json.dumps(dct)
+    fhandle = StringIO(dctstr)
+    amunch = readepj.readepjjson(fhandle)
+    aa = amunch.a.aa
+    aa['eppyname'] = 'cc'
+    # aa.eppyname = 'cc'
+    assert aa == amunch.a.cc
+    cc = amunch.a.cc
+    # cc['eppyname'] = 'dd'
+    cc.eppyname = 'dd'
+    assert cc == amunch.a.dd
+    amunch.a.dd.z = 55
+    dct = dict(a=dict(dd=dict(z=55, y=-2), bb=dict(z=1, y=2)))
+    dctstr = json.dumps(dct)
+    fhandle = StringIO(dctstr)
+    bmunch = readepj.readepjjson(fhandle)
+    # assert amunch == bmunch
+    
+    # remove eppykeys beflore comparison. 
+    # otherwise it go into a recursive loop because of 'eppy_epobjects'
+    amunchd = amunch.toDict()
+    amunchd = Munch.fromDict(amunchd)
+    removeeppykeys(amunchd)
+    bmunchd = bmunch.toDict()
+    bmunchd = Munch.fromDict(bmunchd)
+    removeeppykeys(bmunchd)
+    
+    assert amunchd == bmunchd
+
+def test_delete():
+    """py.test for EPMunch.delete"""
+    # make the epmunch
+    dct = dict(a=dict(aa=dict(z=-1, y=-2), bb=dict(z=1, y=2)))
+    dctstr = json.dumps(dct)
+    fhandle = StringIO(dctstr)
+    amunch = readepj.readepjjson(fhandle)
+    amunch.a.aa.delete()
+    assert list(amunch.a.bb.eppy_epobjects.keys()) == ['bb']
+    # test when it not an epobject
+    with pytest.raises(epMunch.NotEPObject):
+        amunch.a.delete()
+    amunch['a']['bb'].delete() # test when bb is not an attribute      
+    assert list(amunch.a.keys()) == []
+

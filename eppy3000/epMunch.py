@@ -9,6 +9,8 @@
 from munch import Munch
 from eppy3000.epschema import EPSchemaMunch
 
+class NotEPObject(Exception):
+    pass        
 
 def printkey(key, indent=0, formatstr=None, func=None):
     """Prints the key in epMunch with the right indentation
@@ -115,7 +117,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
             ind2 = ' '*4*(indent-1)
             func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname")
     for key, val in amunch.items():
-        if key == 'eppy_epj':
+        if key in ['eppy_epj', 'eppy_epobjects']:
             continue # prevents an infinite recurse
         if isinstance(val, Munch):
             printmunch(val, indent=indent+1, index=index,
@@ -126,7 +128,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                      func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
-        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema', 'eppy_epj']:
+        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema', 'eppy_epj', 'eppy_epobjects']:
             if index:
                 ind = ' '*4*(indent+1)
                 func(f"{ind}{val:<36} !-  {key} #{index}")
@@ -165,8 +167,21 @@ class EPMunch(Munch):
             # it is an epobject
             if key in self:
                 if key.startswith('eppy'): # TODO: test if it is a string
-                    pass # user is not allowed to change eppy fields
-                    # TODO: code for eppyname, since user can change eppyname
+                    if key== 'eppyname':
+                        if key in self.keys():
+                            # if 'eppyname' is changed, the following actions happen in the parent dict
+                            # the old key (value of 'eppyname') is popped and a new key is added
+                            # with the same value
+                            # epobjects_dict = self.eppy_epj[self.eppykey]
+                            epobjects_dict = self.eppy_epobjects 
+                            epobject = epobjects_dict.pop(self.eppyname)
+                            epobjects_dict[value] = self
+                            self.pop(key)
+                            super(EPMunch, self).__setitem__(key, value)
+                        else:
+                            super(EPMunch, self).__setitem__(key, value)
+                    else:
+                        pass # user is not allowed to change eppy fields
                 else:
                     super(EPMunch, self).__setitem__(key, value)
             else:
@@ -193,10 +208,27 @@ class EPMunch(Munch):
             else:
                 super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
             if name == 'eppyname':
-                # if 'eppyname' is changed, the following actions happen in the parent dict
-                # the old key (value of 'eppyname') is popped and a new key is added
-                # with the same value
-                epobjects_dict = self.eppy_epj[self.eppykey]
-                epobject = epobjects_dict.pop(self.eppyname)
-                epobjects_dict[value] = epobject
-                epobject['eppyname'] = value
+                if name in self.keys():
+                    # if 'eppyname' is changed, the following actions happen in the parent dict
+                    # the old key (value of 'eppyname') is popped and a new key is added
+                    # with the same value
+                    epobjects_dict = self.eppy_epobjects 
+                    epobject = epobjects_dict.pop(self.eppyname)
+                    epobjects_dict[value] = self
+                    self.pop(name)
+                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+                else:
+                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+
+    def delete(self):
+        """delete this by removing it from the parent dict"""
+        try:
+            epobjects = self.eppy_epobjects
+        except AttributeError as e:
+            raise NotEPObject
+        return epobjects.pop(self.eppyname)
+
+    def copy(self, newname):
+        """make a copy of this anc add it to parent dict
+        """        
+        pass

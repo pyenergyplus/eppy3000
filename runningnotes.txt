@@ -1,3 +1,38 @@
+2020-08-06 20:00
+----------------
+
+try the follwoing functions:
+
+- EPMunch.delete()
+- EPMunch.copy(newname)
+- EPMunch.?
+
+
+2020-08-06 15:01
+----------------
+
+having a hard time making my prefered API work - DAMMIT ... got it working :-)
+
+- changing eppyname actually changes the name
+
+possible strategy:
+
+- make a test class from Munch and experiment just with it using a debugger
+- install Munch from a known folder
+- call the classs Munchy :-)
+
+- to keep the release write a function (rename_epobject) to explicitly change the name
+- might also need explicit functions for 
+    - delete
+    - append
+    - etc.
+
+- rename_epobject -> how to do this.: 
+
+Another strategy:
+
+- delete the eppyname and add it back again
+
 2020-08-05 11:03
 ----------------
 
