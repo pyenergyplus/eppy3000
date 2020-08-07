@@ -9,6 +9,8 @@
 from munch import Munch
 from eppy3000.epschema import EPSchemaMunch
 
+class NotEPObject(Exception):
+    pass        
 
 def printkey(key, indent=0, formatstr=None, func=None):
     """Prints the key in epMunch with the right indentation
@@ -115,6 +117,8 @@ def printmunch(amunch, indent=0, index=None, func=None):
             ind2 = ' '*4*(indent-1)
             func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname")
     for key, val in amunch.items():
+        if key in ['eppy_epj', 'eppy_epobjects']:
+            continue # prevents an infinite recurse
         if isinstance(val, Munch):
             printmunch(val, indent=indent+1, index=index,
                        func=func)
@@ -124,7 +128,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                      func=func)
             for i, aval in enumerate(val):
                 printmunch(aval, indent=indent+1, index=i+1, func=func)
-        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema']:
+        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema', 'eppy_epj', 'eppy_epobjects']:
             if index:
                 ind = ' '*4*(indent+1)
                 func(f"{ind}{val:<36} !-  {key} #{index}")
@@ -138,7 +142,7 @@ class EPMunch(Munch):
     def __init__(self, *args, **kwargs):
         super(EPMunch, self).__init__(*args, **kwargs)
 
-    # TODO : __repr__ and __str__ ahould b different
+    # TODO : __repr__ and __str__ ahould be different
     def __repr__(self):
         """print this as a snippet"""
         lines = []
@@ -148,3 +152,83 @@ class EPMunch(Munch):
     def __str__(self):
         """same as __repr__"""
         return self.__repr__()
+
+    def __setitem__(self, key, value):
+        """only for epobjects and for key starting with eppy"""
+        # EPMunchobj['keyname'] = value will
+        #   call __setitem__
+        # EPMunchobj.keyname = value will
+        #   call __setattr__ and then call
+        #   call __setitem__
+        if 'eppykey' not in self:
+            # it is not an epobject. None of this applies
+            super(EPMunch, self).__setitem__(key, value)
+        else:
+            # it is an epobject
+            if key in self:
+                if key.startswith('eppy'): # TODO: test if it is a string
+                    if key== 'eppyname':
+                        if key in self.keys():
+                            # if 'eppyname' is changed, the following actions happen in the parent dict
+                            # the old key (value of 'eppyname') is popped and a new key is added
+                            # with the same value
+                            # epobjects_dict = self.eppy_epj[self.eppykey]
+                            epobjects_dict = self.eppy_epobjects 
+                            epobject = epobjects_dict.pop(self.eppyname)
+                            epobjects_dict[value] = self
+                            self.pop(key)
+                            super(EPMunch, self).__setitem__(key, value)
+                        else:
+                            super(EPMunch, self).__setitem__(key, value)
+                    else:
+                        pass # user is not allowed to change eppy fields
+                else:
+                    super(EPMunch, self).__setitem__(key, value)
+            else:
+                super(EPMunch, self).__setitem__(key, value)
+
+    def __setattr__(self, name, value):
+        """deals with names starting with eppy. Name starts with eppy only in epobjects
+        """
+        # EPMunchobj['keyname'] = value will
+        #   call __setitem__
+        # EPMunchobj.keyname = value will
+        #   call __setattr__ and then call
+        #   call __setitem__
+        if 'eppykey' not in self:
+            # it is not an epobject
+            super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+        else:
+            # it is an epobject
+            if name.startswith('eppy'):
+                if name in self:
+                    pass # if the key exists, user cannot change it
+                else:
+                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+            else:
+                super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+            if name == 'eppyname':
+                if name in self.keys():
+                    # if 'eppyname' is changed, the following actions happen in the parent dict
+                    # the old key (value of 'eppyname') is popped and a new key is added
+                    # with the same value
+                    epobjects_dict = self.eppy_epobjects 
+                    epobject = epobjects_dict.pop(self.eppyname)
+                    epobjects_dict[value] = self
+                    self.pop(name)
+                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+                else:
+                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+
+    def delete(self):
+        """delete this by removing it from the parent dict"""
+        try:
+            epobjects = self.eppy_epobjects
+        except AttributeError as e:
+            raise NotEPObject
+        return epobjects.pop(self.eppyname)
+
+    def copy(self, newname):
+        """make a copy of this anc add it to parent dict
+        """        
+        pass

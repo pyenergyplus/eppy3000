@@ -1,3 +1,130 @@
+2020-08-06 20:00
+----------------
+
+try the follwoing functions:
+
+- EPMunch.delete()
+- EPMunch.copy(newname)
+- EPMunch.?
+
+
+2020-08-06 15:01
+----------------
+
+having a hard time making my prefered API work - DAMMIT ... got it working :-)
+
+- changing eppyname actually changes the name
+
+possible strategy:
+
+- make a test class from Munch and experiment just with it using a debugger
+- install Munch from a known folder
+- call the classs Munchy :-)
+
+- to keep the release write a function (rename_epobject) to explicitly change the name
+- might also need explicit functions for 
+    - delete
+    - append
+    - etc.
+
+- rename_epobject -> how to do this.: 
+
+Another strategy:
+
+- delete the eppyname and add it back again
+
+2020-08-05 11:03
+----------------
+
+TODO: test for epobject eppyname change
+
+2020-08-04 17:17
+----------------
+
+- It is not making sense to have two subclasses of Munch (EPMunch and EPObject)
+- tag the epobject with a key 'eppy_epobject' and make decisions based on that
+    - May allow you to upgrade the print mechanism (__repr__, __str__)
+    - I think works right now, but is fragile
+
+2020-08-04 08:08
+----------------
+
+tracking issue 57 branches
+
+- master -> i57_key -> i57_key1
+- master -> i57_key2
+
+basic structure of epJSON format::
+
+    {
+        "epjobjects_1": {
+            "epj_1_name_1": {
+                "field1": 1,
+                "field2": 2
+            },
+            "epj_1_name_2": {
+                "field1": 3,
+                "field2": 4
+            }
+        },
+        "epjobjects_2": {
+            "epj_2_name_1": {
+                "field1": 1,
+                "field2": 2
+            },
+            "epj_2_name_2": {
+                "field1": 3,
+                "field2": 4
+            }
+        }
+    }
+
+analyzing it::
+
+
+    {
+    A.     "epjobjects_1": {
+    A.1        "epj_1_name_1": {
+                    "field1": 1,
+                    "field2": 2
+                },
+    A.2        "epj_1_name_2": {
+                    "field1": 3,
+                    "field2": 4
+                }
+            },
+    B.     "epjobjects_2": {
+    B.1        "epj_2_name_1": {
+                    "field1": 1,
+                    "field2": 2
+                },
+    B.2        "epj_2_name_2": {
+                    "field1": 3,
+                    "field2": 4
+                }
+            }
+    }
+
+The epobjects are:
+
+- A.1
+- A.2
+- B.1
+- B.3
+- These epbojects have to be descendant of Munch -> EPMunch
+- anything above this can be a Munch (escept for the print functionality)
+
+2020-07-22 06:20
+----------------
+
+redo tests with fixtures in test_modelmaker.py
+
+2020-07-15 18:34
+----------------
+
+- ``eppykey`` and ``eppyname`` shoule engage setattr and getattr - DONE
+- right now ``eppykey`` and ``eppyname`` are just fields the epMunch unconnected to the JSON
+
 2020-07-05 11:41
 ----------------
 
@@ -6,6 +133,8 @@ Working on Tutorial
 - consider naming conventions:
     - import eppy as eppy2000
     - import eppy3000 as eppy
+
+Does not work - abandonded this idea
 
 2020-07-04 20:07
 ----------------
@@ -27,6 +156,7 @@ keeping track  of name changes
     - makes idfobject -> epjobjectj - DONE
     - makes idfmunch -> epjmunchj - DONE
         - make them to epobject, epmunchj - DONE
+
 2019-06-15
 ----------
 
@@ -68,10 +198,12 @@ NOT USED
 ----------
 
 Status
+
 - got some
     - test coverage (check coverage to see what is left)
     - lint
     - doc string
+
 TODO :
     - change names as shown below
     - pytest for idf2json etc -> can announce.
@@ -91,7 +223,7 @@ Need to revisit the naming conventions
 
 - idf -> epj
 - idd -> epschema
-- *.idf -> *.epJSON
+- \*.idf -> \*.epJSON
 
 2019-06-03
 ----------
