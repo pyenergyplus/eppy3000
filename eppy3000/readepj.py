@@ -29,7 +29,7 @@ def readepjjson(fhandle):
     eppy.EPMunch
     """
     try:
-        fhandle = open(fhandle, 'r')
+        fhandle = open(fhandle, "r")
     except TypeError as e:
         pass
     as_json = json.load(fhandle)
@@ -70,9 +70,9 @@ def addeppykeys(epmunch):
     """
     for key, epobjects in epmunch.items():
         for name, epobject in epobjects.items():
-            epobject['eppykey'] = key
-            epobject['eppyname'] = name
-            epobject['eppy_epobjects'] = epobjects
+            epobject["eppykey"] = key
+            epobject["eppyname"] = name
+            epobject["eppy_epobjects"] = epobjects
 
 
 def removeeppykeys(epmunch, rkeys=None):
@@ -94,7 +94,13 @@ def removeeppykeys(epmunch, rkeys=None):
     None
     """
     if not rkeys:
-        rkeys = ['eppykey', 'eppyname', 'eppy_objepschema', 'eppy_epj', 'eppy_epobjects']
+        rkeys = [
+            "eppykey",
+            "eppyname",
+            "eppy_objepschema",
+            "eppy_epj",
+            "eppy_epobjects",
+        ]
     for key, epobjects in epmunch.items():
         for name, epobject in epobjects.items():
             for rkey in rkeys:

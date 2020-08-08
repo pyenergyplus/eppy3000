@@ -16,10 +16,9 @@ import eppy3000.oldeppy as oldeppy
 
 inname = "./eppy3000/resources/snippets/V9_3/constructions.idf"
 outname = "./eppy3000/resources/snippets/V9_3/constructions.epJSON"
-epschema = './eppy3000/resources/schema/V9_3/Energy+.schema.epJSON'
+epschema = "./eppy3000/resources/schema/V9_3/Energy+.schema.epJSON"
 
 
 idf = eppy.openidf(inname)
-epj = oldeppy.idf2epj(idf, open(epschema, 'r'))
+epj = oldeppy.idf2epj(idf, open(epschema, "r"))
 epj.saveas(outname)
-

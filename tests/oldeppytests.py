@@ -7,6 +7,7 @@ import os
 # from eppy3000 import idfjsonconverter
 from tests import schemafortesting
 from eppy3000.modelmaker import EPJ
+
 # import eppy3000.oldeppy.idfjsonconverter as idfjsonconverter
 import eppy3000.oldeppy as oldeppy
 import eppy
@@ -15,14 +16,17 @@ SCHEMA_FILE = schemafortesting.schema_file
 
 # path for iddfile -> clean this later
 THIS_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
-IDDFILE = THIS_DIR / os.pardir / 'eppy3000/resources/snippets/V9_1/iddV9_1_snippet.idd'
+IDDFILE = THIS_DIR / os.pardir / "eppy3000/resources/snippets/V9_1/iddV9_1_snippet.idd"
 iddfile = IDDFILE
+
 
 def test_idf2idj_epj2idf():
     """py.test for idf2idj and epj2idf"""
-    # rearranged the order of so that it matches the order in the idd file. 
+    # rearranged the order of so that it matches the order in the idd file.
     # So the tests can pass
-    data = (("""
+    data = (
+        (
+            """
   Version,9.1;
 
 Building,
@@ -102,10 +106,10 @@ OutdoorAir:NodeList,
     OutsideAirInletNodes;    !- Node or NodeList Name 1
 
 """,  # noqa: E501
-),  # idftxt
+        ),  # idftxt
     )
-    for idftxt, in data:
-        iddhandle = open(iddfile, 'r')
+    for (idftxt,) in data:
+        iddhandle = open(iddfile, "r")
         iddtxt = iddhandle.read()
         iddstringio = StringIO(iddtxt)
 

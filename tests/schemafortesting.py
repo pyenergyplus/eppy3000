@@ -10,13 +10,14 @@ It will be loaded only once, since that is how imports work"""
 import os
 
 from eppy3000 import epschema
+
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'eppy3000', 'resources')
-VERSION = '9-0-1'  # current default for integration tests on local system
+RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, "eppy3000", "resources")
+VERSION = "9-0-1"  # current default for integration tests on local system
 
 
-SCHEMA_FILES = os.path.join(RESOURCES_DIR, 'schema')
+SCHEMA_FILES = os.path.join(RESOURCES_DIR, "schema")
 TEST_SCHEMA = f"V{VERSION[:3].replace('-', '_')}/Energy+.schema.epJSON"
 schema_file = os.path.join(SCHEMA_FILES, TEST_SCHEMA)
 

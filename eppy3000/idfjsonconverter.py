@@ -73,18 +73,24 @@ def idf2json(idfhandle, epjsonhandle):
             idfobjcount[key] = idfobjcount[key] + 1
             order += 1
             try:
-                if fieldnames[0] == 'name':
-                    alst = {fieldname: idfvalue for idfvalue, fieldname in
-                            zip(idfobject[2:], fieldnames[1:])}
+                if fieldnames[0] == "name":
+                    alst = {
+                        fieldname: idfvalue
+                        for idfvalue, fieldname in zip(idfobject[2:], fieldnames[1:])
+                    }
                     idfobjectname = idfobject[1]
                 else:
-                    alst = {fieldname: idfvalue for idfvalue, fieldname in
-                            zip(idfobject[1:], fieldnames)}
+                    alst = {
+                        fieldname: idfvalue
+                        for idfvalue, fieldname in zip(idfobject[1:], fieldnames)
+                    }
                     idfobjectname = f"{key} {idfobjcount[key]}"
             except IndexError as e:
                 # catches "if fieldnames[0] == 'name':" when fieldnames = []
-                alst = {fieldname: idfvalue for idfvalue, fieldname in
-                        zip(idfobject[1:], fieldnames)}
+                alst = {
+                    fieldname: idfvalue
+                    for idfvalue, fieldname in zip(idfobject[1:], fieldnames)
+                }
                 idfobjectname = f"{key} {idfobjcount[key]}"
             alst["idf_order"] = order
             numericfields = js.properties[key].legacy_idd.numerics.fields
@@ -95,10 +101,11 @@ def idf2json(idfhandle, epjsonhandle):
             try:
                 extension = js.properties[key].legacy_idd.extension
                 extensibles = js.properties[key].legacy_idd.extensibles
-                endvalues = idfobject[len(fieldnames) + 1:]
+                endvalues = idfobject[len(fieldnames) + 1 :]
                 g_endvalues = grouper(endvalues, len(extensibles))
-                extvalues = [{f: t for f, t in zip(extensibles, tup)}
-                             for tup in g_endvalues]
+                extvalues = [
+                    {f: t for f, t in zip(extensibles, tup)} for tup in g_endvalues
+                ]
 
                 try:
                     legacyidd = js.properties[key].legacy_idd
@@ -151,7 +158,7 @@ def json2idf(jsonhandle, epjsonhandle):
                     value = idfjs[key][name][fieldname]
                     fieldval.append((fieldname, value))
                 except KeyError as e:
-                    if fieldname == 'name':
+                    if fieldname == "name":
                         fieldval.append((fieldname, name))
                     else:
                         value = None

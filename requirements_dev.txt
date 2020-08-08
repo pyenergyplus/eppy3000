@@ -13,3 +13,4 @@ pytest-runner==4.2
 
 nbsphinx
 pudb
+black

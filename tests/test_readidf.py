@@ -15,8 +15,9 @@ from eppy3000.epMunch import EPMunch
 def test_readepjjson():
     """py.test for readepjjson"""
     dct = dict(
-            a=dict(aa=dict(z=-1, y=-2), bb=dict(zz=-11, yy=-22)),
-            b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)))
+        a=dict(aa=dict(z=-1, y=-2), bb=dict(zz=-11, yy=-22)),
+        b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)),
+    )
     dctstr = json.dumps(dct)
     fhandle = StringIO(dctstr)
     result = readepj.readepjjson(fhandle)
@@ -26,33 +27,35 @@ def test_readepjjson():
 def test_addeppykeys():
     """py.test for addeppykeys"""
     dct = dict(
-            a=dict(aa=dict(z=-1, y=-2), bb=dict(zz=-11, yy=-22)),
-            b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)))
+        a=dict(aa=dict(z=-1, y=-2), bb=dict(zz=-11, yy=-22)),
+        b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)),
+    )
     dctstr = json.dumps(dct)
     fhandle = StringIO(dctstr)
     epmunch = readepj.readepjjson(fhandle)
     epobject = epmunch.a.aa
-    assert 'eppykey' in epobject
-    assert 'eppyname' in epobject
+    assert "eppykey" in epobject
+    assert "eppyname" in epobject
 
 
 def test_removeeppykeys():
     """py.test for removeeppykeys"""
     dct = dict(
-            a=dict(aa=dict(z=-1, y=-2), bb=dict(zz=-11, yy=-22)),
-            b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)))
+        a=dict(aa=dict(z=-1, y=-2), bb=dict(zz=-11, yy=-22)),
+        b=dict(cc=dict(ab=12, bc=23), dd=dict(cd=34, de=45)),
+    )
     dctstr = json.dumps(dct)
     # test for rkeys=None
     fhandle = StringIO(dctstr)
     epmunch = readepj.readepjjson(fhandle)
     readepj.removeeppykeys(epmunch)
     epobject = epmunch.a.aa
-    assert 'eppykey' not in epobject
-    assert 'eppyname' not in epobject
+    assert "eppykey" not in epobject
+    assert "eppyname" not in epobject
     # test for rkeys=['eppykey']
     fhandle = StringIO(dctstr)
     epmunch = readepj.readepjjson(fhandle)
-    readepj.removeeppykeys(epmunch, rkeys=['eppykey'])
+    readepj.removeeppykeys(epmunch, rkeys=["eppykey"])
     epobject = epmunch.a.aa
-    assert 'eppykey' not in epobject
-    assert 'eppyname' in epobject
+    assert "eppykey" not in epobject
+    assert "eppyname" in epobject

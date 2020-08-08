@@ -16,10 +16,12 @@ SCHEMA_FILE = schemafortesting.schema_file
 
 def test_keymapping():
     """py.test for keymapping"""
-    data = ((
-        ('Gumby', 'Softy'),
-        ('gumby', 'so', 'softy', 'Kamby'),
-        {'Gumby': 'gumby', 'Softy': 'softy'}),
+    data = (
+        (
+            ("Gumby", "Softy"),
+            ("gumby", "so", "softy", "Kamby"),
+            {"Gumby": "gumby", "Softy": "softy"},
+        ),
         # somekeys, allkeys, expected
     )
     for somekeys, allkeys, expected in data:
@@ -29,7 +31,9 @@ def test_keymapping():
 
 def test_idf2json_json2idf():
     """py.test for idf2json and json2idf"""
-    data = (("""
+    data = (
+        (
+            """
   Version,9.1;
 
   ZoneHVAC:EquipmentList,
@@ -107,9 +111,9 @@ OutdoorAir:NodeList,
     OutsideAirInletNodes;    !- Node or NodeList Name 1
 
 """,  # noqa: E501
-),  # idftxt
+        ),  # idftxt
     )
-    for idftxt, in data:
+    for (idftxt,) in data:
         # convert idf to json, then json to idf and lastly idf to json
         # compare the first json and last json
         idfhandle = StringIO(idftxt)

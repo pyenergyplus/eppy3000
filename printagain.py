@@ -43,9 +43,9 @@ fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
 idf = readidfjson(fname)
 
 alh = idf.AirLoopHVAC
-crac = idf.AirLoopHVAC['CRAC system']
-surfs = idf['BuildingSurface:Detailed']
-surf = surfs['Zn001:Flr001']
+crac = idf.AirLoopHVAC["CRAC system"]
+surfs = idf["BuildingSurface:Detailed"]
+surf = surfs["Zn001:Flr001"]
 
 print(idf)
 # print(surf)

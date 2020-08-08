@@ -27,7 +27,7 @@ idf = IDF(idfname=StringIO("{}"), iddname=iddfname)
 #         except AttributeError as e:
 #             nobj[fieldname] = "gumby"
 #
-#make a newidfobject
+# make a newidfobject
 # key = "Building"
 # # key = "AirLoopHVAC"
 # key = "Schedule:Compact"
@@ -41,11 +41,19 @@ idf.newidfobject(key, objname, defaultvalues=False)
 
 
 objname = "wall3"
-lastobj = idf.newidfobject(key, objname, defaultvalues=True,
-                outside_boundary_condition="Surface",
-                vertices=[{'vertex_x_coordinate': 15.24,
-                            'vertex_y_coordinate': 0.0,
-                            'vertex_z_coordinate': 0.0}])
+lastobj = idf.newidfobject(
+    key,
+    objname,
+    defaultvalues=True,
+    outside_boundary_condition="Surface",
+    vertices=[
+        {
+            "vertex_x_coordinate": 15.24,
+            "vertex_y_coordinate": 0.0,
+            "vertex_z_coordinate": 0.0,
+        }
+    ],
+)
 
 # print(idf)
 # idf.saveas("n.json")
