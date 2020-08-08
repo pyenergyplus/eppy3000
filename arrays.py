@@ -64,7 +64,7 @@ print(surf.vertices[0])
 print(surf.vertices[0].vertex_x_coordinate)
 
 surf.vertices[0].vertex_x_coordinate = 88
-surf.vertices.append(dict(vertex_x_coordinate=1.2,
-                        vertex_y_coordinate=2.3,
-                        vertex_z_coordinate=3.4))
+surf.vertices.append(
+    dict(vertex_x_coordinate=1.2, vertex_y_coordinate=2.3, vertex_z_coordinate=3.4)
+)
 print(idf)

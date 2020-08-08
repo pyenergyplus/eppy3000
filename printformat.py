@@ -46,7 +46,7 @@ txt = """
 
 
 idf = readidfjson(StringIO(txt))
-surf = idf['BuildingSurface:Detailed']['Zn001:Flr001']
+surf = idf["BuildingSurface:Detailed"]["Zn001:Flr001"]
 # for key, val in surf.items():
 #     try:
 #         print("{0: <16} !-  {1}".format(val, key))
@@ -62,5 +62,3 @@ surf = idf['BuildingSurface:Detailed']['Zn001:Flr001']
 # print('-' * 35)
 
 print(idf)
-
-

@@ -9,7 +9,7 @@ txt = """"""
 
 
 fhandle = StringIO(txt)
-fhandle = open("b.json", 'r')
+fhandle = open("b.json", "r")
 idd = IDD(fhandle)
 
 

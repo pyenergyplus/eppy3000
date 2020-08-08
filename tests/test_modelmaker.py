@@ -14,6 +14,7 @@ import pytest
 from eppy3000 import modelmaker
 from tests import schemafortesting
 
+
 @pytest.fixture
 def version_txt():
     """txt of version"""
@@ -78,7 +79,7 @@ def epj_txt1():
         }
     }"""
     return txt
-    
+
 
 def test_EPJ(epj_txt1):
     """py.test for EPJ"""
@@ -90,17 +91,19 @@ def test_EPJ(epj_txt1):
     assert expected == surf.vertices[0].vertex_x_coordinate
 
     expected = 15.24
-    result = modelmaker.EPJ(epjname=StringIO(txt),
-                            epschemaname=schemafortesting.schema_file)
+    result = modelmaker.EPJ(
+        epjname=StringIO(txt), epschemaname=schemafortesting.schema_file
+    )
     surfs = result.epobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
-    # - 
+    # -
     expected = json.loads(txt)
-    epj =  modelmaker.EPJ(epjname=StringIO(txt))
+    epj = modelmaker.EPJ(epjname=StringIO(txt))
     jsonstr = epj.jsonstr()
     result = json.loads(jsonstr)
     assert result == expected
+
 
 def test_EPJ_repr_(version_txt):
     """pytest for __repr__ in EPJ"""

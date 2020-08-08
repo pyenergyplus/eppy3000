@@ -6,9 +6,15 @@
 # =======================================================================
 """functions to work with list fields"""
 
+
 def surf2list(surfobject):
     """return a list of xyz coords from the epobject"""
-    vertices = surfobject['vertices']
-    return [(vrt['vertex_x_coordinate'],
-            vrt['vertex_y_coordinate'],
-            vrt['vertex_z_coordinate'],) for vrt in vertices]
+    vertices = surfobject["vertices"]
+    return [
+        (
+            vrt["vertex_x_coordinate"],
+            vrt["vertex_y_coordinate"],
+            vrt["vertex_z_coordinate"],
+        )
+        for vrt in vertices
+    ]

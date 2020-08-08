@@ -9,8 +9,10 @@
 from munch import Munch
 from eppy3000.epschema import EPSchemaMunch
 
+
 class NotEPObject(Exception):
-    pass        
+    pass
+
 
 def printkey(key, indent=0, formatstr=None, func=None):
     """Prints the key in epMunch with the right indentation
@@ -25,10 +27,10 @@ def printkey(key, indent=0, formatstr=None, func=None):
     elif indent == 1:
         func("")
     if not formatstr:
-        formatstr = '{}{}'
-        func(formatstr.format(' '*4*indent, key))
+        formatstr = "{}{}"
+        func(formatstr.format(" " * 4 * indent, key))
     else:
-        func(formatstr.format(' '*4*indent, key))
+        func(formatstr.format(" " * 4 * indent, key))
 
 
 def printmunch(amunch, indent=0, index=None, func=None):
@@ -104,41 +106,49 @@ def printmunch(amunch, indent=0, index=None, func=None):
     Returns
     -------
     None
-    """   # noqa: E501
+    """  # noqa: E501
     if isinstance(amunch, EPSchemaMunch):  # don't print EPSchema stuff
         return
     if not func:
         func = print
     if isinstance(amunch, Munch):
-        if 'eppykey' in amunch:
+        if "eppykey" in amunch:
             func("")
-            func(f"{amunch['eppykey']:<36}{' '*4*(indent+1)} !-  EP_KEY         # use .eppykey")
-            ind1 = ' '*4*(indent+1)
-            ind2 = ' '*4*(indent-1)
-            func(f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname")
+            func(
+                f"{amunch['eppykey']:<36}{' '*4*(indent+1)} !-  EP_KEY         # use .eppykey"
+            )
+            ind1 = " " * 4 * (indent + 1)
+            ind2 = " " * 4 * (indent - 1)
+            func(
+                f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname"
+            )
     for key, val in amunch.items():
-        if key in ['eppy_epj', 'eppy_epobjects']:
-            continue # prevents an infinite recurse
+        if key in ["eppy_epj", "eppy_epobjects"]:
+            continue  # prevents an infinite recurse
         if isinstance(val, Munch):
-            printmunch(val, indent=indent+1, index=index,
-                       func=func)
+            printmunch(val, indent=indent + 1, index=index, func=func)
         elif isinstance(val, list):
-            printkey(key, indent=3,
-                     formatstr="{0}" + " " * 36 + " !-  {1}",
-                     func=func)
+            printkey(key, indent=3, formatstr="{0}" + " " * 36 + " !-  {1}", func=func)
             for i, aval in enumerate(val):
-                printmunch(aval, indent=indent+1, index=i+1, func=func)
-        elif key not in ['eppykey', 'eppyname', 'eppy_obj_schema', 'eppy_epj', 'eppy_epobjects']:
+                printmunch(aval, indent=indent + 1, index=i + 1, func=func)
+        elif key not in [
+            "eppykey",
+            "eppyname",
+            "eppy_obj_schema",
+            "eppy_epj",
+            "eppy_epobjects",
+        ]:
             if index:
-                ind = ' '*4*(indent+1)
+                ind = " " * 4 * (indent + 1)
                 func(f"{ind}{val:<36} !-  {key} #{index}")
             else:
-                ind = ' '*4*(indent+1)
+                ind = " " * 4 * (indent + 1)
                 func(f"{ind}{val:<36} !-  {key}")
 
 
 class EPMunch(Munch):
     """Subclass of Munch for eppy3000"""
+
     def __init__(self, *args, **kwargs):
         super(EPMunch, self).__init__(*args, **kwargs)
 
@@ -160,20 +170,20 @@ class EPMunch(Munch):
         # EPMunchobj.keyname = value will
         #   call __setattr__ and then call
         #   call __setitem__
-        if 'eppykey' not in self:
+        if "eppykey" not in self:
             # it is not an epobject. None of this applies
             super(EPMunch, self).__setitem__(key, value)
         else:
             # it is an epobject
             if key in self:
-                if key.startswith('eppy'): # TODO: test if it is a string
-                    if key== 'eppyname':
+                if key.startswith("eppy"):  # TODO: test if it is a string
+                    if key == "eppyname":
                         if key in self.keys():
                             # if 'eppyname' is changed, the following actions happen in the parent dict
                             # the old key (value of 'eppyname') is popped and a new key is added
                             # with the same value
                             # epobjects_dict = self.eppy_epj[self.eppykey]
-                            epobjects_dict = self.eppy_epobjects 
+                            epobjects_dict = self.eppy_epobjects
                             epobject = epobjects_dict.pop(self.eppyname)
                             epobjects_dict[value] = self
                             self.pop(key)
@@ -181,7 +191,7 @@ class EPMunch(Munch):
                         else:
                             super(EPMunch, self).__setitem__(key, value)
                     else:
-                        pass # user is not allowed to change eppy fields
+                        pass  # user is not allowed to change eppy fields
                 else:
                     super(EPMunch, self).__setitem__(key, value)
             else:
@@ -195,30 +205,30 @@ class EPMunch(Munch):
         # EPMunchobj.keyname = value will
         #   call __setattr__ and then call
         #   call __setitem__
-        if 'eppykey' not in self:
+        if "eppykey" not in self:
             # it is not an epobject
-            super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+            super(EPMunch, self).__setattr__(name, value)  # Let Munch handle it
         else:
             # it is an epobject
-            if name.startswith('eppy'):
+            if name.startswith("eppy"):
                 if name in self:
-                    pass # if the key exists, user cannot change it
+                    pass  # if the key exists, user cannot change it
                 else:
-                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+                    super(EPMunch, self).__setattr__(name, value)  # Let Munch handle it
             else:
-                super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
-            if name == 'eppyname':
+                super(EPMunch, self).__setattr__(name, value)  # Let Munch handle it
+            if name == "eppyname":
                 if name in self.keys():
                     # if 'eppyname' is changed, the following actions happen in the parent dict
                     # the old key (value of 'eppyname') is popped and a new key is added
                     # with the same value
-                    epobjects_dict = self.eppy_epobjects 
+                    epobjects_dict = self.eppy_epobjects
                     epobject = epobjects_dict.pop(self.eppyname)
                     epobjects_dict[value] = self
                     self.pop(name)
-                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+                    super(EPMunch, self).__setattr__(name, value)  # Let Munch handle it
                 else:
-                    super(EPMunch, self).__setattr__(name, value) # Let Munch handle it
+                    super(EPMunch, self).__setattr__(name, value)  # Let Munch handle it
 
     def delete(self):
         """delete this by removing it from the parent dict"""
@@ -230,5 +240,5 @@ class EPMunch(Munch):
 
     def copy(self, newname):
         """make a copy of this anc add it to parent dict
-        """        
+        """
         pass

@@ -19,6 +19,6 @@ surfs = idf.idf[selectedkey]
 keys = [key for key in surfs.keys() if key != objname]
 for key in keys:
     surfs.pop(key)
-print(idf)    
+print(idf)
 outname = "a.json"
 idf.saveas(outname, indent=4)

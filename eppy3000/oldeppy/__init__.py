@@ -7,8 +7,10 @@
 """convertion functions - to convert from JSON to IDF and in reverse.
 These functions return a epyy.IDF or eppy300.IDF structure"""
 
+
 class NeedsEppyError(Exception):
     pass
+
 
 try:
     import eppy
@@ -20,7 +22,8 @@ from io import StringIO
 import eppy3000
 from eppy3000.modelmaker import EPJ
 import eppy3000.idfjsonconverter
-# - 
+
+# -
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 
@@ -30,10 +33,10 @@ def idf2epj(idf, epjsonhandle):
     idfhandle = StringIO(idf.idfstr())
     epjstr = eppy3000.idfjsonconverter.idf2json(idfhandle, epjsonhandle)
     return EPJ(StringIO(epjstr))
-    
-    
+
+
 def epj2idf(epj, epjsonhandle, iddhandle=None):
     """convert json to idf"""
     jsonhandle = epj.savecopy()
-    idfstr =  eppy3000.idfjsonconverter.json2idf(jsonhandle, epjsonhandle) 
+    idfstr = eppy3000.idfjsonconverter.json2idf(jsonhandle, epjsonhandle)
     return eppy.openidf(StringIO(idfstr), idd=iddhandle)

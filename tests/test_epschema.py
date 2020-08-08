@@ -17,7 +17,7 @@ from tests import schemafortesting
 def test_read_epschema_asmunch():
     """py.test for read_epschema_asmunch"""
     SCHEMA_FILE = schemafortesting.schema_file
-    schemahandle = open(SCHEMA_FILE, 'r')
+    schemahandle = open(SCHEMA_FILE, "r")
     result = epschema.read_epschema_asmunch(schemahandle)
     assert isinstance(result, epschema.EPSchemaMunch)
 
@@ -236,23 +236,31 @@ def test_EPSchema():
         }
     },
     "epJSON_schema_build": "40101eaafd"
-}"""   # noqa: E501
+}"""  # noqa: E501
 
     # expected
     version = "8.9.0"
-    required = ['Building', 'GlobalGeometryRules']
-    epschemaobjectskeys = ['Building', 'OutdoorAir:NodeList']
-    buildingkeys = ['solar_distribution', 'terrain', 'north_axis',
-                    'maximum_number_of_warmup_days',
-                    'loads_convergence_tolerance_value',
-                    'temperature_convergence_tolerance_value',
-                    'minimum_number_of_warmup_days']
+    required = ["Building", "GlobalGeometryRules"]
+    epschemaobjectskeys = ["Building", "OutdoorAir:NodeList"]
+    buildingkeys = [
+        "solar_distribution",
+        "terrain",
+        "north_axis",
+        "maximum_number_of_warmup_days",
+        "loads_convergence_tolerance_value",
+        "temperature_convergence_tolerance_value",
+        "minimum_number_of_warmup_days",
+    ]
     buildingterraintype = "string"
-    bfieldnames = ['solar_distribution', 'terrain', 'north_axis',
-                   'maximum_number_of_warmup_days',
-                   'loads_convergence_tolerance_value',
-                   'temperature_convergence_tolerance_value',
-                   'minimum_number_of_warmup_days']
+    bfieldnames = [
+        "solar_distribution",
+        "terrain",
+        "north_axis",
+        "maximum_number_of_warmup_days",
+        "loads_convergence_tolerance_value",
+        "temperature_convergence_tolerance_value",
+        "minimum_number_of_warmup_days",
+    ]
     fieldnameslist = None  # not yet coded
     #
     # tests
@@ -262,10 +270,10 @@ def test_EPSchema():
     assert version == result.version
     assert required == result.required
     assert epschemaobjectskeys == list(result.epschemaobjects.keys())
-    assert buildingkeys == list(result.epschemaobjects['Building'].keys())
+    assert buildingkeys == list(result.epschemaobjects["Building"].keys())
     #
-    bldg = result.epschemaobjects['Building']
-    assert buildingterraintype == bldg.fieldproperty('terrain')['type']
-    assert bfieldnames == result.epschemaobjects['Building'].fieldnames()
-    oairnode = result.epschemaobjects['OutdoorAir:NodeList']
+    bldg = result.epschemaobjects["Building"]
+    assert buildingterraintype == bldg.fieldproperty("terrain")["type"]
+    assert bfieldnames == result.epschemaobjects["Building"].fieldnames()
+    oairnode = result.epschemaobjects["OutdoorAir:NodeList"]
     assert fieldnameslist == oairnode.fieldnames_list()

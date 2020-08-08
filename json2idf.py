@@ -6,6 +6,7 @@ from io import StringIO
 from eppy3000.modelmaker import IDF
 from munch import Munch
 
+
 def readiddasmunch(fhandle):
     """read the idd json as a munch"""
     epjs = json.load(fhandle)
@@ -149,11 +150,11 @@ idfjson = """
 # fhandle = StringIO(txt)
 iddpath = "/Applications/EnergyPlus-9-0-1/Energy+.schema.epJSON"
 # fname = "./eppy3000/resources/snippets/V8_9/a.epJSON"
-js = readiddasmunch(open(iddpath, 'r'))
+js = readiddasmunch(open(iddpath, "r"))
 
 idfhandle = StringIO(idfjson)
 fname = "./eppy3000/resources/snippets/V9_0/5Zone_Unitary_HXAssistedCoil.epJSONout"
-idfhandle = open(fname, 'r')
+idfhandle = open(fname, "r")
 idfjs = readiddasmunch(idfhandle)
 
 # idfhandle = StringIO(idfjson)
@@ -199,14 +200,13 @@ for key in idfjs.keys():
                 # print(f"    {value}{sep} !- {fieldname}")
                 fieldval.append((fieldname, value))
             except KeyError as e:
-                if fieldname == 'name':
+                if fieldname == "name":
                     # print(f"    {name}{sep} !- {fieldname}")
                     fieldval.append((fieldname, name))
                 else:
                     value = None
                     # print(f"    {value}{sep} !- {fieldname}")
                     fieldval.append((fieldname, value))
-
 
         try:
             extension = js.properties[key].legacy_idd.extension
