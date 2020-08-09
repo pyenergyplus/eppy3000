@@ -11,6 +11,7 @@ Welcome to eppy3000's documentation!
    tutorial1
    tutorial2
    usewitheppy
+   developmentnotes
    modules
    contributing
    authors
