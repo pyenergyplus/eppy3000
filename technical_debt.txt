@@ -1,0 +1,22 @@
+==============
+Technical Debt
+==============
+
+This document keeps track of the technical debt.
+
+
+Technical debt
+--------------
+
+Technical debt is a concept in software development that reflects the implied cost of additional rework caused by choosing an easy solution now instead of using a better approach that would take longer. As with monetary debt, if technical debt is not repaid, it can accumulate 'interest', making it harder to implement changes. - https://en.wikipedia.org/wiki/Technical_debt
+
+
+2021-01-12
+----------
+
+- EPJ.run()
+    - has no unit tests
+    - is a hack using run from eppy - (this may be fine)
+    - No function documentation
+    - cannot override epw or epschemaname (run() in eppy can override epw and idd)
+    
