@@ -1,0 +1,194 @@
+{
+    "Version": {
+        "Version 1": {
+            "version_identifier": "9.3",
+            "idf_order": 1
+        }
+    },
+    "SimulationControl": {
+        "SimulationControl 1": {
+            "do_zone_sizing_calculation": "No",
+            "do_system_sizing_calculation": "No",
+            "do_plant_sizing_calculation": "No",
+            "run_simulation_for_sizing_periods": "Yes",
+            "run_simulation_for_weather_file_run_periods": "No",
+            "idf_order": 2
+        }
+    },
+    "Building": {
+        "None": {
+            "north_axis": 0,
+            "terrain": "Suburbs",
+            "loads_convergence_tolerance_value": 0.04,
+            "temperature_convergence_tolerance_value": 0.4,
+            "solar_distribution": "FullInteriorAndExterior",
+            "maximum_number_of_warmup_days": 25,
+            "minimum_number_of_warmup_days": 6,
+            "idf_order": 3
+        }
+    },
+    "Timestep": {
+        "Timestep 1": {
+            "number_of_timesteps_per_hour": 4,
+            "idf_order": 4
+        }
+    },
+    "Site:Location": {
+        "DENVER_STAPLETON_CO_USA_WMO_724690": {
+            "latitude": 39.77,
+            "longitude": -104.87,
+            "time_zone": -7,
+            "elevation": 1611,
+            "idf_order": 5
+        }
+    },
+    "SizingPeriod:DesignDay": {
+        "DENVER_STAPLETON Ann Htg 99.6% Condns DB": {
+            "month": 12,
+            "day_of_month": 21,
+            "day_type": "WinterDesignDay",
+            "maximum_dry_bulb_temperature": -20,
+            "daily_dry_bulb_temperature_range": 0,
+            "dry_bulb_temperature_range_modifier_type": "",
+            "dry_bulb_temperature_range_modifier_day_schedule_name": "",
+            "humidity_condition_type": "Wetbulb",
+            "wetbulb_or_dewpoint_at_maximum_dry_bulb": -20,
+            "humidity_condition_day_schedule_name": "",
+            "humidity_ratio_at_maximum_dry_bulb": "",
+            "enthalpy_at_maximum_dry_bulb": "",
+            "daily_wet_bulb_temperature_range": "",
+            "barometric_pressure": 83411,
+            "wind_speed": 2.3,
+            "wind_direction": 180,
+            "rain_indicator": "No",
+            "snow_indicator": "No",
+            "daylight_saving_time_indicator": "No",
+            "solar_model_indicator": "ASHRAEClearSky",
+            "beam_solar_day_schedule_name": "",
+            "diffuse_solar_day_schedule_name": "",
+            "ashrae_clear_sky_optical_depth_for_beam_irradiance_taub_": "",
+            "ashrae_clear_sky_optical_depth_for_diffuse_irradiance_taud_": "",
+            "sky_clearness": 0,
+            "idf_order": 6
+        },
+        "DENVER_STAPLETON Ann Clg .4% Condns DB=>MWB": {
+            "month": 7,
+            "day_of_month": 21,
+            "day_type": "SummerDesignDay",
+            "maximum_dry_bulb_temperature": 34.1,
+            "daily_dry_bulb_temperature_range": 15.2,
+            "dry_bulb_temperature_range_modifier_type": "",
+            "dry_bulb_temperature_range_modifier_day_schedule_name": "",
+            "humidity_condition_type": "Wetbulb",
+            "wetbulb_or_dewpoint_at_maximum_dry_bulb": 15.8,
+            "humidity_condition_day_schedule_name": "",
+            "humidity_ratio_at_maximum_dry_bulb": "",
+            "enthalpy_at_maximum_dry_bulb": "",
+            "daily_wet_bulb_temperature_range": "",
+            "barometric_pressure": 83411,
+            "wind_speed": 4,
+            "wind_direction": 120,
+            "rain_indicator": "No",
+            "snow_indicator": "No",
+            "daylight_saving_time_indicator": "No",
+            "solar_model_indicator": "ASHRAEClearSky",
+            "beam_solar_day_schedule_name": "",
+            "diffuse_solar_day_schedule_name": "",
+            "ashrae_clear_sky_optical_depth_for_beam_irradiance_taub_": "",
+            "ashrae_clear_sky_optical_depth_for_diffuse_irradiance_taud_": "",
+            "sky_clearness": 1,
+            "idf_order": 7
+        }
+    },
+    "RunPeriod": {
+        "Run Period 1": {
+            "begin_month": 1,
+            "begin_day_of_month": 1,
+            "begin_year": "",
+            "end_month": 12,
+            "end_day_of_month": 31,
+            "end_year": "",
+            "day_of_week_for_start_day": "Tuesday",
+            "use_weather_file_holidays_and_special_days": "Yes",
+            "use_weather_file_daylight_saving_period": "Yes",
+            "apply_weekend_holiday_rule": "No",
+            "use_weather_file_rain_indicators": "Yes",
+            "use_weather_file_snow_indicators": "Yes",
+            "idf_order": 8
+        }
+    },
+    "GlobalGeometryRules": {
+        "GlobalGeometryRules 1": {
+            "starting_vertex_position": "UpperLeftCorner",
+            "vertex_entry_direction": "CounterClockWise",
+            "coordinate_system": "World",
+            "idf_order": 9
+        }
+    },
+    "Output:VariableDictionary": {
+        "Output:VariableDictionary 1": {
+            "key_field": "Regular",
+            "idf_order": 10
+        }
+    },
+    "Output:Table:SummaryReports": {
+        "Output:Table:SummaryReports 1": {
+            "idf_order": 11,
+            "reports": [
+                {
+                    "report_name": "AllSummary"
+                }
+            ]
+        }
+    },
+    "OutputControl:Table:Style": {
+        "OutputControl:Table:Style 1": {
+            "column_separator": "HTML",
+            "idf_order": 12
+        }
+    },
+    "Output:Variable": {
+        "Output:Variable 1": {
+            "key_value": "*",
+            "variable_name": "Site Outdoor Air Drybulb Temperature",
+            "reporting_frequency": "Timestep",
+            "idf_order": 13
+        },
+        "Output:Variable 2": {
+            "key_value": "*",
+            "variable_name": "Site Outdoor Air Wetbulb Temperature",
+            "reporting_frequency": "Timestep",
+            "idf_order": 14
+        },
+        "Output:Variable 3": {
+            "key_value": "*",
+            "variable_name": "Site Outdoor Air Dewpoint Temperature",
+            "reporting_frequency": "Timestep",
+            "idf_order": 15
+        },
+        "Output:Variable 4": {
+            "key_value": "*",
+            "variable_name": "Site Solar Azimuth Angle",
+            "reporting_frequency": "Timestep",
+            "idf_order": 16
+        },
+        "Output:Variable 5": {
+            "key_value": "*",
+            "variable_name": "Site Solar Altitude Angle",
+            "reporting_frequency": "Timestep",
+            "idf_order": 17
+        },
+        "Output:Variable 6": {
+            "key_value": "*",
+            "variable_name": "Site Direct Solar Radiation Rate per Area",
+            "reporting_frequency": "Timestep",
+            "idf_order": 18
+        },
+        "Output:Variable 7": {
+            "key_value": "*",
+            "variable_name": "Site Diffuse Solar Radiation Rate per Area",
+            "reporting_frequency": "Timestep",
+            "idf_order": 19
+        }
+    }
+}

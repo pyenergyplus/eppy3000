@@ -1,3 +1,8 @@
+2021-01-12
+----------
+
+use https://pypi.org/project/json2html/ to display the json. Maybe display it in jupyter notebook ?
+
 2020-07-29
 ----------
 
