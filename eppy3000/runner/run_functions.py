@@ -10,8 +10,8 @@
 
 import eppy3000.oldeppy as oldeppy
 
+
 def run(epj, **runoptions):
     """docstring for run"""
-    idf = oldeppy.epj2idf(epj, open(epj.epschemaname, 'r'))
+    idf = oldeppy.epj2idf(epj, open(epj.epschemaname, "r"))
     idf.run(**runoptions)
-    

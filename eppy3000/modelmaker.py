@@ -65,7 +65,7 @@ class EPJ(object):
         self.save(filename, indent=indent)
 
     def savecopy(self, filename=None, indent=4):
-        """save a copy of the file 
+        """save a copy of the file
         if filename==None: return copy in StringIO
         NOT unit TESTED at all. Not even use tested"""
         if filename:

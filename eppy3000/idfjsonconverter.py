@@ -52,7 +52,7 @@ def idf2json(idfhandle, epjsonhandle):
 
     Returns
     -------
-    str 
+    str
         E+ file in the old JSON format
     """
     raw_idf = rawidf.readrawidf(idfhandle)
@@ -136,7 +136,7 @@ def json2idf(jsonhandle, epjsonhandle):
 
     Returns
     -------
-    str 
+    str
         E+ file in the old IDF format
     """
     lines = []
