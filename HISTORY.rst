@@ -5,6 +5,15 @@ History
 Releases
 --------
 
+Date: Tue Jan 12 14:18:37 PST 2021
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #69
+
+:Problem: no EPJ.run() function
+:Solution: EPJ.run() function implemented
+
+
 Release 0.1.4  (2020-07-09)
 ---------------------------
 

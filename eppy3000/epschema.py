@@ -61,8 +61,7 @@ class EPSchema(object):
         """read the json file"""
 
         def prop_in_patternProp(val):
-            """return the property in patternProperty
-            """
+            """return the property in patternProperty"""
             # assume that val['patternProperties'] has a single key, val
             # key is either ".*" or "^.*\\S.*$"
             for key in val["patternProperties"].keys():

@@ -13,6 +13,7 @@ from eppy3000.epschema import read_epschema_asmunch
 from eppy3000.readepj import removeeppykeys
 from eppy3000.epschema import EPSchema
 from eppy3000.epMunch import EPMunch
+import eppy3000.runner.run_functions as run_functions
 
 
 class EPJ(object):
@@ -65,7 +66,7 @@ class EPJ(object):
         self.save(filename, indent=indent)
 
     def savecopy(self, filename=None, indent=4):
-        """save a copy of the file 
+        """save a copy of the file
         if filename==None: return copy in StringIO
         NOT unit TESTED at all. Not even use tested"""
         if filename:
@@ -155,3 +156,6 @@ class EPJ(object):
         newobj["eppykey"] = key
         newobj["eppy_objepschema"] = oldobj["eppy_objepschema"]
         return newobj
+
+    def run(self, **runoptions):
+        return run_functions.run(self, **runoptions)

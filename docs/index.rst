@@ -10,6 +10,7 @@ Welcome to eppy3000's documentation!
    usage
    tutorial1
    tutorial2
+   runningeplus
    usewitheppy
    developmentnotes
    modules

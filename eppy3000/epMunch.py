@@ -198,8 +198,7 @@ class EPMunch(Munch):
                 super(EPMunch, self).__setitem__(key, value)
 
     def __setattr__(self, name, value):
-        """deals with names starting with eppy. Name starts with eppy only in epobjects
-        """
+        """deals with names starting with eppy. Name starts with eppy only in epobjects"""
         # EPMunchobj['keyname'] = value will
         #   call __setitem__
         # EPMunchobj.keyname = value will
@@ -239,6 +238,5 @@ class EPMunch(Munch):
         return epobjects.pop(self.eppyname)
 
     def copy(self, newname):
-        """make a copy of this anc add it to parent dict
-        """
+        """make a copy of this anc add it to parent dict"""
         pass

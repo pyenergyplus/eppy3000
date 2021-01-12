@@ -8,6 +8,7 @@ Subpackages
 
     eppy3000.experimental
     eppy3000.oldeppy
+    eppy3000.runner
 
 Submodules
 ----------
