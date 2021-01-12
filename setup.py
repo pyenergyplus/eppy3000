@@ -13,6 +13,7 @@ with open("HISTORY.rst") as history_file:
 
 requirements = [
     "munch",
+    "eppy"
 ]
 
 setup_requirements = [
