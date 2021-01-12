@@ -8,10 +8,19 @@
 """Run functions for EnergyPlus.
 """
 
-import eppy3000.oldeppy as oldeppy
+import eppy3000.idfjsonconverter
+import eppy
+from io import StringIO
+
+
+def epj2idf(epj, epjsonhandle, iddhandle=None):
+    """convert json to idf"""
+    jsonhandle = epj.savecopy()
+    idfstr = eppy3000.idfjsonconverter.json2idf(jsonhandle, epjsonhandle)
+    return eppy.openidf(StringIO(idfstr), idd=iddhandle, epw=epj.epw)
 
 
 def run(epj, **runoptions):
     """docstring for run"""
-    idf = oldeppy.epj2idf(epj, open(epj.epschemaname, "r"))
+    idf = epj2idf(epj, open(epj.epschemaname, "r"))
     idf.run(**runoptions)
