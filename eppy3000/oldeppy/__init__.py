@@ -5,7 +5,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # =======================================================================
 """convertion functions - to convert from JSON to IDF and in reverse.
-These functions return a eppy.IDF or eppy3000.IDF structure"""
+These functions return a eppy.IDF or eppy3000.EPJ structure"""
 
 
 class NeedsEppyError(Exception):
@@ -32,7 +32,8 @@ def idf2epj(idf, epjsonhandle):
     """convert idf to json. return a eppy3000.IDF structure"""
     idfhandle = StringIO(idf.idfstr())
     epjstr = eppy3000.idfjsonconverter.idf2json(idfhandle, epjsonhandle)
-    return EPJ(StringIO(epjstr), epw=idf.epw)
+    epjsonhandle.seek(0)  # need to reset, since we are reading it again
+    return EPJ(StringIO(epjstr), epw=idf.epw, epschemaname=epjsonhandle)
 
 
 def epj2idf(epj, epjsonhandle, iddhandle=None):

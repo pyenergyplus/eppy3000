@@ -1,7 +1,26 @@
+2021-01-16
+----------
+
+IFrame from notebook is not showing up in sphinx documentation
+
+2021-01-14
+----------
+
+need to get at field names of the epMunch objects. Options:
+
+- allfilednames (will include the eppy* names) - DONE. need pytest
+- epjfieldnames (all field names in the epj except the eppy* names) - DONE. need pytest
+- schemafieldnames (fieldnames from the schema. Can be different from the epjfieldnames) - DONE. need pytest
+
+-
+there is a copy of epschema with every file. This a waste of memory. leave as a placeholder for now
+
 2021-01-12
 ----------
 
 use https://pypi.org/project/json2html/ to display the json. Maybe display it in jupyter notebook ?
+
+DONE -> needs user documentation. and full docstrings
 
 2020-07-29
 ----------
@@ -29,12 +48,12 @@ to deal with eppy field names. EPMunch can deal with all the objects higher in h
 
 Based on how eppy works:
 
-- EPJ should have access to the model (this is EPJ.epj)
-- epMunches ahould have access to model as too
+- EPJ should have access to the model (this is EPJ.epj) - DONE
+- epMunches ahould have access to model as too - DONE -> epMunch.epj = EPJ.epj
     - maybe to one level above the epmunch object
         - although EPJ.epj gives this access
-        - but does epMunch have access to EPJ.epj - NO
-- see comment in line 42 of wppy3000/modelmaker.py -> on how to do this
+        - but does epMunch have access to EPJ.epj - NO, now YES
+- see comment in line 42 of eppy3000/modelmaker.py -> on how to do this
 
 2020-07-10
 ----------
@@ -195,6 +214,10 @@ it will refer to the version of iPython that you installed in your virtual envir
     python3.7 -m venv ~/venvs/eppy3000_eppy
     source ~/venvs/eppy3000_eppy/bin/activate
 
+    # if you want to test with eppy installed no jupyter  notebook:
+    python3 -m venv ~/venvs/eppy3000_eppy_nojupyter
+    python3.7 -m venv ~/venvs/eppy3000_eppy_nojupyter
+    source ~/venvs/eppy3000_eppy_nojupyter/bin/activate
 
 2018-10-15
 ----------

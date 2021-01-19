@@ -11,6 +11,13 @@ Technical debt
 Technical debt is a concept in software development that reflects the implied cost of additional rework caused by choosing an easy solution now instead of using a better approach that would take longer. As with monetary debt, if technical debt is not repaid, it can accumulate 'interest', making it harder to implement changes. - https://en.wikipedia.org/wiki/Technical_debt
 
 
+2021-01-14
+----------
+
+- each EPJ file has a copy of the epschema. This is wasteful of memory. Need to make it a singleton based on EPJ.epschemaname
+- Also epschema has some infor clipped out, since there ia a good schance it may not be needed. We'll see.
+
+
 2021-01-12
 ----------
 

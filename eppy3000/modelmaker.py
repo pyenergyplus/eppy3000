@@ -29,6 +29,7 @@ class EPJ(object):
     def read_epschema_asmunch(self):
         """Read the epschema file - will become a frozen singleton"""
         read_epschema_asmunch(self.epschemaname)
+        # not used ???
 
     def read(self):
         """read the epj file"""
@@ -38,7 +39,7 @@ class EPJ(object):
         }
         # TODO: the above line should get the epobjects from the schema
         # This should happen whenever the schema is read.
-        # in case the schema reding happens far in the future
+        # in case the schema reading happens far in the future
         # eppy3000 should partilly work even without the schema
         # -
 

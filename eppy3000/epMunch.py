@@ -240,3 +240,13 @@ class EPMunch(Munch):
     def copy(self, newname):
         """make a copy of this anc add it to parent dict"""
         pass
+
+    def allfieldnames(self):
+        return list(self.keys())
+
+    def epjfieldnames(self):
+        fieldnames = [key for key in self.keys() if not key.startswith("eppy")]
+        return fieldnames
+
+    def schemafieldnames(self):
+        return list(self.eppy_objepschema.keys())
