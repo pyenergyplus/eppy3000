@@ -21,6 +21,14 @@ eppy3000.epMunch module
     :undoc-members:
     :show-inheritance:
 
+eppy3000.epjviewer module
+-------------------------
+
+.. automodule:: eppy3000.epjviewer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 eppy3000.eppy3000 module
 ------------------------
 
@@ -33,14 +41,6 @@ eppy3000.epschema module
 ------------------------
 
 .. automodule:: eppy3000.epschema
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-eppy3000.htmlviewer module
---------------------------
-
-.. automodule:: eppy3000.htmlviewer
     :members:
     :undoc-members:
     :show-inheritance:

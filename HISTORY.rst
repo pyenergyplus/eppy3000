@@ -5,6 +5,14 @@ History
 Releases
 --------
 
+Date: Mon Jan 18 21:53:40 PST 2021
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #73
+
+:Problem: Would be nice to have an html viewer for epj
+:Solution: pytested eppy3000.epjviewer with sphinx user documentation
+
 Date: Tue Jan 12 14:18:37 PST 2021
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -26,7 +34,7 @@ Fixed issue #48
 :Problem: No Tutorial for eppy3000
 :Solution: tutorial for eppy3000
 
-+ This tutorial is based on eppy turorial
++ This tutorial is based on eppy tutorial
 + Identifies the gaps in the eppy3000 tagged by TODO in the tutorial
 + open issues on these TODOs and resolve
 

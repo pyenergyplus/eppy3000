@@ -4,11 +4,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # =======================================================================
-"""py.test for htmlviewer"""
+"""py.test for epjviewer"""
 
 import IPython
 from eppy3000.modelmaker import EPJ
-from eppy3000 import htmlviewer
+from eppy3000 import epjviewer
 from IPython.display import IFrame
 
 # schema_file = "./eppy3000/resources/schema/V9_3/Energy+.schema.epJSON"
@@ -23,7 +23,7 @@ epj_big = EPJ(epjname=ep_file_big)
 def test_epj2html():
     """py.test for epj2html"""
     expected = '<table border="1"><tr><th>Version</th><td><table border="1"><tr><th>Version 1</th><td><table border="1"><tr><th>version_identifier</th><td>9.3</td></tr><tr><th>idf_order</th><td>1</td></tr></table></td></tr></table></td></tr><tr><th>SimulationControl</th><td><table border="1"><tr><th>SimulationControl 1</th><td><table border="1"><tr><th>do_zone_sizing_calculation</th><td>Yes</td></tr><tr><th>do_system_sizing_calculation</th><td>Yes</td></tr><tr><th>do_plant_sizing_calculation</th><td>Yes</td></tr><tr><th>run_simulation_for_sizing_periods</th><td>No</td></tr><tr><th>run_simulation_for_weather_file_run_periods</th><td>Yes</td></tr><tr><th>idf_order</th><td>2</td></tr></table></td></tr></table></td></tr><tr><th>Building</th><td><table border="1"><tr><th>Empire State Building</th><td><table border="1"><tr><th>north_axis</th><td>30</td></tr><tr><th>terrain</th><td>City</td></tr><tr><th>loads_convergence_tolerance_value</th><td>0.04</td></tr><tr><th>temperature_convergence_tolerance_value</th><td>0.4</td></tr><tr><th>solar_distribution</th><td>FullExterior</td></tr><tr><th>maximum_number_of_warmup_days</th><td>25</td></tr><tr><th>minimum_number_of_warmup_days</th><td>6</td></tr><tr><th>idf_order</th><td>3</td></tr></table></td></tr></table></td></tr><tr><th>Site:Location</th><td><table border="1"><tr><th>CHICAGO_IL_USA TMY2-94846</th><td><table border="1"><tr><th>latitude</th><td>41.78</td></tr><tr><th>longitude</th><td>-87.75</td></tr><tr><th>time_zone</th><td>-6</td></tr><tr><th>elevation</th><td>190</td></tr><tr><th>idf_order</th><td>4</td></tr></table></td></tr></table></td></tr></table>'
-    result = htmlviewer.epj2html(epj)
+    result = epjviewer.epj2html(epj)
     assert result == expected
 
 
@@ -32,7 +32,7 @@ def test_epmunch2dct():
     expected = {"Version": {"Version 1": {"idf_order": 1, "version_identifier": "9.3"}}}
     versions = epj.epobjects["Version"]
     version = versions[0]
-    result = htmlviewer.epmunch2dct(version)
+    result = epjviewer.epmunch2dct(version)
     assert result == expected
 
 
@@ -41,7 +41,7 @@ def test_epmunch2html():
     expected = '<table border="1"><tr><th>Version</th><td><table border="1"><tr><th>Version 1</th><td><table border="1"><tr><th>version_identifier</th><td>9.3</td></tr><tr><th>idf_order</th><td>1</td></tr></table></td></tr></table></td></tr></table>'
     versions = epj.epobjects["Version"]
     version = versions[0]
-    result = htmlviewer.epmunch2html(version)
+    result = epjviewer.epmunch2html(version)
     assert result == expected
 
 
@@ -50,7 +50,7 @@ def test_epmunch2ipythonhtml():
     expected = IPython.lib.display.IFrame
     versions = epj.epobjects["Version"]
     version = versions[0]
-    result = htmlviewer.epmunch2ipythonhtml(version)
+    result = epjviewer.epmunch2ipythonhtml(version)
     assert type(result) == expected
 
 
@@ -58,14 +58,14 @@ def test_epmuchhtmllines():
     """py.test for epmuchhtmllines"""
     surfaces = epj_big.epobjects["BuildingSurface:Detailed"]
     surface = surfaces[0]
-    result = htmlviewer.epmuchhtmllines(surface)
+    result = epjviewer.epmuchhtmllines(surface)
     expected = 15
     assert result == expected
 
 
 def test_epjhtmllines():
     """py.test for epjhtmllines"""
-    result = htmlviewer.epjhtmllines(epj)
+    result = epjviewer.epjhtmllines(epj)
     expected = 21
     assert result == expected
 
@@ -76,14 +76,14 @@ def test_epobjectslines():
     roofs = [surf for surf in surfs if surf.surface_type == "Roof"]
     version = epj_big.epobjects["Version"]
     epobjects = version + roofs
-    result = htmlviewer.epobjectslines(epobjects)
+    result = epjviewer.epobjectslines(epobjects)
     expected = 19
     assert result == expected
 
 
 def test_epj2ipythonhtml():
     """py.test for epj2ipythonhtml"""
-    result = htmlviewer.epj2ipythonhtml(epj)
+    result = epjviewer.epj2ipythonhtml(epj)
     expected = IFrame
     assert type(result) == expected  # just ensure that it runs
 
@@ -91,7 +91,7 @@ def test_epj2ipythonhtml():
 def test_epobjects2dct():
     """py.test for epobjects2dct"""
     epobjects = epj_big.epobjects["Version"]
-    result = htmlviewer.epobjects2dct(epobjects)
+    result = epjviewer.epobjects2dct(epobjects)
     expected = {
         "Version": {
             "Version 1": {
@@ -108,7 +108,7 @@ def test_epobjects2dct():
 def test_epobjects2html():
     """py.test for epobjects2html"""
     epobjects = epj_big.epobjects["Version"]
-    result = htmlviewer.epobjects2html(epobjects)
+    result = epjviewer.epobjects2html(epobjects)
     expected = '<table border="1"><tr><th>Version</th><td><table border="1"><tr><th>Version 1</th><td><table border="1"><tr><th>idf_max_extensible_fields</th><td>0</td></tr><tr><th>idf_max_fields</th><td>1</td></tr><tr><th>idf_order</th><td>1</td></tr><tr><th>version_identifier</th><td>9.0</td></tr></table></td></tr></table></td></tr></table>'
     assert result == expected
 
@@ -116,6 +116,6 @@ def test_epobjects2html():
 def test_epobjects2ipythonhtml():
     """py.test for epobjects2ipythonhtml"""
     epobjects = epj_big.epobjects["Version"]
-    result = htmlviewer.epobjects2ipythonhtml(epobjects)
+    result = epjviewer.epobjects2ipythonhtml(epobjects)
     expected = IFrame
     assert type(result) == expected  # just ensure that it runs
