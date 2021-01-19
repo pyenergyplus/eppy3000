@@ -37,6 +37,14 @@ eppy3000.epschema module
     :undoc-members:
     :show-inheritance:
 
+eppy3000.htmlviewer module
+--------------------------
+
+.. automodule:: eppy3000.htmlviewer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 eppy3000.idfjsonconverter module
 --------------------------------
 

@@ -83,6 +83,7 @@ def epj_txt1():
 
 def test_EPJ(epj_txt1):
     """py.test for EPJ"""
+    # test without epschema
     txt = epj_txt1
     expected = 15.24
     result = modelmaker.EPJ(epjname=StringIO(txt))
@@ -90,6 +91,7 @@ def test_EPJ(epj_txt1):
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
 
+    # test with epschema
     expected = 15.24
     result = modelmaker.EPJ(
         epjname=StringIO(txt), epschemaname=schemafortesting.schema_file
@@ -97,7 +99,8 @@ def test_EPJ(epj_txt1):
     surfs = result.epobjects["BuildingSurface:Detailed"]
     surf = surfs[0]
     assert expected == surf.vertices[0].vertex_x_coordinate
-    # -
+
+    # test jsonstr()
     expected = json.loads(txt)
     epj = modelmaker.EPJ(epjname=StringIO(txt))
     jsonstr = epj.jsonstr()

@@ -2,3 +2,6 @@ munch
 nbsphinx
 eppy
 black
+
+# for i73_viewer
+json2html
