@@ -214,6 +214,10 @@ it will refer to the version of iPython that you installed in your virtual envir
     python3.7 -m venv ~/venvs/eppy3000_eppy
     source ~/venvs/eppy3000_eppy/bin/activate
 
+    # if you want to test with eppy installed no jupyter  notebook:
+    python3 -m venv ~/venvs/eppy3000_eppy_nojupyter
+    python3.7 -m venv ~/venvs/eppy3000_eppy_nojupyter
+    source ~/venvs/eppy3000_eppy_nojupyter/bin/activate
 
 2018-10-15
 ----------

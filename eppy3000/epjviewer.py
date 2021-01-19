@@ -8,10 +8,15 @@
 
 
 import tempfile
-from IPython.display import IFrame
+try:
+    from IPython.display import IFrame
+except ModuleNotFoundError as e:
+    pass
 from munch import Munch
 import json2html
 
+class JupyterNotInstalled(Exception):
+    pass
 
 def removeeppykeys_inepmunch(epmunch, rkeys=None):
     """remove the eppy keys in epmunch"""
@@ -90,7 +95,10 @@ def epmunch2ipythonhtml(epmunch, fname="./eppy3000_deletethis.html"):
     htmllines = epmuchhtmllines(epmunch)
     html = epmunch2html(epmunch)
     open(fname, "wb").write(html.encode())
-    return IFrame(src=fname, width=800, height=30 * htmllines + 50)
+    try:
+        return IFrame(src=fname, width=800, height=30 * htmllines + 50)
+    except NameError as e:
+        raise JupyterNotInstalled
 
 
 def epj2html(epj):
@@ -106,7 +114,10 @@ def epj2ipythonhtml(epj, fname="./eppy3000_deletethis.html"):
     open(fname, "wb").write(html.encode())
     lines = epjhtmllines(epj)
     height = 30 * lines + 50
-    return IFrame(src=fname, width=8000, height=height)
+    try:
+        return IFrame(src=fname, width=8000, height=height)
+    except NameError as e:
+        raise JupyterNotInstalled
 
 
 def epobjects2dct(epobjects):
@@ -138,4 +149,7 @@ def epobjects2ipythonhtml(epobjects, fname="./eppy3000_deletethis.html"):
     lines = epobjectslines(epobjects)
     print(lines)
     height = 30 * lines + 50
-    return IFrame(src=fname, width=800, height=height)
+    try:
+        return IFrame(src=fname, width=800, height=height)
+    except NameError as e:
+        raise JupyterNotInstalled

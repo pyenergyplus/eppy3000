@@ -6,10 +6,14 @@
 # =======================================================================
 """py.test for epjviewer"""
 
-import IPython
+import pytest
 from eppy3000.modelmaker import EPJ
-from eppy3000 import epjviewer
-from IPython.display import IFrame
+from eppy3000 import epjviewer    
+try:
+    from IPython.display import IFrame
+    JUPYTER = True
+except ModuleNotFoundError as e:
+    JUPYTER = False
 
 # schema_file = "./eppy3000/resources/schema/V9_3/Energy+.schema.epJSON"
 ep_file = "./eppy3000/resources/epJSON/V9_3/smallfile.epJSON"
@@ -47,11 +51,16 @@ def test_epmunch2html():
 
 def test_epmunch2ipythonhtml():
     """py.test for epmunch2ipythonhtml"""
-    expected = IPython.lib.display.IFrame
     versions = epj.epobjects["Version"]
     version = versions[0]
-    result = epjviewer.epmunch2ipythonhtml(version)
-    assert type(result) == expected
+    if JUPYTER:
+        expected = IFrame
+        result = epjviewer.epmunch2ipythonhtml(version)
+        assert type(result) == expected
+    else:
+        with pytest.raises(epjviewer.JupyterNotInstalled):
+            result = epjviewer.epmunch2ipythonhtml(version)
+            
 
 
 def test_epmuchhtmllines():
@@ -83,9 +92,14 @@ def test_epobjectslines():
 
 def test_epj2ipythonhtml():
     """py.test for epj2ipythonhtml"""
-    result = epjviewer.epj2ipythonhtml(epj)
-    expected = IFrame
-    assert type(result) == expected  # just ensure that it runs
+    if JUPYTER:
+        result = epjviewer.epj2ipythonhtml(epj)
+        expected = IFrame
+        assert type(result) == expected  # just ensure that it runs
+    else:
+        with pytest.raises(epjviewer.JupyterNotInstalled):
+            result = epjviewer.epj2ipythonhtml(epj)
+            
 
 
 def test_epobjects2dct():
@@ -116,6 +130,12 @@ def test_epobjects2html():
 def test_epobjects2ipythonhtml():
     """py.test for epobjects2ipythonhtml"""
     epobjects = epj_big.epobjects["Version"]
-    result = epjviewer.epobjects2ipythonhtml(epobjects)
-    expected = IFrame
-    assert type(result) == expected  # just ensure that it runs
+    if JUPYTER:
+        expected = IFrame
+        result = epjviewer.epobjects2ipythonhtml(epobjects)
+        assert type(result) == expected  # just ensure that it runs
+    else:
+        with pytest.raises(epjviewer.JupyterNotInstalled):
+            result = epjviewer.epobjects2ipythonhtml(epobjects)
+            
+    
