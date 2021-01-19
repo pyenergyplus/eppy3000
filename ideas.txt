@@ -1,0 +1,13 @@
+===========================
+A Gathering Place for Ideas
+===========================
+
+2021-01-14
+----------
+
+- json2html viewer seems to be working
+    - need to save to a temporary file and then open to 
+- Is an editor possible
+    - serve the pages using flask
+    - send flask messages and snippets using 0MQ
+        - would be a ver intersting project.
