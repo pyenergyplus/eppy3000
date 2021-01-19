@@ -1,7 +1,14 @@
+2021-01-19
+----------
+
+- bumpversion is not maintained
+- using bump2version now.
+
 2021-01-16
 ----------
 
-IFrame from notebook is not showing up in sphinx documentation
+- IFrame from notebook is not showing up in sphinx documentation
+- documented IFrame ode commented out
 
 2021-01-14
 ----------
