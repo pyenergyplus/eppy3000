@@ -1,5 +1,8 @@
 munch
-nbsphinx
 eppy
-black
 json2html
+
+black
+
+# - needed for ReadtheDocs
+nbsphinx
