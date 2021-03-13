@@ -150,6 +150,21 @@ OutdoorAir:NodeList,
     6;                       !- Minimum Number of Warmup Days
 """,
     "9.1"), # idftxt, expected
+    ("""!- Darwin Line endings 
+
+VERSION,
+    9.0;                      !- Version Identifier
+
+""",
+    "9.0"), # idftxt, expected
+    ("""!- Darwin Line endings 
+
+VERSION,
+    9.0
+    ;                      !- Version Identifier
+
+""",
+    "9.0"), # idftxt, expected
 ])
 def test_getidfversion(idftxt, expected):
     """py.test for getidfversion"""
