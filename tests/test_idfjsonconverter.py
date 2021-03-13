@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Santosh Philip
+# Copyright (c) 2019-2021 Santosh Philip
 # =======================================================================
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,8 @@ from io import StringIO
 
 from eppy3000 import idfjsonconverter
 from tests import schemafortesting
+
+import pytest
 
 SCHEMA_FILE = schemafortesting.schema_file
 
@@ -127,3 +129,30 @@ OutdoorAir:NodeList,
         epsjsonschema = schemafortesting.schema
         jsonresult2 = idfjsonconverter.idf2json(idfhandle, epsjsonschema)
         assert jsonresult1 == jsonresult2
+
+@pytest.mark.parametrize("idftxt, expected", 
+[
+    ("""! Floor Area:              232.25 m2
+! Number of Stories:       1
+
+  Version,9.1;
+
+  Timestep,6;
+
+  Building,
+    Bldg,                    !- Name
+    0.0,                     !- North Axis {deg}
+    Suburbs,                 !- Terrain
+    0.05,                    !- Loads Convergence Tolerance Value
+    0.05,                    !- Temperature Convergence Tolerance Value {deltaC}
+    MinimalShadowing,        !- Solar Distribution
+    30,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days
+""",
+    "9.1"), # idftxt, expected
+])
+def test_getidfversion(idftxt, expected):
+    """py.test for getidfversion"""
+    fhandle = StringIO(idftxt)
+    result = idfjsonconverter.getidfversion(fhandle)
+    assert result == expected

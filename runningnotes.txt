@@ -1,3 +1,13 @@
+2021-03-13
+----------
+
+Issue #76 easy conversions
+
+- first need to locate the version of idf file
+- then need find the install location of that version
+    - where the schema file is
+- once the schema file is located, we are set
+
 2020-08-06 20:00
 ----------------
 

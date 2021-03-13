@@ -1,4 +1,4 @@
-# Copyright (c) 2019 Santosh Philip
+# Copyright (c) 2019-2021 Santosh Philip
 # =======================================================================
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -183,3 +183,30 @@ def json2idf(jsonhandle, epjsonhandle):
             lines.append("")
 
     return "\n".join(lines)
+
+
+def getidfversion(fhandle):
+    """get the idf version of this file"""
+    foundword_version = False
+    lines = []
+    for line in fhandle:
+        cline = line.split('!')[0]
+        if foundword_version:
+            if ";"  in cline:
+                remains = cline.split(";")[0]
+                lines.append(remains)
+                break
+            else:
+                lines.append(cline.strip())
+        else:
+            if "VERSION" in cline.upper():
+                foundword_version = True
+                if ";" in cline.upper():
+                    vline = cline.split(";")[0]
+                    version = vline.split(",")[1].strip()
+                    return version
+                else:
+                    lines.append(cline.strip())
+    compose = ''.join(lines)
+    version = compose.split(",")[1].strip()
+    return version
