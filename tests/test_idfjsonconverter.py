@@ -168,6 +168,36 @@ OutdoorAir:NodeList,
 
     """,
     "9.0"), # idftxt, expected
+    # --
+    # single line version 1
+    ("""
+    !- Darwin Line endings 
+
+    Timestep,6;    VERSION,
+      9.0
+        ;                      !- Version Identifier
+
+    """,
+    "9.0"), # idftxt, expected
+    # --
+    # single line version 2
+    ("""
+    !- Darwin Line endings 
+
+    Timestep,6;    VERSION, 9.0
+        ;                      !- Version Identifier
+
+    """,
+    "9.0"), # idftxt, expected
+    # --
+    # single line version 3
+    ("""
+    !- Darwin Line endings 
+
+    Timestep,6;    VERSION, 9.0 ;  !- Version Identifier
+
+    """,
+    "9.0"), # idftxt, expected
     # ---
     # no version in file
     ("""

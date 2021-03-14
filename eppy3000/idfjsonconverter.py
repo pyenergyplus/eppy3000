@@ -201,12 +201,13 @@ def getidfversion(fhandle):
         else:
             if "VERSION" in cline.upper():
                 foundword_version = True
-                if ";" in cline.upper():
-                    vline = cline.split(";")[0]
+                fromversion = cline[cline.upper().find("VERSION"):].strip()
+                if ";" in fromversion:
+                    vline = fromversion.split(";")[0]
                     version = vline.split(",")[1].strip()
                     return version
                 else:
-                    lines.append(cline.strip())
+                    lines.append(fromversion)
     compose = ''.join(lines)
     print("compose", compose)
     if compose:
