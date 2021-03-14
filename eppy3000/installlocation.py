@@ -7,6 +7,15 @@
 
 """functions to find the installation folder of a Energyplus version"""
 
-def installfolder(version):
+import platform
+
+def version2folder(version):
+    """foldername from version"""
+    verlst = version.split(".")
+    while len(verlst) < 3:
+        verlst.append("0")
+    return "-".join(verlst)
+
+def installfolder(version, platform_system=None):
     """return the install folder of this EnergyPlus version"""
     pass
