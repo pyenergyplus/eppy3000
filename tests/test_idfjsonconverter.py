@@ -132,39 +132,54 @@ OutdoorAir:NodeList,
 
 @pytest.mark.parametrize("idftxt, expected", 
 [
-    ("""! Floor Area:              232.25 m2
-! Number of Stories:       1
+    ("""
+    ! Floor Area:              232.25 m2
+    ! Number of Stories:       1
 
-  Version,9.1;
+    Version,9.1;
 
-  Timestep,6;
+    Timestep,6;
 
-  Building,
-    Bldg,                    !- Name
-    0.0,                     !- North Axis {deg}
-    Suburbs,                 !- Terrain
-    0.05,                    !- Loads Convergence Tolerance Value
-    0.05,                    !- Temperature Convergence Tolerance Value {deltaC}
-    MinimalShadowing,        !- Solar Distribution
-    30,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
-""",
+    Building,
+        Bldg,                    !- Name
+        0.0,                     !- North Axis {deg}
+        Suburbs,                 !- Terrain
+        0.05,                    !- Loads Convergence Tolerance Value
+        0.05,                    !- Temperature Convergence Tolerance Value {deltaC}
+        MinimalShadowing,        !- Solar Distribution
+        30,                      !- Maximum Number of Warmup Days
+        6;                       !- Minimum Number of Warmup Days
+    """,
     "9.1"), # idftxt, expected
-    ("""!- Darwin Line endings 
+    ("""
+    !- Darwin Line endings 
 
-VERSION,
-    9.0;                      !- Version Identifier
+    VERSION,
+        9.0;                      !- Version Identifier
 
-""",
+    """,
     "9.0"), # idftxt, expected
-    ("""!- Darwin Line endings 
+    ("""
+    !- Darwin Line endings 
 
-VERSION,
-    9.0
-    ;                      !- Version Identifier
+    VERSION,
+        9.0
+        ;                      !- Version Identifier
 
-""",
+    """,
     "9.0"), # idftxt, expected
+    # ---
+    # no version in file
+    ("""
+    !- Darwin Line endings 
+
+    XERSION,
+        9.0
+        ;                      !- Version Identifier
+
+    """,
+    None), # idftxt, expected
+
 ])
 def test_getidfversion(idftxt, expected):
     """py.test for getidfversion"""

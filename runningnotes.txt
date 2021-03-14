@@ -4,6 +4,7 @@
 Issue #76 easy conversions
 
 - first need to locate the version of idf file - wrote function for this 
+    - experimental - try to do this in functional programming.
 - then need find the install location of that version
     - where the schema file is
 - once the schema file is located, we are set

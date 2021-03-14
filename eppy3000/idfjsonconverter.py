@@ -208,5 +208,47 @@ def getidfversion(fhandle):
                 else:
                     lines.append(cline.strip())
     compose = ''.join(lines)
-    version = compose.split(",")[1].strip()
-    return version
+    print("compose", compose)
+    if compose:
+        return compose.split(",")[1].strip()
+    else:
+        return None
+
+
+# def f_getidfversion(fhandle):
+#     """functional version of getidfversion - an attempt"""
+#
+#     def aux(lines):
+#         for line in lines:
+#             cline = line.split('!')[0]
+#             if not acc:
+#                 if "VERSION" in cline.upper():
+#                     if ";" in cline:
+#                         version = cline.split(",")[1].strip()
+#                         return None
+#                     else:
+#                         acc.append(cline.strip())
+#                 else: pass
+#             else:
+#                 if ";" in cline:
+#                     remains = cline.split(";")[0]
+#                     acc.append(remains)
+#                     break
+#
+#     acc = []
+#     return aux(fhandle)
+#     # what = sum([aux(line.split('!')[0], acc) for line in fhandle if ])
+#     return what
+    
+    # links to figure this out. Look into
+    #
+    # itertools.takewhile()
+    # https://stackoverflow.com/questions/9572833/using-break-in-a-list-comprehension
+    #
+    # from itertools import ifilter
+    # https://www.daniweb.com/programming/software-development/threads/293381/break-a-list-comprehension
+    #
+    # from itertools import takewhile
+    # from functools import partial
+    # https://www.reddit.com/r/learnpython/comments/7r3q1a/break_out_of_list_comprehension/
+    #
