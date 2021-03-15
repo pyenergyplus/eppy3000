@@ -1,0 +1,3798 @@
+{
+    "AirLoopHVAC": {
+        "Typical Terminal Reheat 1": {
+            "availability_manager_list_name": "Reheat System 1 Avail List",
+            "branch_list_name": "Air Loop Branches",
+            "controller_list_name": "Reheat System 1 Controllers",
+            "demand_side_inlet_node_names": "Zone Equipment Inlet Node",
+            "demand_side_outlet_node_name": "Return Air Mixer Outlet",
+            "design_supply_air_flow_rate": 1.3,
+            "supply_side_inlet_node_name": "Air Loop Inlet Node",
+            "supply_side_outlet_node_names": "Air Loop Outlet Node"
+        }
+    },
+    "AirLoopHVAC:ControllerList": {
+        "Reheat System 1 Controllers": {
+            "controller_1_name": "Main Cooling Coil Controller",
+            "controller_1_object_type": "Controller:WaterCoil"
+        }
+    },
+    "AirLoopHVAC:ReturnPath": {
+        "TermReheatReturnPath": {
+            "components": [
+                {
+                    "component_name": "Zone Return Air Mixer",
+                    "component_object_type": "AirLoopHVAC:ZoneMixer"
+                }
+            ],
+            "return_air_path_outlet_node_name": "Return Air Mixer Outlet"
+        }
+    },
+    "AirLoopHVAC:SupplyPath": {
+        "TermReheatSupplyPath": {
+            "components": [
+                {
+                    "component_name": "Zone Supply Air Splitter",
+                    "component_object_type": "AirLoopHVAC:ZoneSplitter"
+                }
+            ],
+            "supply_air_path_inlet_node_name": "Zone Equipment Inlet Node"
+        }
+    },
+    "AirLoopHVAC:ZoneMixer": {
+        "Zone Return Air Mixer": {
+            "nodes": [
+                {
+                    "inlet_node_name": "Zone 1 Outlet Node"
+                },
+                {
+                    "inlet_node_name": "Zone 2 Outlet Node"
+                },
+                {
+                    "inlet_node_name": "Zone 3 Outlet Node"
+                }
+            ],
+            "outlet_node_name": "Return Air Mixer Outlet"
+        }
+    },
+    "AirLoopHVAC:ZoneSplitter": {
+        "Zone Supply Air Splitter": {
+            "inlet_node_name": "Zone Equipment Inlet Node",
+            "nodes": [
+                {
+                    "outlet_node_name": "Zone 1 Reheat Air Inlet Node"
+                },
+                {
+                    "outlet_node_name": "Zone 2 Reheat Air Inlet Node"
+                },
+                {
+                    "outlet_node_name": "Zone 3 Reheat Air Inlet Node"
+                }
+            ]
+        }
+    },
+    "AirTerminal:SingleDuct:ConstantVolume:Reheat": {
+        "Reheat Zone 1": {
+            "air_inlet_node_name": "Zone 1 Reheat Air Inlet Node",
+            "air_outlet_node_name": "Zone 1 Reheat Air Outlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "convergence_tolerance": 0.001,
+            "maximum_air_flow_rate": 0.47,
+            "maximum_hot_water_or_steam_flow_rate": 0.0013,
+            "minimum_hot_water_or_steam_flow_rate": 0.0,
+            "reheat_coil_name": "Reheat Coil Zone 1",
+            "reheat_coil_object_type": "Coil:Heating:Water"
+        },
+        "Reheat Zone 2": {
+            "air_inlet_node_name": "Zone 2 Reheat Air Inlet Node",
+            "air_outlet_node_name": "Zone 2 Reheat Air Outlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "convergence_tolerance": 0.001,
+            "maximum_air_flow_rate": 0.36,
+            "maximum_hot_water_or_steam_flow_rate": 0.0012,
+            "minimum_hot_water_or_steam_flow_rate": 0.0,
+            "reheat_coil_name": "Reheat Coil Zone 2",
+            "reheat_coil_object_type": "Coil:Heating:Water"
+        },
+        "Reheat Zone 3": {
+            "air_inlet_node_name": "Zone 3 Reheat Air Inlet Node",
+            "air_outlet_node_name": "Zone 3 Reheat Air Outlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "convergence_tolerance": 0.001,
+            "maximum_air_flow_rate": 0.47,
+            "maximum_hot_water_or_steam_flow_rate": 0.0013,
+            "minimum_hot_water_or_steam_flow_rate": 0.0,
+            "reheat_coil_name": "Reheat Coil Zone 3",
+            "reheat_coil_object_type": "Coil:Heating:Water"
+        }
+    },
+    "AvailabilityManager:Scheduled": {
+        "Reheat System 1 Avail": {
+            "schedule_name": "FanAndCoilAvailSched"
+        }
+    },
+    "AvailabilityManagerAssignmentList": {
+        "Reheat System 1 Avail List": {
+            "managers": [
+                {
+                    "availability_manager_name": "Reheat System 1 Avail",
+                    "availability_manager_object_type": "AvailabilityManager:Scheduled"
+                }
+            ]
+        }
+    },
+    "Branch": {
+        "Air Loop Main Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Air Loop Inlet Node",
+                    "component_name": "Supply Fan 1",
+                    "component_object_type": "Fan:ConstantVolume",
+                    "component_outlet_node_name": "Cooling Coil Air Inlet Node"
+                },
+                {
+                    "component_inlet_node_name": "Cooling Coil Air Inlet Node",
+                    "component_name": "Detailed Cooling Coil",
+                    "component_object_type": "Coil:Cooling:Water:DetailedGeometry",
+                    "component_outlet_node_name": "Air Loop Outlet Node"
+                }
+            ]
+        },
+        "Big Chiller Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Big Chiller Inlet Node",
+                    "component_name": "Big Chiller",
+                    "component_object_type": "Chiller:Electric",
+                    "component_outlet_node_name": "Big Chiller Outlet Node"
+                }
+            ]
+        },
+        "Big Chiller Condenser Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Big Chiller Condenser Inlet Node",
+                    "component_name": "Big Chiller",
+                    "component_object_type": "Chiller:Electric",
+                    "component_outlet_node_name": "Big Chiller Condenser Outlet Node"
+                }
+            ]
+        },
+        "CW Pump Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "CW Supply Inlet Node",
+                    "component_name": "Circ Pump",
+                    "component_object_type": "Pump:VariableSpeed",
+                    "component_outlet_node_name": "CW Pump Outlet Node"
+                }
+            ]
+        },
+        "Condenser Demand Bypass Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Cond Demand Bypass Inlet Node",
+                    "component_name": "Condenser Demand Side Bypass",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Cond Demand Bypass Outlet Node"
+                }
+            ]
+        },
+        "Condenser Demand Inlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Condenser Demand Inlet Node",
+                    "component_name": "Condenser Demand Inlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Condenser Demand Entrance Pipe Outlet Node"
+                }
+            ]
+        },
+        "Condenser Demand Outlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Condenser Demand Exit Pipe Inlet Node",
+                    "component_name": "Condenser Demand Outlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Condenser Demand Outlet Node"
+                }
+            ]
+        },
+        "Condenser Supply Bypass Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Cond Supply Bypass Inlet Node",
+                    "component_name": "Condenser Supply Side Bypass",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Cond Supply Bypass Outlet Node"
+                }
+            ]
+        },
+        "Condenser Supply Inlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Condenser Supply Inlet Node",
+                    "component_name": "Cond Circ Pump",
+                    "component_object_type": "Pump:VariableSpeed",
+                    "component_outlet_node_name": "Condenser Pump Outlet Node"
+                }
+            ]
+        },
+        "Condenser Supply Outlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Condenser Supply Exit Pipe Inlet Node",
+                    "component_name": "Condenser Supply Outlet",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Condenser Supply Outlet Node"
+                }
+            ]
+        },
+        "Condenser Supply Tower Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Condenser Tower Inlet Node",
+                    "component_name": "Big Tower",
+                    "component_object_type": "CoolingTower:SingleSpeed",
+                    "component_outlet_node_name": "Condenser Tower Outlet Node"
+                }
+            ]
+        },
+        "Cooling Coil Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Cooling Coil Water Inlet Node",
+                    "component_name": "Detailed Cooling Coil",
+                    "component_object_type": "Coil:Cooling:Water:DetailedGeometry",
+                    "component_outlet_node_name": "Cooling Coil Water Outlet Node"
+                }
+            ]
+        },
+        "Cooling Demand Inlet": {
+            "components": [
+                {
+                    "component_inlet_node_name": "CW Demand Inlet Node",
+                    "component_name": "Demand Side Inlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "CW Demand Entrance Pipe Outlet Node"
+                }
+            ]
+        },
+        "Cooling Demand Outlet": {
+            "components": [
+                {
+                    "component_inlet_node_name": "CW Demand Exit Pipe Inlet Node",
+                    "component_name": "CW Demand Side Outlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "CW Demand Outlet Node"
+                }
+            ]
+        },
+        "Cooling Supply Outlet": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Supply Side Exit Pipe Inlet Node",
+                    "component_name": "Supply Side Outlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "CW Supply Outlet Node"
+                }
+            ]
+        },
+        "Demand Bypass Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "CW Demand Bypass Inlet Node",
+                    "component_name": "Demand Side Bypass",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "CW Demand Bypass Outlet Node"
+                }
+            ]
+        },
+        "Heating Purchased Hot Water Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Purchased Heat Inlet Node",
+                    "component_name": "Purchased Heating",
+                    "component_object_type": "DistrictHeating",
+                    "component_outlet_node_name": "Purchased Heat Outlet Node"
+                }
+            ]
+        },
+        "Heating Supply Bypass Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Heating Supply Bypass Inlet Node",
+                    "component_name": "Heating Supply Side Bypass",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Heating Supply Bypass Outlet Node"
+                }
+            ]
+        },
+        "Heating Supply Inlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "HW Supply Inlet Node",
+                    "component_name": "HW Circ Pump",
+                    "component_object_type": "Pump:VariableSpeed",
+                    "component_outlet_node_name": "HW Pump Outlet Node"
+                }
+            ]
+        },
+        "Heating Supply Outlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Heating Supply Exit Pipe Inlet Node",
+                    "component_name": "Heating Supply Outlet",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "HW Supply Outlet Node"
+                }
+            ]
+        },
+        "Little Chiller Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Little Chiller Inlet Node",
+                    "component_name": "Little Chiller",
+                    "component_object_type": "Chiller:ConstantCOP",
+                    "component_outlet_node_name": "Little Chiller Outlet Node"
+                }
+            ]
+        },
+        "Little Chiller Condenser Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Little Chiller Condenser Inlet Node",
+                    "component_name": "Little Chiller",
+                    "component_object_type": "Chiller:ConstantCOP",
+                    "component_outlet_node_name": "Little Chiller Condenser Outlet Node"
+                }
+            ]
+        },
+        "Purchased Cooling Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Purchased Cooling Inlet Node",
+                    "component_name": "Purchased Cooling",
+                    "component_object_type": "DistrictCooling",
+                    "component_outlet_node_name": "Purchased Cooling Outlet Node"
+                }
+            ]
+        },
+        "Reheat Bypass Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Reheat Bypass Inlet Node",
+                    "component_name": "Reheat Bypass",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "Reheat Bypass Outlet Node"
+                }
+            ]
+        },
+        "Reheat Inlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "HW Demand Inlet Node",
+                    "component_name": "Reheat Inlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "HW Demand Entrance Pipe Outlet Node"
+                }
+            ]
+        },
+        "Reheat Outlet Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "HW Demand Exit Pipe Inlet Node",
+                    "component_name": "Reheat Outlet Pipe",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "HW Demand Outlet Node"
+                }
+            ]
+        },
+        "Supply Bypass Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "CW Supply Bypass Inlet Node",
+                    "component_name": "Supply Side Bypass",
+                    "component_object_type": "Pipe:Adiabatic",
+                    "component_outlet_node_name": "CW Supply Bypass Outlet Node"
+                }
+            ]
+        },
+        "Zone 1 Reheat Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Zone 1 Reheat Water Inlet Node",
+                    "component_name": "Reheat Coil Zone 1",
+                    "component_object_type": "Coil:Heating:Water",
+                    "component_outlet_node_name": "Zone 1 Reheat Water Outlet Node"
+                }
+            ]
+        },
+        "Zone 2 Reheat Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Zone 2 Reheat Water Inlet Node",
+                    "component_name": "Reheat Coil Zone 2",
+                    "component_object_type": "Coil:Heating:Water",
+                    "component_outlet_node_name": "Zone 2 Reheat Water Outlet Node"
+                }
+            ]
+        },
+        "Zone 3 Reheat Branch": {
+            "components": [
+                {
+                    "component_inlet_node_name": "Zone 3 Reheat Water Inlet Node",
+                    "component_name": "Reheat Coil Zone 3",
+                    "component_object_type": "Coil:Heating:Water",
+                    "component_outlet_node_name": "Zone 3 Reheat Water Outlet Node"
+                }
+            ]
+        }
+    },
+    "BranchList": {
+        "Air Loop Branches": {
+            "branches": [
+                {
+                    "branch_name": "Air Loop Main Branch"
+                }
+            ]
+        },
+        "Condenser Demand Side Branches": {
+            "branches": [
+                {
+                    "branch_name": "Condenser Demand Inlet Branch"
+                },
+                {
+                    "branch_name": "Little Chiller Condenser Branch"
+                },
+                {
+                    "branch_name": "Big Chiller Condenser Branch"
+                },
+                {
+                    "branch_name": "Condenser Demand Bypass Branch"
+                },
+                {
+                    "branch_name": "Condenser Demand Outlet Branch"
+                }
+            ]
+        },
+        "Condenser Supply Side Branches": {
+            "branches": [
+                {
+                    "branch_name": "Condenser Supply Inlet Branch"
+                },
+                {
+                    "branch_name": "Condenser Supply Tower Branch"
+                },
+                {
+                    "branch_name": "Condenser Supply Bypass Branch"
+                },
+                {
+                    "branch_name": "Condenser Supply Outlet Branch"
+                }
+            ]
+        },
+        "Cooling Demand Side Branches": {
+            "branches": [
+                {
+                    "branch_name": "Cooling Demand Inlet"
+                },
+                {
+                    "branch_name": "Cooling Coil Branch"
+                },
+                {
+                    "branch_name": "Demand Bypass Branch"
+                },
+                {
+                    "branch_name": "Cooling Demand Outlet"
+                }
+            ]
+        },
+        "Cooling Supply Side Branches": {
+            "branches": [
+                {
+                    "branch_name": "CW Pump Branch"
+                },
+                {
+                    "branch_name": "Little Chiller Branch"
+                },
+                {
+                    "branch_name": "Big Chiller Branch"
+                },
+                {
+                    "branch_name": "Purchased Cooling Branch"
+                },
+                {
+                    "branch_name": "Supply Bypass Branch"
+                },
+                {
+                    "branch_name": "Cooling Supply Outlet"
+                }
+            ]
+        },
+        "Heating Demand Side Branches": {
+            "branches": [
+                {
+                    "branch_name": "Reheat Inlet Branch"
+                },
+                {
+                    "branch_name": "Zone 1 Reheat Branch"
+                },
+                {
+                    "branch_name": "Zone 2 Reheat Branch"
+                },
+                {
+                    "branch_name": "Zone 3 Reheat Branch"
+                },
+                {
+                    "branch_name": "Reheat Bypass Branch"
+                },
+                {
+                    "branch_name": "Reheat Outlet Branch"
+                }
+            ]
+        },
+        "Heating Supply Side Branches": {
+            "branches": [
+                {
+                    "branch_name": "Heating Supply Inlet Branch"
+                },
+                {
+                    "branch_name": "Heating Purchased Hot Water Branch"
+                },
+                {
+                    "branch_name": "Heating Supply Bypass Branch"
+                },
+                {
+                    "branch_name": "Heating Supply Outlet Branch"
+                }
+            ]
+        }
+    },
+    "Building": {
+        "NONE": {
+            "loads_convergence_tolerance_value": 0.039999999,
+            "maximum_number_of_warmup_days": 25,
+            "minimum_number_of_warmup_days": 6,
+            "north_axis": 0,
+            "solar_distribution": "FullInteriorAndExterior",
+            "temperature_convergence_tolerance_value": 0.4,
+            "terrain": "Suburbs"
+        }
+    },
+    "BuildingSurface:Detailed": {
+        "Zn001:Flr001": {
+            "construction_name": "FLOOR SLAB 8 IN",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn001:Flr001",
+            "sun_exposure": "NoSun",
+            "surface_type": "Floor",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                }
+            ],
+            "view_factor_to_ground": 1.0,
+            "wind_exposure": "NoWind",
+            "zone_name": "West Zone"
+        },
+        "Zn001:Roof001": {
+            "construction_name": "ROOF34",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Roof",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0,
+            "wind_exposure": "WindExposed",
+            "zone_name": "West Zone"
+        },
+        "Zn001:Wall001": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "West Zone"
+        },
+        "Zn001:Wall002": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "West Zone"
+        },
+        "Zn001:Wall003": {
+            "construction_name": "PARTITION06",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn003:Wall004",
+            "sun_exposure": "NoSun",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "NoWind",
+            "zone_name": "West Zone"
+        },
+        "Zn001:Wall004": {
+            "construction_name": "PARTITION06",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn002:Wall004",
+            "sun_exposure": "NoSun",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "NoWind",
+            "zone_name": "West Zone"
+        },
+        "Zn002:Flr001": {
+            "construction_name": "FLOOR SLAB 8 IN",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn002:Flr001",
+            "sun_exposure": "NoSun",
+            "surface_type": "Floor",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                }
+            ],
+            "view_factor_to_ground": 1.0,
+            "wind_exposure": "NoWind",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn002:Roof001": {
+            "construction_name": "ROOF34",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Roof",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0,
+            "wind_exposure": "WindExposed",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn002:Wall001": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn002:Wall002": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn002:Wall003": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 12.192,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn002:Wall004": {
+            "construction_name": "PARTITION06",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn001:Wall004",
+            "sun_exposure": "NoSun",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 0,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "NoWind",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn002:Wall005": {
+            "construction_name": "PARTITION06",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn003:Wall005",
+            "sun_exposure": "NoSun",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "NoWind",
+            "zone_name": "EAST ZONE"
+        },
+        "Zn003:Flr001": {
+            "construction_name": "FLOOR SLAB 8 IN",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn003:Flr001",
+            "sun_exposure": "NoSun",
+            "surface_type": "Floor",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                }
+            ],
+            "view_factor_to_ground": 1.0,
+            "wind_exposure": "NoWind",
+            "zone_name": "NORTH ZONE"
+        },
+        "Zn003:Roof001": {
+            "construction_name": "ROOF34",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Roof",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0,
+            "wind_exposure": "WindExposed",
+            "zone_name": "NORTH ZONE"
+        },
+        "Zn003:Wall001": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "NORTH ZONE"
+        },
+        "Zn003:Wall002": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "NORTH ZONE"
+        },
+        "Zn003:Wall003": {
+            "construction_name": "EXTWALL80",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Outdoors",
+            "sun_exposure": "SunExposed",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 12.192,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "WindExposed",
+            "zone_name": "NORTH ZONE"
+        },
+        "Zn003:Wall004": {
+            "construction_name": "PARTITION06",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn001:Wall003",
+            "sun_exposure": "NoSun",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 0,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "NoWind",
+            "zone_name": "NORTH ZONE"
+        },
+        "Zn003:Wall005": {
+            "construction_name": "PARTITION06",
+            "number_of_vertices": 4,
+            "outside_boundary_condition": "Surface",
+            "outside_boundary_condition_object": "Zn002:Wall005",
+            "sun_exposure": "NoSun",
+            "surface_type": "Wall",
+            "vertices": [
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                },
+                {
+                    "vertex_x_coordinate": 6.096,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 0
+                },
+                {
+                    "vertex_x_coordinate": 9.144,
+                    "vertex_y_coordinate": 6.096,
+                    "vertex_z_coordinate": 3.048
+                }
+            ],
+            "view_factor_to_ground": 0.5,
+            "wind_exposure": "NoWind",
+            "zone_name": "NORTH ZONE"
+        }
+    },
+    "Chiller:ConstantCOP": {
+        "Little Chiller": {
+            "chilled_water_inlet_node_name": "Little Chiller Inlet Node",
+            "chilled_water_outlet_node_name": "Little Chiller Outlet Node",
+            "chiller_flow_mode": "LeavingSetpointModulated",
+            "condenser_inlet_node_name": "Little Chiller Condenser Inlet Node",
+            "condenser_outlet_node_name": "Little Chiller Condenser Outlet Node",
+            "condenser_type": "WaterCooled",
+            "design_chilled_water_flow_rate": 0.0011,
+            "design_condenser_water_flow_rate": 0.0011,
+            "nominal_capacity": 25000,
+            "nominal_cop": 2.5
+        }
+    },
+    "Chiller:Electric": {
+        "Big Chiller": {
+            "chilled_water_inlet_node_name": "Big Chiller Inlet Node",
+            "chilled_water_outlet_node_name": "Big Chiller Outlet Node",
+            "chilled_water_outlet_temperature_lower_limit": 5,
+            "chiller_flow_mode": "LeavingSetpointModulated",
+            "coefficient_1_of_capacity_ratio_curve": 0.944836,
+            "coefficient_1_of_full_load_ratio_curve": 0.03303,
+            "coefficient_1_of_power_ratio_curve": 1.907846,
+            "coefficient_2_of_capacity_ratio_curve": -0.0570088,
+            "coefficient_2_of_full_load_ratio_curve": 0.6852,
+            "coefficient_2_of_power_ratio_curve": -1.204987,
+            "coefficient_3_of_capacity_ratio_curve": -0.00185486,
+            "coefficient_3_of_full_load_ratio_curve": 0.2818,
+            "coefficient_3_of_power_ratio_curve": 0.2634623,
+            "condenser_inlet_node_name": "Big Chiller Condenser Inlet Node",
+            "condenser_outlet_node_name": "Big Chiller Condenser Outlet Node",
+            "condenser_type": "WaterCooled",
+            "design_chilled_water_flow_rate": 0.0011,
+            "design_chilled_water_outlet_temperature": 6.667,
+            "design_condenser_fluid_flow_rate": 0.0005,
+            "design_condenser_inlet_temperature": 29.44,
+            "maximum_part_load_ratio": 1.0,
+            "minimum_part_load_ratio": 0.15,
+            "nominal_capacity": 45000,
+            "nominal_cop": 2.75,
+            "optimum_part_load_ratio": 0.65,
+            "temperature_rise_coefficient": 2.682759
+        }
+    },
+    "Coil:Cooling:Water:DetailedGeometry": {
+        "Detailed Cooling Coil": {
+            "air_inlet_node_name": "Cooling Coil Air Inlet Node",
+            "air_outlet_node_name": "Air Loop Outlet Node",
+            "availability_schedule_name": "CoolingCoilAvailSched",
+            "coil_depth": 0.165097968,
+            "fin_diameter": 0.43507152,
+            "fin_spacing": 0.001814292,
+            "fin_surface_area": 101.7158224,
+            "fin_thermal_conductivity": 203.882537,
+            "fin_thickness": 0.001499982,
+            "maximum_water_flow_rate": 0.0011,
+            "minimum_airflow_area": 0.810606367,
+            "number_of_tube_rows": 6,
+            "number_of_tubes_per_row": 16,
+            "total_tube_inside_area": 6.20007018,
+            "tube_depth_spacing": 0.02589977,
+            "tube_inside_diameter": 0.014449958,
+            "tube_outside_diameter": 0.015879775,
+            "tube_outside_surface_area": 6.23816,
+            "tube_thermal_conductivity": 385.764854,
+            "water_inlet_node_name": "Cooling Coil Water Inlet Node",
+            "water_outlet_node_name": "Cooling Coil Water Outlet Node"
+        }
+    },
+    "Coil:Heating:Water": {
+        "Reheat Coil Zone 1": {
+            "air_inlet_node_name": "Zone 1 Reheat Air Inlet Node",
+            "air_outlet_node_name": "Zone 1 Reheat Air Outlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "maximum_water_flow_rate": 0.0013,
+            "performance_input_method": "UFactorTimesAreaAndDesignWaterFlowRate",
+            "rated_capacity": "Autosize",
+            "rated_inlet_air_temperature": 16.6,
+            "rated_inlet_water_temperature": 82.2,
+            "rated_outlet_air_temperature": 32.2,
+            "rated_outlet_water_temperature": 71.1,
+            "u_factor_times_area_value": 400.0,
+            "water_inlet_node_name": "Zone 1 Reheat Water Inlet Node",
+            "water_outlet_node_name": "Zone 1 Reheat Water Outlet Node"
+        },
+        "Reheat Coil Zone 2": {
+            "air_inlet_node_name": "Zone 2 Reheat Air Inlet Node",
+            "air_outlet_node_name": "Zone 2 Reheat Air Outlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "maximum_water_flow_rate": 0.0012,
+            "performance_input_method": "UFactorTimesAreaAndDesignWaterFlowRate",
+            "rated_capacity": "Autosize",
+            "rated_inlet_air_temperature": 16.6,
+            "rated_inlet_water_temperature": 82.2,
+            "rated_outlet_air_temperature": 32.2,
+            "rated_outlet_water_temperature": 71.1,
+            "u_factor_times_area_value": 400.0,
+            "water_inlet_node_name": "Zone 2 Reheat Water Inlet Node",
+            "water_outlet_node_name": "Zone 2 Reheat Water Outlet Node"
+        },
+        "Reheat Coil Zone 3": {
+            "air_inlet_node_name": "Zone 3 Reheat Air Inlet Node",
+            "air_outlet_node_name": "Zone 3 Reheat Air Outlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "maximum_water_flow_rate": 0.0018,
+            "performance_input_method": "UFactorTimesAreaAndDesignWaterFlowRate",
+            "rated_capacity": "Autosize",
+            "rated_inlet_air_temperature": 16.6,
+            "rated_inlet_water_temperature": 82.2,
+            "rated_outlet_air_temperature": 32.2,
+            "rated_outlet_water_temperature": 71.1,
+            "u_factor_times_area_value": 400.0,
+            "water_inlet_node_name": "Zone 3 Reheat Water Inlet Node",
+            "water_outlet_node_name": "Zone 3 Reheat Water Outlet Node"
+        }
+    },
+    "CondenserEquipmentList": {
+        "All Towers": {
+            "equipment": [
+                {
+                    "equipment_name": "Big Tower",
+                    "equipment_object_type": "CoolingTower:SingleSpeed"
+                }
+            ]
+        }
+    },
+    "CondenserEquipmentOperationSchemes": {
+        "Tower Loop Operation": {
+            "control_scheme_1_name": "Year Round Tower Operation",
+            "control_scheme_1_object_type": "PlantEquipmentOperation:CoolingLoad",
+            "control_scheme_1_schedule_name": "ON"
+        }
+    },
+    "CondenserLoop": {
+        "Chilled Water Condenser Loop": {
+            "condenser_demand_side_branch_list_name": "Condenser Demand Side Branches",
+            "condenser_demand_side_connector_list_name": "Condenser Demand Side Connectors",
+            "condenser_equipment_operation_scheme_name": "Tower Loop Operation",
+            "condenser_loop_temperature_setpoint_node_name": "Condenser Supply Outlet Node",
+            "condenser_loop_volume": "Autocalculate",
+            "condenser_side_branch_list_name": "Condenser Supply Side Branches",
+            "condenser_side_connector_list_name": "Condenser Supply Side Connectors",
+            "condenser_side_inlet_node_name": "Condenser Supply Inlet Node",
+            "condenser_side_outlet_node_name": "Condenser Supply Outlet Node",
+            "demand_side_inlet_node_name": "Condenser Demand Inlet Node",
+            "demand_side_outlet_node_name": "Condenser Demand Outlet Node",
+            "fluid_type": "Water",
+            "load_distribution_scheme": "SequentialLoad",
+            "maximum_loop_flow_rate": 0.0011,
+            "maximum_loop_temperature": 80,
+            "minimum_loop_flow_rate": 0,
+            "minimum_loop_temperature": 10
+        }
+    },
+    "Connector:Mixer": {
+        "CW Demand Mixer": {
+            "branches": [
+                {
+                    "inlet_branch_name": "Cooling Coil Branch"
+                },
+                {
+                    "inlet_branch_name": "Demand Bypass Branch"
+                }
+            ],
+            "outlet_branch_name": "Cooling Demand Outlet"
+        },
+        "CW Loop Mixer": {
+            "branches": [
+                {
+                    "inlet_branch_name": "Little Chiller Branch"
+                },
+                {
+                    "inlet_branch_name": "Big Chiller Branch"
+                },
+                {
+                    "inlet_branch_name": "Purchased Cooling Branch"
+                },
+                {
+                    "inlet_branch_name": "Supply Bypass Branch"
+                }
+            ],
+            "outlet_branch_name": "Cooling Supply Outlet"
+        },
+        "Condenser Demand Mixer": {
+            "branches": [
+                {
+                    "inlet_branch_name": "Big Chiller Condenser Branch"
+                },
+                {
+                    "inlet_branch_name": "Little Chiller Condenser Branch"
+                },
+                {
+                    "inlet_branch_name": "Condenser Demand Bypass Branch"
+                }
+            ],
+            "outlet_branch_name": "Condenser Demand Outlet Branch"
+        },
+        "Condenser Supply Mixer": {
+            "branches": [
+                {
+                    "inlet_branch_name": "Condenser Supply Tower Branch"
+                },
+                {
+                    "inlet_branch_name": "Condenser Supply Bypass Branch"
+                }
+            ],
+            "outlet_branch_name": "Condenser Supply Outlet Branch"
+        },
+        "Heating Supply Mixer": {
+            "branches": [
+                {
+                    "inlet_branch_name": "Heating Purchased Hot Water Branch"
+                },
+                {
+                    "inlet_branch_name": "Heating Supply Bypass Branch"
+                }
+            ],
+            "outlet_branch_name": "Heating Supply Outlet Branch"
+        },
+        "Reheat Mixer": {
+            "branches": [
+                {
+                    "inlet_branch_name": "Zone 1 Reheat Branch"
+                },
+                {
+                    "inlet_branch_name": "Zone 2 Reheat Branch"
+                },
+                {
+                    "inlet_branch_name": "Zone 3 Reheat Branch"
+                },
+                {
+                    "inlet_branch_name": "Reheat Bypass Branch"
+                }
+            ],
+            "outlet_branch_name": "Reheat Outlet Branch"
+        }
+    },
+    "Connector:Splitter": {
+        "CW Demand Splitter": {
+            "branches": [
+                {
+                    "outlet_branch_name": "Demand Bypass Branch"
+                },
+                {
+                    "outlet_branch_name": "Cooling Coil Branch"
+                }
+            ],
+            "inlet_branch_name": "Cooling Demand Inlet"
+        },
+        "CW Loop Splitter": {
+            "branches": [
+                {
+                    "outlet_branch_name": "Little Chiller Branch"
+                },
+                {
+                    "outlet_branch_name": "Big Chiller Branch"
+                },
+                {
+                    "outlet_branch_name": "Purchased Cooling Branch"
+                },
+                {
+                    "outlet_branch_name": "Supply Bypass Branch"
+                }
+            ],
+            "inlet_branch_name": "CW Pump Branch"
+        },
+        "Condenser Demand Splitter": {
+            "branches": [
+                {
+                    "outlet_branch_name": "Big Chiller Condenser Branch"
+                },
+                {
+                    "outlet_branch_name": "Little Chiller Condenser Branch"
+                },
+                {
+                    "outlet_branch_name": "Condenser Demand Bypass Branch"
+                }
+            ],
+            "inlet_branch_name": "Condenser Demand Inlet Branch"
+        },
+        "Condenser Supply Splitter": {
+            "branches": [
+                {
+                    "outlet_branch_name": "Condenser Supply Tower Branch"
+                },
+                {
+                    "outlet_branch_name": "Condenser Supply Bypass Branch"
+                }
+            ],
+            "inlet_branch_name": "Condenser Supply Inlet Branch"
+        },
+        "Heating Supply Splitter": {
+            "branches": [
+                {
+                    "outlet_branch_name": "Heating Purchased Hot Water Branch"
+                },
+                {
+                    "outlet_branch_name": "Heating Supply Bypass Branch"
+                }
+            ],
+            "inlet_branch_name": "Heating Supply Inlet Branch"
+        },
+        "Reheat Splitter": {
+            "branches": [
+                {
+                    "outlet_branch_name": "Zone 1 Reheat Branch"
+                },
+                {
+                    "outlet_branch_name": "Zone 2 Reheat Branch"
+                },
+                {
+                    "outlet_branch_name": "Zone 3 Reheat Branch"
+                },
+                {
+                    "outlet_branch_name": "Reheat Bypass Branch"
+                }
+            ],
+            "inlet_branch_name": "Reheat Inlet Branch"
+        }
+    },
+    "ConnectorList": {
+        "Condenser Demand Side Connectors": {
+            "connector_1_name": "Condenser Demand Splitter",
+            "connector_1_object_type": "Connector:Splitter",
+            "connector_2_name": "Condenser Demand Mixer",
+            "connector_2_object_type": "Connector:Mixer"
+        },
+        "Condenser Supply Side Connectors": {
+            "connector_1_name": "Condenser Supply Splitter",
+            "connector_1_object_type": "Connector:Splitter",
+            "connector_2_name": "Condenser Supply Mixer",
+            "connector_2_object_type": "Connector:Mixer"
+        },
+        "Cooling Demand Side Connectors": {
+            "connector_1_name": "CW Demand Splitter",
+            "connector_1_object_type": "Connector:Splitter",
+            "connector_2_name": "CW Demand Mixer",
+            "connector_2_object_type": "Connector:Mixer"
+        },
+        "Cooling Supply Side Connectors": {
+            "connector_1_name": "CW Loop Splitter",
+            "connector_1_object_type": "Connector:Splitter",
+            "connector_2_name": "CW Loop Mixer",
+            "connector_2_object_type": "Connector:Mixer"
+        },
+        "Heating Demand Side Connectors": {
+            "connector_1_name": "Reheat Splitter",
+            "connector_1_object_type": "Connector:Splitter",
+            "connector_2_name": "Reheat Mixer",
+            "connector_2_object_type": "Connector:Mixer"
+        },
+        "Heating Supply Side Connectors": {
+            "connector_1_name": "Heating Supply Splitter",
+            "connector_1_object_type": "Connector:Splitter",
+            "connector_2_name": "Heating Supply Mixer",
+            "connector_2_object_type": "Connector:Mixer"
+        }
+    },
+    "Construction": {
+        "EXTWALL80": {
+            "layer_2": "C4 - 4 IN COMMON BRICK",
+            "layer_3": "E1 - 3 / 4 IN PLASTER OR GYP BOARD",
+            "outside_layer": "A1 - 1 IN STUCCO"
+        },
+        "FLOOR SLAB 8 IN": {
+            "outside_layer": "C10 - 8 IN HW CONCRETE"
+        },
+        "PARTITION06": {
+            "layer_2": "C6 - 8 IN CLAY TILE",
+            "layer_3": "E1 - 3 / 4 IN PLASTER OR GYP BOARD",
+            "outside_layer": "E1 - 3 / 4 IN PLASTER OR GYP BOARD"
+        },
+        "ROOF34": {
+            "layer_2": "E3 - 3 / 8 IN FELT AND MEMBRANE",
+            "layer_3": "B5 - 1 IN DENSE INSULATION",
+            "layer_4": "C12 - 2 IN HW CONCRETE",
+            "outside_layer": "E2 - 1 / 2 IN SLAG OR STONE"
+        },
+        "WIN-CON-LIGHT": {
+            "outside_layer": "WIN-LAY-GLASS-LIGHT"
+        }
+    },
+    "Controller:WaterCoil": {
+        "Main Cooling Coil Controller": {
+            "action": "Reverse",
+            "actuator_node_name": "Cooling Coil Water Inlet Node",
+            "actuator_variable": "Flow",
+            "control_variable": "Temperature",
+            "controller_convergence_tolerance": 0.1,
+            "maximum_actuated_flow": 0.0011,
+            "minimum_actuated_flow": 0.0,
+            "sensor_node_name": "Air Loop Outlet Node"
+        }
+    },
+    "CoolingTower:SingleSpeed": {
+        "Big Tower": {
+            "design_air_flow_rate": 16.0,
+            "design_fan_power": 1000,
+            "design_u_factor_times_area_value": 1750.0,
+            "design_water_flow_rate": 0.0011,
+            "free_convection_regime_air_flow_rate": 0.0,
+            "free_convection_regime_u_factor_times_area_value": 0.0,
+            "performance_input_method": "UFactorTimesAreaAndDesignWaterFlowRate",
+            "water_inlet_node_name": "Condenser Tower Inlet Node",
+            "water_outlet_node_name": "Condenser Tower Outlet Node"
+        }
+    },
+    "Curve:Biquadratic": {
+        "Capstone C65 Power_vs_Temp_Elev": {
+            "coefficient1_constant": 1.2027697,
+            "coefficient2_x": -0.009671305,
+            "coefficient3_x_2": -4.860793e-06,
+            "coefficient4_y": -0.0001542394,
+            "coefficient5_y_2": 9.111418e-09,
+            "coefficient6_x_y": 8.797885e-07,
+            "input_unit_type_for_x": "Temperature",
+            "input_unit_type_for_y": "Distance",
+            "maximum_value_of_x": 50.0,
+            "maximum_value_of_y": 3050.0,
+            "minimum_value_of_x": -17.8,
+            "minimum_value_of_y": 0.0,
+            "output_unit_type": "Dimensionless"
+        }
+    },
+    "Curve:Cubic": {
+        "Capstone C65 Efficiency_vs_PLR": {
+            "coefficient1_constant": 0.21529,
+            "coefficient2_x": 2.561463,
+            "coefficient3_x_2": -3.24613,
+            "coefficient4_x_3": 1.497306,
+            "maximum_value_of_x": 1.0,
+            "minimum_value_of_x": 0.03
+        },
+        "Capstone C65 Efficiency_vs_Temp": {
+            "coefficient1_constant": 1.0402217,
+            "coefficient2_x": -0.0017314,
+            "coefficient3_x_2": -6.49704e-05,
+            "coefficient4_x_3": 5.133175e-07,
+            "input_unit_type_for_x": "Temperature",
+            "maximum_value_of_x": 50.0,
+            "minimum_value_of_x": -20.0,
+            "output_unit_type": "Dimensionless"
+        }
+    },
+    "Curve:Quadratic": {
+        "BG Exhaust Flow Curve": {
+            "coefficient1_constant": 0.05,
+            "coefficient2_x": 0.0,
+            "coefficient3_x_2": 0.0,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG Exhaust Temperature Curve": {
+            "coefficient1_constant": 425,
+            "coefficient2_x": 0,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG PL Based Exhaust Temp Curve": {
+            "coefficient1_constant": 450,
+            "coefficient2_x": 0,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG PL Based Fuel Input Curve": {
+            "coefficient1_constant": 9.41,
+            "coefficient2_x": -9.48,
+            "coefficient3_x_2": 4.32,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG Recovery Jacket Heat Curve": {
+            "coefficient1_constant": 0.25,
+            "coefficient2_x": 0,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG Recovery Lube Heat Curve": {
+            "coefficient1_constant": 0.15,
+            "coefficient2_x": 0,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG Shaft Power Curve": {
+            "coefficient1_constant": 0.09755,
+            "coefficient2_x": 0.6318,
+            "coefficient3_x_2": -0.4165,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG Temp Based Exhaust Temp Curve": {
+            "coefficient1_constant": 1.005,
+            "coefficient2_x": 0.0018,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 30,
+            "minimum_value_of_x": -30
+        },
+        "BG Temp Based Fuel Input Curve": {
+            "coefficient1_constant": 1.0044,
+            "coefficient2_x": -0.0008,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 30,
+            "minimum_value_of_x": -30
+        },
+        "BG Total Exhaust Energy Curve": {
+            "coefficient1_constant": 0.1,
+            "coefficient2_x": 0,
+            "coefficient3_x_2": 0,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        },
+        "BG Tur Recovery Lube Heat Curve": {
+            "coefficient1_constant": 0.223,
+            "coefficient2_x": -0.4,
+            "coefficient3_x_2": 0.2286,
+            "maximum_value_of_x": 1,
+            "minimum_value_of_x": 0
+        }
+    },
+    "DistrictCooling": {
+        "Purchased Cooling": {
+            "chilled_water_inlet_node_name": "Purchased Cooling Inlet Node",
+            "chilled_water_outlet_node_name": "Purchased Cooling Outlet Node",
+            "nominal_capacity": 680000
+        }
+    },
+    "DistrictHeating": {
+        "Purchased Heating": {
+            "hot_water_inlet_node_name": "Purchased Heat Inlet Node",
+            "hot_water_outlet_node_name": "Purchased Heat Outlet Node",
+            "nominal_capacity": 1000000
+        }
+    },
+    "ElectricEquipment": {
+        "EAST ZONE ElecEq 1": {
+            "design_level": 1464.375,
+            "design_level_calculation_method": "EquipmentLevel",
+            "fraction_latent": 0,
+            "fraction_lost": 0,
+            "fraction_radiant": 0.3,
+            "schedule_name": "BLDG Sch   2",
+            "zone_or_zonelist_name": "EAST ZONE"
+        },
+        "NORTH ZONE ElecEq 1": {
+            "design_level": 2928.751,
+            "design_level_calculation_method": "EquipmentLevel",
+            "fraction_latent": 0,
+            "fraction_lost": 0,
+            "fraction_radiant": 0.3,
+            "schedule_name": "BLDG Sch   2",
+            "zone_or_zonelist_name": "NORTH ZONE"
+        },
+        "West Zone ElecEq 1": {
+            "design_level": 2928.751,
+            "design_level_calculation_method": "EquipmentLevel",
+            "fraction_latent": 0,
+            "fraction_lost": 0,
+            "fraction_radiant": 0.3,
+            "schedule_name": "BLDG Sch   2",
+            "zone_or_zonelist_name": "West Zone"
+        }
+    },
+    "ElectricLoadCenter:Distribution": {
+        "Electric Load Center": {
+            "electrical_buss_type": "AlternatingCurrent",
+            "generator_demand_limit_scheme_purchased_electric_demand_limit": 10000.0,
+            "generator_list_name": "Backup Generators",
+            "generator_operation_scheme_type": "DemandLimit"
+        }
+    },
+    "ElectricLoadCenter:Generators": {
+        "Backup Generators": {
+            "generator_outputs": [
+                {
+                    "generator_availability_schedule_name": "ON PEAK GENERATOR SCHEDULE",
+                    "generator_name": "Cat Diesel",
+                    "generator_object_type": "Generator:InternalCombustionEngine",
+                    "generator_rated_electric_power_output": 50000
+                },
+                {
+                    "generator_availability_schedule_name": "OFF PEAK GENERATOR SCHEDULE",
+                    "generator_name": "Solar Turbine",
+                    "generator_object_type": "Generator:CombustionTurbine",
+                    "generator_rated_electric_power_output": 30000
+                },
+                {
+                    "generator_availability_schedule_name": "MID PEAK GENERATOR SCHEDULE",
+                    "generator_name": "Capstone C65",
+                    "generator_object_type": "Generator:MicroTurbine",
+                    "generator_rated_electric_power_output": 65000
+                }
+            ]
+        }
+    },
+    "Fan:ConstantVolume": {
+        "Supply Fan 1": {
+            "air_inlet_node_name": "Air Loop Inlet Node",
+            "air_outlet_node_name": "Cooling Coil Air Inlet Node",
+            "availability_schedule_name": "FanAndCoilAvailSched",
+            "fan_total_efficiency": 0.7,
+            "maximum_flow_rate": 1.3,
+            "motor_efficiency": 0.9,
+            "motor_in_airstream_fraction": 1.0,
+            "pressure_rise": 600.0
+        }
+    },
+    "FenestrationSurface:Detailed": {
+        "Zn001:Wall001:Win001": {
+            "building_surface_name": "Zn001:Wall001",
+            "construction_name": "WIN-CON-LIGHT",
+            "multiplier": 1.0,
+            "number_of_vertices": 4,
+            "surface_type": "Window",
+            "vertex_1_x_coordinate": 0.548,
+            "vertex_1_y_coordinate": 0,
+            "vertex_1_z_coordinate": 2.5,
+            "vertex_2_x_coordinate": 0.548,
+            "vertex_2_y_coordinate": 0,
+            "vertex_2_z_coordinate": 0.5,
+            "vertex_3_x_coordinate": 5.548,
+            "vertex_3_y_coordinate": 0,
+            "vertex_3_z_coordinate": 0.5,
+            "vertex_4_x_coordinate": 5.548,
+            "vertex_4_y_coordinate": 0,
+            "vertex_4_z_coordinate": 2.5,
+            "view_factor_to_ground": 0.5
+        }
+    },
+    "Generator:CombustionTurbine": {
+        "Solar Turbine": {
+            "coefficient_1_of_u_factor_times_area_curve": 0.01907045,
+            "coefficient_2_of_u_factor_times_area_curve": 0.9,
+            "design_air_inlet_temperature": 25,
+            "design_heat_recovery_water_flow_rate": 0.0,
+            "design_minimum_exhaust_temperature": 150,
+            "electric_circuit_node_name": "GT gen Electric Node",
+            "exhaust_flow_curve_name": "BG Exhaust Flow Curve",
+            "fuel_higher_heating_value": 43500,
+            "fuel_type": "NaturalGas",
+            "heat_recovery_lube_energy_curve_name": "BG Tur Recovery Lube Heat Curve",
+            "maximum_exhaust_flow_per_unit_of_power_output": 5.04e-06,
+            "maximum_part_load_ratio": 1.0,
+            "minimum_part_load_ratio": 0.15,
+            "optimum_part_load_ratio": 0.65,
+            "outdoor_air_inlet_node_name": "CT OA inlet",
+            "part_load_based_exhaust_temperature_curve_name": "BG PL Based Exhaust Temp Curve",
+            "part_load_based_fuel_input_curve_name": "BG PL Based Fuel Input Curve",
+            "rated_power_output": 30000,
+            "temperature_based_exhaust_temperature_curve_name": "BG Temp Based Exhaust Temp Curve",
+            "temperature_based_fuel_input_curve_name": "BG Temp Based Fuel Input Curve"
+        }
+    },
+    "Generator:InternalCombustionEngine": {
+        "Cat Diesel": {
+            "coefficient_1_of_u_factor_times_area_curve": 0.00952329,
+            "coefficient_2_of_u_factor_times_area_curve": 0.9,
+            "design_heat_recovery_water_flow_rate": 0.0,
+            "design_minimum_exhaust_temperature": 150,
+            "electric_circuit_node_name": "Generator Diesel Electric Node",
+            "exhaust_temperature_curve_name": "BG Exhaust Temperature Curve",
+            "fuel_higher_heating_value": 45500,
+            "fuel_type": "Diesel",
+            "jacket_heat_recovery_curve_name": "BG Recovery Jacket Heat Curve",
+            "lube_heat_recovery_curve_name": "BG Recovery Lube Heat Curve",
+            "maximum_exhaust_flow_per_unit_of_power_output": 6.3e-07,
+            "maximum_part_load_ratio": 1.0,
+            "minimum_part_load_ratio": 0.15,
+            "optimum_part_load_ratio": 0.65,
+            "rated_power_output": 50000,
+            "shaft_power_curve_name": "BG Shaft Power Curve",
+            "total_exhaust_energy_curve_name": "BG Total Exhaust Energy Curve"
+        }
+    },
+    "Generator:MicroTurbine": {
+        "Capstone C65": {
+            "ancillary_power": 4500,
+            "electrical_efficiency_function_of_part_load_ratio_curve_name": "Capstone C65 Efficiency_vs_PLR",
+            "electrical_efficiency_function_of_temperature_curve_name": "Capstone C65 Efficiency_vs_Temp",
+            "electrical_power_function_of_temperature_and_elevation_curve_name": "Capstone C65 Power_vs_Temp_Elev",
+            "fuel_higher_heating_value": 50000,
+            "fuel_lower_heating_value": 45450,
+            "fuel_type": "NaturalGas",
+            "maximum_full_load_electrical_power_output": 65000,
+            "minimum_full_load_electrical_power_output": 29900,
+            "reference_combustion_air_inlet_humidity_ratio": 0.00638,
+            "reference_combustion_air_inlet_temperature": 15.0,
+            "reference_electrical_efficiency_using_lower_heating_value": 0.29,
+            "reference_electrical_power_output": 65000,
+            "reference_elevation": 0.0,
+            "standby_power": 300
+        }
+    },
+    "GlobalGeometryRules": {
+        "GlobalGeometryRules 1": {
+            "coordinate_system": "World",
+            "starting_vertex_position": "UpperLeftCorner",
+            "vertex_entry_direction": "Counterclockwise"
+        }
+    },
+    "HeatBalanceAlgorithm": {
+        "HeatBalanceAlgorithm 1": {
+            "algorithm": "ConductionTransferFunction"
+        }
+    },
+    "Lights": {
+        "EAST ZONE Lights 1": {
+            "design_level_calculation_method": "LightingLevel",
+            "end_use_subcategory": "GeneralLights",
+            "fraction_radiant": 0.2,
+            "fraction_replaceable": 0,
+            "fraction_visible": 0.2,
+            "lighting_level": 1464.375,
+            "return_air_fraction": 0,
+            "schedule_name": "BLDG Sch   3",
+            "zone_or_zonelist_name": "EAST ZONE"
+        },
+        "NORTH ZONE Lights 1": {
+            "design_level_calculation_method": "LightingLevel",
+            "end_use_subcategory": "GeneralLights",
+            "fraction_radiant": 0.2,
+            "fraction_replaceable": 0,
+            "fraction_visible": 0.2,
+            "lighting_level": 878.6252,
+            "return_air_fraction": 0,
+            "schedule_name": "BLDG Sch   3",
+            "zone_or_zonelist_name": "NORTH ZONE"
+        }
+    },
+    "Material": {
+        "A1 - 1 IN STUCCO": {
+            "conductivity": 0.6918309,
+            "density": 1858.142,
+            "roughness": "Smooth",
+            "solar_absorptance": 0.92,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.025389841,
+            "visible_absorptance": 0.92
+        },
+        "B5 - 1 IN DENSE INSULATION": {
+            "conductivity": 0.04323943,
+            "density": 91.30524,
+            "roughness": "VeryRough",
+            "solar_absorptance": 0.5,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.025389841,
+            "visible_absorptance": 0.5
+        },
+        "C4 - 4 IN COMMON BRICK": {
+            "conductivity": 0.7264224,
+            "density": 1922.216,
+            "roughness": "Rough",
+            "solar_absorptance": 0.76,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.1014984,
+            "visible_absorptance": 0.76
+        },
+        "C6 - 8 IN CLAY TILE": {
+            "conductivity": 0.5707605,
+            "density": 1121.292,
+            "roughness": "Smooth",
+            "solar_absorptance": 0.82,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.2033016,
+            "visible_absorptance": 0.82
+        },
+        "C10 - 8 IN HW CONCRETE": {
+            "conductivity": 1.729577,
+            "density": 2242.585,
+            "roughness": "MediumRough",
+            "solar_absorptance": 0.65,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.2033016,
+            "visible_absorptance": 0.65
+        },
+        "C12 - 2 IN HW CONCRETE": {
+            "conductivity": 1.729577,
+            "density": 2242.585,
+            "roughness": "MediumRough",
+            "solar_absorptance": 0.65,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.050901599,
+            "visible_absorptance": 0.65
+        },
+        "E1 - 3 / 4 IN PLASTER OR GYP BOARD": {
+            "conductivity": 0.7264224,
+            "density": 1601.846,
+            "roughness": "Smooth",
+            "solar_absorptance": 0.92,
+            "specific_heat": 836.8,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.01905,
+            "visible_absorptance": 0.92
+        },
+        "E2 - 1 / 2 IN SLAG OR STONE": {
+            "conductivity": 1.435549,
+            "density": 881.0155,
+            "roughness": "Rough",
+            "solar_absorptance": 0.55,
+            "specific_heat": 1673.6,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.012710161,
+            "visible_absorptance": 0.55
+        },
+        "E3 - 3 / 8 IN FELT AND MEMBRANE": {
+            "conductivity": 0.1902535,
+            "density": 1121.292,
+            "roughness": "Rough",
+            "solar_absorptance": 0.75,
+            "specific_heat": 1673.6,
+            "thermal_absorptance": 0.9,
+            "thickness": 0.0095402403,
+            "visible_absorptance": 0.75
+        }
+    },
+    "NodeList": {
+        "Chilled Water Loop Setpoint Node List": {
+            "nodes": [
+                {
+                    "node_name": "CW Supply Outlet Node"
+                }
+            ]
+        },
+        "Hot Water Loop Setpoint Node List": {
+            "nodes": [
+                {
+                    "node_name": "HW Supply Outlet Node"
+                }
+            ]
+        },
+        "Supply Air Temp Nodes": {
+            "nodes": [
+                {
+                    "node_name": "Air Loop Outlet Node"
+                }
+            ]
+        },
+        "Zone1Inlets": {
+            "nodes": [
+                {
+                    "node_name": "Zone 1 Reheat Air Outlet Node"
+                }
+            ]
+        },
+        "Zone2Inlets": {
+            "nodes": [
+                {
+                    "node_name": "Zone 2 Reheat Air Outlet Node"
+                }
+            ]
+        },
+        "Zone3Inlets": {
+            "nodes": [
+                {
+                    "node_name": "Zone 3 Reheat Air Outlet Node"
+                }
+            ]
+        }
+    },
+    "OutdoorAir:Node": {
+        "CT OA inlet": {
+            "height_above_ground": -1
+        },
+        "Capstone C65 Combustion Air Inlet Node": {}
+    },
+    "Output:Meter:MeterFileOnly": {
+        "Output:Meter:MeterFileOnly 1": {
+            "key_name": "Electricity:Facility",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 2": {
+            "key_name": "Electricity:Building",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 3": {
+            "key_name": "InteriorLights:Electricity",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 4": {
+            "key_name": "Electricity:HVAC",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 5": {
+            "key_name": "Electricity:Plant",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 6": {
+            "key_name": "Gas:Facility",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 7": {
+            "key_name": "Gas:Plant",
+            "reporting_frequency": "Monthly"
+        },
+        "Output:Meter:MeterFileOnly 8": {
+            "key_name": "Electricity:Facility",
+            "reporting_frequency": "RunPeriod"
+        },
+        "Output:Meter:MeterFileOnly 9": {
+            "key_name": "Electricity:Building",
+            "reporting_frequency": "RunPeriod"
+        },
+        "Output:Meter:MeterFileOnly 10": {
+            "key_name": "InteriorLights:Electricity",
+            "reporting_frequency": "RunPeriod"
+        },
+        "Output:Meter:MeterFileOnly 11": {
+            "key_name": "Electricity:HVAC",
+            "reporting_frequency": "RunPeriod"
+        },
+        "Output:Meter:MeterFileOnly 12": {
+            "key_name": "Electricity:Plant",
+            "reporting_frequency": "RunPeriod"
+        },
+        "Output:Meter:MeterFileOnly 13": {
+            "key_name": "Gas:Facility",
+            "reporting_frequency": "RunPeriod"
+        },
+        "Output:Meter:MeterFileOnly 14": {
+            "key_name": "Gas:Plant",
+            "reporting_frequency": "RunPeriod"
+        }
+    },
+    "Output:Table:SummaryReports": {
+        "Output:Table:SummaryReports 1": {
+            "reports": [
+                {
+                    "report_name": "AllSummary"
+                }
+            ]
+        }
+    },
+    "Output:Variable": {
+        "Output:Variable 1": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Zone Air Temperature"
+        },
+        "Output:Variable 2": {
+            "key_value": "Cat Diesel",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Produced Electric Power"
+        },
+        "Output:Variable 3": {
+            "key_value": "Cat Diesel",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Diesel Rate"
+        },
+        "Output:Variable 4": {
+            "key_value": "Cat Diesel",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Diesel Energy"
+        },
+        "Output:Variable 5": {
+            "key_value": "Cat Diesel",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Diesel Mass Flow Rate"
+        },
+        "Output:Variable 6": {
+            "key_value": "Cat Diesel",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Exhaust Air Temperature"
+        },
+        "Output:Variable 7": {
+            "key_value": "Solar Turbine",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Produced Electric Power"
+        },
+        "Output:Variable 8": {
+            "key_value": "Solar Turbine",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Gas Rate"
+        },
+        "Output:Variable 9": {
+            "key_value": "Solar Turbine",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Gas Energy"
+        },
+        "Output:Variable 10": {
+            "key_value": "Solar Turbine",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Gas Mass Flow Rate"
+        },
+        "Output:Variable 11": {
+            "key_value": "Solar Turbine",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Exhaust Air Temperature"
+        },
+        "Output:Variable 12": {
+            "key_value": "Capstone C65",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Produced Electric Power"
+        },
+        "Output:Variable 13": {
+            "key_value": "Capstone C65",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Gas HHV Basis Rate"
+        },
+        "Output:Variable 14": {
+            "key_value": "Capstone C65",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Gas HHV Basis Energy"
+        },
+        "Output:Variable 15": {
+            "key_value": "Capstone C65",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator Gas Mass Flow Rate"
+        },
+        "Output:Variable 16": {
+            "key_value": "Capstone C65",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Generator LHV Basis Electric Efficiency"
+        },
+        "Output:Variable 17": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Facility Total Produced Electric Power"
+        },
+        "Output:Variable 18": {
+            "key_value": "*",
+            "reporting_frequency": "Hourly",
+            "variable_name": "Facility Total Produced Electric Energy"
+        },
+        "Output:Variable 19": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Facility Total Purchased Electric Power"
+        },
+        "Output:Variable 20": {
+            "key_value": "*",
+            "reporting_frequency": "Hourly",
+            "variable_name": "Facility Total Purchased Electric Energy"
+        },
+        "Output:Variable 21": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Facility Total Building Electric Demand Power"
+        },
+        "Output:Variable 22": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Facility Total HVAC Electric Demand Power"
+        },
+        "Output:Variable 23": {
+            "key_value": "*",
+            "reporting_frequency": "Timestep",
+            "variable_name": "Facility Total Electric Demand Power"
+        }
+    },
+    "Output:VariableDictionary": {
+        "Output:VariableDictionary 1": {
+            "key_field": "regular"
+        }
+    },
+    "OutputControl:Table:Style": {
+        "OutputControl:Table:Style 1": {
+            "column_separator": "HTML"
+        }
+    },
+    "People": {
+        "EAST ZONE": {
+            "activity_level_schedule_name": "Activity Sch",
+            "air_velocity_schedule_name": "Air Velo Sch",
+            "carbon_dioxide_generation_rate": 3.82e-08,
+            "clothing_insulation_calculation_method": "ClothingInsulationSchedule",
+            "clothing_insulation_schedule_name": "Clothing Sch",
+            "fraction_radiant": 0.3,
+            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "number_of_people": 3.0,
+            "number_of_people_calculation_method": "People",
+            "number_of_people_schedule_name": "BLDG Sch   1",
+            "thermal_comfort_model_1_type": "Fanger",
+            "work_efficiency_schedule_name": "Work Eff Sch",
+            "zone_or_zonelist_name": "EAST ZONE"
+        },
+        "NORTH ZONE": {
+            "activity_level_schedule_name": "Activity Sch",
+            "air_velocity_schedule_name": "Air Velo Sch",
+            "carbon_dioxide_generation_rate": 3.82e-08,
+            "clothing_insulation_calculation_method": "ClothingInsulationSchedule",
+            "clothing_insulation_schedule_name": "Clothing Sch",
+            "fraction_radiant": 0.3,
+            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "number_of_people": 4.0,
+            "number_of_people_calculation_method": "People",
+            "number_of_people_schedule_name": "BLDG Sch   1",
+            "thermal_comfort_model_1_type": "Fanger",
+            "work_efficiency_schedule_name": "Work Eff Sch",
+            "zone_or_zonelist_name": "NORTH ZONE"
+        },
+        "West Zone": {
+            "activity_level_schedule_name": "Activity Sch",
+            "air_velocity_schedule_name": "Air Velo Sch",
+            "carbon_dioxide_generation_rate": 3.82e-08,
+            "clothing_insulation_calculation_method": "ClothingInsulationSchedule",
+            "clothing_insulation_schedule_name": "Clothing Sch",
+            "fraction_radiant": 0.3,
+            "mean_radiant_temperature_calculation_type": "ZoneAveraged",
+            "number_of_people": 3.0,
+            "number_of_people_calculation_method": "People",
+            "number_of_people_schedule_name": "BLDG Sch   1",
+            "thermal_comfort_model_1_type": "Fanger",
+            "work_efficiency_schedule_name": "Work Eff Sch",
+            "zone_or_zonelist_name": "West Zone"
+        }
+    },
+    "Pipe:Adiabatic": {
+        "CW Demand Side Outlet Pipe": {
+            "inlet_node_name": "CW Demand Exit Pipe Inlet Node",
+            "outlet_node_name": "CW Demand Outlet Node"
+        },
+        "Condenser Demand Inlet Pipe": {
+            "inlet_node_name": "Condenser Demand Inlet Node",
+            "outlet_node_name": "Condenser Demand Entrance Pipe Outlet Node"
+        },
+        "Condenser Demand Outlet Pipe": {
+            "inlet_node_name": "Condenser Demand Exit Pipe Inlet Node",
+            "outlet_node_name": "Condenser Demand Outlet Node"
+        },
+        "Condenser Demand Side Bypass": {
+            "inlet_node_name": "Cond Demand Bypass Inlet Node",
+            "outlet_node_name": "Cond Demand Bypass Outlet Node"
+        },
+        "Condenser Supply Outlet": {
+            "inlet_node_name": "Condenser Supply Exit Pipe Inlet Node",
+            "outlet_node_name": "Condenser Supply Outlet Node"
+        },
+        "Condenser Supply Side Bypass": {
+            "inlet_node_name": "Cond Supply Bypass Inlet Node",
+            "outlet_node_name": "Cond Supply Bypass Outlet Node"
+        },
+        "Demand Side Bypass": {
+            "inlet_node_name": "CW Demand Bypass Inlet Node",
+            "outlet_node_name": "CW Demand Bypass Outlet Node"
+        },
+        "Demand Side Inlet Pipe": {
+            "inlet_node_name": "CW Demand Inlet Node",
+            "outlet_node_name": "CW Demand Entrance Pipe Outlet Node"
+        },
+        "Heating Supply Outlet": {
+            "inlet_node_name": "Heating Supply Exit Pipe Inlet Node",
+            "outlet_node_name": "HW Supply Outlet Node"
+        },
+        "Heating Supply Side Bypass": {
+            "inlet_node_name": "Heating Supply Bypass Inlet Node",
+            "outlet_node_name": "Heating Supply Bypass Outlet Node"
+        },
+        "Reheat Bypass": {
+            "inlet_node_name": "Reheat Bypass Inlet Node",
+            "outlet_node_name": "Reheat Bypass Outlet Node"
+        },
+        "Reheat Inlet Pipe": {
+            "inlet_node_name": "HW Demand Inlet Node",
+            "outlet_node_name": "HW Demand Entrance Pipe Outlet Node"
+        },
+        "Reheat Outlet Pipe": {
+            "inlet_node_name": "HW Demand Exit Pipe Inlet Node",
+            "outlet_node_name": "HW Demand Outlet Node"
+        },
+        "Supply Side Bypass": {
+            "inlet_node_name": "CW Supply Bypass Inlet Node",
+            "outlet_node_name": "CW Supply Bypass Outlet Node"
+        },
+        "Supply Side Outlet Pipe": {
+            "inlet_node_name": "Supply Side Exit Pipe Inlet Node",
+            "outlet_node_name": "CW Supply Outlet Node"
+        }
+    },
+    "PlantEquipmentList": {
+        "All Chillers": {
+            "equipment": [
+                {
+                    "equipment_name": "Big Chiller",
+                    "equipment_object_type": "Chiller:Electric"
+                },
+                {
+                    "equipment_name": "Little Chiller",
+                    "equipment_object_type": "Chiller:ConstantCOP"
+                }
+            ]
+        },
+        "Chiller Plant": {
+            "equipment": [
+                {
+                    "equipment_name": "Little Chiller",
+                    "equipment_object_type": "Chiller:ConstantCOP"
+                }
+            ]
+        },
+        "Chiller Plant and Purchased": {
+            "equipment": [
+                {
+                    "equipment_name": "Big Chiller",
+                    "equipment_object_type": "Chiller:Electric"
+                },
+                {
+                    "equipment_name": "Purchased Cooling",
+                    "equipment_object_type": "DistrictCooling"
+                }
+            ]
+        },
+        "Purchased Only": {
+            "equipment": [
+                {
+                    "equipment_name": "Purchased Cooling",
+                    "equipment_object_type": "DistrictCooling"
+                }
+            ]
+        },
+        "heating plant": {
+            "equipment": [
+                {
+                    "equipment_name": "Purchased Heating",
+                    "equipment_object_type": "DistrictHeating"
+                }
+            ]
+        }
+    },
+    "PlantEquipmentOperation:CoolingLoad": {
+        "Off Peak Operation": {
+            "load_range_1_lower_limit": 0,
+            "load_range_1_upper_limit": 900000,
+            "range_1_equipment_list_name": "All Chillers"
+        },
+        "Peak Operation": {
+            "load_range_1_lower_limit": 0,
+            "load_range_1_upper_limit": 70000,
+            "load_range_2_lower_limit": 70000,
+            "load_range_2_upper_limit": 245000,
+            "load_range_3_lower_limit": 245000,
+            "load_range_3_upper_limit": 500000,
+            "range_1_equipment_list_name": "Chiller Plant",
+            "range_2_equipment_list_name": "Chiller Plant and Purchased",
+            "range_3_equipment_list_name": "Purchased Only"
+        },
+        "Year Round Tower Operation": {
+            "load_range_1_lower_limit": 0,
+            "load_range_1_upper_limit": 90000000,
+            "range_1_equipment_list_name": "All Towers"
+        }
+    },
+    "PlantEquipmentOperation:HeatingLoad": {
+        "Purchased Only": {
+            "load_range_1_lower_limit": 0,
+            "load_range_1_upper_limit": 1000000,
+            "range_1_equipment_list_name": "heating plant"
+        }
+    },
+    "PlantEquipmentOperationSchemes": {
+        "CW Loop Operation": {
+            "control_scheme_1_name": "Peak Operation",
+            "control_scheme_1_object_type": "PlantEquipmentOperation:CoolingLoad",
+            "control_scheme_1_schedule_name": "On Peak",
+            "control_scheme_2_name": "Off Peak Operation",
+            "control_scheme_2_object_type": "PlantEquipmentOperation:CoolingLoad",
+            "control_scheme_2_schedule_name": "Off Peak"
+        },
+        "Hot Loop Operation": {
+            "control_scheme_1_name": "Purchased Only",
+            "control_scheme_1_object_type": "PlantEquipmentOperation:HeatingLoad",
+            "control_scheme_1_schedule_name": "ON"
+        }
+    },
+    "PlantLoop": {
+        "Chilled Water Loop": {
+            "demand_side_branch_list_name": "Cooling Demand Side Branches",
+            "demand_side_connector_list_name": "Cooling Demand Side Connectors",
+            "demand_side_inlet_node_name": "CW Demand Inlet Node",
+            "demand_side_outlet_node_name": "CW Demand Outlet Node",
+            "fluid_type": "Water",
+            "load_distribution_scheme": "Optimal",
+            "loop_temperature_setpoint_node_name": "CW Supply Outlet Node",
+            "maximum_loop_flow_rate": 0.0011,
+            "maximum_loop_temperature": 98,
+            "minimum_loop_flow_rate": 0,
+            "minimum_loop_temperature": 1,
+            "plant_equipment_operation_scheme_name": "CW Loop Operation",
+            "plant_loop_volume": "Autocalculate",
+            "plant_side_branch_list_name": "Cooling Supply Side Branches",
+            "plant_side_connector_list_name": "Cooling Supply Side Connectors",
+            "plant_side_inlet_node_name": "CW Supply Inlet Node",
+            "plant_side_outlet_node_name": "CW Supply Outlet Node"
+        },
+        "Hot Water Loop": {
+            "demand_side_branch_list_name": "Heating Demand Side Branches",
+            "demand_side_connector_list_name": "Heating Demand Side Connectors",
+            "demand_side_inlet_node_name": "HW Demand Inlet Node",
+            "demand_side_outlet_node_name": "HW Demand Outlet Node",
+            "fluid_type": "Water",
+            "load_distribution_scheme": "Optimal",
+            "loop_temperature_setpoint_node_name": "HW Supply Outlet Node",
+            "maximum_loop_flow_rate": 0.0043,
+            "maximum_loop_temperature": 100,
+            "minimum_loop_flow_rate": 0,
+            "minimum_loop_temperature": 10,
+            "plant_equipment_operation_scheme_name": "Hot Loop Operation",
+            "plant_loop_volume": "Autocalculate",
+            "plant_side_branch_list_name": "Heating Supply Side Branches",
+            "plant_side_connector_list_name": "Heating Supply Side Connectors",
+            "plant_side_inlet_node_name": "HW Supply Inlet Node",
+            "plant_side_outlet_node_name": "HW Supply Outlet Node"
+        }
+    },
+    "Pump:VariableSpeed": {
+        "Circ Pump": {
+            "coefficient_1_of_the_part_load_performance_curve": 0,
+            "coefficient_2_of_the_part_load_performance_curve": 1,
+            "coefficient_3_of_the_part_load_performance_curve": 0,
+            "coefficient_4_of_the_part_load_performance_curve": 0,
+            "design_maximum_flow_rate": 0.0011,
+            "design_minimum_flow_rate": 0,
+            "design_power_consumption": 500,
+            "design_pump_head": 300000,
+            "fraction_of_motor_inefficiencies_to_fluid_stream": 0.0,
+            "inlet_node_name": "CW Supply Inlet Node",
+            "motor_efficiency": 0.87,
+            "outlet_node_name": "CW Pump Outlet Node",
+            "pump_control_type": "Intermittent"
+        },
+        "Cond Circ Pump": {
+            "coefficient_1_of_the_part_load_performance_curve": 0,
+            "coefficient_2_of_the_part_load_performance_curve": 1,
+            "coefficient_3_of_the_part_load_performance_curve": 0,
+            "coefficient_4_of_the_part_load_performance_curve": 0,
+            "design_maximum_flow_rate": 0.0011,
+            "design_minimum_flow_rate": 0,
+            "design_power_consumption": 500,
+            "design_pump_head": 300000,
+            "fraction_of_motor_inefficiencies_to_fluid_stream": 0.0,
+            "inlet_node_name": "Condenser Supply Inlet Node",
+            "motor_efficiency": 0.87,
+            "outlet_node_name": "Condenser Pump Outlet Node",
+            "pump_control_type": "Intermittent"
+        },
+        "HW Circ Pump": {
+            "coefficient_1_of_the_part_load_performance_curve": 0,
+            "coefficient_2_of_the_part_load_performance_curve": 1,
+            "coefficient_3_of_the_part_load_performance_curve": 0,
+            "coefficient_4_of_the_part_load_performance_curve": 0,
+            "design_maximum_flow_rate": 0.0043,
+            "design_minimum_flow_rate": 0,
+            "design_power_consumption": 2000,
+            "design_pump_head": 300000,
+            "fraction_of_motor_inefficiencies_to_fluid_stream": 0.0,
+            "inlet_node_name": "HW Supply Inlet Node",
+            "motor_efficiency": 0.87,
+            "outlet_node_name": "HW Pump Outlet Node",
+            "pump_control_type": "Intermittent"
+        }
+    },
+    "RunPeriod": {
+        "Run Period 1": {
+            "apply_weekend_holiday_rule": "No",
+            "begin_day_of_month": 14,
+            "begin_month": 1,
+            "day_of_week_for_start_day": "Tuesday",
+            "end_day_of_month": 14,
+            "end_month": 1,
+            "use_weather_file_daylight_saving_period": "Yes",
+            "use_weather_file_holidays_and_special_days": "Yes",
+            "use_weather_file_rain_indicators": "Yes",
+            "use_weather_file_snow_indicators": "Yes"
+        },
+        "Run Period 2": {
+            "apply_weekend_holiday_rule": "No",
+            "begin_day_of_month": 7,
+            "begin_month": 7,
+            "day_of_week_for_start_day": "Tuesday",
+            "end_day_of_month": 7,
+            "end_month": 7,
+            "use_weather_file_daylight_saving_period": "Yes",
+            "use_weather_file_holidays_and_special_days": "Yes",
+            "use_weather_file_rain_indicators": "Yes",
+            "use_weather_file_snow_indicators": "No"
+        }
+    },
+    "Schedule:Compact": {
+        "ACTIVITY SCH": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 131.8
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "AIR VELO SCH": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.14
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "BLDG SCH   1": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: Weekdays"
+                },
+                {
+                    "field": "Until: 6:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 8:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 12:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 16:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: Weekends Holiday"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 6:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 8:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 12:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 13:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 16:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.1
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: WinterDesignDay CustomDay1 CustomDay2"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "BLDG SCH   2": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: Weekdays"
+                },
+                {
+                    "field": "Until: 8:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: Weekends Holiday"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 8:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: WinterDesignDay CustomDay1 CustomDay2"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "BLDG SCH   3": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: Weekdays"
+                },
+                {
+                    "field": "Until: 6:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.2
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "For: Weekends Holiday"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "For: SummerDesignDay"
+                },
+                {
+                    "field": "Until: 6:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.2
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.5
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.05
+                },
+                {
+                    "field": "For: WinterDesignDay CustomDay1 CustomDay2"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.05
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "CLOTHING SCH": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "COOLING SETPOINTS": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 30.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 24.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 30.0
+                }
+            ],
+            "schedule_type_limits_name": "TEMPERATURE"
+        },
+        "COOLINGCOILAVAILSCHED": {
+            "data": [
+                {
+                    "field": "Through: 3/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Through: 9/30"
+                },
+                {
+                    "field": "For: Weekdays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: Weekends Holiday"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: SummerDesignDay WinterDesignDay"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: CustomDay1 CustomDay2"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "CW LOOP TEMP SCHEDULE": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 6.67
+                }
+            ],
+            "schedule_type_limits_name": "TEMPERATURE"
+        },
+        "FANANDCOILAVAILSCHED": {
+            "data": [
+                {
+                    "field": "Through: 3/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Through: 9/30"
+                },
+                {
+                    "field": "For: Weekdays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: Weekends Holiday"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: SummerDesignDay WinterDesignDay"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "For: CustomDay1 CustomDay2"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "HEATING SETPOINTS": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 7:00"
+                },
+                {
+                    "field": 15.0
+                },
+                {
+                    "field": "Until: 17:00"
+                },
+                {
+                    "field": 20.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 15.0
+                }
+            ],
+            "schedule_type_limits_name": "TEMPERATURE"
+        },
+        "HW LOOP TEMP SCHEDULE": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 60.0
+                }
+            ],
+            "schedule_type_limits_name": "TEMPERATURE"
+        },
+        "MID PEAK GENERATOR SCHEDULE": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 9:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 14:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "OFF PEAK": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 9:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "OFF PEAK GENERATOR SCHEDULE": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 9:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "ON": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "ON PEAK": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 9:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "ON PEAK GENERATOR SCHEDULE": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 14:00"
+                },
+                {
+                    "field": 0.0
+                },
+                {
+                    "field": "Until: 18:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "FRACTION"
+        },
+        "SEASONAL RESET SUPPLY AIR TEMP SCH": {
+            "data": [
+                {
+                    "field": "Through: 3/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 16.0
+                },
+                {
+                    "field": "Through: 9/30"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 13.0
+                },
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 16.0
+                }
+            ],
+            "schedule_type_limits_name": "TEMPERATURE"
+        },
+        "WORK EFF SCH": {
+            "data": [
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 0.0
+                }
+            ],
+            "schedule_type_limits_name": "ANY NUMBER"
+        },
+        "ZONE CONTROL TYPE SCHED": {
+            "data": [
+                {
+                    "field": "Through: 3/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                },
+                {
+                    "field": "Through: 9/30"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 2.0
+                },
+                {
+                    "field": "Through: 12/31"
+                },
+                {
+                    "field": "For: AllDays"
+                },
+                {
+                    "field": "Until: 24:00"
+                },
+                {
+                    "field": 1.0
+                }
+            ],
+            "schedule_type_limits_name": "CONTROL TYPE"
+        }
+    },
+    "ScheduleTypeLimits": {
+        "Any Number": {},
+        "Control Type": {
+            "lower_limit_value": 0,
+            "numeric_type": "Discrete",
+            "upper_limit_value": 4
+        },
+        "Fraction": {
+            "lower_limit_value": 0.0,
+            "numeric_type": "Continuous",
+            "upper_limit_value": 1.0
+        },
+        "On/Off": {
+            "lower_limit_value": 0,
+            "numeric_type": "Discrete",
+            "upper_limit_value": 1
+        },
+        "Temperature": {
+            "lower_limit_value": -60,
+            "numeric_type": "Continuous",
+            "unit_type": "Temperature",
+            "upper_limit_value": 200
+        }
+    },
+    "SetpointManager:FollowOutdoorAirTemperature": {
+        "MyCondenserControl": {
+            "control_variable": "Temperature",
+            "maximum_setpoint_temperature": 80,
+            "minimum_setpoint_temperature": 10,
+            "offset_temperature_difference": 0,
+            "reference_temperature_type": "OutdoorAirWetBulb",
+            "setpoint_node_or_nodelist_name": "Condenser Supply Outlet Node"
+        }
+    },
+    "SetpointManager:Scheduled": {
+        "Big Chiller Setpoint Manager": {
+            "control_variable": "Temperature",
+            "schedule_name": "CW Loop Temp Schedule",
+            "setpoint_node_or_nodelist_name": "Big Chiller Outlet Node"
+        },
+        "Chilled Water Loop Setpoint Manager": {
+            "control_variable": "Temperature",
+            "schedule_name": "CW Loop Temp Schedule",
+            "setpoint_node_or_nodelist_name": "Chilled Water Loop Setpoint Node List"
+        },
+        "Hot Water Loop Setpoint Manager": {
+            "control_variable": "Temperature",
+            "schedule_name": "HW Loop Temp Schedule",
+            "setpoint_node_or_nodelist_name": "Hot Water Loop Setpoint Node List"
+        },
+        "Little Chiller Setpoint Manager": {
+            "control_variable": "Temperature",
+            "schedule_name": "CW Loop Temp Schedule",
+            "setpoint_node_or_nodelist_name": "Little Chiller Outlet Node"
+        },
+        "Supply Air Temp Manager": {
+            "control_variable": "Temperature",
+            "schedule_name": "Seasonal Reset Supply Air Temp Sch",
+            "setpoint_node_or_nodelist_name": "Supply Air Temp Nodes"
+        }
+    },
+    "SimulationControl": {
+        "SimulationControl 1": {
+            "do_plant_sizing_calculation": "No",
+            "do_system_sizing_calculation": "No",
+            "do_zone_sizing_calculation": "No",
+            "run_simulation_for_sizing_periods": "Yes",
+            "run_simulation_for_weather_file_run_periods": "No"
+        }
+    },
+    "Site:GroundTemperature:BuildingSurface": {
+        "Site:GroundTemperature:BuildingSurface 1": {
+            "april_ground_temperature": 20.3,
+            "august_ground_temperature": 20.77,
+            "december_ground_temperature": 20.2,
+            "february_ground_temperature": 20.03,
+            "january_ground_temperature": 20.03,
+            "july_ground_temperature": 20.62,
+            "june_ground_temperature": 20.52,
+            "march_ground_temperature": 20.13,
+            "may_ground_temperature": 20.43,
+            "november_ground_temperature": 20.44,
+            "october_ground_temperature": 20.55,
+            "september_ground_temperature": 20.78
+        }
+    },
+    "Site:Location": {
+        "CHICAGO_IL_USA TMY2-94846": {
+            "elevation": 190.0,
+            "latitude": 42.0,
+            "longitude": -87.88,
+            "time_zone": -6.0
+        }
+    },
+    "SizingPeriod:DesignDay": {
+        "CHICAGO_IL_USA Annual Cooling 1% Design Conditions DB/MCWB": {
+            "barometric_pressure": 99063.0,
+            "daily_dry_bulb_temperature_range": 10.7,
+            "day_of_month": 21,
+            "day_type": "SummerDesignDay",
+            "daylight_saving_time_indicator": "No",
+            "humidity_condition_type": "WetBulb",
+            "maximum_dry_bulb_temperature": 31.5,
+            "month": 7,
+            "rain_indicator": "No",
+            "sky_clearness": 1.0,
+            "snow_indicator": "No",
+            "solar_model_indicator": "ASHRAEClearSky",
+            "wetbulb_or_dewpoint_at_maximum_dry_bulb": 23.0,
+            "wind_direction": 230,
+            "wind_speed": 5.3
+        },
+        "CHICAGO_IL_USA Annual Heating 99% Design Conditions DB": {
+            "barometric_pressure": 99063.0,
+            "daily_dry_bulb_temperature_range": 0.0,
+            "day_of_month": 21,
+            "day_type": "WinterDesignDay",
+            "daylight_saving_time_indicator": "No",
+            "humidity_condition_type": "WetBulb",
+            "maximum_dry_bulb_temperature": -17.3,
+            "month": 1,
+            "rain_indicator": "No",
+            "sky_clearness": 0.0,
+            "snow_indicator": "No",
+            "solar_model_indicator": "ASHRAEClearSky",
+            "wetbulb_or_dewpoint_at_maximum_dry_bulb": -17.3,
+            "wind_direction": 270,
+            "wind_speed": 4.9
+        }
+    },
+    "SurfaceConvectionAlgorithm:Inside": {
+        "SurfaceConvectionAlgorithm:Inside 1": {
+            "algorithm": "TARP"
+        }
+    },
+    "SurfaceConvectionAlgorithm:Outside": {
+        "SurfaceConvectionAlgorithm:Outside 1": {
+            "algorithm": "DOE-2"
+        }
+    },
+    "ThermostatSetpoint:SingleCooling": {
+        "Cooling Setpoint with SB": {
+            "setpoint_temperature_schedule_name": "Cooling Setpoints"
+        }
+    },
+    "ThermostatSetpoint:SingleHeating": {
+        "Heating Setpoint with SB": {
+            "setpoint_temperature_schedule_name": "Heating Setpoints"
+        }
+    },
+    "Timestep": {
+        "Timestep 1": {
+            "number_of_timesteps_per_hour": 6
+        }
+    },
+    "Version": {
+        "Version 1": {
+            "version_identifier": "9.3"
+        }
+    },
+    "WindowMaterial:Glazing": {
+        "WIN-LAY-GLASS-LIGHT": {
+            "back_side_infrared_hemispherical_emissivity": 0.84,
+            "back_side_solar_reflectance_at_normal_incidence": 0.031,
+            "back_side_visible_reflectance_at_normal_incidence": 0.05,
+            "conductivity": 0.9,
+            "front_side_infrared_hemispherical_emissivity": 0.84,
+            "front_side_solar_reflectance_at_normal_incidence": 0.031,
+            "front_side_visible_reflectance_at_normal_incidence": 0.05,
+            "infrared_transmittance_at_normal_incidence": 0.0,
+            "optical_data_type": "SpectralAverage",
+            "solar_transmittance_at_normal_incidence": 0.9,
+            "thickness": 0.003,
+            "visible_transmittance_at_normal_incidence": 0.9
+        }
+    },
+    "Zone": {
+        "EAST ZONE": {
+            "ceiling_height": "Autocalculate",
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": "Autocalculate",
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "NORTH ZONE": {
+            "ceiling_height": "Autocalculate",
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": "Autocalculate",
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        },
+        "West Zone": {
+            "ceiling_height": "Autocalculate",
+            "direction_of_relative_north": 0,
+            "multiplier": 1,
+            "type": 1,
+            "volume": "Autocalculate",
+            "x_origin": 0,
+            "y_origin": 0,
+            "z_origin": 0
+        }
+    },
+    "ZoneControl:Thermostat": {
+        "Zone 1 Thermostat": {
+            "control_1_name": "Heating Setpoint with SB",
+            "control_1_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_2_name": "Cooling Setpoint with SB",
+            "control_2_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "West Zone"
+        },
+        "Zone 2 Thermostat": {
+            "control_1_name": "Heating Setpoint with SB",
+            "control_1_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_2_name": "Cooling Setpoint with SB",
+            "control_2_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "EAST ZONE"
+        },
+        "Zone 3 Thermostat": {
+            "control_1_name": "Heating Setpoint with SB",
+            "control_1_object_type": "ThermostatSetpoint:SingleHeating",
+            "control_2_name": "Cooling Setpoint with SB",
+            "control_2_object_type": "ThermostatSetpoint:SingleCooling",
+            "control_type_schedule_name": "Zone Control Type Sched",
+            "zone_or_zonelist_name": "NORTH ZONE"
+        }
+    },
+    "ZoneHVAC:AirDistributionUnit": {
+        "Zone1TermReheat": {
+            "air_distribution_unit_outlet_node_name": "Zone 1 Reheat Air Outlet Node",
+            "air_terminal_name": "Reheat Zone 1",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:ConstantVolume:Reheat"
+        },
+        "Zone2TermReheat": {
+            "air_distribution_unit_outlet_node_name": "Zone 2 Reheat Air Outlet Node",
+            "air_terminal_name": "Reheat Zone 2",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:ConstantVolume:Reheat"
+        },
+        "Zone3TermReheat": {
+            "air_distribution_unit_outlet_node_name": "Zone 3 Reheat Air Outlet Node",
+            "air_terminal_name": "Reheat Zone 3",
+            "air_terminal_object_type": "AirTerminal:SingleDuct:ConstantVolume:Reheat"
+        }
+    },
+    "ZoneHVAC:EquipmentConnections": {
+        "ZoneHVAC:EquipmentConnections 1": {
+            "zone_air_inlet_node_or_nodelist_name": "Zone1Inlets",
+            "zone_air_node_name": "Zone 1 Node",
+            "zone_conditioning_equipment_list_name": "Zone1Equipment",
+            "zone_name": "West Zone",
+            "zone_return_air_node_or_nodelist_name": "Zone 1 Outlet Node"
+        },
+        "ZoneHVAC:EquipmentConnections 2": {
+            "zone_air_inlet_node_or_nodelist_name": "Zone2Inlets",
+            "zone_air_node_name": "Zone 2 Node",
+            "zone_conditioning_equipment_list_name": "Zone2Equipment",
+            "zone_name": "EAST ZONE",
+            "zone_return_air_node_or_nodelist_name": "Zone 2 Outlet Node"
+        },
+        "ZoneHVAC:EquipmentConnections 3": {
+            "zone_air_inlet_node_or_nodelist_name": "Zone3Inlets",
+            "zone_air_node_name": "Zone 3 Node",
+            "zone_conditioning_equipment_list_name": "Zone3Equipment",
+            "zone_name": "NORTH ZONE",
+            "zone_return_air_node_or_nodelist_name": "Zone 3 Outlet Node"
+        }
+    },
+    "ZoneHVAC:EquipmentList": {
+        "Zone1Equipment": {
+            "equipment": [
+                {
+                    "zone_equipment_cooling_sequence": 1,
+                    "zone_equipment_heating_or_no_load_sequence": 1,
+                    "zone_equipment_name": "Zone1TermReheat",
+                    "zone_equipment_object_type": "ZoneHVAC:AirDistributionUnit"
+                }
+            ],
+            "load_distribution_scheme": "SequentialLoad"
+        },
+        "Zone2Equipment": {
+            "equipment": [
+                {
+                    "zone_equipment_cooling_sequence": 1,
+                    "zone_equipment_heating_or_no_load_sequence": 1,
+                    "zone_equipment_name": "Zone2TermReheat",
+                    "zone_equipment_object_type": "ZoneHVAC:AirDistributionUnit"
+                }
+            ],
+            "load_distribution_scheme": "SequentialLoad"
+        },
+        "Zone3Equipment": {
+            "equipment": [
+                {
+                    "zone_equipment_cooling_sequence": 1,
+                    "zone_equipment_heating_or_no_load_sequence": 1,
+                    "zone_equipment_name": "Zone3TermReheat",
+                    "zone_equipment_object_type": "ZoneHVAC:AirDistributionUnit"
+                }
+            ],
+            "load_distribution_scheme": "SequentialLoad"
+        }
+    }
+}

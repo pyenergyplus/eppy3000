@@ -1,6 +1,6 @@
-  Version,9.0.1;
+Version,9.1;
 
-  ZoneHVAC:EquipmentList,
+ZoneHVAC:EquipmentList,
     SPACE1-1 Eq,             !- Name
     SequentialLoad,          !- Load Distribution Scheme
     ZoneHVAC:AirDistributionUnit,  !- Zone Equipment 1 Object Type

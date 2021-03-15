@@ -238,3 +238,17 @@ def test_idffile2epjfile(tmp_path, idftxt, idffilename, expected):
     result = idfjsonconverter.idffile2epjfile(idffilepath, epjfilepath)
 
     # TODO do a reverse conversion assert
+    
+@pytest.mark.parametrize("lst, expected", 
+[
+    ([(1, 2), (3, 0), (4, '')],
+    [(1, 2), (3, 0)]), # lst, expected
+    ([(1, 2), (33, ''), (3, 0), (4, ''), (5, '')],
+    [(1, 2), (33, ''),  (3, 0)]), # lst, expected
+])
+def test_removetrailingblanks(lst, expected):
+    """py.test for removetrailingblanks"""
+    result = idfjsonconverter.removetrailingblanks(lst)
+    print(result)
+    print(expected)
+    assert result == expected

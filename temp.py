@@ -2,10 +2,15 @@ import eppy3000.idfjsonconverter as idfjsonconverter
 import eppy3000.installlocation as installlocation
 # from eppy3000 import idfjsonconverter, installlocation
 
-fname = "a.idf"
+flist = "example1.txt"
+fnames = open(flist, 'r')
 
-flist = "example.txt"
-for line in open(flist, 'r'):
+fname = "a.idf"
+fname = "/Applications/EnergyPlus-9-3-0/ExampleFiles/Generators.idf"
+fname = "Generators.idf"
+fnames = [fname, ]
+
+for line in fnames:
     fname = line.strip()
     # print(line.strip())
 
@@ -13,11 +18,11 @@ for line in open(flist, 'r'):
     with open(fname, 'r') as idfhandle:
         version = idfjsonconverter.getidfversion(idfhandle)
 
-    print(version)
+    # print(version)
     schemapath = installlocation.schemapath(version)
     # schemapath =
-    print(schemapath)
-    print(fname)
+    # print(schemapath)
+    # print(fname)
     # epjtxt = idfjsonconverter.idf2json(open(fname, 'r'), open(schemapath, 'r'))
     # print(epjtxt)
 
@@ -29,4 +34,4 @@ for line in open(flist, 'r'):
 
     idfhandle = open(fname, 'r')
     jsonstr = idfjsonconverter.idf2json(idfhandle, open(schemapath, 'r'))
-    # print(jsonstr)
+    print(jsonstr)

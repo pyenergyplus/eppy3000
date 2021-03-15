@@ -1,3 +1,19 @@
+2021-03-15
+----------
+
+Scratch:
+
+write toidf_temp.py -> hand coded to convert epjson to idf for eplus9.3
+
+- Generators.idf to Generators.epJSON using converter
+- Generators.idf to g_eppy3000.epJSON using my temp.py
+- Generators.epJSON to Generators_eppy3000.idf with toidf_temp.py
+- g_eppy3000.epJSON to g_eppy3000.idf with toidf_temp.py
+- compare Generators_eppy3000.idf vs g_eppy3000.idf (open and save using eppy)
+
+- Generators.epJSON -> Generators_cp.epJSON
+- Generators_cp.epJSON to Generators_cp.idf using converter
+
 2021-03-14
 ----------
 

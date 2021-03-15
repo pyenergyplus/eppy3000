@@ -114,7 +114,13 @@ def idf2json(idfhandle, epjsonhandle):
                     for e_dct in extvalues:
                         for e_key in e_dct:
                             if e_key in e_numericfields:
-                                e_dct[e_key] = num(e_dct[e_key])
+                                # fxing bug and debugging here
+                                # print(e_key)
+                                # print(e_dct)
+                                # e_dct[e_key] = num(e_dct[e_key])
+                                # if e_dct[e_key] != None:
+                                if e_dct[e_key]: # will skip None and '' ->maybe make sure of this
+                                    e_dct[e_key] = num(e_dct[e_key])
                 except AttributeError as e:
                     pass
 
@@ -163,16 +169,30 @@ def json2idf(jsonhandle, epjsonhandle):
                         fieldval.append((fieldname, name))
                     else:
                         value = None
-                        fieldval.append((fieldname, value))
+                        # debugging here
+                        # fieldval.append((fieldname, value))
+                        fieldval.append((fieldname, ''))
             try:
                 extension = js.properties[key].legacy_idd.extension
                 extensibles = js.properties[key].legacy_idd.extensibles
                 for i, tup in enumerate(idfjs[key][name][extension]):
                     for fld in extensibles:
-                        fieldval.append((f"{fld} {i + 1}", tup[fld]))
+                        # debugging going on here
+                        # print(fld)
+                        # print(tup)
+                        try:
+                            fieldval.append((f"{fld} {i + 1}", tup[fld]))
+                        except KeyError as e:
+                            fieldval.append((f"{fld} {i + 1}", ''))
+                        # fieldval.append((f"{fld} {i + 1}", tup[fld]))
             except AttributeError as e:
                 pass
             fieldval = [(fld, val) for fld, val in fieldval if val is not None]
+            # remove trailing blanks
+            fieldval = removetrailingblanks(fieldval)
+            # fieldval.reverse()
+            # fieldval = [for first, second, in fieldval, if second]
+            
             lastfield = len(fieldval) - 1
             sep = comma
             lines.append(f"{key},")
@@ -225,6 +245,26 @@ def idffile2epjfile(idfpath, epjpath=None):
     epjhandle = open(epjpath, 'w')
     epjtxt = idf2json(idfhandle, schemahandle)
 
+
+def removetrailingblanks(lst):
+    """remove railing blanks in lst
+    lst = [(a, b), (a, ''), (b, c), (d, ''), (e, '')]
+    return [(a, b), (a, ''), (b, c)]"""
+    lst.reverse()
+    new_lst = []
+    trailing = True
+    for fst, snd in lst:
+        if trailing:
+            if snd != '':
+                new_lst.append((fst, snd))
+                trailing = False
+            else:
+                pass
+        else:
+            new_lst.append((fst, snd))
+    new_lst.reverse()
+    return new_lst
+    
 
 # def f_getidfversion(fhandle):
 #     """functional version of getidfversion - an attempt"""
