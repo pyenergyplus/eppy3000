@@ -24,6 +24,31 @@ def test_version2folder(version, expected):
     assert result == expected
     
 
-def test_installfolder(version, platform, expected):
+@pytest.mark.parametrize("version, platform_system, expected",
+[
+    ("9.3", 'Darwin', 
+    "/Applications/EnergyPlus-9-3-0"), # version, platform_system, expected
+    ("9.3", 'Windows', 
+    "C:/EnergyPlusV9-3-0"), # version, platform_system, expected
+    ("9.3", 'Linux', 
+    "/usr/local/EnergyPlus-9-3-0"), # version, platform_system, expected
+])
+def test_installfolder(version, platform_system, expected):
     """py.test for installfolder"""
-    pass    
+    result = installlocation.installfolder(version, platform_system)
+    assert result == expected
+    
+@pytest.mark.parametrize("version, platform_system, expected",
+[
+    ("9.3", 'Darwin',
+    "/Applications/EnergyPlus-9-3-0/Energy+.schema.epJSON"), # version, platform_system, expected
+    ("9.3", 'Windows', 
+    "C:/EnergyPlusV9-3-0/Energy+.schema.epJSON"), # version, platform_system, expected
+    ("9.3", 'Linux', 
+    "/usr/local/EnergyPlus-9-3-0/Energy+.schema.epJSON"), # version, platform_system, expected
+])
+def test_schemapath(version, platform_system, expected):
+    """py.test for schemapath"""
+    result = installlocation.schemapath(version, platform_system)    
+    assert result == expected
+    

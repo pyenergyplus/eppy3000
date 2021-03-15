@@ -11,12 +11,13 @@ from itertools import zip_longest
 
 from eppy3000 import rawidf
 from eppy3000.epschema import read_epschema_asmunch
+from eppy3000 import installlocation
 
 
 def num(s):
     try:
         return int(s)
-    except ValueError:
+    except (ValueError, TypeError) as e:
         try:
             return float(s)
         except ValueError as e:
@@ -53,7 +54,7 @@ def idf2json(idfhandle, epjsonhandle):
     Returns
     -------
     str
-        E+ file in the old JSON format
+        E+ file in the new JSON format
     """
     raw_idf = rawidf.readrawidf(idfhandle)
     js = read_epschema_asmunch(epjsonhandle)
@@ -209,11 +210,20 @@ def getidfversion(fhandle):
                 else:
                     lines.append(fromversion)
     compose = ''.join(lines)
-    print("compose", compose)
     if compose:
         return compose.split(",")[1].strip()
     else:
         return None
+        
+def idffile2epjfile(idfpath, epjpath=None):
+    """convert an IDF file on disk to an EPJ file on disk"""
+    with open(idfpath, 'r') as idfhandle:
+        version = getidfversion(idfhandle)
+    schemapath = installlocation.schemapath(version)
+    schemahandle = open(schemapath, 'r')
+    idfhandle = open(idfpath, 'r')
+    epjhandle = open(epjpath, 'w')
+    epjtxt = idf2json(idfhandle, schemahandle)
 
 
 # def f_getidfversion(fhandle):

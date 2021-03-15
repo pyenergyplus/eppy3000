@@ -18,4 +18,18 @@ def version2folder(version):
 
 def installfolder(version, platform_system=None):
     """return the install folder of this EnergyPlus version"""
-    pass
+    if not platform_system:
+        platform_system = platform.system()
+    if platform_system == "Windows":
+        pathstart = "C:/EnergyPlusV"
+    elif platform_system == "Linux":
+        pathstart = "/usr/local/EnergyPlus-"
+    else:
+        pathstart = "/Applications/EnergyPlus-"
+    return f'{pathstart}{version2folder(version)}'
+    
+def schemapath(version, platform_system=None):
+    """return the schema path for the Energyplus version"""
+    installfolderpath = installfolder(version, platform_system)
+    return f'{installfolderpath}/Energy+.schema.epJSON'
+    

@@ -16,26 +16,9 @@ import pytest
 SCHEMA_FILE = schemafortesting.schema_file
 
 
-def test_keymapping():
-    """py.test for keymapping"""
-    data = (
-        (
-            ("Gumby", "Softy"),
-            ("gumby", "so", "softy", "Kamby"),
-            {"Gumby": "gumby", "Softy": "softy"},
-        ),
-        # somekeys, allkeys, expected
-    )
-    for somekeys, allkeys, expected in data:
-        result = idfjsonconverter.keymapping(somekeys, allkeys)
-        assert result == expected
-
-
-def test_idf2json_json2idf():
-    """py.test for idf2json and json2idf"""
-    data = (
-        (
-            """
+class IDFtxt:
+    """an IDF txt"""
+    idftxt = """
   Version,9.1;
 
   ZoneHVAC:EquipmentList,
@@ -112,7 +95,28 @@ Zone,
 OutdoorAir:NodeList,
     OutsideAirInletNodes;    !- Node or NodeList Name 1
 
-""",  # noqa: E501
+"""
+        
+
+def test_keymapping():
+    """py.test for keymapping"""
+    data = (
+        (
+            ("Gumby", "Softy"),
+            ("gumby", "so", "softy", "Kamby"),
+            {"Gumby": "gumby", "Softy": "softy"},
+        ),
+        # somekeys, allkeys, expected
+    )
+    for somekeys, allkeys, expected in data:
+        result = idfjsonconverter.keymapping(somekeys, allkeys)
+        assert result == expected
+
+
+def test_idf2json_json2idf():
+    """py.test for idf2json and json2idf"""
+    data = (
+        (IDFtxt.idftxt,  
         ),  # idftxt
     )
     for (idftxt,) in data:
@@ -216,3 +220,21 @@ def test_getidfversion(idftxt, expected):
     fhandle = StringIO(idftxt)
     result = idfjsonconverter.getidfversion(fhandle)
     assert result == expected
+    
+# TODO : set for EPPY_INTEGRATION
+@pytest.mark.parametrize("idftxt, idffilename, expected",
+[
+    (IDFtxt.idftxt, "aa.idf", None), # idftxt, idffilename, expected
+])
+def test_idffile2epjfile(tmp_path, idftxt, idffilename, expected):
+    """py.test for idffile2epjfile"""
+    d = tmp_path
+    p = d / idffilename
+    p.write_text(idftxt)
+    idffilepath = p.resolve()
+    # intxt = open(idffilepath, 'r').read()
+    # print(intxt)
+    epjfilepath = f'{idffilepath}.epj'
+    result = idfjsonconverter.idffile2epjfile(idffilepath, epjfilepath)
+
+    # TODO do a reverse conversion assert
