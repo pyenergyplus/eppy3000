@@ -1,3 +1,11 @@
+2021-03-14
+----------
+
+something is not working in the pytest
+
+- see temp.py to figure out
+- remove a.idf when you are done
+
 2021-03-13
 ----------
 
