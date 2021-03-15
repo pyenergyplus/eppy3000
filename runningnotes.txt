@@ -6,6 +6,12 @@ something is not working in the pytest
 - see temp.py to figure out
 - remove a.idf when you are done
 
+aha !!
+
+- same error with
+    - /Applications/EnergyPlus-9-3-0/ExampleFiles/Generators.idf
+    - all files before it in example.txt were OK
+
 2021-03-13
 ----------
 
