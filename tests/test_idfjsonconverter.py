@@ -273,7 +273,11 @@ def test_idffile2epjfile(tmp_path, idftxt, idffilename, epjfilename, epschemapat
 
 @pytest.mark.parametrize("idftxt, epjname, idfname, schemapath, expected",
 [
+    # the first two commented out tests will work only if you installed EnergyPlus
+    # (IDFtxt.idftxt, "aa.epj", "bb.idf", None, None), # idftxt, epjname, idfname, schemapath, expected
+    # (IDFtxt.idftxt, "aa.epj", None, None, None), # idftxt, epjname, idfname,schemapath, expected
     (IDFtxt.idftxt, "aa.epj", "bb.idf", SCHEMA_FILE, None), # idftxt, epjname, idfname, schemapath, expected
+    (IDFtxt.idftxt, "aa.epj", None, SCHEMA_FILE, None), # idftxt, epjname,idfname, schemapath, expected
 ])
 def test_epjfile2idffile(tmp_path, idftxt, epjname, idfname, schemapath, expected):
     """py.test for epjfile2idffile"""
@@ -285,7 +289,13 @@ def test_epjfile2idffile(tmp_path, idftxt, epjname, idfname, schemapath, expecte
     # -
     # 1. convert idf to epj
     idfhandle = StringIO(idftxt)
-    with open(schemapath, 'r') as schemahandle:
+    if schemapath:
+        new_epschemapath = schemapath
+    else:
+        version = idfjsonconverter.getidfversion(idfhandle)
+        new_epschemapath = installlocation.schemapath(version)
+    idfhandle = StringIO(idftxt) # rest handle
+    with open(new_epschemapath, 'r') as schemahandle:
         epjstr = idfjsonconverter.idf2json(idfhandle, schemahandle)
     # 2. write epj to epjfile
     tmpdir = tmp_path
@@ -298,22 +308,19 @@ def test_epjfile2idffile(tmp_path, idftxt, epjname, idfname, schemapath, expecte
         idffilepath = tmpidffile.resolve()
     else: 
         idffilepath = None
-        newidfname = f'{idfname.split(".")[0]}.epj'
+        newidfname = f'{epjname.split(".")[0]}.idf'
         tmpidffile = tmpdir / newidfname
         newidffilepath = tmpidffile.resolve()
     # 3. convert epjfile to idffile -> the function we are testing
     idfjsonconverter.epjfile2idffile(epjfilepath, idffilepath, schemapath)
     # 4. read the spj file and comvert it to idf
     with open(epjfilepath, 'r') as epjhandle:
-        expected = idfjsonconverter.json2idf(epjhandle, open(schemapath, 'r'))
+        expected = idfjsonconverter.json2idf(epjhandle, open(new_epschemapath, 'r'))
     # 5. read idffile and compare to idf in 4.
     if idffilepath:
         result = open(idffilepath, 'r').read()
     else:
         result = open(newidffilepath, 'r').read()
-    print(result)
-    print("-" * 8)
-    print(expected)
     assert result == expected
     
         

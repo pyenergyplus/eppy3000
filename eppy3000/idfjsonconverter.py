@@ -13,6 +13,8 @@ import pathlib
 from eppy3000 import rawidf
 from eppy3000.epschema import read_epschema_asmunch
 from eppy3000 import installlocation
+from eppy3000.modelmaker import EPJ
+
 
 
 def num(s):
@@ -235,6 +237,8 @@ def getidfversion(fhandle):
         return compose.split(",")[1].strip()
     else:
         return None
+
+        
         
 def idffile2epjfile(idfpath, epjpath=None, schemapath=None):
     """convert an IDF file on disk to an EPJ file on disk"""
@@ -255,8 +259,8 @@ def epjfile2idffile(epjpath, idfpath=None, schemapath=None):
     """convert an EPJ file on disk to an IDF file on disk"""
     epjpath = pathlib.Path(epjpath)
     if not schemapath:
-        with open(idfpath, 'r') as idfhandle:
-            version = getidfversion(idfhandle)
+        epj = EPJ(epjpath)
+        version = epj.epobjects["Version"][0].version_identifier
         schemapath = installlocation.schemapath(version)
     if not idfpath:
         idfpath = epjpath.with_suffix(".idf")
