@@ -8,6 +8,7 @@
 
 import json
 from itertools import zip_longest
+import pathlib
 
 from eppy3000 import rawidf
 from eppy3000.epschema import read_epschema_asmunch
@@ -41,14 +42,14 @@ def keymapping(somekeys, allkeys):
     return {somekeys[i]: allkeys[j] for i, j in mapping}
 
 
-def idf2json(idfhandle, epjsonhandle):
+def idf2json(idfhandle, epschemahandle):
     """converts the E+ file in the old IDF format to the new JSON format
 
     Parameters
     ----------
     jsonhandle: io.TextIOWrapper, io.StringIO
         This is the E+ file in the old IDF format
-    epjsonhandle: io.TextIOWrapper, io.StringIO
+    epschemahandle: io.TextIOWrapper, io.StringIO
         This is the epjson file (eqv. of the IDD file in the old format)
 
     Returns
@@ -57,7 +58,7 @@ def idf2json(idfhandle, epjsonhandle):
         E+ file in the new JSON format
     """
     raw_idf = rawidf.readrawidf(idfhandle)
-    js = read_epschema_asmunch(epjsonhandle)
+    js = read_epschema_asmunch(epschemahandle)
     idfobjcount = {}
     idfjson = {}
     keys = raw_idf.keys()
@@ -131,14 +132,14 @@ def idf2json(idfhandle, epjsonhandle):
     return json.dumps(idfjson, indent=2)
 
 
-def json2idf(jsonhandle, epjsonhandle):
+def json2idf(jsonhandle, epschemahandle):
     """converts the E+ file new JSON format to the old IDF format
 
     Parameters
     ----------
     jsonhandle: io.TextIOWrapper, io.StringIO
         This is the E+ file in the new JSON format
-    epjsonhandle: io.TextIOWrapper, io.StringIO
+    epschemahandle: io.TextIOWrapper, io.StringIO
         This is the epjson file (eqv. of the IDD file in the old format)
 
     Returns
@@ -147,7 +148,7 @@ def json2idf(jsonhandle, epjsonhandle):
         E+ file in the old IDF format
     """
     lines = []
-    js = read_epschema_asmunch(epjsonhandle)
+    js = read_epschema_asmunch(epschemahandle)
     idfjs = read_epschema_asmunch(jsonhandle)
 
     for key in idfjs.keys():
@@ -235,15 +236,35 @@ def getidfversion(fhandle):
     else:
         return None
         
-def idffile2epjfile(idfpath, epjpath=None):
+def idffile2epjfile(idfpath, epjpath=None, schemapath=None):
     """convert an IDF file on disk to an EPJ file on disk"""
-    with open(idfpath, 'r') as idfhandle:
-        version = getidfversion(idfhandle)
-    schemapath = installlocation.schemapath(version)
+    idfpath = pathlib.Path(idfpath)
+    if not schemapath:
+        with open(idfpath, 'r') as idfhandle:
+            version = getidfversion(idfhandle)
+        schemapath = installlocation.schemapath(version)
+    if not epjpath:
+        epjpath = idfpath.with_suffix(".epj")
     schemahandle = open(schemapath, 'r')
     idfhandle = open(idfpath, 'r')
-    epjhandle = open(epjpath, 'w')
     epjtxt = idf2json(idfhandle, schemahandle)
+    with open(epjpath, 'w') as epjhandle:
+        epjhandle.write(epjtxt)
+
+def epjfile2idffile(epjpath, idfpath=None, schemapath=None):
+    """convert an EPJ file on disk to an IDF file on disk"""
+    epjpath = pathlib.Path(epjpath)
+    if not schemapath:
+        with open(idfpath, 'r') as idfhandle:
+            version = getidfversion(idfhandle)
+        schemapath = installlocation.schemapath(version)
+    if not idfpath:
+        idfpath = epjpath.with_suffix(".idf")
+    schemahandle = open(schemapath, 'r')
+    epjhandle = open(epjpath, 'r')
+    idftxt = json2idf(epjhandle, schemahandle)
+    with open(idfpath, 'w') as idfhandle:
+        idfhandle.write(idftxt)
 
 
 def removetrailingblanks(lst):

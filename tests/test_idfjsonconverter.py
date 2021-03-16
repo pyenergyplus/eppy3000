@@ -9,6 +9,7 @@
 from io import StringIO
 
 from eppy3000 import idfjsonconverter
+from eppy3000 import installlocation
 from tests import schemafortesting
 
 import pytest
@@ -221,24 +222,101 @@ def test_getidfversion(idftxt, expected):
     result = idfjsonconverter.getidfversion(fhandle)
     assert result == expected
     
-# TODO : set for EPPY_INTEGRATION
-@pytest.mark.parametrize("idftxt, idffilename, expected",
+@pytest.mark.parametrize("idftxt, idffilename, epjfilename, epschemapath, expected",
 [
-    (IDFtxt.idftxt, "aa.idf", None), # idftxt, idffilename, expected
+    # the first two commented out tests will work only if you installed EnergyPlus
+    # (IDFtxt.idftxt, "aa.idf", "bb.epj", None, None), # idftxt, idffilename, epjfilename, epschemapath, expected
+    # (IDFtxt.idftxt, "aa.idf", None, None, None), # idftxt, idffilename, epjfilename, epschemapath, expected
+    (IDFtxt.idftxt, "aa.idf", "bb.epj", SCHEMA_FILE, None), # idftxt, idffilename, epjfilename, epschemapath, expected
+    (IDFtxt.idftxt, "aa.idf", None, SCHEMA_FILE, None), # idftxt, idffilename, epjfilename, epschemapath, expected
 ])
-def test_idffile2epjfile(tmp_path, idftxt, idffilename, expected):
+def test_idffile2epjfile(tmp_path, idftxt, idffilename, epjfilename, epschemapath, expected):
     """py.test for idffile2epjfile"""
-    d = tmp_path
-    p = d / idffilename
-    p.write_text(idftxt)
-    idffilepath = p.resolve()
-    # intxt = open(idffilepath, 'r').read()
-    # print(intxt)
-    epjfilepath = f'{idffilepath}.epj'
-    result = idfjsonconverter.idffile2epjfile(idffilepath, epjfilepath)
+    # 1. write idf to idffile
+    # 2. convert idffile to epjfile -> the function we are testing
+    # 3. convert idf to epj (expected)
+    # 4. read epjfile and compare to epj in 3.
+    # - 
+    # 1. write idf to idffile
+    tmpdir = tmp_path
+    tmpidffile = tmpdir / idffilename
+    tmpidffile.write_text(idftxt)
+    idffilepath = tmpidffile.resolve()
+    # - 
+    if epjfilename:
+        tmpepjfile = tmpdir / epjfilename
+        epjfilepath = tmpepjfile.resolve()
+    else: 
+        epjfilepath = None
+        newepjname = f'{idffilename.split(".")[0]}.epj'
+        tmpepjfile = tmpdir / newepjname
+        newepjfilepath = tmpepjfile.resolve()
+    # 2. convert idffile to epjfile -> the function we are testing
+    idfjsonconverter.idffile2epjfile(idffilepath, epjfilepath, epschemapath)
+    # 3. convert idf to epj (expected)
+    if epschemapath:
+        new_epschemapath = epschemapath
+    else:
+        with open(idffilepath, 'r') as idfhandle:
+            version = idfjsonconverter.getidfversion(idfhandle)
+        new_epschemapath = installlocation.schemapath(version)
+        
+    idfhandle = StringIO(idftxt)
+    with open(new_epschemapath, 'r') as epschemahandle:
+        expected = idfjsonconverter.idf2json(idfhandle, epschemahandle)
+    # 4. read epjfile and compare to epj in 3.
+    if epjfilepath:
+        result = open(epjfilepath, 'r').read()
+    else:
+        result = open(newepjfilepath, 'r').read()
+    assert result == expected
 
-    # TODO do a reverse conversion assert
+@pytest.mark.parametrize("idftxt, epjname, idfname, schemapath, expected",
+[
+    (IDFtxt.idftxt, "aa.epj", "bb.idf", SCHEMA_FILE, None), # idftxt, epjname, idfname, schemapath, expected
+])
+def test_epjfile2idffile(tmp_path, idftxt, epjname, idfname, schemapath, expected):
+    """py.test for epjfile2idffile"""
+    # 1. convert idf to epj
+    # 2. write epj to epjfile
+    # 3. convert epjfile to idffile -> the function we are testing
+    # 4. read the spj file and comvert it to idf
+    # 5. read idffile and compare to idf in 4.
+    # -
+    # 1. convert idf to epj
+    idfhandle = StringIO(idftxt)
+    with open(schemapath, 'r') as schemahandle:
+        epjstr = idfjsonconverter.idf2json(idfhandle, schemahandle)
+    # 2. write epj to epjfile
+    tmpdir = tmp_path
+    tmpepjfile = tmpdir / epjname
+    tmpepjfile.write_text(epjstr)
+    epjfilepath = tmpepjfile.resolve()
+    # - 
+    if idfname:
+        tmpidffile = tmpdir / idfname
+        idffilepath = tmpidffile.resolve()
+    else: 
+        idffilepath = None
+        newidfname = f'{idfname.split(".")[0]}.epj'
+        tmpidffile = tmpdir / newidfname
+        newidffilepath = tmpidffile.resolve()
+    # 3. convert epjfile to idffile -> the function we are testing
+    idfjsonconverter.epjfile2idffile(epjfilepath, idffilepath, schemapath)
+    # 4. read the spj file and comvert it to idf
+    with open(epjfilepath, 'r') as epjhandle:
+        expected = idfjsonconverter.json2idf(epjhandle, open(schemapath, 'r'))
+    # 5. read idffile and compare to idf in 4.
+    if idffilepath:
+        result = open(idffilepath, 'r').read()
+    else:
+        result = open(newidffilepath, 'r').read()
+    print(result)
+    print("-" * 8)
+    print(expected)
+    assert result == expected
     
+        
 @pytest.mark.parametrize("lst, expected", 
 [
     ([(1, 2), (3, 0), (4, '')],
@@ -249,6 +327,4 @@ def test_idffile2epjfile(tmp_path, idftxt, idffilename, expected):
 def test_removetrailingblanks(lst, expected):
     """py.test for removetrailingblanks"""
     result = idfjsonconverter.removetrailingblanks(lst)
-    print(result)
-    print(expected)
     assert result == expected
