@@ -6,13 +6,16 @@ Releases
 --------
 
 
+Release 0.1.11  (2021-03-16)
+----------------------------
+
 2021-03-16
 ~~~~~~~~~~
 
 Fixed #76
 
-Problem: Need easier conversion from IDF to epJSON
-Solution: ``idffile2epjfile`` will convert a single file and ``idffolder2epjfolder`` will do batch conversion
+:Problem: Need easier conversion from IDF to epJSON
+:Solution: ``idffile2epjfile`` will convert a single file and ``idffolder2epjfolder`` will do batch conversion
 
 Date: Mon Jan 18 21:53:40 PST 2021
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

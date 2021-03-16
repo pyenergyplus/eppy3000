@@ -1,3 +1,8 @@
+2021-03-16
+----------
+
+change setup.cfg with double quotes for bumpversion, so it works correctly
+
 2021-01-19
 ----------
 
