@@ -53,6 +53,14 @@ eppy3000.idfjsonconverter module
     :undoc-members:
     :show-inheritance:
 
+eppy3000.installlocation module
+-------------------------------
+
+.. automodule:: eppy3000.installlocation
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 eppy3000.modelmaker module
 --------------------------
 

@@ -1,3 +1,44 @@
+2021-03-15
+----------
+
+Scratch:
+
+write toidf_temp.py -> hand coded to convert epjson to idf for eplus9.3
+
+- Generators.idf to Generators.epJSON using converter
+- Generators.idf to g_eppy3000.epJSON using my temp.py
+- Generators.epJSON to Generators_eppy3000.idf with toidf_temp.py
+- g_eppy3000.epJSON to g_eppy3000.idf with toidf_temp.py
+- compare Generators_eppy3000.idf vs g_eppy3000.idf (open and save using eppy)
+
+- Generators.epJSON -> Generators_cp.epJSON
+- Generators_cp.epJSON to Generators_cp.idf using converter
+
+2021-03-14
+----------
+
+something is not working in the pytest
+
+- see temp.py to figure out
+- remove a.idf when you are done
+
+aha !!
+
+- same error with
+    - /Applications/EnergyPlus-9-3-0/ExampleFiles/Generators.idf
+    - all files before it in example.txt were OK
+
+2021-03-13
+----------
+
+Issue #76 easy conversions
+
+- first need to locate the version of idf file - wrote function for this 
+    - experimental - try to do this in functional programming.
+- then need find the install location of that version
+    - where the schema file is
+- once the schema file is located, we are set
+
 2020-08-06 20:00
 ----------------
 
