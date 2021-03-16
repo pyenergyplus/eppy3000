@@ -8,6 +8,7 @@
 
 
 import tempfile
+
 try:
     from IPython.display import IFrame
 except ModuleNotFoundError as e:
@@ -15,8 +16,10 @@ except ModuleNotFoundError as e:
 from munch import Munch
 import json2html
 
+
 class JupyterNotInstalled(Exception):
     pass
+
 
 def removeeppykeys_inepmunch(epmunch, rkeys=None):
     """remove the eppy keys in epmunch"""
@@ -147,7 +150,6 @@ def epobjects2ipythonhtml(epobjects, fname="./eppy3000_deletethis.html"):
     html = epobjects2html(epobjects)
     open(fname, "w").write(html)
     lines = epobjectslines(epobjects)
-    print(lines)
     height = 30 * lines + 50
     try:
         return IFrame(src=fname, width=800, height=height)

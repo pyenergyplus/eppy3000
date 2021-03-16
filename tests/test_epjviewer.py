@@ -8,9 +8,11 @@
 
 import pytest
 from eppy3000.modelmaker import EPJ
-from eppy3000 import epjviewer    
+from eppy3000 import epjviewer
+
 try:
     from IPython.display import IFrame
+
     JUPYTER = True
 except ModuleNotFoundError as e:
     JUPYTER = False
@@ -60,7 +62,6 @@ def test_epmunch2ipythonhtml():
     else:
         with pytest.raises(epjviewer.JupyterNotInstalled):
             result = epjviewer.epmunch2ipythonhtml(version)
-            
 
 
 def test_epmuchhtmllines():
@@ -99,7 +100,6 @@ def test_epj2ipythonhtml():
     else:
         with pytest.raises(epjviewer.JupyterNotInstalled):
             result = epjviewer.epj2ipythonhtml(epj)
-            
 
 
 def test_epobjects2dct():
@@ -137,5 +137,3 @@ def test_epobjects2ipythonhtml():
     else:
         with pytest.raises(epjviewer.JupyterNotInstalled):
             result = epjviewer.epobjects2ipythonhtml(epobjects)
-            
-    
