@@ -9,12 +9,14 @@
 
 import platform
 
+
 def version2folder(version):
     """foldername from version"""
     verlst = version.split(".")
     while len(verlst) < 3:
         verlst.append("0")
     return "-".join(verlst)
+
 
 def installfolder(version, platform_system=None):
     """return the install folder of this EnergyPlus version"""
@@ -26,10 +28,10 @@ def installfolder(version, platform_system=None):
         pathstart = "/usr/local/EnergyPlus-"
     else:
         pathstart = "/Applications/EnergyPlus-"
-    return f'{pathstart}{version2folder(version)}'
-    
+    return f"{pathstart}{version2folder(version)}"
+
+
 def schemapath(version, platform_system=None):
     """return the schema path for the Energyplus version"""
     installfolderpath = installfolder(version, platform_system)
-    return f'{installfolderpath}/Energy+.schema.epJSON'
-    
+    return f"{installfolderpath}/Energy+.schema.epJSON"

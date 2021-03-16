@@ -8,7 +8,7 @@ fname = "g_eppy3000.epJSON"
 # fname = "Generators.epJSON"
 
 
-jsonhandle = open(fname, 'r')
-epjsonhandle = open(schemapath, 'r')
+jsonhandle = open(fname, "r")
+epjsonhandle = open(schemapath, "r")
 idfstr = idfjsonconverter.json2idf(jsonhandle, epjsonhandle)
 print(idfstr)
