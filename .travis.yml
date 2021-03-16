@@ -10,13 +10,12 @@ before_install:
   - pip install -U pip
   - pip install -U pytest
   - pip install codecov
-L    
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
   - pip install -U tox-travis
   - pip install -r requirements.txt
   - pip install ".[test]" . # install package + test dependencies
-script: py.test ./tests
+script: py.test ./tests # run tests
 after_success:
   - codecov # submit coverage
 
