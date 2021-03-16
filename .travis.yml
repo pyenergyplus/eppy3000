@@ -2,11 +2,11 @@
 
 language: python
 python:
-  - 3.6
+  - 3.7
   # - 3.5
   # - 3.4
 before_install:
-  - pip install -U pytest
+  - pip install pytest==6.2.2
   - python --version
   - pytest --version
     
