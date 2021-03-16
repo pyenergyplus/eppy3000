@@ -6,3 +6,6 @@ black
 
 # - needed for ReadtheDocs
 nbsphinx
+
+# needed for travis
+pytest
