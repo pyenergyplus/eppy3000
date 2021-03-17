@@ -244,7 +244,7 @@ def getidfversion(fhandle):
         return None
 
 
-def idffile2epjfile(idfpath, epjpath=None, schemapath=None):
+def idffile2epjfile(idfpath, epjpath=None, schemapath=None, epjext=None):
     """convert an IDF file on disk to an EPJ file on disk
     
     reads the idf file at idfpath. Converts it to epj file
@@ -264,13 +264,15 @@ def idffile2epjfile(idfpath, epjpath=None, schemapath=None):
     pathlib.Path
         the path to the saved EPJ file
     """
+    if not epjext:
+        epjext = "epJSON"
     idfpath = pathlib.Path(idfpath)
     if not schemapath:
         with open(idfpath, "r") as idfhandle:
             version = getidfversion(idfhandle)
         schemapath = installlocation.schemapath(version)
     if not epjpath:
-        epjpath = idfpath.with_suffix(".epj")
+        epjpath = idfpath.with_suffix(f'.{epjext}')
     schemahandle = open(schemapath, "r")
     idfhandle = open(idfpath, "r")
     epjtxt = idf2json(idfhandle, schemahandle)
