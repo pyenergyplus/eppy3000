@@ -272,7 +272,7 @@ def idffile2epjfile(idfpath, epjpath=None, schemapath=None, epjext=None):
             version = getidfversion(idfhandle)
         schemapath = installlocation.schemapath(version)
     if not epjpath:
-        epjpath = idfpath.with_suffix(f'.{epjext}')
+        epjpath = idfpath.with_suffix(f".{epjext}")
     schemahandle = open(schemapath, "r")
     idfhandle = open(idfpath, "r")
     epjtxt = idf2json(idfhandle, schemahandle)
