@@ -1,3 +1,19 @@
+2021-12-29
+----------
+
+consider the argument for using YAML especaiily the use of comments.
+
+- https://levelup.gitconnected.com/json-vs-yaml-6aa0243aefc6
+
+2021-12-23
+----------
+
+start to use dbm
+
+- see temp_dbm.py and temp_dbm1.py
+
+
+
 2021-03-15
 ----------
 
