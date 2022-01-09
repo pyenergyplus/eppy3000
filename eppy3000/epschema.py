@@ -50,7 +50,7 @@ class EPSchemaMunch(Munch):
 
 
 class EPSchema(object):
-    """hold the data from the json epschema file """
+    """hold the data from the json epschema file"""
 
     def __init__(self, epschemaname):
         super(EPSchema, self).__init__()

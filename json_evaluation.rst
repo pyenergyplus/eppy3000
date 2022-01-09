@@ -25,7 +25,10 @@ Negatives
     - Although comments can be added by comment tag ignored by E+
     - hard to do diagrams as in IDF format
     - hard to have free form comments
-- Groups are not documented in present schema 9.6
+- Groups are not documented in present schema 9.6. ** Correction: it is there **
+    - group names in schema do always match those in html documentation (bigladder.com)
+    - some object names are missing in html documentation (bigladder.com)
+
 
 
 

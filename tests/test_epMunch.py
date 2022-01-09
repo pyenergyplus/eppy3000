@@ -219,7 +219,10 @@ class TestEPMunch_simple1(object):
     # change and eppy_field
     # test to see if it works
     @pytest.mark.parametrize(
-        "fname, fvalue, expected", [("eppy_field", 52, 52),],  # fname, fvalue, expected
+        "fname, fvalue, expected",
+        [
+            ("eppy_field", 52, 52),
+        ],  # fname, fvalue, expected
     )
     def test_add_eppy_field(self, fname, fvalue, expected):
         """test adding a field that starts with 'eppy'"""
