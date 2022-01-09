@@ -204,7 +204,7 @@ def json2idf(jsonhandle, epschemahandle):
 
 def getidfversion(fhandle):
     """get the idf version of this file
-    
+
     reads the Version object in the file and extract the version number
 
     Parameters
@@ -246,10 +246,10 @@ def getidfversion(fhandle):
 
 def idffile2epjfile(idfpath, epjpath=None, schemapath=None, epjext=None):
     """convert an IDF file on disk to an EPJ file on disk
-    
+
     reads the idf file at idfpath. Converts it to epj file
     Writes the epj file to epjpath
-    
+
     Parameters
     ----------
     idfpath: str, pathlib.Path
@@ -306,8 +306,7 @@ def idffolder2epjfolder(
     Returns
     -------
     None
-    
-"""
+    """
     idffolder = pathlib.Path(idffolder)
     if not idfext:
         idfext = "idf"

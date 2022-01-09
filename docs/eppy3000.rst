@@ -5,10 +5,12 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
-    eppy3000.experimental
-    eppy3000.oldeppy
-    eppy3000.runner
+   eppy3000.dbm_functions
+   eppy3000.experimental
+   eppy3000.oldeppy
+   eppy3000.runner
 
 Submodules
 ----------
@@ -17,79 +19,78 @@ eppy3000.epMunch module
 -----------------------
 
 .. automodule:: eppy3000.epMunch
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.epjviewer module
 -------------------------
 
 .. automodule:: eppy3000.epjviewer
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.eppy3000 module
 ------------------------
 
 .. automodule:: eppy3000.eppy3000
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.epschema module
 ------------------------
 
 .. automodule:: eppy3000.epschema
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.idfjsonconverter module
 --------------------------------
 
 .. automodule:: eppy3000.idfjsonconverter
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.installlocation module
 -------------------------------
 
 .. automodule:: eppy3000.installlocation
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.modelmaker module
 --------------------------
 
 .. automodule:: eppy3000.modelmaker
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.rawidf module
 ----------------------
 
 .. automodule:: eppy3000.rawidf
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 eppy3000.readepj module
 -----------------------
 
 .. automodule:: eppy3000.readepj
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: eppy3000
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
