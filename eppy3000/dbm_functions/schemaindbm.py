@@ -227,6 +227,16 @@ def get_refschemakeys(fname=None):
         with dbm.dumb.open("./schema_ref_index", "r") as db:
             return db.keys()
 
+def get_groups(fname=None):
+    """get the entire groups index"""
+    def inner_get_groups(db):
+        return {key:json.loads(db[key]) for key in db}
+    if fname:
+        with dbm.dumb.open(fname, "r") as db:
+            return inner_get_groups(db)
+    else:
+        with dbm.dumb.open("./schema_group_index", "r") as db:
+            return inner_get_groups(db)
 
 if __name__ == "__main__":
     fname = "../eppy3000viewer/schema"
