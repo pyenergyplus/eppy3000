@@ -140,10 +140,22 @@ def create_schemadbm(fname, dbmname):
         for key in d["properties"]:
             db[key] = json.dumps(d["properties"][key])
 
+def create_groupsindex(fname, dbmname):
+    """create the groupindex for the schema"""
+    db = schemaindbm.db_in_memory(fname)
+    dt = dict()
+    for key in db.keys():
+        aschema = json.loads(db[key])
+        group = aschema["group"]
+        dt.setdefault(group, list()).append(key)
+    with dbm.dumb.open(dbmname, "c") as db:
+        for key in dt:
+            db[key] = json.dumps(dt[key])
 
 if __name__ == "__main__":
     sys.argv[1:]
     fname = sys.argv[1]
     dbmname = sys.argv[2]
     create_schemadbm(fname, dbmname)
-    create_index(fname, f"{dbmname}_ref_index")
+    create_index(fname, f'{dbmname}_ref_index')
+    create_groupsindex(fname, f'{dbmname}_group_index')
