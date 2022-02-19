@@ -1,3 +1,14 @@
+2022-02-18
+----------
+
+We have a big problem:
+
+- epj.popepobject() is not really doing it in self.epj (epj.epj)
+- some fundametal rethinking is needed.
+- use mutablemapping ? - see link below.
+- https://stackoverflow.com/questions/3387691/how-to-perfectly-override-a-dict
+- https://stackoverflow.com/questions/3387691/how-to-perfectly-override-a-dict
+
 2021-12-29
 ----------
 
