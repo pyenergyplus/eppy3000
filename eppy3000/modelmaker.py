@@ -43,8 +43,8 @@ class EPJ(object):
         # eppy3000 should partilly work even without the schema
         # -
 
-        # insert epj into the epjobject
-        # this allows the epjobject to access all other objects in the epj
+        # insert epj into the epobject
+        # this allows the epobject to access all other objects in the epj
         for epobjects in self.epobjects.values():
             for epobject in epobjects:
                 epobject["eppy_epj"] = self.epj
@@ -131,10 +131,51 @@ class EPJ(object):
         nobj["eppy_objepschema"] = objepschema
         return nobj
 
-    def removeepobject(self, key, objname):
-        """remove an epj object"""
-        # should self.epobjects be updated here
-        return self.epj[key].pop(objname)
+    # def removeepobject(self, key, objname):
+    #     """remove an epj object"""
+    #     # should self.epobjects be updated here
+    #     return self.epj[key].pop(objname)
+
+    def popepobject(self, key, index):
+        """Pop an EPJ object from the EPJ.
+
+        Parameters
+        ----------
+        key : str
+            The type of EPJ object.
+        index : int
+            The index of the object to pop.
+
+        Returns
+        -------
+        EpBunch object.
+
+        """
+        return self.epobjects[key].pop(index)
+
+    def removeepobject(self, epobject):
+        """Remove an EPJ object from the EPJ.
+
+        Parameters
+        ----------
+        epobject : EpBunch object
+            The epobject to remove.
+
+        """
+        key = epobject.eppykey
+        self.epobjects[key].remove(epobject)
+
+    def removeallepobjects(self, epjkey):
+        """Remove all epobjects of a certain type from the EPJ.
+
+        Parameters
+        ----------
+        epjkey : key of the epobjects to remove
+
+        """
+        while len(self.epobjects[epjkey]) > 0:
+            self.popepobject(epjkey, 0)
+
 
     def copyepobject(self, key, objname, newname):
         """copy an epj object with a new name"""
