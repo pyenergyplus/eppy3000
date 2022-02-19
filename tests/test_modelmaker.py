@@ -80,7 +80,45 @@ def epj_txt1():
     }"""
     return txt
 
-
+@pytest.fixture
+def txt4remove_pop():
+    """fixture to test remove and pop of epobjects"""
+    txt = """{
+        "Version": {
+            "Version 1": {
+                "version_identifier": "9.3",
+                "idf_order": 1
+            }
+        },
+        "Material": {
+            "F08 Metal surface": {
+                "roughness": "Smooth",
+                "thickness": 0.0008,
+                "conductivity": 45.28,
+                "density": 7824,
+                "specific_heat": 500,
+                "idf_order": 2
+            },
+            "I01 25mm insulation board": {
+                "roughness": "MediumRough",
+                "thickness": 0.0254,
+                "conductivity": 0.03,
+                "density": 43,
+                "specific_heat": 1210,
+                "idf_order": 3
+            },
+            "I02 50mm insulation board": {
+                "roughness": "MediumRough",
+                "thickness": 0.0508,
+                "conductivity": 0.03,
+                "density": 43,
+                "specific_heat": 1210,
+                "idf_order": 4
+            }
+        }
+    }"""
+    return txt
+    
 def test_EPJ(epj_txt1):
     """py.test for EPJ"""
     # test without epschema
@@ -117,3 +155,38 @@ Version                                          !-  EP_KEY         # use .eppyk
             1                                    !-  idf_order"""
     epj = modelmaker.EPJ(epjname=StringIO(version_txt))
     assert expected == epj.__repr__()
+    
+def test_popepobject(txt4remove_pop):
+    """pytest for popepobject"""
+    epj = modelmaker.EPJ(epjname=StringIO(txt4remove_pop)) 
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 3
+    mat = epj.popepobject('Material', 1) 
+    assert mat.eppyname == "I01 25mm insulation board"  
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 2
+
+def test_removeepobject(txt4remove_pop):
+    """pytest for removeepobject"""
+    epj = modelmaker.EPJ(epjname=StringIO(txt4remove_pop)) 
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 3
+    mat0 = mats[0]
+    mat2 = mats[2]
+    epj.removeepobject(mat0)
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 2
+    epj.removeepobject(mat2)
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 1
+    assert mats[0].eppyname  == "I01 25mm insulation board"
+    
+def test_removeallepobjects(txt4remove_pop):
+    """pytest for removeallepobjects"""
+    epj = modelmaker.EPJ(epjname=StringIO(txt4remove_pop)) 
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 3
+    epj.removeallepobjects("Material")
+    mats = epj.epobjects["Material"]
+    assert len(mats) == 0
+    
