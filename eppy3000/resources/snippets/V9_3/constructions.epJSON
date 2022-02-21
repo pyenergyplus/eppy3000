@@ -1,0 +1,148 @@
+{
+    "Version": {
+        "Version 1": {
+            "version_identifier": "9.3",
+            "idf_order": 1
+        }
+    },
+    "Material": {
+        "F08 Metal surface": {
+            "roughness": "Smooth",
+            "thickness": 0.0008,
+            "conductivity": 45.28,
+            "density": 7824,
+            "specific_heat": 500,
+            "idf_order": 2
+        },
+        "I01 25mm insulation board": {
+            "roughness": "MediumRough",
+            "thickness": 0.0254,
+            "conductivity": 0.03,
+            "density": 43,
+            "specific_heat": 1210,
+            "idf_order": 3
+        },
+        "I02 50mm insulation board": {
+            "roughness": "MediumRough",
+            "thickness": 0.0508,
+            "conductivity": 0.03,
+            "density": 43,
+            "specific_heat": 1210,
+            "idf_order": 4
+        },
+        "G01a 19mm gypsum board": {
+            "roughness": "MediumSmooth",
+            "thickness": 0.019,
+            "conductivity": 0.16,
+            "density": 800,
+            "specific_heat": 1090,
+            "idf_order": 5
+        },
+        "M11 100mm lightweight concrete": {
+            "roughness": "MediumRough",
+            "thickness": 0.1016,
+            "conductivity": 0.53,
+            "density": 1280,
+            "specific_heat": 840,
+            "idf_order": 6
+        },
+        "F16 Acoustic tile": {
+            "roughness": "MediumSmooth",
+            "thickness": 0.0191,
+            "conductivity": 0.06,
+            "density": 368,
+            "specific_heat": 590,
+            "idf_order": 7
+        },
+        "M01 100mm brick": {
+            "roughness": "MediumRough",
+            "thickness": 0.1016,
+            "conductivity": 0.89,
+            "density": 1920,
+            "specific_heat": 790,
+            "idf_order": 8
+        },
+        "M15 200mm heavyweight concrete": {
+            "roughness": "MediumRough",
+            "thickness": 0.2032,
+            "conductivity": 1.95,
+            "density": 2240,
+            "specific_heat": 900,
+            "idf_order": 9
+        },
+        "M05 200mm concrete block": {
+            "roughness": "MediumRough",
+            "thickness": 0.2032,
+            "conductivity": 1.11,
+            "density": 800,
+            "specific_heat": 920,
+            "idf_order": 10
+        },
+        "G05 25mm wood": {
+            "roughness": "MediumSmooth",
+            "thickness": 0.0254,
+            "conductivity": 0.15,
+            "density": 608,
+            "specific_heat": 1630,
+            "idf_order": 11
+        }
+    },
+    "Construction": {
+        "Exterior Floor": {
+            "outside_layer": "I02 50mm insulation board",
+            "layer_2": "M15 200mm heavyweight concrete",
+            "idf_order": 12
+        },
+        "Interior Floor": {
+            "outside_layer": "F16 Acoustic tile",
+            "layer_2": "F05 Ceiling air space resistance",
+            "layer_3": "M11 100mm lightweight concrete",
+            "idf_order": 13
+        },
+        "Exterior Wall": {
+            "outside_layer": "M01 100mm brick",
+            "layer_2": "M15 200mm heavyweight concrete",
+            "layer_3": "I02 50mm insulation board",
+            "layer_4": "F04 Wall air space resistance",
+            "layer_5": "G01a 19mm gypsum board",
+            "idf_order": 14
+        },
+        "Interior Wall": {
+            "outside_layer": "G01a 19mm gypsum board",
+            "layer_2": "F04 Wall air space resistance",
+            "layer_3": "G01a 19mm gypsum board",
+            "idf_order": 15
+        },
+        "Exterior Roof": {
+            "outside_layer": "M11 100mm lightweight concrete",
+            "layer_2": "F05 Ceiling air space resistance",
+            "layer_3": "F16 Acoustic tile",
+            "idf_order": 16
+        },
+        "Interior Ceiling": {
+            "outside_layer": "M11 100mm lightweight concrete",
+            "layer_2": "F05 Ceiling air space resistance",
+            "layer_3": "F16 Acoustic tile",
+            "idf_order": 17
+        },
+        "Exterior Window": {
+            "outside_layer": "Clear 3mm",
+            "layer_2": "Air 13mm",
+            "layer_3": "Clear 3mm",
+            "idf_order": 18
+        },
+        "Interior Window": {
+            "outside_layer": "Clear 3mm",
+            "idf_order": 19
+        },
+        "Exterior Door": {
+            "outside_layer": "F08 Metal surface",
+            "layer_2": "I01 25mm insulation board",
+            "idf_order": 20
+        },
+        "Interior Door": {
+            "outside_layer": "G05 25mm wood",
+            "idf_order": 21
+        }
+    }
+}

@@ -47,6 +47,10 @@ from collections.abc import MutableSequence
 # TODO - unit tests. use samples from main() and commented out code at the end of file
 # TODO 
 
+def epjsequence2dict(epjs):
+    """convert the epjsequence to a dict to compare to epj[key]"""
+    return {item['eppyname']:{key:item[key] for key in item} for item in epjs}    
+
 class EpjSequence(MutableSequence):
     """simple Mutable Sequence to stes to ut some stuff"""
     def __init__(self, adict, theepj=None):
@@ -92,20 +96,15 @@ class EpjMapping(MutableMapping):
     """simple Mutable mapping to test out some stuff"""
     def __init__(self, theepj):
         super(EpjMapping, self).__init__()
-        # self.store = {key:theepj[key] for key in theepj}
         self.theepj = theepj
         self.store = {key:EpjSequence(self.theepj[key], self.theepj) for key in self.theepj}
         
-    # def __init__(self, *args, **kwargs):
-    #     self.store = dict()
-    #     self.update(dict(*args, **kwargs))  # use the free update to set keys
-
     def __getitem__(self, key):
         return self.store[self._keytransform(key)]
 
     def __setitem__(self, key, value):
         self.store[self._keytransform(key)] = value
-        self.theepj[key] = value
+        self.theepj[key] = epjsequence2dict(value)
 
     def __delitem__(self, key):
         del self.store[self._keytransform(key)]
@@ -140,7 +139,7 @@ def eppyfields(epj):
     return epj
 
 def main():
-    print("Main")
+    # print("Main")
     # manufactur an epj
     epj = dict(Zone=dict(zone1=dict(area=15, type="conditioned")), Wall=dict(wall1=dict(area=23, ZoneName="zone1")))
     epj = eppyfields(epj)
