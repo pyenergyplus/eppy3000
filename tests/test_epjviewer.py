@@ -84,7 +84,7 @@ def test_epobjectslines():
     """py.test for epobjectslines"""
     surfs = epj_big.epobjects["BuildingSurface:Detailed"]
     roofs = [surf for surf in surfs if surf.surface_type == "Roof"]
-    version = epj_big.epobjects["Version"]
+    version = [ver for ver in epj_big.epobjects["Version"]]
     epobjects = version + roofs
     result = epjviewer.epobjectslines(epobjects)
     expected = 19

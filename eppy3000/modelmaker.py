@@ -13,6 +13,7 @@ from eppy3000.epschema import read_epschema_asmunch
 from eppy3000.readepj import removeeppykeys
 from eppy3000.epschema import EPSchema
 from eppy3000.epMunch import EPMunch
+from eppy3000.epj_mmapping import EpjMapping
 import eppy3000.runner.run_functions as run_functions
 
 
@@ -34,9 +35,10 @@ class EPJ(object):
     def read(self):
         """read the epj file"""
         self.epj = readepjjson(self.epjname)
-        self.epobjects = {
-            key: [val1 for val1 in val.values()] for key, val in self.epj.items()
-        }
+        self.epobjects = EpjMapping(self.epj)
+        # {
+        #     key: [val1 for val1 in val.values()] for key, val in self.epj.items()
+        # }
         # TODO: the above line should get the epobjects from the schema
         # This should happen whenever the schema is read.
         # in case the schema reading happens far in the future
@@ -85,7 +87,14 @@ class EPJ(object):
         """save the file"""
         if not filename:
             filename = self.epjname
-        with open(filename, "w") as fhandle:
+        try:
+            with open(filename, "w") as fhandle:
+                tosave = self.epj.toDict()
+                tosave = Munch.fromDict(tosave)
+                removeeppykeys(tosave)
+                fhandle.write(tosave.toJSON(indent=indent))
+        except TypeError as e:
+            fhandle = filename
             tosave = self.epj.toDict()
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
