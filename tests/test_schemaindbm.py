@@ -18,36 +18,37 @@ import pytest
 from eppy3000.dbm_functions import json2dbm
 from eppy3000.dbm_functions import schemaindbm
 
+
 @pytest.fixture
 def make_refdbm(scope="module"):
     """creates a temporary folder in which I can keep the json and dbm files
     The folder is removed after the test function is run
     This fuxture makes is used to test the index dbm"""
     tempdir = Path(tempfile.mkdtemp())
-    schema =             {
-                "epJSON_schema_version": "3.2",
-                "properties": {
-                    "construction": {
-                        "name": {"reference": ["CNames", "ConstrNames"]},
-                        "patternProperties": {
-                            ".*": {"properties": {"surface_type": {"type": "string"}}}
-                        },
-                    },
-                    "surface": {
-                        "name": {"reference": ["SNames", "SurfNames"]},
-                        "patternProperties": {
-                            ".*": {
-                                "properties": {
-                                    "surface_type": {
-                                        "type": "string",
-                                        "object_list": ["ConstrNames"],
-                                    }
-                                }
-                            }
-                        },
-                    },
+    schema = {
+        "epJSON_schema_version": "3.2",
+        "properties": {
+            "construction": {
+                "name": {"reference": ["CNames", "ConstrNames"]},
+                "patternProperties": {
+                    ".*": {"properties": {"surface_type": {"type": "string"}}}
                 },
-            }
+            },
+            "surface": {
+                "name": {"reference": ["SNames", "SurfNames"]},
+                "patternProperties": {
+                    ".*": {
+                        "properties": {
+                            "surface_type": {
+                                "type": "string",
+                                "object_list": ["ConstrNames"],
+                            }
+                        }
+                    }
+                },
+            },
+        },
+    }
     jsonstr = json.dumps(schema)
     jsonname = str(tempdir / "schema.json")
     with open(jsonname, "w") as fhandle:
@@ -194,11 +195,12 @@ def test_get_arrayfield(make_dbm):
 def test_get_refschemakeys(make_refdbm):
     """py.test for get_refschemakeys"""
     result = schemaindbm.get_refschemakeys(fname=make_refdbm)
-    expected = [b'CNames', b'ConstrNames', b'SNames', b'SurfNames']
+    expected = [b"CNames", b"ConstrNames", b"SNames", b"SurfNames"]
     assert set(result) == set(expected)
-    
+
+
 def test_get_a_refschema(make_refdbm):
     """py.test for get_a_refschema"""
-    result = schemaindbm.get_a_refschema("ConstrNames", fname=make_refdbm) 
-    expected = {'objlist': ['construction'], 'reflist': ['surface.surface_type']}   
+    result = schemaindbm.get_a_refschema("ConstrNames", fname=make_refdbm)
+    expected = {"objlist": ["construction"], "reflist": ["surface.surface_type"]}
     assert result == expected
