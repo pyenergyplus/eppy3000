@@ -1,0 +1,4 @@
+list of modules on which mypy was run (at least partially)
+
+- eppy3000/dbm_functions/json2dbm.py
+- eppy3000/dbm_functions/schemaindbm.py  
