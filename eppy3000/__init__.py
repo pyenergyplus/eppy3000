@@ -14,13 +14,21 @@ __version__ = "0.1.13"
 
 from io import StringIO
 import pathlib
+import os
 
 from eppy3000.modelmaker import EPJ
 from eppy3000.idfjsonconverter import getidfversion
 from eppy3000.idfjsonconverter import idf2json
+import eppy3000.installlocation as installlocation
+
+from typing import Union
+from os import PathLike
 
 
-def openidf(idfpath: str, epjpath: str=None, schemapath: str=None, epjext: str=None) -> EPJ:
+def openidf(idfpath: Union[str, PathLike[str]], 
+            epjpath: Union[str, PathLike[str]]=None, 
+            schemapath: Union[str, bytes, PathLike]=None,
+            epjext: str=None) -> EPJ:
     """open and idf file as a epj file"""
     if not epjext:
         epjext = "epJSON"
@@ -37,12 +45,9 @@ def openidf(idfpath: str, epjpath: str=None, schemapath: str=None, epjext: str=N
     epj = EPJ(StringIO(epjtxt))
     epj.epjname = epjpath
     return epj
-    # with open(epjpath, "w") as epjhandle:
-    #     epjhandle.write(epjtxt)
-    # return epjpath
 
 
-def newepj(version: str=None):
+def newepj(version: str=None) -> EPJ:
     """open a new idf file
 
     easy way to open a new idf file for particular version. Works only if Energyplus of that version is installed.
