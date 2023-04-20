@@ -185,6 +185,7 @@ class EPJ(object):
         while len(self.epobjects[epjkey]) > 0:
             self.popepobject(epjkey, 0)
 
+
     def copyepobject(self, key, objname, newname):
         """copy an epj object with a new name"""
         # don't use the function dict.items() since the json for array has
