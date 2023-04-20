@@ -7,21 +7,12 @@
 
 """explore the schema in the dbm"""
 
-# from typing import SupportsRead
-# from typing import Optional, TYPE_CHECKING
-#
-# if TYPE_CHECKING:
-#     from _typeshed import SupportsRead
-from typing import Union
-from typing import KeysView
-
 import dbm
 import json
 import dbm.dumb
-from io import StringIO
 
 
-def db_in_memory(fname: str=None) -> dict:
+def db_in_memory(fname=None):
     """creates the dbm in memory
 
     Loads the schema file (fname) as a dict. The dict is structured identical to the dbm. Use this when you want fast operations and don't want to use the dbm. right now it is used to creat the index for the dbm
@@ -48,7 +39,7 @@ def db_in_memory(fname: str=None) -> dict:
     return db
 
 
-def get_schemakeys(fname: str=None) -> KeysView[Union[str, bytes]]:
+def get_schemakeys(fname=None):
     """get all the schema keys
     
     Opens the dbm as D and returns D.keys() -> a set-like object providing a view on D's keys
@@ -71,7 +62,7 @@ def get_schemakeys(fname: str=None) -> KeysView[Union[str, bytes]]:
             return db.keys()
 
 
-def get_schemaversion(fname: str=None) -> bytes:
+def get_schemaversion(fname=None):
     """get the schema version / E+ version
     
     Returns the energyplus version, that is stored in the schema
@@ -97,7 +88,7 @@ def get_schemaversion(fname: str=None) -> bytes:
             return db[key]
 
 
-def get_aschema(key: Union[str, bytes], fname: str=None) -> dict:
+def get_aschema(key, fname=None):
     """gets a schema
     
     Returns the schema of an EPJObject, when key=EPJObject name
@@ -128,7 +119,7 @@ def get_aschema(key: Union[str, bytes], fname: str=None) -> dict:
             return dt
 
 
-def get_name(key: str, aschema: dict=None, fname: str=None) -> Union[dict, None]:
+def get_name(key, aschema=None, fname=None):
     """get the attributes of `name` field of the schema
     
     Returns the attributes of the `name` field of the schema as a dict. Returns None if there is no `name` field. Extracts it from the `aschema`, or from `fname`. Using `aschema` if you already have it avoids disk access, by not using fname.
@@ -157,7 +148,7 @@ def get_name(key: str, aschema: dict=None, fname: str=None) -> Union[dict, None]
         return None
 
 
-def get_props(key: str, aschema: dict=None, fname: str=None) -> dict:
+def get_props(key, aschema=None, fname=None):
     """gets the properties of a schema
     
     Returns fields of the schema as a dict. In the schema file , it is called `properties`. Hence the name `get_props()`. Some of the fileds may have array inside with array fieldnames. The fieldname within the arrays can be extracted using `get_arrayfieldnames()`. 
@@ -189,14 +180,14 @@ def get_props(key: str, aschema: dict=None, fname: str=None) -> dict:
     return props
 
 
-def get_field(key: str, fieldname: str, aschema: dict=None, fname: str=None) -> dict:
+def get_field(key, fieldname, aschema=None, fname=None):
     """get the field of a schema
     if already have aschema, it avoids disk access"""
     dt = get_props(key, aschema=aschema, fname=fname)
     return dt[fieldname]
 
 
-def get_arrayfieldnames(key: str, fieldname: str, aschema: dict=None, fname: str=None) -> list:
+def get_arrayfieldnames(key, fieldname, aschema=None, fname=None):
     """get the array fieldnames of a field"""
     field = get_field(key, fieldname, aschema=aschema, fname=fname)
     try:
@@ -205,13 +196,13 @@ def get_arrayfieldnames(key: str, fieldname: str, aschema: dict=None, fname: str
         return list()
 
 
-def get_arrayfield(key: str, fieldname: str, arrayfieldname: str, aschema: dict=None, fname: str=None) -> str:
+def get_arrayfield(key, fieldname, arrayfieldname, aschema=None, fname=None):
     """get the array field of a field"""
     field = get_field(key, fieldname, aschema=aschema, fname=fname)
     return field["items"]["properties"][arrayfieldname]
 
 
-def get_a_refschema(key: Union[str, bytes], fname: str=None) -> dict:
+def get_a_refschema(key, fname=None):
     """get a reference key from the reference schema"""
     try:
         key = key.encode()
@@ -227,7 +218,7 @@ def get_a_refschema(key: Union[str, bytes], fname: str=None) -> dict:
             return dt
 
 
-def get_refschemakeys(fname: str=None) -> KeysView[Union[str, bytes]]:
+def get_refschemakeys(fname=None):
     """get all the ref schema keys"""
     if fname:
         with dbm.dumb.open(fname, "r") as db:
@@ -236,9 +227,9 @@ def get_refschemakeys(fname: str=None) -> KeysView[Union[str, bytes]]:
         with dbm.dumb.open("./schema_ref_index", "r") as db:
             return db.keys()
 
-def get_groups(fname: str=None) -> dict:
+def get_groups(fname=None):
     """get the entire groups index"""
-    def inner_get_groups(db: dbm.dumb._Database) -> dict:
+    def inner_get_groups(db):
         return {key:json.loads(db[key]) for key in db}
     if fname:
         with dbm.dumb.open(fname, "r") as db:
