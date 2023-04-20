@@ -22,7 +22,7 @@ except ModuleNotFoundError as e:
     import eppy3000.dbm_functions.schemaindbm as schemaindbm
 
 
-def create_index(fname: str, dbmname: str) -> None:
+def create_index(fname, dbmname):
     """create the indices for reference and object_list in the schema dbm
 
     It creates an index for the dbm created by the ``function create_schemadbm()``. Many EPJObjects in the E+ schema have reference names (apart from their key word name). Fields in other EPJObjects can refer to another EPJObjects using the reference names. Without an index, one would have to search through the entire database to find the EPJObjects being pointed to. The index allows you to quickly find the EPJObject.
@@ -113,7 +113,7 @@ def create_index(fname: str, dbmname: str) -> None:
             thedb[key] = json.dumps(dt[key])
 
 
-def create_schemadbm(fname: str, dbmname: str) -> None:
+def create_schemadbm(fname, dbmname):
     """create the schema dbm
 
     Python has a built-in key-value database called ``dbm``. This function is used to save the E+Schema in a ``key:value`` format in ``dbm``. The ``key`` is the name of the EPJObject. The ``value`` is a string representation of json value of that EPJObject from the schema file
@@ -141,7 +141,7 @@ def create_schemadbm(fname: str, dbmname: str) -> None:
             db[key] = json.dumps(d["properties"][key])
 
 
-def create_groupsindex(fname: str, dbmname: str) -> None:
+def create_groupsindex(fname, dbmname):
     """create the groupindex for the schema"""
     db = schemaindbm.db_in_memory(fname)
     dt = dict()
@@ -152,7 +152,6 @@ def create_groupsindex(fname: str, dbmname: str) -> None:
     with dbm.dumb.open(dbmname, "c") as db:
         for key in dt:
             db[key] = json.dumps(dt[key])
-    return None
 
 
 if __name__ == "__main__":
