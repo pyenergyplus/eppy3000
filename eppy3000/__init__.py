@@ -20,7 +20,7 @@ from eppy3000.idfjsonconverter import getidfversion
 from eppy3000.idfjsonconverter import idf2json
 
 
-def openidf(idfpath: str, epjpath: str=None, schemapath: str=None, epjext: str=None) -> EPJ:
+def openidf(idfpath, epjpath=None, schemapath=None, epjext=None):
     """open and idf file as a epj file"""
     if not epjext:
         epjext = "epJSON"
@@ -42,7 +42,7 @@ def openidf(idfpath: str, epjpath: str=None, schemapath: str=None, epjext: str=N
     # return epjpath
 
 
-def newepj(version: str=None):
+def newepj(version=None):
     """open a new idf file
 
     easy way to open a new idf file for particular version. Works only if Energyplus of that version is installed.
