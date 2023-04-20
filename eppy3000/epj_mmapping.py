@@ -48,7 +48,7 @@ from collections.abc import MutableSequence
 # TODO
 
 
-def epjsequence2dict(epjs: EpjSequence) -> dict:
+def epjsequence2dict(epjs):
     """convert the epjsequence to a dict to compare to epj[key]"""
     return {item["eppyname"]: {key: item[key] for key in item} for item in epjs}
 
