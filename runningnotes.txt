@@ -5,6 +5,28 @@
 - find out what this is and document it - is it usefull.
 
 
+fix issue #83
+
+::
+
+    tests/test_epMunch.py::TestEPMunch_simple::test_repr
+      /Users/santosh/venvs/eppy3000_3_11/lib/python3.11/site-packages/_pytest/fixtures.py:902: PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
+      tests/test_epMunch.py::TestEPMunch_simple::test_repr is using nose-specific method: `setup(self)`
+      To remove this warning, rename it to `setup_method(self)`
+      See docs: https://docs.pytest.org/en/stable/deprecations.html#support-for-tests-written-for-nose
+        fixture_result = next(generator)
+
+    tests/test_epMunch.py::TestEPMunch_simple::test_str
+      /Users/santosh/venvs/eppy3000_3_11/lib/python3.11/site-packages/_pytest/fixtures.py:902: PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
+      tests/test_epMunch.py::TestEPMunch_simple::test_str is using nose-specific method: `setup(self)`
+      To remove this warning, rename it to `setup_method(self)`
+      See docs: https://docs.pytest.org/en/stable/deprecations.html#support-for-tests-written-for-nose
+        fixture_result = next(generator)
+
+    -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+- Replace the setup with a fixture
+
 2022-02-18
 ----------
 
