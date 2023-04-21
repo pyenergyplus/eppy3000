@@ -13,6 +13,7 @@ from eppy3000.epschema import read_epschema_asmunch
 from eppy3000.readepj import removeeppykeys
 from eppy3000.epschema import EPSchema
 from eppy3000.epMunch import EPMunch
+from eppy3000.epj_mmapping import EpjMapping
 import eppy3000.runner.run_functions as run_functions
 
 
@@ -34,17 +35,18 @@ class EPJ(object):
     def read(self):
         """read the epj file"""
         self.epj = readepjjson(self.epjname)
-        self.epobjects = {
-            key: [val1 for val1 in val.values()] for key, val in self.epj.items()
-        }
+        self.epobjects = EpjMapping(self.epj)
+        # {
+        #     key: [val1 for val1 in val.values()] for key, val in self.epj.items()
+        # }
         # TODO: the above line should get the epobjects from the schema
         # This should happen whenever the schema is read.
         # in case the schema reading happens far in the future
         # eppy3000 should partilly work even without the schema
         # -
 
-        # insert epj into the epjobject
-        # this allows the epjobject to access all other objects in the epj
+        # insert epj into the epobject
+        # this allows the epobject to access all other objects in the epj
         for epobjects in self.epobjects.values():
             for epobject in epobjects:
                 epobject["eppy_epj"] = self.epj
@@ -85,7 +87,14 @@ class EPJ(object):
         """save the file"""
         if not filename:
             filename = self.epjname
-        with open(filename, "w") as fhandle:
+        try:
+            with open(filename, "w") as fhandle:
+                tosave = self.epj.toDict()
+                tosave = Munch.fromDict(tosave)
+                removeeppykeys(tosave)
+                fhandle.write(tosave.toJSON(indent=indent))
+        except TypeError as e:
+            fhandle = filename
             tosave = self.epj.toDict()
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
@@ -131,10 +140,51 @@ class EPJ(object):
         nobj["eppy_objepschema"] = objepschema
         return nobj
 
-    def removeepobject(self, key, objname):
-        """remove an epj object"""
-        # should self.epobjects be updated here
-        return self.epj[key].pop(objname)
+    # def removeepobject(self, key, objname):
+    #     """remove an epj object"""
+    #     # should self.epobjects be updated here
+    #     return self.epj[key].pop(objname)
+
+    def popepobject(self, key, index):
+        """Pop an EPJ object from the EPJ.
+
+        Parameters
+        ----------
+        key : str
+            The type of EPJ object.
+        index : int
+            The index of the object to pop.
+
+        Returns
+        -------
+        EpBunch object.
+
+        """
+        return self.epobjects[key].pop(index)
+
+    def removeepobject(self, epobject):
+        """Remove an EPJ object from the EPJ.
+
+        Parameters
+        ----------
+        epobject : EpBunch object
+            The epobject to remove.
+
+        """
+        key = epobject.eppykey
+        self.epobjects[key].remove(epobject)
+
+    def removeallepobjects(self, epjkey):
+        """Remove all epobjects of a certain type from the EPJ.
+
+        Parameters
+        ----------
+        epjkey : key of the epobjects to remove
+
+        """
+        while len(self.epobjects[epjkey]) > 0:
+            self.popepobject(epjkey, 0)
+
 
     def copyepobject(self, key, objname, newname):
         """copy an epj object with a new name"""

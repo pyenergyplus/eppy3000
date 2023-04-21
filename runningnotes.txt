@@ -1,3 +1,104 @@
+2023-04-21
+----------
+
+still on issue #80 -> what did I do. What is the documentation ?
+
+
+git diff --name-only 0d4472b12eccac329bb86fdfcfffaf4a0e4c033c..0371bc82138ed902df6f54b8159574033adedebb
+
+::
+
+    docs/epjviewer.ipynb
+    docs/eppy3000.dbm_functions.rst
+    docs/eppy3000.rst
+    docs/tutorial1.ipynb
+    eppy3000/__init__.py
+    eppy3000/dbm_functions/__init__.py
+    eppy3000/dbm_functions/json2dbm.py
+    eppy3000/dbm_functions/schemaindbm.py
+    eppy3000/epj_mmapping.py
+    eppy3000/epschema.py
+    eppy3000/idfjsonconverter.py
+    eppy3000/modelmaker.py
+    eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.epJSON
+    eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.idf
+    eppy3000/resources/snippets/V9_3/constructions.epJSON
+    eppy3000/resources/snippets/V9_6/Minimal.idf
+    json_evaluation.rst
+    requirements.txt
+    requirements_dev.txt
+    runningnotes.txt
+    setup.cfg
+    setup.py
+    tests/test_epMunch.py
+    tests/test_epj_mmapping.py
+    tests/test_epjviewer.py
+    tests/test_json2dbm.py
+    tests/test_modelmaker.py
+    tests/test_schemaindbm.py
+
+    docs/epjviewer.ipynb
+    docs/tutorial1.ipynb
+
+
+2023-04-20
+----------
+
+reverted out of gradual typing using https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit
+
+- what did I do in issue #80 - branch i80_dbm
+- find out what this is and document it - is it usefull.
+
+
+fix issue #83 -> FIXED
+
+::
+
+    tests/test_epMunch.py::TestEPMunch_simple::test_repr
+      /Users/santosh/venvs/eppy3000_3_11/lib/python3.11/site-packages/_pytest/fixtures.py:902: PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
+      tests/test_epMunch.py::TestEPMunch_simple::test_repr is using nose-specific method: `setup(self)`
+      To remove this warning, rename it to `setup_method(self)`
+      See docs: https://docs.pytest.org/en/stable/deprecations.html#support-for-tests-written-for-nose
+        fixture_result = next(generator)
+
+    tests/test_epMunch.py::TestEPMunch_simple::test_str
+      /Users/santosh/venvs/eppy3000_3_11/lib/python3.11/site-packages/_pytest/fixtures.py:902: PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.
+      tests/test_epMunch.py::TestEPMunch_simple::test_str is using nose-specific method: `setup(self)`
+      To remove this warning, rename it to `setup_method(self)`
+      See docs: https://docs.pytest.org/en/stable/deprecations.html#support-for-tests-written-for-nose
+        fixture_result = next(generator)
+
+    -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+- Replace the setup with a fixture
+
+2022-02-18
+----------
+
+We have a big problem:
+
+- epj.popepobject() is not really doing it in self.epj (epj.epj)
+- some fundametal rethinking is needed.
+- use mutablemapping ? - see link below.
+- https://stackoverflow.com/questions/3387691/how-to-perfectly-override-a-dict
+- https://stackoverflow.com/questions/3387691/how-to-perfectly-override-a-dict
+
+2021-12-29
+----------
+
+consider the argument for using YAML especaiily the use of comments.
+
+- https://levelup.gitconnected.com/json-vs-yaml-6aa0243aefc6
+
+2021-12-23
+----------
+
+start to use dbm
+
+- see temp_dbm.py and temp_dbm1.py
+
+
+
 2021-03-15
 ----------
 
@@ -33,7 +134,7 @@ aha !!
 
 Issue #76 easy conversions
 
-- first need to locate the version of idf file - wrote function for this 
+- first need to locate the version of idf file - wrote function for this
     - experimental - try to do this in functional programming.
 - then need find the install location of that version
     - where the schema file is
@@ -63,12 +164,12 @@ possible strategy:
 - call the classs Munchy :-)
 
 - to keep the release write a function (rename_epobject) to explicitly change the name
-- might also need explicit functions for 
+- might also need explicit functions for
     - delete
     - append
     - etc.
 
-- rename_epobject -> how to do this.: 
+- rename_epobject -> how to do this.:
 
 Another strategy:
 
@@ -186,7 +287,7 @@ things in tutorial
 ``````````````````
 
 - open and idf file and convert it to epj file
-- print to show it. 
+- print to show it.
 
 2019-06-17
 ----------
