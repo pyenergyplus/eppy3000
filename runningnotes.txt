@@ -1,3 +1,46 @@
+2023-04-21
+----------
+
+still on issue #80 -> what did I do. What is the documentation ?
+
+
+git diff --name-only 0d4472b12eccac329bb86fdfcfffaf4a0e4c033c..0371bc82138ed902df6f54b8159574033adedebb
+
+::
+
+    docs/epjviewer.ipynb
+    docs/eppy3000.dbm_functions.rst
+    docs/eppy3000.rst
+    docs/tutorial1.ipynb
+    eppy3000/__init__.py
+    eppy3000/dbm_functions/__init__.py
+    eppy3000/dbm_functions/json2dbm.py
+    eppy3000/dbm_functions/schemaindbm.py
+    eppy3000/epj_mmapping.py
+    eppy3000/epschema.py
+    eppy3000/idfjsonconverter.py
+    eppy3000/modelmaker.py
+    eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.epJSON
+    eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.idf
+    eppy3000/resources/snippets/V9_3/constructions.epJSON
+    eppy3000/resources/snippets/V9_6/Minimal.idf
+    json_evaluation.rst
+    requirements.txt
+    requirements_dev.txt
+    runningnotes.txt
+    setup.cfg
+    setup.py
+    tests/test_epMunch.py
+    tests/test_epj_mmapping.py
+    tests/test_epjviewer.py
+    tests/test_json2dbm.py
+    tests/test_modelmaker.py
+    tests/test_schemaindbm.py
+
+    docs/epjviewer.ipynb
+    docs/tutorial1.ipynb
+
+
 2023-04-20
 ----------
 
@@ -7,7 +50,7 @@ reverted out of gradual typing using https://stackoverflow.com/questions/4114095
 - find out what this is and document it - is it usefull.
 
 
-fix issue #83
+fix issue #83 -> FIXED
 
 ::
 
