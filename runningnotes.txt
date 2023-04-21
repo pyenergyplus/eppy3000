@@ -1,6 +1,8 @@
 2023-04-20
 ----------
 
+reverted out of gradual typing using https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit
+
 - what did I do in issue #80 - branch i80_dbm
 - find out what this is and document it - is it usefull.
 
