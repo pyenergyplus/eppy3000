@@ -140,14 +140,10 @@ def test_printmunch_ofEPSchema():
     assert result == expected
 
 
+@pytest.mark.usefixtures("simplemunch")
 class TestEPMunch_simple(object):
     """py.test for EPMunch"""
 
-    def setup(self):
-        dct = dict(a=dict(aa=dict(z=-1, y=-2)))
-        dctstr = json.dumps(dct)
-        fhandle = StringIO(dctstr)
-        self.amunch = readepj.readepjjson(fhandle)
 
     def test_repr(self):
         """py.test for EPMunch.__repr__"""

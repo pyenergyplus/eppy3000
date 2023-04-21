@@ -23,6 +23,14 @@ eppy3000.epMunch module
    :undoc-members:
    :show-inheritance:
 
+eppy3000.epj\_mmapping module
+-----------------------------
+
+.. automodule:: eppy3000.epj_mmapping
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 eppy3000.epjviewer module
 -------------------------
 
