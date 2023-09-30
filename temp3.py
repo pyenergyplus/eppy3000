@@ -12,7 +12,7 @@ wfile = "/Applications/EnergyPlus-8-9-0/WeatherData/USA_CA_San.Francisco.Intl.AP
 epj = openidf.openidf(fname, wfile)
 si, ip = conversiondata.getconversions()
 
-eppykey = 'Building'
+eppykey = "Building"
 eppykey = "SizingPeriod:DesignDay"
 eppykey = "Fan:VariableVolume"
 allkeys = epj.epobjects.keys()
@@ -41,6 +41,7 @@ def doconversions(val, units, conv, convert=True):
         ustr = ""
     return newval, ustr
 
+
 for eppykey in allkeys:
     for bld in epj.epobjects[eppykey]:
         print(eppykey)
@@ -62,11 +63,10 @@ for eppykey in allkeys:
                         newval, ustr = doconversions(val, units, conv, convert=False)
                         print(f"{SPACE4 * 2}{newval} ! - {afield} {ustr}")
                 continue
-                
-                    # newval, ustr = doconversions(bld[fname][][afield], units, conv)
-                    # print(f"{SPACE4}{newval} ! - {afield} {ustr}")
-                    
-                    
+
+                # newval, ustr = doconversions(bld[fname][][afield], units, conv)
+                # print(f"{SPACE4}{newval} ! - {afield} {ustr}")
+
             ipunits = unitsconv.getfield_ipunits(bld, fname)
             siunits = unitsconv.getfieldunits(bld, fname)
 
@@ -75,5 +75,5 @@ for eppykey in allkeys:
             val = bld[fname]
             newval, ustr = doconversions(val, units, conv, convert=False)
             print(f"{SPACE4}{newval} ! - {fname} {ustr}")
-                
+
         # break

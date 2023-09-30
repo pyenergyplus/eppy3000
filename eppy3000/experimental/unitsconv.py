@@ -8,65 +8,79 @@
 
 import eppy3000.experimental.conversiondata as conversiondata
 
+
 def getfieldunits(epobject, fieldname):
     try:
-        return epobject.eppy_objepschema[fieldname]['units']
+        result = epobject.eppy_objepschema[fieldname]["units"]
+        return result
     except KeyError as e:
         return None
-        
+
+
 def getarrayfieldunits(epobject, arrayname, itemname):
     try:
-        return epobject.eppy_objepschema[arrayname]['items']['properties'][itemname]['units']
+        return epobject.eppy_objepschema[arrayname]["items"]["properties"][itemname][
+            "units"
+        ]
     except KeyError as e:
         return None
-        
+
 
 def getfield_ipunits(epobject, fieldname):
     try:
-        return epobject.eppy_objepschema[fieldname]['ip-units']
+        return epobject.eppy_objepschema[fieldname]["ip-units"]
     except KeyError as e:
         return None
 
+
 def getarrayfield_ipunits(epobject, arrayname, itemname):
     try:
-        return epobject.eppy_objepschema[arrayname]['items']['properties'][itemname]['ip-units']
+        return epobject.eppy_objepschema[arrayname]["items"]["properties"][itemname][
+            "ip-units"
+        ]
     except KeyError as e:
         return None
-        
+
+
 def getconvert_factors(epobject, fieldname):
     """return new units, convertion_factors"""
     units = getfieldunits(epobject, fieldname)
     ipunits = getfield_ipunits(epobject, fieldname)
     return unitconversiondata(units, ipunits)
-    
+
+
 def fieldisarray(epobject, fieldname):
     """returns True if the field is an array"""
     try:
-        if epobject.eppy_objepschema[fieldname]['type'] == 'array':
+        if epobject.eppy_objepschema[fieldname]["type"] == "array":
             return True
-        else: 
+        else:
             return False
     except KeyError as e:
         return False
-        
+
+
 def getarraykeys(epobject, arrayname):
     """return the item names in the array"""
     if fieldisarray(epobject, arrayname):
-        result =  list(epobject.eppy_objepschema[arrayname]['items']['properties'].keys())
+        result = list(
+            epobject.eppy_objepschema[arrayname]["items"]["properties"].keys()
+        )
         return result
     else:
         return []
 
-    
+
 def getarrayconvert_factors(epobject, arrayname):
-    """if the field an array, return new units, convertion_factors of items in array """
+    """if the field an array, return new units, convertion_factors of items in array"""
     convert_factors = []
     for itemname in getarraykeys(epobject, arrayname):
         units = getarrayfieldunits(epobject, arrayname, itemname)
         ipunits = getarrayfield_ipunits(epobject, arrayname, itemname)
         convert_factors.append(unitconversiondata(units, ipunits))
     return convert_factors
-        
+
+
 def unitconversiondata(units, ipunits=None):
     """given the units and ip_units, get the conversiondata for the units"""
     si, ip = conversiondata.getconversions()
@@ -81,7 +95,8 @@ def unitconversiondata(units, ipunits=None):
         dctval = None
         convval = None
     return units, convval
-    
+
+
 def getconversiondata(units, ipunits=None):
     """given the units and ip_units, get the conversiondata for the units"""
     si, ip = conversiondata.getconversions()
@@ -99,13 +114,16 @@ def getconversiondata(units, ipunits=None):
         convval = (units, None)
     return convval
 
+
 def convertfield(epobject, fieldname):
     """return converted value and units"""
     pass
-    
+
+
 def add(a, b):
     return a + b
-    
+
+
 def doconversions(val, units, conv):
     if units:
         try:
@@ -120,15 +138,16 @@ def doconversions(val, units, conv):
         ustr = ""
     return newval, ustr
 
+
 def do_noconversions(val, units):
     """do no conversions"""
     newval = val
     if not units:
         ustr = ""
     else:
-        ustr = f"[{units}]" 
-    return newval, ustr      
-    
+        ustr = f"[{units}]"
+    return newval, ustr
+
 
 def do_conversions(val, conv):
     if not conv:
@@ -136,7 +155,7 @@ def do_conversions(val, conv):
         newval = val
     else:
         new_units, factor = conv
-        if factor == ['1.8', '(plus', '32)']:
+        if factor == ["1.8", "(plus", "32)"]:
             try:
                 newval = val * 1.8 + 32
             except TypeError as e:
@@ -149,11 +168,9 @@ def do_conversions(val, conv):
         ustr = f"[{new_units}]"
     return newval, ustr
 
-    
+
 # from
 # https://stackoverflow.com/questions/9640109/allign-left-and-right-in-python
 def align_left_right(left: str, right: str, total_len: int = 80) -> str:
     left_size = max(0, total_len - len(right) - 1)  # -1 to account for the space
     return format(left, f"<{left_size}") + " " + right
-
-    

@@ -10,14 +10,14 @@ wfile = "/Applications/EnergyPlus-8-9-0/WeatherData/USA_CA_San.Francisco.Intl.AP
 epj = openidf.openidf(fname, wfile)
 si, ip = conversiondata.getconversions()
 
-eppykey = 'Building'
+eppykey = "Building"
 eppykey = "SizingPeriod:DesignDay"
 eppykey = "Fan:VariableVolume"
 allkeys = epj.epobjects.keys()
 # allkeys = ['Building']
 # allkeys = ['Coil:Heating:Water']
-allkeys = ['Connector:Mixer']
-allkeys = ['BuildingSurface:Detailed']
+allkeys = ["Connector:Mixer"]
+allkeys = ["BuildingSurface:Detailed"]
 
 
 for eppykey in allkeys:
@@ -26,10 +26,7 @@ for eppykey in allkeys:
         print(eppykey)
         print("\t", bld.eppyname)
 
-
-
-
-        fnames = [key for key in bld.keys() if not key.startswith('eppy')]
+        fnames = [key for key in bld.keys() if not key.startswith("eppy")]
         for fname in fnames:
             ipunits = unitsconv.getfield_ipunits(bld, fname)
             siunits = unitsconv.getfieldunits(bld, fname)

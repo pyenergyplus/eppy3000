@@ -165,8 +165,8 @@ TXT = """! Default IP conversions (no \ip-units necessary)
 # 2. expected ip-units -> use second
 # 3. use the unit as is if it is in the 3rd category
 
-def getconversions(TXT):
 
+def getconversions(msp=TXT):
     msp = TXT.split("!\n")
     c1 = msp[0].splitlines()
     c1.pop(0)
@@ -200,8 +200,9 @@ def getconversions(TXT):
     c2.pop(-1)
     for c in [c.split()[-1] for c in c2]:
         si.setdefault(c, []).append((c, None))
-        ip.setdefault(c, []).append((c,     None))
+        ip.setdefault(c, []).append((c, None))
     return si, ip
+
 
 def setdefault(dct):
     newdct = {}
@@ -211,4 +212,3 @@ def setdefault(dct):
         print(d)
         newdct[key] = d
     return newdct
-    

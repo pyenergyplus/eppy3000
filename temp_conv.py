@@ -3,6 +3,7 @@
 import eppy3000.experimental.openidf as openidf
 import eppy3000.experimental.unitsconv as unitsconv
 import eppy3000.experimental.conversiondata as conversiondata
+import eppy3000.experimental.epconversions as epconversions
 
 SPACE4 = "    "
 
@@ -12,7 +13,7 @@ wfile = "/Applications/EnergyPlus-8-9-0/WeatherData/USA_CA_San.Francisco.Intl.AP
 epj = openidf.openidf(fname, wfile)
 si, ip = conversiondata.getconversions()
 
-eppykey = 'Building'
+eppykey = "Building"
 eppykey = "SizingPeriod:DesignDay"
 eppykey = "Fan:VariableVolume"
 allkeys = epj.epobjects.keys()
@@ -36,26 +37,21 @@ for eppykey in allkeys:
                     ipunits = unitsconv.getarrayfield_ipunits(bld, fname, afield)
                     siunits = unitsconv.getarrayfieldunits(bld, fname, afield)
                     conv = unitsconv.getconversiondata(siunits, ipunits)
-                    array_convs.append((afield, conv))
+                    array_convs.append((afield, siunits, ipunits))
                 for item in bld[fname]:
-                    for afield, conv in array_convs:
+                    for afield, siunits, ipunits in array_convs:
                         val = item[afield]
-                        newval, ustr = unitsconv.do_conversions(val, conv)
-                        left = f"{SPACE4 * 2}{newval}"
-                        right =  f"! - {afield} {ustr}"
-                        print(unitsconv.align_left_right(left, right))
-                        # print(f"{SPACE4 * 2}{newval} ! - {afield} {ustr}")
+                        newval, ustr = epconversions.convert2ip(
+                            val, siunits, ipunits, unitstr=True, wrapin="<X>"
+                        )
+                        print(f"{SPACE4 * 2}{newval} ! - {afield} {ustr}")
                 continue
             ipunits = unitsconv.getfield_ipunits(bld, fname)
             siunits = unitsconv.getfieldunits(bld, fname)
 
-            result = unitsconv.getconvert_factors(bld, fname)
-            units, conv = result
-            newval, ustr = unitsconv.do_conversions(bld[fname], conv)
-            left = f"{SPACE4}{newval}"
-            right = f"! - {fname} {ustr}"
-            print(unitsconv.align_left_right(left, right))
-            # print(f"{SPACE4}{newval} ! - {fname} {ustr}")
-                
+            val = bld[fname]
+            newval, ustr = epconversions.convert2ip(
+                val, siunits, ipunits, unitstr=True, wrapin="[X]"
+            )
+            print(f"{SPACE4}{newval} ! - {fname} {ustr}")
         print()
-        # break

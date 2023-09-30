@@ -10,12 +10,11 @@ wfile = "/Applications/EnergyPlus-8-9-0/WeatherData/USA_CA_San.Francisco.Intl.AP
 epj = openidf.openidf(fname, wfile)
 si, ip = conversiondata.getconversions()
 
-eppykey = 'Building'
+eppykey = "Building"
 eppykey = "SizingPeriod:DesignDay"
 eppykey = "Fan:VariableVolume"
 allkeys = epj.epobjects.keys()
-allkeys = ['Building']
-
+allkeys = ["Building"]
 
 
 for eppykey in allkeys:
@@ -23,10 +22,7 @@ for eppykey in allkeys:
     bld = epj.epobjects[eppykey][0]
     # print(bld)
 
-
-
-
-    fnames = [key for key in bld.keys() if not key.startswith('eppy')]
+    fnames = [key for key in bld.keys() if not key.startswith("eppy")]
     # fnames = ['loads_convergence_tolerance_value']
     for fname in fnames:
         ipunits = unitsconv.getfield_ipunits(bld, fname)
@@ -38,9 +34,6 @@ for eppykey in allkeys:
         result = unitsconv.getconvert_factors(bld, fname)
         # if ipunits:
         if result[0] and (not result[-1]):
-            print('\t', fname, result)
+            print("\t", fname, result)
             if siunits:
                 print("\t\t", siunits, ipunits)
-
-
-

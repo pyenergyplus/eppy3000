@@ -19,6 +19,7 @@ from eppy3000.modelmaker import EPJ
 from eppy3000.idfjsonconverter import getidfversion
 from eppy3000.idfjsonconverter import idf2json
 
+
 def openidf(idfpath, epjpath=None, schemapath=None, epjext=None):
     """open and idf file as a epj file"""
     if not epjext:
@@ -67,7 +68,8 @@ def newepj(version=None):
             "idf_order": 1
         }}
     }}
-}}""".format(str(version))
+}}""".format(
+        str(version)
+    )
     fhandle = StringIO(idfstring)
-    return EPJ(fhandle) 
-    
+    return EPJ(fhandle)
