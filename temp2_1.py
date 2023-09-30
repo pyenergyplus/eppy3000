@@ -3,6 +3,7 @@
 import eppy3000.experimental.openidf as openidf
 import eppy3000.experimental.unitsconv as unitsconv
 import eppy3000.experimental.conversiondata as conversiondata
+import eppy3000.experimental.epconversions as epconversions
 
 SPACE4 = "    "
 
@@ -46,9 +47,11 @@ for eppykey in allkeys:
             ipunits = unitsconv.getfield_ipunits(bld, fname)
             siunits = unitsconv.getfieldunits(bld, fname)
 
-            result = unitsconv.getconvert_factors(bld, fname)
-            units, conv = result
-            newval, ustr = unitsconv.do_conversions(bld[fname], conv)
+#             result = unitsconv.getconvert_factors(bld, fname)
+#             units, conv = result
+            val = bld[fname]
+            newval, ustr = epconversions.convert2ip(val, siunits, ipunits, unitstr=True, wrapin='[X]')
+#             newval, ustr = unitsconv.do_conversions(bld[fname], conv)
             print(f"{SPACE4}{newval} ! - {fname} {ustr}")
                 
-        # break
+#         break
