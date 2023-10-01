@@ -698,12 +698,31 @@ def doconversion(val, conv, reverse=False):
     return new_val
 
 
+def allsiunits():
+    """return a list of all SI units"""
+    return list(SI.keys())
+
+
+def allipunits():
+    """return a list of all the IP units"""
+    return list(IP.keys())
+
+
+def getipunits(siunit):
+    """return all the ip units avaliable for this si unit"""
+    dct = dict(SI[siunit])
+    dct.pop("defaultkey")
+    return list(dct.keys())
+
+
 # functions needed:
 #
+# DONE
 # - convert2ip(val, siunits, ipunits=None, unitstr=True, wrapin='[]')
 # - convert2si(val, ipunits, siunits=None, unitstr=True, wrapin='[]')
 # - allsiunits()
 # - allipunits()
+# TODO
 # - getipunits(siunit)
 # - getsiunits(ipunit)
 # - getconversioncategories() # length, volume, u-value etc (make this manually using schema.epJSON)
