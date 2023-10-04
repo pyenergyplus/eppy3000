@@ -715,6 +715,48 @@ def getipunits(siunit):
     return list(dct.keys())
 
 
+def noconversion(val, siunits, unitstr=True, wrapin=None):
+    """make no conversion.
+    Used to put the correct units in place"""
+    # calculates the new value
+    # get conversion factor
+    #     if not siunits:
+    #         conv = 1
+    #     elif siunits not in SI:
+    #         conv = 1
+    #     elif not ipunits:
+    #         default = SI[siunits]["defaultkey"]
+    #         conv = SI[siunits][default]
+    #     else:
+    #         conv = SI[siunits][ipunits]
+
+    # do conversion
+    # new_val = doconversion(val, conv)
+    new_val = val
+
+    # make the unit string
+    ustr = ""
+    if unitstr:
+        if not siunits:
+            ustr = ""
+        else:
+            ustr = siunits
+
+        # wrap the unitstr
+        if not wrapin:
+            wrapin = "X"
+        elif ustr:
+            ustr = wrapin.replace("X", ustr)
+        else:
+            pass
+
+    # return the results
+    if unitstr:
+        return new_val, ustr
+    else:
+        return new_val
+
+
 # functions needed:
 #
 # DONE
