@@ -45,26 +45,29 @@ from collections.abc import MutableMapping
 from collections.abc import MutableSequence
 
 # TODO - unit tests. use samples from main() and commented out code at the end of file
-# TODO 
+# TODO
+
 
 def epjsequence2dict(epjs):
     """convert the epjsequence to a dict to compare to epj[key]"""
-    return {item['eppyname']:{key:item[key] for key in item} for item in epjs}    
+    return {item["eppyname"]: {key: item[key] for key in item} for item in epjs}
+
 
 class EpjSequence(MutableSequence):
     """simple Mutable Sequence to stes to ut some stuff"""
+
     def __init__(self, adict, theepj=None):
         super(EpjSequence, self).__init__()
         self.theepj = theepj
         self.list1 = [adict[key] for key in adict]
-        
+
     def __getitem__(self, i):
         return self.list1[i]
 
     def __setitem__(self, i, v):
         oldv = self.list1[i]
-        self.theepj[oldv['eppykey']].pop(oldv['eppyname'])
-        self.theepj[v['eppykey']][v['eppyname']] = v
+        self.theepj[oldv["eppykey"]].pop(oldv["eppyname"])
+        self.theepj[v["eppykey"]][v["eppyname"]] = v
         self.list1[i] = v
 
     def __delitem__(self, i):
@@ -74,10 +77,10 @@ class EpjSequence(MutableSequence):
 
     def __len__(self):
         return len(self.list1)
-        
+
     # __setitem__ should take care of this.
     def insert(self, i, v):
-        self.theepj[v['eppykey']][v['eppyname']] = v
+        self.theepj[v["eppykey"]][v["eppyname"]] = v
         self.list1.insert(i, v)
 
     def __str__(self):
@@ -90,15 +93,18 @@ class EpjSequence(MutableSequence):
     # def __eq__(self, other):
     #     """Test for equality uses the IDF.model.dt list, list2."""
     #     return self.list1 == other.list1
-        
-                
+
+
 class EpjMapping(MutableMapping):
     """simple Mutable mapping to test out some stuff"""
+
     def __init__(self, theepj):
         super(EpjMapping, self).__init__()
         self.theepj = theepj
-        self.store = {key:EpjSequence(self.theepj[key], self.theepj) for key in self.theepj}
-        
+        self.store = {
+            key: EpjSequence(self.theepj[key], self.theepj) for key in self.theepj
+        }
+
     def __getitem__(self, key):
         return self.store[self._keytransform(key)]
 
@@ -112,45 +118,50 @@ class EpjMapping(MutableMapping):
 
     def __iter__(self):
         return iter(self.store)
-    
+
     def __len__(self):
         return len(self.store)
 
     def _keytransform(self, key):
         return key
-        
-    # --- not needed, but coded for readability during usage ----    
-        
+
+    # --- not needed, but coded for readability during usage ----
+
     def __str__(self):
         return self.store.__str__()
-        
+
     def __repr__(self):
         return self.store.__repr__()
-        
+
     def keys(self):
         return self.store.keys()
-        
+
+
 def eppyfields(epj):
     """put eppy fields into epj"""
     for key in epj:
         for kkey in epj[key]:
-            epj[key][kkey]['eppykey'] = key
-            epj[key][kkey]['eppyname'] = kkey
+            epj[key][kkey]["eppykey"] = key
+            epj[key][kkey]["eppyname"] = kkey
     return epj
+
 
 def main():
     # print("Main")
     # manufactur an epj
-    epj = dict(Zone=dict(zone1=dict(area=15, type="conditioned")), Wall=dict(wall1=dict(area=23, ZoneName="zone1")))
+    epj = dict(
+        Zone=dict(zone1=dict(area=15, type="conditioned")),
+        Wall=dict(wall1=dict(area=23, ZoneName="zone1")),
+    )
     epj = eppyfields(epj)
     epjmm = EpjMapping(epj)
     # print(epjmm.keys())
     # print(epjmm)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-    
+
 # print("Main")
 # # manufacture an epj
 # epj = dict(Zone=dict(zone1=dict(area=15, type="conditioned")), Wall=dict(wall1=dict(area=23, ZoneName="zone1")))

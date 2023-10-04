@@ -16,7 +16,7 @@ def db_in_memory(fname=None):
     """creates the dbm in memory
 
     Loads the schema file (fname) as a dict. The dict is structured identical to the dbm. Use this when you want fast operations and don't want to use the dbm. right now it is used to creat the index for the dbm
-    
+
     Parameters
     ----------
     fname: string, StringIO
@@ -41,9 +41,9 @@ def db_in_memory(fname=None):
 
 def get_schemakeys(fname=None):
     """get all the schema keys
-    
+
     Opens the dbm as D and returns D.keys() -> a set-like object providing a view on D's keys
-    
+
     Parameters
     ----------
     fname: string, StringIO
@@ -64,9 +64,9 @@ def get_schemakeys(fname=None):
 
 def get_schemaversion(fname=None):
     """get the schema version / E+ version
-    
+
     Returns the energyplus version, that is stored in the schema
-    
+
     Parameters
     ----------
     fname: string, StringIO
@@ -90,9 +90,9 @@ def get_schemaversion(fname=None):
 
 def get_aschema(key, fname=None):
     """gets a schema
-    
+
     Returns the schema of an EPJObject, when key=EPJObject name
-    
+
     Parameters
     ----------
     key: string
@@ -121,9 +121,9 @@ def get_aschema(key, fname=None):
 
 def get_name(key, aschema=None, fname=None):
     """get the attributes of `name` field of the schema
-    
+
     Returns the attributes of the `name` field of the schema as a dict. Returns None if there is no `name` field. Extracts it from the `aschema`, or from `fname`. Using `aschema` if you already have it avoids disk access, by not using fname.
-    
+
     Parameters
     ----------
     key: string
@@ -150,11 +150,11 @@ def get_name(key, aschema=None, fname=None):
 
 def get_props(key, aschema=None, fname=None):
     """gets the properties of a schema
-    
-    Returns fields of the schema as a dict. In the schema file , it is called `properties`. Hence the name `get_props()`. Some of the fileds may have array inside with array fieldnames. The fieldname within the arrays can be extracted using `get_arrayfieldnames()`. 
-    
+
+    Returns fields of the schema as a dict. In the schema file , it is called `properties`. Hence the name `get_props()`. Some of the fileds may have array inside with array fieldnames. The fieldname within the arrays can be extracted using `get_arrayfieldnames()`.
+
     Extracts the results from the `aschema`, or from `fname`. Using `aschema` if you already have it, avoids disk access, by not using fname.
-    
+
     Parameters
     ----------
     key: string
@@ -227,16 +227,20 @@ def get_refschemakeys(fname=None):
         with dbm.dumb.open("./schema_ref_index", "r") as db:
             return db.keys()
 
+
 def get_groups(fname=None):
     """get the entire groups index"""
+
     def inner_get_groups(db):
-        return {key:json.loads(db[key]) for key in db}
+        return {key: json.loads(db[key]) for key in db}
+
     if fname:
         with dbm.dumb.open(fname, "r") as db:
             return inner_get_groups(db)
     else:
         with dbm.dumb.open("./schema_group_index", "r") as db:
             return inner_get_groups(db)
+
 
 if __name__ == "__main__":
     fname = "../eppy3000viewer/schema"

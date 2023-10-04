@@ -53,9 +53,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"eppy3000"
-copyright = u"2018-2020, Santosh Philip"
-author = u"Santosh Philip"
+project = "eppy3000"
+copyright = "2018-2020, Santosh Philip"
+author = "Santosh Philip"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -71,7 +71,7 @@ release = eppy3000.__version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'en'
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -135,8 +135,8 @@ latex_documents = [
     (
         master_doc,
         "eppy3000.tex",
-        u"eppy3000 Documentation",
-        u"Santosh Philip",
+        "eppy3000 Documentation",
+        "Santosh Philip",
         "manual",
     ),
 ]
@@ -146,7 +146,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "eppy3000", u"eppy3000 Documentation", [author], 1)]
+man_pages = [(master_doc, "eppy3000", "eppy3000 Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------
@@ -158,7 +158,7 @@ texinfo_documents = [
     (
         master_doc,
         "eppy3000",
-        u"eppy3000 Documentation",
+        "eppy3000 Documentation",
         author,
         "eppy3000",
         "One line description of project.",

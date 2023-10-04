@@ -144,7 +144,6 @@ def test_printmunch_ofEPSchema():
 class TestEPMunch_simple(object):
     """py.test for EPMunch"""
 
-
     def test_repr(self):
         """py.test for EPMunch.__repr__"""
         lst = [
