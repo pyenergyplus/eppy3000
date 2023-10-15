@@ -1,5 +1,5 @@
 """print epj with no conversion"""
-# runt this script from the root folder of eppy3000
+# run this script from the root folder of eppy3000
 
 import sys
 

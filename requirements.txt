@@ -1,6 +1,9 @@
 munch==2.5.0
 eppy
 json2html==1.3.0
+tomli-w
+tomli
+
 
 
 # - needed for ReadtheDocs
