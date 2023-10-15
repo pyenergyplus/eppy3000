@@ -650,7 +650,6 @@ def convert2si(val, ipunits, siunits=None, unitstr=True, wrapin=None):
         conv = IP[ipunits][siunits]
 
     # do conversion
-    print(conv)
     new_val = doconversion(val, conv, reverse=True)
 
     # make the unit string
