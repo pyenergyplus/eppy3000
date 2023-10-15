@@ -14,7 +14,7 @@ from io import StringIO
 
 def toml2epj(tomlstr):
     """convert a toml string to epj"""
-    dct = tomli.load(open("a.toml", "rb"))
+    dct = tomli.loads(tomlstr)
     jsonstr = json.dumps(dct, indent=4)
     return EPJ(StringIO(jsonstr))
 
