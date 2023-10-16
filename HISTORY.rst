@@ -5,6 +5,73 @@ History
 Releases
 --------
 
+Sun Oct 15 14:59:38 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #82
+
+:Problem: Need read and write function for TOML format
+:Solution: functions in experimental/toml.py
+
+Sat Oct 14 19:04:56 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #96
+
+:Problem: number of temp files remaining from #94
+:Solution: removed temp tiles
+
+Wed Oct 4 13:32:41 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #94
+
+:Problem: need functions to do unit conversions to IP
+:Solution: made a module experimental/epconversions.py for this
+
+
+
+Wed Sep 20 21:45:16 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #92
+
+:Problem: Need an easy way to open IDF file into epj
+:solution: eppy3000.experimental.openidf.openidf(fname, wfile)
+
+Wed Sep 20 16:25:41 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #90
+
+:Problem: the code is throwing an error at the start of the tutorial
+:Solution: fixed by added a weather file to the idf
+
+Thu Jun 29 16:56:03 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #88
+
+:Problem: readthedocs.org needs a .readthedocs.yaml
+:Solution: added a .readthedocs.yaml file
+
+
+Fri Apr 21 15:07:27 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #80
+
+:Problem: Store E+ schema in DBM
+:Solution: Done ! eppy3000viewer uses this code
+
+Fri Apr 21 07:16:19 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #83
+
+:Problem: pytest was throwing a `PytestRemovedIn8Warning` warning
+:Solution: replaced setup function with fixtures
+
 
 Release 0.1.13  (2021-03-16)
 ----------------------------
