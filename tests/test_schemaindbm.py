@@ -26,7 +26,6 @@ def make_refdbm(scope="module"):
     This fuxture makes is used to test the index dbm"""
     tempdir = Path(tempfile.mkdtemp())
     schema = {
-        "epJSON_schema_version": "3.2",
         "properties": {
             "construction": {
                 "name": {"reference": ["CNames", "ConstrNames"]},
@@ -116,7 +115,7 @@ def test_get_schemakeys(make_dbm):
     """py.test for get_schemakeys"""
     # test
     result = schemaindbm.get_schemakeys(fname=make_dbm)
-    expected = {b"building", b"version", b"epJSON_schema_version"}
+    expected = {b"building", b"version" }
     assert set(result) == expected
 
 

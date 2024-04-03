@@ -1,3 +1,8 @@
+2024-04-03
+----------
+
+E+ version lss than or equal to 9.3 don't have the key ``group``. So they give a key error. Set it to None
+
 
 2023-09-22
 ----------

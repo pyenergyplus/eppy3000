@@ -77,15 +77,21 @@ def get_schemaversion(fname=None):
     bytes
         returns the version. example: b'9.6.0'
     """
-    key = "epJSON_schema_version".encode()
-    if fname:
-        with dbm.dumb.open(fname, "r") as db:
-            # dt = json.loads(db[key])
-            return db[key]
-    else:
-        with dbm.dumb.open("./schema", "r") as db:
-            # dt = json.loads(db[key])
-            return db[key]
+#     def returndbkey(db, key):
+#         try:
+#             return db[key]
+#         except KeyError as e:
+#             return get_props("Version")['version_identifier']['default']
+# 
+#     key = "epJSON_schema_version".encode() 
+#         # version 22 and above don't have this key
+#     if fname:
+#         with dbm.dumb.open(fname, "r") as db:
+#             return returndbkey(db, key)
+#     else:
+#         with dbm.dumb.open("./schema", "r") as db:
+#             return returndbkey(db, key)
+    return get_props("Version", fname=fname)['version_identifier']['default']
 
 
 def get_aschema(key, fname=None):

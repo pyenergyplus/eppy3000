@@ -34,7 +34,7 @@ def test_create_schemadbm_fromStringIO(dbmfiles):
     # setup
     tempdir = dbmfiles
     schema = dict(
-        epJSON_schema_version="3.2", properties=dict(version="53", building="44")
+         properties=dict(version="53", building="44")
     )
     jsonstr = json.dumps(schema)
     fhandle = StringIO(jsonstr)
@@ -42,7 +42,7 @@ def test_create_schemadbm_fromStringIO(dbmfiles):
     # test
     json2dbm.create_schemadbm(fhandle, dbmname)
     result = schemaindbm.get_schemakeys(fname=dbmname)
-    expected = [b"epJSON_schema_version", b"version", b"building"]
+    expected = [ b"version", b"building"]
     assert result == expected
 
 
@@ -51,7 +51,7 @@ def test_create_schemadbm_fromfname(dbmfiles):
     # setup
     tempdir = dbmfiles
     schema = dict(
-        epJSON_schema_version="3.2", properties=dict(version="53", building="44")
+        properties=dict(version="53", building="44")
     )
     jsonstr = json.dumps(schema)
     jsonname = str(tempdir / "schema.json")
@@ -61,7 +61,7 @@ def test_create_schemadbm_fromfname(dbmfiles):
     # test
     json2dbm.create_schemadbm(jsonname, dbmname)
     result = schemaindbm.get_schemakeys(fname=dbmname)
-    expected = [b"epJSON_schema_version", b"version", b"building"]
+    expected = [ b"version", b"building"]
     assert result == expected
 
 

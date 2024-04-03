@@ -136,7 +136,7 @@ def create_schemadbm(fname, dbmname):
     except TypeError as e:
         d = json.load(fname)
     with dbm.dumb.open(dbmname, "c") as db:
-        db["epJSON_schema_version"] = d["epJSON_schema_version"]
+#         db["epJSON_schema_version"] = d["epJSON_schema_version"]
         for key in d["properties"]:
             db[key] = json.dumps(d["properties"][key])
 
