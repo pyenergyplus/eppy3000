@@ -174,7 +174,6 @@ def createall(fname, dbmname):
 
 
 if __name__ == "__main__":
-    sys.argv[1:]
     fname = sys.argv[1]
     dbmname = sys.argv[2]
     createall(fname, dbmname)
