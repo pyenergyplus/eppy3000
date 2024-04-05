@@ -153,11 +153,28 @@ def create_groupsindex(fname, dbmname):
         for key in dt:
             db[key] = json.dumps(dt[key])
 
+def createall(fname, dbmname):
+    """Create all the dbms
+    
+    for dbmname='schema' the following would be created:
+
+    - schema.bak
+    - sschema.dat
+    - sschema.dir
+    - sschema_group_index.bak
+    - sschema_group_index.dat
+    - sschema_group_index.dir
+    - sschema_ref_index.bak
+    - sschema_ref_index.dat
+    - sschema_ref_index.dir
+    """
+    create_schemadbm(fname, dbmname)
+    create_index(fname, f"{dbmname}_ref_index")
+    create_groupsindex(fname, f"{dbmname}_group_index")
+
 
 if __name__ == "__main__":
     sys.argv[1:]
     fname = sys.argv[1]
     dbmname = sys.argv[2]
-    create_schemadbm(fname, dbmname)
-    create_index(fname, f"{dbmname}_ref_index")
-    create_groupsindex(fname, f"{dbmname}_group_index")
+    createall(fname, dbmname)
