@@ -255,7 +255,7 @@ def idffile2epjfile(idfpath, epjpath=None, schemapath=None, epjext=None):
     idfpath: str, pathlib.Path
         idf file name or path to the idf file
     epjpath: str, pathlib.Path
-        epj file name or path to the epj file
+        epj file name or path to the epj file. If epjpath=None, it will use idfpath with the .epJSON extension
     schemapath: str, pathlib.Path
         path to Energy+.schema.epJSON usuallty found in the install location of EnergyPlus. If schemapah=None, the function will attempt to find the schema path in the standard install locations
 
@@ -327,7 +327,25 @@ def idffolder2epjfolder(
 
 
 def epjfile2idffile(epjpath, idfpath=None, schemapath=None):
-    """convert an EPJ file on disk to an IDF file on disk"""
+    """convert an EPJ file on disk to an IDF file on disk
+
+    reads the EPJ file at epjpath. Converts it to IDF file
+    Writes the IDF file to idfpath
+
+    Parameters
+    ----------
+    epjpath: str, pathlib.Path
+        epj file name or path to the epj file. 
+    idfpath: str, pathlib.Path
+        idf file name or path to the idf file. If idfpath=None, it will use epjpath with the .idf extension
+    schemapath: str, pathlib.Path
+        path to Energy+.schema.epJSON usuallty found in the install location of EnergyPlus. If schemapah=None, the function will attempt to find the schema path in the standard install locations
+
+    Returns
+    -------
+    pathlib.Path
+        the path to the saved IDF file
+    """
     epjpath = pathlib.Path(epjpath)
     if not schemapath:
         epj = EPJ(epjpath)
