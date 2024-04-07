@@ -1,4 +1,4 @@
-# Copyright (c) 2018-2019 Santosh Philip
+# Copyright (c) 2018-2019, 2024 Santosh Philip
 # =======================================================================
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -49,6 +49,13 @@ class EPSchemaMunch(Munch):
         return self[fieldname]
 
 
+def prop_in_patternProp(val):
+    """return the property in patternProperty"""
+    # assume that val['patternProperties'] has a single key, val
+    # key is either ".*" or "^.*\\S.*$"
+    for key in val["patternProperties"].keys():
+        return val["patternProperties"][key]
+
 class EPSchema(object):
     """hold the data from the json epschema file"""
 
@@ -59,13 +66,6 @@ class EPSchema(object):
 
     def read(self):
         """read the json file"""
-
-        def prop_in_patternProp(val):
-            """return the property in patternProperty"""
-            # assume that val['patternProperties'] has a single key, val
-            # key is either ".*" or "^.*\\S.*$"
-            for key in val["patternProperties"].keys():
-                return val["patternProperties"][key]
 
         self.epschema = read_epschema_asmunch(self.epschemaname)
         self.version = self.epschema["epJSON_schema_version"]

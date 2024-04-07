@@ -1,5 +1,15 @@
+2024-04-06
+----------
+
+run unit testes for later versions of E+. It may fail. Opened an issue for this.
+
+for now do development with E+ version 9.6
+
+
 2024-04-03
 ----------
+
+For schemaindbm:
 
 E+ version lss than or equal to 9.3 don't have the key ``group``. So they give a key error. Set it to None
 
