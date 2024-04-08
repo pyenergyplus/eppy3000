@@ -39,6 +39,7 @@ def db_in_memory(fname=None):
     return db
 
 
+# used in eppy3000viewer/runit.py
 def get_schemakeys(fname=None):
     """get all the schema keys
 
@@ -62,6 +63,7 @@ def get_schemakeys(fname=None):
             return db.keys()
 
 
+# used in eppy3000viewer/runit.py
 def get_schemaversion(fname=None):
     """get the schema version / E+ version
 
@@ -94,6 +96,7 @@ def get_schemaversion(fname=None):
     return get_props("Version", fname=fname)['version_identifier']['default']
 
 
+# used in eppy3000viewer/runit.py
 def get_aschema(key, fname=None):
     """gets a schema
 
@@ -154,6 +157,7 @@ def get_name(key, aschema=None, fname=None):
         return None
 
 
+# used in eppy3000viewer/runit.py
 def get_props(key, aschema=None, fname=None):
     """gets the properties of a schema
 
@@ -186,6 +190,7 @@ def get_props(key, aschema=None, fname=None):
     return props
 
 
+# used in eppy3000viewer/runit.py
 def get_field(key, fieldname, aschema=None, fname=None):
     """get the field of a schema
     if already have aschema, it avoids disk access"""
@@ -208,6 +213,7 @@ def get_arrayfield(key, fieldname, arrayfieldname, aschema=None, fname=None):
     return field["items"]["properties"][arrayfieldname]
 
 
+# used in eppy3000viewer/runit.py
 def get_a_refschema(key, fname=None):
     """get a reference key from the reference schema"""
     try:
@@ -234,6 +240,7 @@ def get_refschemakeys(fname=None):
             return db.keys()
 
 
+# used in eppy3000viewer/runit.py
 def get_groups(fname=None):
     """get the entire groups index"""
 

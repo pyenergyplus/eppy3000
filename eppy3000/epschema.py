@@ -8,6 +8,7 @@
 
 import json
 from munch import Munch
+from eppy3000.dbm_functions import schemaindbm
 
 
 def read_epschema_asmunch(fhandle):
@@ -65,7 +66,15 @@ class EPSchema(object):
         self.read()
 
     def read(self):
-        """read the json file"""
+        """read the json file from self.epschemaname
+
+        Initailizes the following:
+
+            - self.epschema
+            - self.version
+            - self.required
+            - self.epschemaobjects  
+        """
 
         self.epschema = read_epschema_asmunch(self.epschemaname)
         self.version = self.epschema["epJSON_schema_version"]
@@ -78,3 +87,21 @@ class EPSchema(object):
             key: prop_in_patternProp(val)["properties"]
             for key, val in self.epschema["properties"].items()
         }
+
+# ===============================================================
+# functions below are to deal with schema in dbm (using json2dbm)
+# ===============================================================
+
+class EPS_FromDBM(Munch):
+    def __init__(self, epjkey, dbmname):
+        super(EPS_FromDBM, self).__init__(Munch.fromDict(schemaindbm.get_aschema(epjkey, dbmname)))
+        self.dbmname = dbmname
+        self.epjkey = epjkey
+        self.version = schemaindbm.get_schemaversion(dbmname)
+
+    def fieldnames(self):
+        return list(schemaindbm.get_props(self.epjkey, aschema=self).keys())
+        
+    def fieldproperty(self, fieldname):
+        return schemaindbm.get_field(self.epjkey, fieldname, aschema=self)
+        

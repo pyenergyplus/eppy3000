@@ -18,13 +18,14 @@ import eppy3000.runner.run_functions as run_functions
 
 
 class EPJ(object):
-    def __init__(self, epjname=None, epw=None, epschemaname=None):
+    def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbm=None):
         super(EPJ, self).__init__()
         self.epjname = epjname
         self.epw = epw
         self.epschemaname = epschemaname
         if self.epschemaname:
             self.readepschema()
+        self.schemadbm = schemadbm
         self.read()
 
     def read_epschema_asmunch(self):

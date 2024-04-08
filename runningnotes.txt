@@ -1,7 +1,10 @@
-2024-04-06
+2024-04-07
 ----------
 
-run unit testes for later versions of E+. It may fail. Opened an issue for this.
+Trying to find out what all the functions  in schemaindbm.py do. Look into eppy3000viewer/runit.py to see how it is used there.
+
+2024-04-06
+----------
 
 for now do development with E+ version 9.6
 
