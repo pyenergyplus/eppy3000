@@ -7,7 +7,7 @@ from eppy3000.modelmaker import EPJ
 
 fname = "./eppy3000/resources/snippets/V9_6/Minimal.epJSON"
 dbmname = "../EplusSchema/schema"
-epj = EPJ(epjname=fname, schemadbm=dbmname)
+epj = EPJ(epjname=fname, schemadbmname=dbmname)
 
 bldg = epj.epobjects['Building'][0]
 print(type(bldg))

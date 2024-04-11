@@ -1,0 +1,12 @@
+./epj_mmapping.py:    def __init__(self, adict, theepj=None):
+./epj_mmapping.py:        self.theepj = theepj
+./epj_mmapping.py:        self.theepj[oldv["eppykey"]].pop(oldv["eppyname"])
+./epj_mmapping.py:        self.theepj[v["eppykey"]][v["eppyname"]] = v
+./epj_mmapping.py:        self.theepj[val["eppykey"]].pop(val["eppyname"])
+./epj_mmapping.py:        self.theepj[v["eppykey"]][v["eppyname"]] = v
+./epj_mmapping.py:    def __init__(self, theepj):
+./epj_mmapping.py:        self.theepj = theepj
+./epj_mmapping.py:            key: EpjSequence(self.theepj[key], self.theepj) for key in self.theepj
+./epj_mmapping.py:        self.theepj[key] = epjsequence2dict(value)
+./epj_mmapping.py:        del self.theepj[key]
+./epj_mmapping.py:# # {key:EpjSequence(theepj[key]) for key in theepj}

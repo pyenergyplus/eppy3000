@@ -23,7 +23,7 @@ from eppy3000.dbm_functions import schemaindbm
 def make_refdbm(scope="module"):
     """creates a temporary folder in which I can keep the json and dbm files
     The folder is removed after the test function is run
-    This fuxture makes is used to test the index dbm"""
+    This fixture makes is used to test the index dbm"""
     tempdir = Path(tempfile.mkdtemp())
     schema = {
         "properties": {
@@ -203,3 +203,20 @@ def test_get_a_refschema(make_refdbm):
     result = schemaindbm.get_a_refschema("ConstrNames", fname=make_refdbm)
     expected = {"objlist": ["construction"], "reflist": ["surface.surface_type"]}
     assert result == expected
+
+def test_dbmval2dict(make_dbm):
+    """py.test for dbmval2dict"""
+    dct = dict(building=1, c=3)
+    data = (
+        ('building', 1), # key, expected
+        ('version', {'a': 1}), # key, expected
+    )
+    for key, expected in data:
+        result = schemaindbm.dbmval2dict(dct, key, dbmname=make_dbm)
+        assert result == expected
+        
+    assert dct['building'] == 1  # unchanged from orig dct
+    assert dct['version'] == {'a': 1} # added to orig dct
+    with pytest.raises(KeyError):
+        key = 'nothing' # 'nothing' is not in the dbm
+        result = schemaindbm.dbmval2dict(dct, key, dbmname=make_dbm)

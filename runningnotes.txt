@@ -1,5 +1,13 @@
 2024-04-07
 ----------
+ 
+- I need self.thidf that eppy has
+- I see what eppy idf_msequence.py.Idf_MSequence does for eppy
+    - But we don't have two lists here (confirm this.)
+    - But we may still need some of the functionality I programmed into eppy
+
+2024-04-11
+----------
 
 Trying to find out what all the functions  in schemaindbm.py do. Look into eppy3000viewer/runit.py to see how it is used there.
 

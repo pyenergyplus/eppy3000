@@ -15,18 +15,35 @@ from eppy3000.epschema import EPSchema
 from eppy3000.epMunch import EPMunch
 from eppy3000.epj_mmapping import EpjMapping
 import eppy3000.runner.run_functions as run_functions
+from eppy3000.dbm_functions import schemaindbm
 
 
 class EPJ(object):
-    def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbm=None):
+    def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None):
         super(EPJ, self).__init__()
+        self.dbms = {}
         self.epjname = epjname
         self.epw = epw
         self.epschemaname = epschemaname
         if self.epschemaname:
             self.readepschema()
-        self.schemadbm = schemadbm
+        self.schemadbmname = schemadbmname
+        if self.schemadbmname:
+            # DO THIS LATER
+                # get the version number of the schema
+                # create a dct={version : Munch()}
+                # empty holder for schema
+                # which will get filled as needed
+                # make sure that it is like the IDD in eppy. Single shared copy
+                    # do this later.j:
+            # 
+            self.schemaversion = schemaindbm.get_schemaversion(self.schemadbmname)
+            # NOW DO
+                # Always read from dbm
+                # Ignore isues of version number clash
+
         self.read()
+                
 
     def read_epschema_asmunch(self):
         """Read the epschema file - will become a frozen singleton"""

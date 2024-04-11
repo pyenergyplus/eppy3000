@@ -7,6 +7,7 @@
 """subclass Munch"""
 
 from munch import Munch
+from eppy3000 import epschema
 from eppy3000.epschema import EPSchemaMunch
 
 
@@ -250,3 +251,12 @@ class EPMunch(Munch):
 
     def schemafieldnames(self):
         return list(self.eppy_objepschema.keys())
+
+    def eppydbm(self):
+        """change this name ...
+
+        returns the epobject's schema
+        grabs it from the dbm and converts it into a ??
+        """
+        return epschema.EPSchema_FromDBM(self.eppykey, self.eppy_epj[schemadbmname])
+        

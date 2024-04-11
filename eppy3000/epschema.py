@@ -92,16 +92,17 @@ class EPSchema(object):
 # functions below are to deal with schema in dbm (using json2dbm)
 # ===============================================================
 
-class EPS_FromDBM(Munch):
+class EPSchema_FromDBM(Munch):
     def __init__(self, epjkey, dbmname):
-        super(EPS_FromDBM, self).__init__(Munch.fromDict(schemaindbm.get_aschema(epjkey, dbmname)))
+        super(EPSchema_FromDBM, self).__init__(
+            Munch.fromDict(schemaindbm.get_aschema(epjkey, dbmname))
+        )
         self.dbmname = dbmname
         self.epjkey = epjkey
         self.version = schemaindbm.get_schemaversion(dbmname)
 
     def fieldnames(self):
         return list(schemaindbm.get_props(self.epjkey, aschema=self).keys())
-        
+
     def fieldproperty(self, fieldname):
         return schemaindbm.get_field(self.epjkey, fieldname, aschema=self)
-        

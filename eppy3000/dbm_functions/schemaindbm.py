@@ -255,6 +255,26 @@ def get_groups(fname=None):
             return inner_get_groups(db)
 
 
+def dbm2keyval(key, dbmname=None):
+    """returns the value (as a Munch) from the dbm"""
+    if not dbmname:
+        dbmname = 'schema'
+    return get_aschema(key, fname=dbmname)
+
+
+def dbmval2dict(dct, key, dbmname=None):
+    """function to get a value for a key from the dbm into dct
+    does this only if the key is not in the dct
+    """
+    if not dbmname:
+        dbmname = 'schema'
+    try:
+        result = dct[key]
+    except KeyError as e:
+        result = get_aschema(key, fname=dbmname)
+        dct.update({key : result})
+    return result
+
 if __name__ == "__main__":
     fname = "../eppy3000viewer/schema"
 

@@ -7,7 +7,7 @@ from eppy3000.dbm_functions import schemaindbm
 fname = "../EplusSchema/schema"
 epjkey = 'Building'
 dct = schemaindbm.get_aschema(epjkey, fname)
-eps = epschema.EPS_FromDBM(epjkey, fname)
+eps = epschema.EPSchema_FromDBM(epjkey, fname)
 # print(eps)
 print(eps.fieldnames())
 print(eps.version)
