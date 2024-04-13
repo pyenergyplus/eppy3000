@@ -14,6 +14,8 @@ From a `presentation <http://web.eecs.utk.edu/~jnew1/presentations/2017_IBPSA_JS
 
 .. image:: ./images/developmentnotes/epJSON_structure.png
 
+**The rest of this section may be superseded by the actual code written. See the next section for updates.**
+
 This opens up the possibilty of having three classes:
 
 - EPMunch -> general
@@ -36,27 +38,40 @@ The initial benifit in having the three classes is that is eases the ``__repr__`
 The development has veered away from code structure shown above. Now it looks more like this. The intent is to stick close the ``eppy`` API, but modify as needed. The present code structure looks this
 
 
-==============
 Code Structure
 ==============
 
 This describes the structure in the actual code:
 
 EPJ
-===
+---
 
-This is the main class. An ``epj`` file is opened by
+``EPJ``  is the main class. An ``epj`` file is opened by
 
 ::
 
     epjname = "somthin.epj"
     epj = EPJ(epjname=epjname)
 
-    # the epjname is read into the EPJ structure EPJ.read()
-    # the read() starts with
-        # self.epj = readepjjson(self.epjname) -> read in as a Munch
-        # self.epobjects = EpjMapping(self.epj) -> acts like a dict
-                            # but actually reflects the changes in self.epj
-        # epobject = epobjects -> This acts like a list
-                            # is a EpjSequence descendant of abc.MutableSequence
-                            # makes any updates into self.epj
+``EPJ(epjname=epjname)`` calls ``EPJ.read()`` that does the following. 
+
+::
+
+    self.epj = readepjjson(self.epjname) 
+    self.epobjects = EpjMapping(self.epj)
+    # where self is EPJ
+    
+``self.epj`` is a Munch. This is where the file data is stored. Basically any modifications to the file should be done at ``self.epj``
+
+The internal E+ data for a file ins in ``json`` format. Python libraries reads the ``json`` text file as a dict. We read it here as ``Munch`` which is derived from a dict. 
+
+Holding the entire file structure as a dict is problematic in terms of accessing and manipulating it. For one, it is hard to use the ``eppy`` API with it (although this is not obvious at first glance, but trust me - it is hard). The ``eppy`` is well tested and easy to use. There is no reason to invent a new API.
+
+::
+
+    self.epj = readepjjson(self.epjname) -> reads the data in as a Munch
+    self.epobjects = EpjMapping(self.epj) -> acts like a dict
+                        # but actually reflects the changes in self.epj
+    # epobject = epobjects -> This acts like a list
+                        # is a EpjSequence descendant of abc.MutableSequence
+                        # makes any updates into self.epj
