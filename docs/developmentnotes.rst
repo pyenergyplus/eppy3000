@@ -67,11 +67,107 @@ The internal E+ data for a file ins in ``json`` format. Python libraries reads t
 
 Holding the entire file structure as a dict is problematic in terms of accessing and manipulating it. For one, it is hard to use the ``eppy`` API with it (although this is not obvious at first glance, but trust me - it is hard). The ``eppy`` is well tested and easy to use. There is no reason to invent a new API.
 
+``eppy`` works in this way::
+
+    #### epyy - idf ####
+    from eppy import modeleditor
+    from eppy.modeleditor import IDF
+
+    iddfile = "/Applications/EnergyPlus-9-6-0/Energy+.idd"
+    fname1 = "../eppy3000/eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.idf"
+
+    IDF.setiddname(iddfile)
+    idf = IDF(fname1)
+    zones = idf.idfobjects["zone"]
+    zone = zones[0]
+
+The key API oin ``eppy`` is using ``idfobjects`` and getting a list zones, where each zone is a dict (or Bunch/Munch in this case). When using ``eppy`` we make changes to zones by:
+
+    - modifying items in the list ``zones``.
+    - adding new items to it
+    - deleting items from it.
+
+The funny thing is the actual data for the model does not sit in the list ``zones``. It is sitting in ``idf.model``. Any changes you make to the list ``zones`` is making changes to the model. What kind of magic does this?
+
+Let us look at the ``type`` for ``zones``. It acts like a list. Is it really a list ?
+
 ::
 
-    self.epj = readepjjson(self.epjname) -> reads the data in as a Munch
-    self.epobjects = EpjMapping(self.epj) -> acts like a dict
-                        # but actually reflects the changes in self.epj
-    # epobject = epobjects -> This acts like a list
-                        # is a EpjSequence descendant of abc.MutableSequence
-                        # makes any updates into self.epj
+    print(f"{type(zones)=}")
+    >> type(zones)=<class 'eppy.idf_msequence.Idf_MSequence'>
+
+``Idf_MSequence`` is a class. What is it inherited from?
+
+::
+
+    import inspect
+    inspect.getmro(eppy.idf_msequence.Idf_MSequence)
+
+     >> (eppy.idf_msequence.Idf_MSequence,
+     collections.abc.MutableSequence,
+
+     ... more items ...
+
+     object)
+
+We are using ``MutableSequence`` as a way of making changes in ``model``. The module documentation for ``idf_msequence`` says the following::
+
+    idf_msequence.py
+    """
+    Subclass from collections.MutableSequence to get finer control over a list like
+    object.
+
+    This is to work with issue 40 in github:
+
+    idf1.idfobjects['BUILDING'] is a list and is not connected to
+    idf1.model.dt['BUILDING']
+
+    List has to be subclassed to solve this problem.
+
+    # Alex Martelli describes how to use collections.MutableSequence in
+    # <http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list>
+
+    """
+    
+    <snip>
+
+    class Idf_MSequence(collections.abc.MutableSequence):
+        """Used to keep IDF.idfobjects in sync with IDF.model.dt."""
+
+    <snip>
+
+We need to use a similar strategy in eppy300
+
+::
+
+    print(f"{type(idf)=}")
+    >> type(idf)=<class 'eppy.modeleditor.IDF'>
+    
+    print(f"{type(zone)=}")
+    ype(zone)=<class 'eppy.bunch_subclass.EpBunch'>
+
+
+
+
+``eppy3000`` has a similar API::
+
+    #### eppy3000 - epj ####
+    epj = EPJ(epjname)
+    zones = epj.epobjects['Zone']
+    zone = zones[0]
+    print(zone.eppyname
+    >> First Zone
+    print(zone.eppykey)
+    >> Zone
+
+Let us look at the ``type`` of the variables and understand how it works::
+
+    print(f"{type(epj)=}")
+    >> type(epj)=<class 'eppy3000.modelmaker.EPJ'>
+
+OK. that makes sense. Let us look at ``zones`` and ``zone``::
+
+    print(f"{type(zones)=}")
+    >> type(zones)=<class 'eppy3000.epj_mmapping.EpjSequence'>
+
+What is ``eppy3000.epj_mmapping.EpjSequence`` and why doe we need it
