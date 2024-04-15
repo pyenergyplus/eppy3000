@@ -9,15 +9,15 @@
 Subclass from collections.abc.MutableMapping to get finer control over a dict like
 object.
 
-epj.epobjects is a dict and is not connected to epj.epj
+epj.epobjects is a dict and is not connected to epj.model
 
 There are 2 dicts:
 
-- epj.epj is the real dict where the epJSON data is held as a dict
-- in eppy3000 one does not work directly on epj.epj
-- one works on epj.epobjects that holds the same data as epj.epj
+- epj.model is the real dict where the epJSON data is held as a dict
+- in eppy3000 one does not work directly on epj.model
+- one works on epj.epobjects that holds the same data as epj.model
 - this means that any operations done on epj.epobjects should make
-- equivalent changes in epj.epj
+- equivalent changes in epj.model
 
 This can be done thru subclassing collections.abc.MutableMapping, rather than subclassing dict
 
@@ -56,9 +56,9 @@ def epjsequence2dict(epjs):
 class EpjSequence(MutableSequence):
     """simple Mutable Sequence to stes to ut some stuff"""
 
-    def __init__(self, adict, theepj=None):
+    def __init__(self, adict, themodel=None):
         super(EpjSequence, self).__init__()
-        self.theepj = theepj
+        self.themodel = themodel
         self.list1 = [adict[key] for key in adict]
 
     def __getitem__(self, i):
@@ -66,21 +66,21 @@ class EpjSequence(MutableSequence):
 
     def __setitem__(self, i, v):
         oldv = self.list1[i]
-        self.theepj[oldv["eppykey"]].pop(oldv["eppyname"])
-        self.theepj[v["eppykey"]][v["eppyname"]] = v
+        self.themodel[oldv["eppykey"]].pop(oldv["eppyname"])
+        self.themodel[v["eppykey"]][v["eppyname"]] = v
         self.list1[i] = v
 
     def __delitem__(self, i):
         val = self.list1[i]
         del self.list1[i]
-        self.theepj[val["eppykey"]].pop(val["eppyname"])
+        self.themodel[val["eppykey"]].pop(val["eppyname"])
 
     def __len__(self):
         return len(self.list1)
 
     # __setitem__ should take care of this.
     def insert(self, i, v):
-        self.theepj[v["eppykey"]][v["eppyname"]] = v
+        self.themodel[v["eppykey"]][v["eppyname"]] = v
         self.list1.insert(i, v)
 
     def __str__(self):
@@ -98,11 +98,11 @@ class EpjSequence(MutableSequence):
 class EpjMapping(MutableMapping):
     """simple Mutable mapping to test out some stuff"""
 
-    def __init__(self, theepj):
+    def __init__(self, themodel):
         super(EpjMapping, self).__init__()
-        self.theepj = theepj
+        self.themodel = themodel
         self.store = {
-            key: EpjSequence(self.theepj[key], self.theepj) for key in self.theepj
+            key: EpjSequence(self.themodel[key], self.themodel) for key in self.themodel
         }
 
     def __getitem__(self, key):
@@ -110,11 +110,11 @@ class EpjMapping(MutableMapping):
 
     def __setitem__(self, key, value):
         self.store[self._keytransform(key)] = value
-        self.theepj[key] = epjsequence2dict(value)
+        self.themodel[key] = epjsequence2dict(value)
 
     def __delitem__(self, key):
         del self.store[self._keytransform(key)]
-        del self.theepj[key]
+        del self.themodel[key]
 
     def __iter__(self):
         return iter(self.store)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 # epj = dict(Zone=dict(zone1=dict(area=15, type="conditioned")), Wall=dict(wall1=dict(area=23, ZoneName="zone1")))
 # # for key in epj:
 # #     EpjSequence(epj[key])
-# # {key:EpjSequence(theepj[key]) for key in theepj}
+# # {key:EpjSequence(themodel[key]) for key in themodel}
 # epj = eppyfields(epj)
 # mm = EpjMapping(epj)
 # zones = mm['Zone']

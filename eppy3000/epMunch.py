@@ -123,7 +123,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                 f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname"
             )
     for key, val in amunch.items():
-        if key in ["eppy_epj", "eppy_epobjects"]:
+        if key in ["eppy_model", "eppy_epobjects"]:
             continue  # prevents an infinite recurse
         if isinstance(val, Munch):
             printmunch(val, indent=indent + 1, index=index, func=func)
@@ -135,7 +135,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
             "eppykey",
             "eppyname",
             "eppy_obj_schema",
-            "eppy_epj",
+            "eppy_model",
             "eppy_epobjects",
         ]:
             if index:
@@ -182,7 +182,7 @@ class EPMunch(Munch):
                             # if 'eppyname' is changed, the following actions happen in the parent dict
                             # the old key (value of 'eppyname') is popped and a new key is added
                             # with the same value
-                            # epobjects_dict = self.eppy_epj[self.eppykey]
+                            # epobjects_dict = self.eppy_model[self.eppykey]
                             epobjects_dict = self.eppy_epobjects
                             epobject = epobjects_dict.pop(self.eppyname)
                             epobjects_dict[value] = self
