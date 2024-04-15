@@ -11,8 +11,22 @@
 
 Trying to find out what all the functions  in schemaindbm.py do. Look into eppy3000viewer/runit.py to see how it is used there.
 
+2024-04-14
+----------
+
+rename:
+
+Make staged changes
+
+- EPJ.epj to EPJ.model
+    - do this first - DONE
+- eppy_epj to epj_model ??
+    - do this next
+
 2024-04-06
 ----------
+
+run unit testes for later versions of E+. It may fail. Opened an issue for this.
 
 for now do development with E+ version 9.6
 

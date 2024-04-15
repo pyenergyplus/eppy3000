@@ -18,6 +18,7 @@ import eppy3000.runner.run_functions as run_functions
 from eppy3000.dbm_functions import schemaindbm
 
 
+# grep -nr "\.epj" ./eppy3000
 class EPJ(object):
     def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None):
         super(EPJ, self).__init__()
@@ -52,10 +53,10 @@ class EPJ(object):
 
     def read(self):
         """read the epj file"""
-        self.epj = readepjjson(self.epjname)
-        self.epobjects = EpjMapping(self.epj)
+        self.model = readepjjson(self.epjname)
+        self.epobjects = EpjMapping(self.model)
         # {
-        #     key: [val1 for val1 in val.values()] for key, val in self.epj.items()
+        #     key: [val1 for val1 in val.values()] for key, val in self.model.items()
         # }
         # TODO: the above line should get the epobjects from the schema
         # This should happen whenever the schema is read.
@@ -67,7 +68,7 @@ class EPJ(object):
         # this allows the epobject to access all other objects in the epj
         for epobjects in self.epobjects.values():
             for epobject in epobjects:
-                epobject["eppy_epj"] = self.epj
+                epobject["eppy_model"] = self.model
         if self.epschemaname:
             for key in self.epobjects.keys():
                 for epobject in self.epobjects[key]:
@@ -79,7 +80,7 @@ class EPJ(object):
 
     def __repr__(self):
         """print this"""
-        return self.epj.__repr__()
+        return self.model.__repr__()
 
     def saveas(self, filename, indent=4):
         """saveas in filename"""
@@ -93,7 +94,7 @@ class EPJ(object):
         if filename:
             self.save(filename=filename, indent=indent)
         else:
-            tosave = self.epj.toDict()
+            tosave = self.model.toDict()
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
             fhandle = StringIO()
@@ -107,13 +108,13 @@ class EPJ(object):
             filename = self.epjname
         try:
             with open(filename, "w") as fhandle:
-                tosave = self.epj.toDict()
+                tosave = self.model.toDict()
                 tosave = Munch.fromDict(tosave)
                 removeeppykeys(tosave)
                 fhandle.write(tosave.toJSON(indent=indent))
         except TypeError as e:
             fhandle = filename
-            tosave = self.epj.toDict()
+            tosave = self.model.toDict()
             tosave = Munch.fromDict(tosave)
             removeeppykeys(tosave)
             fhandle.write(tosave.toJSON(indent=indent))
@@ -134,10 +135,10 @@ class EPJ(object):
         # should self.epobjects be updated here
         objepschema = self.epschema.epschemaobjects[key]
         try:
-            nobj = self.epj[key][objname] = EPMunch()
+            nobj = self.model[key][objname] = EPMunch()
         except KeyError as e:
-            self.epj[key] = EPMunch()
-            nobj = self.epj[key][objname] = EPMunch()
+            self.model[key] = EPMunch()
+            nobj = self.model[key][objname] = EPMunch()
         for fieldname in objepschema.fieldnames():
             try:
                 if defaultvalues:
@@ -161,7 +162,7 @@ class EPJ(object):
     # def removeepobject(self, key, objname):
     #     """remove an epj object"""
     #     # should self.epobjects be updated here
-    #     return self.epj[key].pop(objname)
+    #     return self.model[key].pop(objname)
 
     def popepobject(self, key, index):
         """Pop an EPJ object from the EPJ.
@@ -208,9 +209,9 @@ class EPJ(object):
         # don't use the function dict.items() since the json for array has
         # field name `items`
         # should self.epobjects be updated here
-        oldobj = self.epj[key][objname]
+        oldobj = self.model[key][objname]
         newobj = EPMunch()
-        self.epj[key][newname] = newobj
+        self.model[key][newname] = newobj
         for key1 in oldobj.keys():
             if not key1.startswith("eppy"):
                 val1 = oldobj[key1]

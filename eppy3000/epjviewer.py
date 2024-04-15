@@ -28,7 +28,7 @@ def removeeppykeys_inepmunch(epmunch, rkeys=None):
             "eppykey",
             "eppyname",
             "eppy_objepschema",
-            "eppy_epj",
+            "eppy_model",
             "eppy_epobjects",
         ]
     for rkey in rkeys:
@@ -78,7 +78,7 @@ def epjhtmllines(epj):
     """return the number of rows in all the epmunch tables
     that make up the epj"""
     lines = 0
-    for key in epj.epj.keys():
+    for key in epj.model.keys():
         for epmunch in epj.epobjects[key]:
             lines += epmuchhtmllines(epmunch)
     return lines
