@@ -17,6 +17,7 @@ from eppy3000.epj_mmapping import EpjMapping
 import eppy3000.runner.run_functions as run_functions
 
 
+# grep -nr "\.epj" ./eppy3000
 class EPJ(object):
     def __init__(self, epjname=None, epw=None, epschemaname=None):
         super(EPJ, self).__init__()
@@ -49,7 +50,7 @@ class EPJ(object):
         # this allows the epobject to access all other objects in the epj
         for epobjects in self.epobjects.values():
             for epobject in epobjects:
-                epobject["eppy_epj"] = self.model
+                epobject["eppy_model"] = self.model
         if self.epschemaname:
             for key in self.epobjects.keys():
                 for epobject in self.epobjects[key]:

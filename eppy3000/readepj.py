@@ -98,7 +98,7 @@ def removeeppykeys(epmunch, rkeys=None):
             "eppykey",
             "eppyname",
             "eppy_objepschema",
-            "eppy_epj",
+            "eppy_model",
             "eppy_epobjects",
         ]
     for key, epobjects in epmunch.items():
