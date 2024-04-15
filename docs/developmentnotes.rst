@@ -50,7 +50,7 @@ EPJ
 
 ::
 
-    epjname = "somthin.epj"
+    epjname = "something.epj"
     epj = EPJ(epjname=epjname)
 
 ``EPJ(epjname=epjname)`` calls ``EPJ.read()`` that does the following. 
@@ -74,14 +74,14 @@ Holding the entire file structure as a dict is problematic in terms of accessing
     from eppy.modeleditor import IDF
 
     iddfile = "/Applications/EnergyPlus-9-6-0/Energy+.idd"
-    fname1 = "../eppy3000/eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.idf"
+    fname1 = "./eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.idf"
 
     IDF.setiddname(iddfile)
     idf = IDF(fname1)
     zones = idf.idfobjects["zone"]
     zone = zones[0]
 
-The key API oin ``eppy`` is using ``idfobjects`` and getting a list zones, where each zone is a dict (or Bunch/Munch in this case). When using ``eppy`` we make changes to zones by:
+The key API in ``eppy`` is using ``idfobjects`` and getting a list zones, where each zone is a dict (or Bunch/Munch in this case). When using ``eppy`` we make changes to zones by:
 
     - modifying items in the list ``zones``.
     - adding new items to it
@@ -136,38 +136,37 @@ We are using ``MutableSequence`` as a way of making changes in ``model``. The mo
 
     <snip>
 
-We need to use a similar strategy in eppy300
+Now let us look at EPJ and see how we can build up something similar::
+
+
+
+    from eppy3000.modelmaker import EPJ
+    fname = "./eppy3000/resources/epJSON/V9_6/ShopWithPVandBattery.epJSON"
+    epj = EPJ(fname)
+
+    zones = epj.epobjects["Zone"]
+    zone = zones[0]
+
+Let us look at the type for ``epj.epobjects``, ``zones`` and ``zone``
 
 ::
 
-    print(f"{type(idf)=}")
-    >> type(idf)=<class 'eppy.modeleditor.IDF'>
-    
-    print(f"{type(zone)=}")
-    ype(zone)=<class 'eppy.bunch_subclass.EpBunch'>
+    print(f"{type(epj.epobjects)}")
+    >> <class 'eppy3000.epj_mmapping.EpjMapping'>
+
+    print(f"{type(zones)}")
+    >> <class 'eppy3000.epj_mmapping.EpjSequence'>
+
+    print(f"{type(zone)}")
+    >> <class 'eppy3000.epMunch.EPMunch'>
+
+The data for the ``*.epj`` file is held in ``epj.model``. Any changes made through EpjMapping, EpjSequence and EPMunch will result in a change in ``epj.model``
+
+All of these variables can see ``epj.model``. Let us confirm this with an assertion statement.
+
+::
 
 
-
-
-``eppy3000`` has a similar API::
-
-    #### eppy3000 - epj ####
-    epj = EPJ(epjname)
-    zones = epj.epobjects['Zone']
-    zone = zones[0]
-    print(zone.eppyname
-    >> First Zone
-    print(zone.eppykey)
-    >> Zone
-
-Let us look at the ``type`` of the variables and understand how it works::
-
-    print(f"{type(epj)=}")
-    >> type(epj)=<class 'eppy3000.modelmaker.EPJ'>
-
-OK. that makes sense. Let us look at ``zones`` and ``zone``::
-
-    print(f"{type(zones)=}")
-    >> type(zones)=<class 'eppy3000.epj_mmapping.EpjSequence'>
-
-What is ``eppy3000.epj_mmapping.EpjSequence`` and why doe we need it
+    assert epj.model == epj.epobjects.themodel
+    assert epj.model == zones.themodel
+    assert epj.model == zone.eppy_model
