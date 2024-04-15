@@ -1,3 +1,15 @@
+2024-04-14
+----------
+
+rename:
+
+Make staged changes
+
+- EPJ.epj to EPJ.model
+    - do this first - DONE
+- eppy_epj to epj_model ??
+    - do this next
+
 2024-04-06
 ----------
 

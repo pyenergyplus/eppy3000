@@ -9,15 +9,15 @@
 Subclass from collections.abc.MutableMapping to get finer control over a dict like
 object.
 
-epj.epobjects is a dict and is not connected to epj.epj
+epj.epobjects is a dict and is not connected to epj.model
 
 There are 2 dicts:
 
-- epj.epj is the real dict where the epJSON data is held as a dict
-- in eppy3000 one does not work directly on epj.epj
-- one works on epj.epobjects that holds the same data as epj.epj
+- epj.model is the real dict where the epJSON data is held as a dict
+- in eppy3000 one does not work directly on epj.model
+- one works on epj.epobjects that holds the same data as epj.model
 - this means that any operations done on epj.epobjects should make
-- equivalent changes in epj.epj
+- equivalent changes in epj.model
 
 This can be done thru subclassing collections.abc.MutableMapping, rather than subclassing dict
 
