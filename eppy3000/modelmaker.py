@@ -22,7 +22,7 @@ from eppy3000.dbm_functions import schemaindbm
 class EPJ(object):
     def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None):
         super(EPJ, self).__init__()
-        self.dbms = {}
+        self.epj = self
         self.epjname = epjname
         self.epw = epw
         self.epschemaname = epschemaname
@@ -69,6 +69,7 @@ class EPJ(object):
         for epobjects in self.epobjects.values():
             for epobject in epobjects:
                 epobject["eppy_model"] = self.model
+                epobject["eppy_epj"] = self.epj
         if self.epschemaname:
             for key in self.epobjects.keys():
                 for epobject in self.epobjects[key]:

@@ -124,7 +124,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
                 f"{ind1}{amunch['eppyname']:<32} {ind2}!-  EPJOBJECT_NAME # use .eppyname"
             )
     for key, val in amunch.items():
-        if key in ["eppy_model", "eppy_epobjects"]:
+        if key in ["eppy_epj", "eppy_model", "eppy_epobjects"]:
             continue  # prevents an infinite recurse
         if isinstance(val, Munch):
             printmunch(val, indent=indent + 1, index=index, func=func)
@@ -136,6 +136,7 @@ def printmunch(amunch, indent=0, index=None, func=None):
             "eppykey",
             "eppyname",
             "eppy_obj_schema",
+            "eppy_epj",
             "eppy_model",
             "eppy_epobjects",
         ]:
@@ -258,5 +259,5 @@ class EPMunch(Munch):
         returns the epobject's schema
         grabs it from the dbm and converts it into a ??
         """
-        return epschema.EPSchema_FromDBM(self.eppykey, self.eppy_epj[schemadbmname])
+        return epschema.EPSchema_FromDBM(self.eppykey, self.eppy_epj.schemadbmname)
         
