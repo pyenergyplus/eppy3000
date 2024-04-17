@@ -9,6 +9,7 @@
 from munch import Munch
 from eppy3000 import epschema
 from eppy3000.epschema import EPSchemaMunch
+from eppy3000.dbm_functions import schemaindbm
 
 
 class NotEPObject(Exception):
@@ -253,11 +254,13 @@ class EPMunch(Munch):
     def schemafieldnames(self):
         return list(self.eppy_objepschema.keys())
 
-    def eppydbm(self):
-        """change this name ...
+    def dbmfieldnames(self):
+        """return the fieldnames from the dbm"""
+        props = schemaindbm.get_props(self.eppykey, fname=self.eppy_epj.schemadbmname)
+        return list(props.keys()) 
 
-        returns the epobject's schema
-        grabs it from the dbm and converts it into a ??
-        """
-        return epschema.EPSchema_FromDBM(self.eppykey, self.eppy_epj.schemadbmname)
-        
+    def dbmfieldproperty(self, fieldname):
+        """return the properties of the field"""
+        return schemaindbm.get_field(
+            self.eppykey, fieldname, fname=self.eppy_epj.schemadbmname
+        )

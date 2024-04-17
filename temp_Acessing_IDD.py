@@ -23,14 +23,17 @@ pprint(fieldnames)
 print()
 print(f"{type(aloops)=}")
 print(f"{type(aloop)=}")
-theepj = aloops.theepj
-print(f"{type(theepj)=}")
+# theepj = aloops.theepj
+# print(f"{type(theepj)=}")
 print(f"{type(epj)=}")
 # print(f"{dir(aloop)=}")
 print(f"{type(aloop.eppy_epj)=}")
-print(f"{dir(aloop.eppy_epj)=}")
+# print(f"{dir(aloop.eppy_epj)=}")
 # with dbm
 # aloopschema = aloop.eppydbm()
 # print(f"{aloopschema=}")
 # fieldnames = aloop.eppy_dbm().fieldnames()
-
+fieldnames = aloop.dbmfieldnames()
+print(fieldnames)
+fieldprop = aloop.dbmfieldproperty("branch_list_name")
+print(fieldprop)
