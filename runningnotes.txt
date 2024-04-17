@@ -1,3 +1,8 @@
+2024-04-17
+----------
+
+Draft for issue #103 si working. Some tests are failing. Fix this.
+
 2024-04-07
 ----------
  
