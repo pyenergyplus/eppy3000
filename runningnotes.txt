@@ -1,7 +1,9 @@
 2024-04-17
 ----------
 
-Draft for issue #103 si working. Some tests are failing. Fix this.
+Draft for issue #103 si working. Some tests are failing. Fix this. - Fixed.
+
+branch it off as ``i103_dbmidd_1``
 
 2024-04-07
 ----------

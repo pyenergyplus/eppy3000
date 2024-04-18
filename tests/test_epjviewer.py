@@ -39,6 +39,8 @@ def test_epmunch2dct():
     versions = epj.epobjects["Version"]
     version = versions[0]
     result = epjviewer.epmunch2dct(version)
+    print(result)
+    print(expected)
     assert result == expected
 
 

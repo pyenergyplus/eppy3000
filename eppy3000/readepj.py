@@ -87,7 +87,7 @@ def removeeppykeys(epmunch, rkeys=None):
         This is the E+ file as seen by eppy3000
     rkeys: list
         These are the keys to be removed. if rkeys is None then
-        rkeys is set to ['eppykey', 'eppyname', 'eppy_objepschema']
+        rkeys is set to ['eppykey', 'eppyname', 'eppy_objepschema'] and more
 
     Returns
     -------
@@ -99,6 +99,7 @@ def removeeppykeys(epmunch, rkeys=None):
             "eppyname",
             "eppy_objepschema",
             "eppy_model",
+            "eppy_epj",
             "eppy_epobjects",
         ]
     for key, epobjects in epmunch.items():

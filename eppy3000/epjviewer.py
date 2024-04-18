@@ -29,6 +29,7 @@ def removeeppykeys_inepmunch(epmunch, rkeys=None):
             "eppyname",
             "eppy_objepschema",
             "eppy_model",
+            "eppy_epj",
             "eppy_epobjects",
         ]
     for rkey in rkeys:
