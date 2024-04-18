@@ -1,3 +1,8 @@
+2024-04-18
+----------
+
+schema is read from the dbm everytime it is needed. It retrieves from the dbm even if it has been read before.
+
 2024-04-17
 ----------
 
