@@ -20,7 +20,7 @@ from eppy3000.dbm_functions import schemaindbm
 
 # grep -nr "\.epj" ./eppy3000
 class EPJ(object):
-    def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None):
+    def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None, dbm_cache=False):
         super(EPJ, self).__init__()
         self.epj = self
         self.epjname = epjname
@@ -42,6 +42,7 @@ class EPJ(object):
             # NOW DO
                 # Always read from dbm
                 # Ignore isues of version number clash
+        self.dbm_cache = dbm_cache
 
         self.read()
                 
