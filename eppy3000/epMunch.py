@@ -256,11 +256,23 @@ class EPMunch(Munch):
 
     def dbmfieldnames(self):
         """return the fieldnames from the dbm"""
-        props = schemaindbm.get_props(self.eppykey, fname=self.eppy_epj.schemadbmname)
+        aschema = self._aschema_fromdbm()
+        props = schemaindbm.get_props(self.eppykey, aschema=aschema,  fname=self.eppy_epj.schemadbmname)
         return list(props.keys()) 
+
+
+    def _aschema_fromdbm(self):
+        if self.eppy_epj.dbm_cache:
+            # use dbmdct
+            aschema = schemaindbm.dbmval2dict(self.eppy_epj.dbmdct, self.eppykey, fname=self.eppy_epj.schemadbmname)
+        else:
+            aschema = None
+        return aschema
+    
 
     def dbmfieldproperty(self, fieldname):
         """return the properties of the field"""
+        aschema = self._aschema_fromdbm()
         return schemaindbm.get_field(
-            self.eppykey, fieldname, fname=self.eppy_epj.schemadbmname
+            self.eppykey, fieldname, aschema=aschema, fname=self.eppy_epj.schemadbmname
         )

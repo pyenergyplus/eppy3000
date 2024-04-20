@@ -20,6 +20,7 @@ from eppy3000.dbm_functions import schemaindbm
 
 # grep -nr "\.epj" ./eppy3000
 class EPJ(object):
+    dbmdct = dict() # this will common for all EPJ. There is no self
     def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None, dbm_cache=False):
         super(EPJ, self).__init__()
         self.epj = self

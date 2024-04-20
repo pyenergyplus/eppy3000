@@ -212,11 +212,11 @@ def test_dbmval2dict(make_dbm):
         ('version', {'a': 1}), # key, expected
     )
     for key, expected in data:
-        result = schemaindbm.dbmval2dict(dct, key, dbmname=make_dbm)
+        result = schemaindbm.dbmval2dict(dct, key, fname=make_dbm)
         assert result == expected
         
     assert dct['building'] == 1  # unchanged from orig dct
     assert dct['version'] == {'a': 1} # added to orig dct
     with pytest.raises(KeyError):
         key = 'nothing' # 'nothing' is not in the dbm
-        result = schemaindbm.dbmval2dict(dct, key, dbmname=make_dbm)
+        result = schemaindbm.dbmval2dict(dct, key, fname=make_dbm)

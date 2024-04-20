@@ -1,3 +1,18 @@
+
+
+
+2024-04-19
+----------
+
+Not sure what to work on next
+
+- make schema for any EPS version
+- save it  home folder dot file
+- multiple E+ vesions in EPJ
+- dbm cache - MAYBE THIS
+    - use schemaindbm.dbmval2dict
+- dbm cache + multiple E+ versions:w
+
 2024-04-18
 ----------
 

@@ -255,23 +255,23 @@ def get_groups(fname=None):
             return inner_get_groups(db)
 
 
-def dbm2keyval(key, dbmname=None):
+def dbm2keyval(key, fname=None):
     """returns the value (as a Munch) from the dbm"""
-    if not dbmname:
-        dbmname = 'schema'
-    return get_aschema(key, fname=dbmname)
+    if not fname:
+        fname = 'schema'
+    return get_aschema(key, fname=fname)
 
 
-def dbmval2dict(dct, key, dbmname=None):
+def dbmval2dict(dct, key, fname=None):
     """function to get a value for a key from the dbm into dct
     does this only if the key is not in the dct
     """
-    if not dbmname:
-        dbmname = 'schema'
+    if not fname:
+        fname = 'schema'
     try:
         result = dct[key]
     except KeyError as e:
-        result = get_aschema(key, fname=dbmname)
+        result = get_aschema(key, fname=fname)
         dct.update({key : result})
     return result
 
