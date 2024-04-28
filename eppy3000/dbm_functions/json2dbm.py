@@ -181,8 +181,10 @@ def getversionnumber(fname):
     return v2["properties"]["version_identifier"]["default"]
 
 
-def createall_in_verfolder(fname, outer_folder, justdbmname):
+def createall_in_verfolder(fname, outer_folder, justdbmname=None):
     """create a version_folder in outer folder and save schema as dbname"""
+    if not justdbmname:
+        justdbmname = "schema"
     ver_number = getversionnumber(fname)
     dbmfolderpath = f"{outer_folder}/{ver_number}"
     if os.path.exists(dbmfolderpath):

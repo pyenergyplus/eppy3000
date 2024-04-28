@@ -13,6 +13,7 @@ Welcome to eppy3000's documentation!
    epjviewer
    runningeplus
    usewitheppy
+   EPSchema
    developmentnotes
    modules
    contributing
