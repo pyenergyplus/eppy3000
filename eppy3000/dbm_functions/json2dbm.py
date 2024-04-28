@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Santosh Philip
+# Copyright (c) 2022, 2024 Santosh Philip
 # =======================================================================
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,7 @@
 import json
 import dbm
 import dbm.dumb
+import os
 import sys
 
 try:
@@ -125,7 +126,7 @@ def create_schemadbm(fname, dbmname):
     fname: string, StringIO
         filename of the E+Schema file OR the contents of the E+Schema file in a StringIO
     dbmname: str
-        Name of the dbm file. If ``dbmname='schema'``, it will generate ``schema.dir, schema.dat, schema.bak``
+        Path to the dbm file. If ``dbmname='schema'``, it will generate ``schema.dir, schema.dat, schema.bak``
 
     Returns
     -------
@@ -172,6 +173,25 @@ def createall(fname, dbmname):
     create_index(fname, f"{dbmname}_ref_index")
     create_groupsindex(fname, f"{dbmname}_group_index")
 
+def getversionnumber(fname):
+    """read json file fname and extract the version number of the EP-schema"""
+    dct = json.load(open(fname, 'r'))
+    v1 = dct["properties"]["Version"]["patternProperties"]
+    v2 = [val for val in v1.values()][0]
+    return v2["properties"]["version_identifier"]["default"]
+
+
+def createall_in_verfolder(fname, outer_folder, justdbmname):
+    """create a version_folder in outer folder and save schema as dbname"""
+    ver_number = getversionnumber(fname)
+    dbmfolderpath = f"{outer_folder}/{ver_number}"
+    if os.path.exists(dbmfolderpath):
+        raise FileExistsError(f"dbm folder exists at {dbmfolderpath}. May have a schema inside")
+    else:
+        os.makedirs(dbmfolderpath)
+    dbmpath = f"{dbmfolderpath}/{justdbmname}"
+    createall(fname, dbmpath)
+    return dbmpath 
 
 if __name__ == "__main__":
     fname = sys.argv[1]

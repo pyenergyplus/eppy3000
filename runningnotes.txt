@@ -1,16 +1,25 @@
-
-
-
+2024-04-27
+2024-04-25
 2024-04-19
 ----------
 
 Not sure what to work on next
 
+- 2024-04-2
 - make schema for any EPS version
+    - 2024-04-27
+    - save schema in foldrs named after version. 9.2 becomes folder 9.2 within a named enclosing folder - DONE as json2dbm.createall_in_verfolder()
+        - later ensure a default save to ~/.eppy3000/schemas/9.2 
+    - retrieve scheam by actually reading the version numebr
+        - save this - data structure ??
+        - save to cache with only version cached at first.
 - save it  home folder dot file
 - multiple E+ vesions in EPJ
 - dbm cache - MAYBE THIS
-    - use schemaindbm.dbmval2dict
+    - 2024-04-19
+    - use schemaindbm.dbmval2dict - DONE - dmbcache works now.
+    - should I do tests now ? TODO
+    - develop getting to the schema from EPJ, epj_mmaping - TODO
 - dbm cache + multiple E+ versions:w
 
 2024-04-18

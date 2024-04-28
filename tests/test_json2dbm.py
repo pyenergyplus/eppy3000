@@ -19,6 +19,33 @@ from eppy3000.dbm_functions import schemaindbm
 import pytest
 
 
+class JSONData(object): 
+    # schematxt1 = 
+    schematxt2 = """{
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "properties": {
+            "Version": {
+                "patternProperties": {
+                    ".*": {
+                        "type": "object",
+                        "properties": {
+                            "version_identifier": {
+                                "type": "string",
+                                "default": "22.1"
+                            }
+                        }
+                    }
+                },
+                "group": "Simulation Parameters",
+                "type": "object",
+                "maxProperties": 1,
+                "memo": "Specifies the EnergyPlus version of the IDF file.",
+                "format": "singleLine"
+            }
+        }
+    }"""
+        
+
 @pytest.fixture
 def dbmfiles(scope="function"):
     """creates a temporary folder in which I can keep the json and dbm files
@@ -153,3 +180,29 @@ def test_create_index(dbmfiles):
         assert result1 == expected1
         result2 = schemaindbm.get_a_refschema(akey, fname=dbmname)
         assert result2 == expected2
+
+def test_getversionnumber(dbmfiles):
+    """pytest for getversionnumber"""
+    tempdir = dbmfiles
+    txt = """{"$schema":"https://json-schema.org/draft-07/schema#","properties":
+    {"Version":{"patternProperties":{".*":{"type":"object","properties":
+    {"version_identifier":{"type":"string","default":"22.1"}}}}}}}"""
+    expected = "22.1"
+    schemajsonname = f"{tempdir}/schema.json"
+    open(schemajsonname, 'w').write(txt)
+    result = json2dbm.getversionnumber(schemajsonname)
+    assert result == expected
+    
+def test_createall_in_verfolder(dbmfiles):
+    """pytest for createall_in_verfolder"""
+    tempdir = dbmfiles
+    txt = JSONData.schematxt2
+    fname = f"{tempdir}/schem.json"
+    outer_folder = f"{tempdir}/allschemas"
+    just_dbmname = "schema"
+    expected = f"{outer_folder}/22.1/{just_dbmname}"
+    open(fname, "w").write(txt)
+    result = json2dbm.createall_in_verfolder(fname, outer_folder, just_dbmname)
+    assert result == expected
+    
+
