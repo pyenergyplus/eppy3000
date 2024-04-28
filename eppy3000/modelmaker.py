@@ -20,7 +20,7 @@ from eppy3000.dbm_functions import schemaindbm
 
 # grep -nr "\.epj" ./eppy3000
 class EPJ(object):
-    dbmdct = dict() # this will common for all EPJ. There is no self
+    alldbms = {}
     def __init__(self, epjname=None, epw=None, epschemaname=None, schemadbmname=None, dbm_cache=False):
         super(EPJ, self).__init__()
         self.epj = self
@@ -31,18 +31,11 @@ class EPJ(object):
             self.readepschema()
         self.schemadbmname = schemadbmname
         if self.schemadbmname:
-            # DO THIS LATER
-                # get the version number of the schema
-                # create a dct={version : Munch()}
-                # empty holder for schema
-                # which will get filled as needed
-                # make sure that it is like the IDD in eppy. Single shared copy
-                    # do this later.j:
-            # 
             self.schemaversion = schemaindbm.get_schemaversion(self.schemadbmname)
-            # NOW DO
-                # Always read from dbm
-                # Ignore isues of version number clash
+            if self.schemaversion in self.alldbms:
+                pass
+            else:
+               self.alldbms[self.schemaversion] = {}
         self.dbm_cache = dbm_cache
 
         self.read()

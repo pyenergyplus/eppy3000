@@ -263,8 +263,12 @@ class EPMunch(Munch):
 
     def _aschema_fromdbm(self):
         if self.eppy_epj.dbm_cache:
-            # use dbmdct
-            aschema = schemaindbm.dbmval2dict(self.eppy_epj.dbmdct, self.eppykey, fname=self.eppy_epj.schemadbmname)
+            # use dbmdct - old TODO: remove this line
+            # use epj.alldbms
+            dct = self.eppy_epj.alldbms[self.eppy_epj.schemaversion]
+            key = self.eppykey
+            fname = self.eppy_epj.schemadbmname
+            aschema = schemaindbm.dbmval2dict(dct, key, fname=fname)
         else:
             aschema = None
         return aschema
