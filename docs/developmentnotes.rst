@@ -173,21 +173,17 @@ For eppy300 to work we need EPJ and EPJSchema file.
 In Summary:
 
 
-+-------------+----------------------+-------------------------+
-|             | eppy                 |   eppy3000              |
-+=============+======================+=========================+
-|model file   | IDF                  |   EPJ                   |
-+-------------+----------------------+-------------------------+
-|Example file | 5ZoneAirCooled.idf   |   5ZoneAirCooled.epJSON |
-+-------------+----------------------+-------------------------+
+.. csv-table:: IDF or EPJ file
+    :header: ,eppy,eppy300
 
-+--------------------+---------------+-------------------------+
-|        	     |  eppy	     |  eppy3000               |
-+====================+===============+=========================+
-|data structure	     |  IDD	     |  EPJSchema              |
-+--------------------+---------------+-------------------------+
-|data structure file |	Energy+.idd  |	Energy+.schema.epJSON  |
-+--------------------+---------------+-------------------------+
+    model file,IDF,EPJ
+    Example file,5ZoneAirCooled.idf,5ZoneAirCooled.epJSON
+
+.. csv-table:: Schema or IDD file
+    :header: ,eppy,eppy3000
+    
+    data structure,IDD,EPJSchema
+    datastructure file,Energy+.idd,Energy+.schema.epJSON
 
 ``Energy+.schema.epJSON`` is a very large file (9.9 MB in EnergyPlus-22-1-0). This file contains the datastructure of the 
 
