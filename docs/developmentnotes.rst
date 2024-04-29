@@ -147,6 +147,50 @@ The Energy+.schema.epJSON is stored in a dbm on the disk. ``EPJ.alldbms`` is the
 
 To see how it works goto look at :doc:`/EPSchema`
 
+Problem with Energy+.schema.epJSON (or IDD)
+-------------------------------------------
+
+Getting the terminology right (The narrative here is based on ``EnergyPlus-23-2-0``):
+
+Let us start with ``eppy`` and the terminology used there. This is familiar terrain.
+
+1. The files we build our models in and are called IDF files. They have an extension .idf
+    - an example would be ``5ZoneAirCooled.idf``
+2. The structure of the IDF files is defined in the IDD file. 
+    - The specific file in question is ``Energy+.idd``. You can open it and take a look. It is very well written.
+
+We need have an IDF file and the IDD file for ``eppy`` to work.
+
+Now with Energyplus moving towards ``JSON`` format, we have a different set of files that map to the IDD and the IDF formats. Let us take a look at them:
+
+1. Let us call the IDF file an EPJ file when it is in the JSON format. Makes it easy to talk about it. One could say "Let us look at the EPJ file" or "There is a typo in the EPJ file". The file extension is .epJSON. Which stands for *EnergyPlus JSON*.
+    - an example would be ``5ZoneAirCooled.idf``
+    - The ``ExampleFiles`` folder has this file ``RefBldgMediumOfficeNew2004_Chicago_epJSON.epJSON``, in case you want to look at a real file
+2. The structure of the EPJ file is in the ``Energy+.schema.epJSON`` file. The file extension is .epJSON, since it is a JSON file. Let us call it "EPJ Schema" (written as EPJSchema) file.  It will describe the structure of objects in the EPJ files.
+
+For eppy300 to work we need EPJ and EPJSchema file. 
+    
+In Summary:
+
+
++-------------+----------------------+-------------------------+
+|             | eppy                 |   eppy3000              |
++=============+======================+=========================+
+|model file   | IDF                  |   EPJ                   |
++-------------+----------------------+-------------------------+
+|Example file | 5ZoneAirCooled.idf   |   5ZoneAirCooled.epJSON |
++-------------+----------------------+-------------------------+
+
++--------------------+---------------+-------------------------+
+|        	     |  eppy	     |  eppy3000               |
++====================+===============+=========================+
+|data structure	     |  IDD	     |  EPJSchema              |
++--------------------+---------------+-------------------------+
+|data structure file |	Energy+.idd  |	Energy+.schema.epJSON  |
++--------------------+---------------+-------------------------+
+
+``Energy+.schema.epJSON`` is a very large file (9.9 MB in EnergyPlus-22-1-0). This file contains the datastructure of the 
+
 Archived - Munch classes for epJSON
 -----------------------------------
 
