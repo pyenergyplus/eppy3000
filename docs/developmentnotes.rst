@@ -147,8 +147,8 @@ The Energy+.schema.epJSON is stored in a dbm on the disk. ``EPJ.alldbms`` is the
 
 To see how it works goto look at :doc:`/EPSchema`
 
-Problem with Energy+.schema.epJSON (or IDD)
--------------------------------------------
+Change in terminology in eppy3000
+---------------------------------
 
 Getting the terminology right (The narrative here is based on ``EnergyPlus-23-2-0``):
 
@@ -163,29 +163,75 @@ We need have an IDF file and the IDD file for ``eppy`` to work.
 
 Now with Energyplus moving towards ``JSON`` format, we have a different set of files that map to the IDD and the IDF formats. Let us take a look at them:
 
-1. Let us call the IDF file an EPJ file when it is in the JSON format. Makes it easy to talk about it. One could say "Let us look at the EPJ file" or "There is a typo in the EPJ file". The file extension is .epJSON. Which stands for *EnergyPlus JSON*.
-    - an example would be ``5ZoneAirCooled.idf``
+1. Let us call the IDF file an EPJ file when it is in the JSON format. Makes it easy to talk about it. One could say "Let us look at the EPJ file" or "There is a typo in the EPJ file". The file extension is .epJSON. Which stands for *EnergyPlus JSON*. If you are feeling very *garrulous* you could say "epJSON"
+    - an example of an IDF file would be ``5ZoneAirCooled.idf``. In JSON format it would be saved as ``5ZoneAirCooled.epJSON``
     - The ``ExampleFiles`` folder has this file ``RefBldgMediumOfficeNew2004_Chicago_epJSON.epJSON``, in case you want to look at a real file
-2. The structure of the EPJ file is in the ``Energy+.schema.epJSON`` file. The file extension is .epJSON, since it is a JSON file. Let us call it "EPJ Schema" (written as EPJSchema) file.  It will describe the structure of objects in the EPJ files.
+2. The structure of the EPJ file is in the ``Energy+.schema.epJSON`` file. The file extension is .epJSON, since it is a JSON file. Let us call it "EP Schema" (written as EPSchema) file.  It will describe the structure of objects in the EPJ files.
 
-For eppy300 to work we need EPJ and EPJSchema file. 
+**Discussion on Alternate naming**
+
+- epJSON instead of EPJ
+- EPschema instead of EPJSchema
+
+So:
+
+- IDF is epJSON
+- IDD is EPSchema
+
+Or
+
+- IDF is EPJ
+    - EPJ is used by `EDIUS <https://www.grassvalley.com/products/editing/edius-x/>`_ software. Maybe not use this.
+- IDD is EPS
+    - EPS stands for ``Encapsulated PostScript``. Maybe not use.
+
+Not sure of this ... stick to what was initially considered.
+
+
     
 In Summary:
 
+-----
 
-.. csv-table:: IDF or EPJ file
+
+.. csv-table:: *IDF or EPJ file*
     :header: ,eppy,eppy300
 
-    model file,IDF,EPJ
-    Example file,5ZoneAirCooled.idf,5ZoneAirCooled.epJSON
+    Model is called,IDF,EPJ
+    File is saved as,5ZoneAirCooled.idf,5ZoneAirCooled.epJSON
 
-.. csv-table:: Schema or IDD file
+-----
+
+.. csv-table:: *Schema or IDD file*
     :header: ,eppy,eppy3000
     
-    data structure,IDD,EPJSchema
+    data structure,IDD,EPSchema
     datastructure file,Energy+.idd,Energy+.schema.epJSON
 
-``Energy+.schema.epJSON`` is a very large file (9.9 MB in EnergyPlus-22-1-0). This file contains the datastructure of the 
+-----
+
+
+Problem with Energy+.schema.epJSON (or IDD)
+-------------------------------------------
+
+The ``EPSchema`` file, ``Energy+.schema.epJSON`` is a very large (9.9 MB in EnergyPlus-22-1-0). This file contains the datastructure of all possible objects in the EPJ file. ``Eppy3000`` needs ``EPSchema`` file to make sense of the EPJ. Couple of options to deal with the large file size in eppy3000:
+
+1. Load the entire EPSchema file into memory. Have single copy of this, that all EPJ files can use. 
+    - This is the strategy that ``eppy`` uses with IDF and IDD
+    - Allow only one version of EPJ to be open. All EPJ files open have to be of that version
+    - Throw an Exception if another EPSchema is opened
+2. Keep the EPSchema file on the disk. Read only parts of it that are needed.
+    - Option 1: Read the part EPSchema whenever it is needed. Whenever it is needed.
+    - Option 2: Read the part EPSchema whenever it is needed, but keep part that in memory, so that is does not need to read the next time it is needed. This options acts like a disk cache.
+    - Option 1 and option 2 open the possibility of multiple versions of EPJ being open at the same time. Thought has to be put into how to copy and paste from one version to another.
+    - In practical terms, this means that the EPSchema has to be in a database. Python has a built in database called ``dbm`` that will key-value pairs.
+    - if a database is used, it opens up an interface issue. 
+        - When does the step of making the database happen. 
+        - What is the interface to making the interface. If it happens behind the scenes invisibly, that is still an interface. 
+        - where is the database stored ?
+
+
+
 
 Archived - Munch classes for epJSON
 -----------------------------------
