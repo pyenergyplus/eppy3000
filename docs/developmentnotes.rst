@@ -168,27 +168,6 @@ Now with Energyplus moving towards ``JSON`` format, we have a different set of f
     - The ``ExampleFiles`` folder has this file ``RefBldgMediumOfficeNew2004_Chicago_epJSON.epJSON``, in case you want to look at a real file
 2. The structure of the EPJ file is in the ``Energy+.schema.epJSON`` file. The file extension is .epJSON, since it is a JSON file. Let us call it "EP Schema" (written as EPSchema) file.  It will describe the structure of objects in the EPJ files.
 
-**Discussion on Alternate naming**
-
-- epJSON instead of EPJ
-- EPschema instead of EPJSchema
-
-So:
-
-- IDF is epJSON
-- IDD is EPSchema
-
-Or
-
-- IDF is EPJ
-    - EPJ is used by `EDIUS <https://www.grassvalley.com/products/editing/edius-x/>`_ software. Maybe not use this.
-- IDD is EPS
-    - EPS stands for ``Encapsulated PostScript``. Maybe not use.
-
-Not sure of this ... stick to what was initially considered.
-
-
-    
 In Summary:
 
 -----
@@ -219,6 +198,7 @@ The ``EPSchema`` file, ``Energy+.schema.epJSON`` is a very large (9.9 MB in Ener
 1. Load the entire EPSchema file into memory. Have single copy of this, that all EPJ files can use. 
     - This is the strategy that ``eppy`` uses with IDF and IDD
     - Allow only one version of EPJ to be open. All EPJ files open have to be of that version
+    - consider using ``dbm_functions.schemaindbm.db_inmemory()``
     - Throw an Exception if another EPSchema is opened
 2. Keep the EPSchema file on the disk. Read only parts of it that are needed.
     - Option 1: Read the part EPSchema whenever it is needed. Whenever it is needed.
@@ -229,6 +209,52 @@ The ``EPSchema`` file, ``Energy+.schema.epJSON`` is a very large (9.9 MB in Ener
         - When does the step of making the database happen. 
         - What is the interface to making the interface. If it happens behind the scenes invisibly, that is still an interface. 
         - where is the database stored ?
+
+Where to save the dbm of the EPSchema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here is a proposed design on where to store the dbm of the EPSchema:
+
+- Store it in ``pathetodbm/versionnumber``. As an example this could look like ``C:/MyEpluswork/epschema/22.1``, in a windows machine. All the dbm files for version 22.1 would be in folder ``22.1``. On a Mac, it could look like ``/Users/billgates/MyEpluswork/epschema/22.1``
+- By default it is stored in the ``~/home/.epschema`` folder. So on a Mac, the home folder for bill gates (imagine Bill Gates using a Mac) would be ``/Users/billgates`` and the dbm would be stored in ``/Users/billgates/.epschema``
+- This design allows us to have many versions of EPSchema stored as dbm. As you can see below Bill Gates is using E+ version 22.1, 24.1 and 9.6::
+
+    └── Users
+        └── billgates
+            └── .epschema
+                ├── 22.1
+                │   ├── schema.bak
+                │   ├── schema.dat
+                │   ├── schema.dir
+                │   ├── schema_group_index.bak
+                │   ├── schema_group_index.dat
+                │   ├── schema_group_index.dir
+                │   ├── schema_ref_index.bak
+                │   ├── schema_ref_index.dat
+                │   └── schema_ref_index.dir
+                ├── 24.1
+                │   ├── schema.bak
+                │   ├── schema.dat
+                │   ├── schema.dir
+                │   ├── schema_group_index.bak
+                │   ├── schema_group_index.dat
+                │   ├── schema_group_index.dir
+                │   ├── schema_ref_index.bak
+                │   ├── schema_ref_index.dat
+                │   └── schema_ref_index.dir
+                └── 9.6
+                    ├── schema.bak
+                    ├── schema.dat
+                    ├── schema.dir
+                    ├── schema_group_index.bak
+                    ├── schema_group_index.dat
+                    ├── schema_group_index.dir
+                    ├── schema_ref_index.bak
+                    ├── schema_ref_index.dat
+                    └── schema_ref_index.dir
+
+Right now you can save the dbm using ``eppy3000/dbm_functions/json2dbm.py``. See doc string in that file.
+
 
 
 

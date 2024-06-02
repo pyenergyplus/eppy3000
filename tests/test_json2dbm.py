@@ -19,8 +19,8 @@ from eppy3000.dbm_functions import schemaindbm
 import pytest
 
 
-class JSONData(object): 
-    # schematxt1 = 
+class JSONData(object):
+    # schematxt1 =
     schematxt2 = """{
         "$schema": "https://json-schema.org/draft-07/schema#",
         "properties": {
@@ -44,7 +44,38 @@ class JSONData(object):
             }
         }
     }"""
-        
+    schema4version = """{"$schema":"https://json-schema.org/draft-07/schema#", 
+        "properties":{"Version":{"patternProperties":{".*":{"type":"object",
+        "properties":{"version_identifier":{"type":"string",
+        "default": "notversion"}}}},
+        "group":"SimulationParameters",
+        "legacy_idd":{"field_info":{"version_identifier":{
+        "field_name":"VersionIdentifier",
+        "field_type":"a"}},
+        "fields":["version_identifier"],
+        "alphas":{"fields":["version_identifier"]},
+        "numerics":{"fields":[]}},
+        "type":"object",
+        "maxProperties":1,
+        "memo":"SpecifiestheEnergyPlusversionoftheIDFfile.",
+        "format":"singleLine"}},
+        "required":["Building","GlobalGeometryRules"]}"""
+
+
+@pytest.fixture
+def epschema_version(scope="function"):
+    """gets the path name of the dbm folder in ~/.epschema/versionnumber
+    made for the test. Deletes the versionnumber part of the folder at the
+    end of the test"""
+    # get the dir name here
+    outerfolder = json2dbm.outerfolder_in_home()
+    vernum = json2dbm.getversionnumber(StringIO(JSONData.schema4version))
+    tempdir = f"{outerfolder}/{vernum}"
+    yield vernum
+
+    # delete it here
+    shutil.rmtree(tempdir)
+
 
 @pytest.fixture
 def dbmfiles(scope="function"):
@@ -60,16 +91,14 @@ def test_create_schemadbm_fromStringIO(dbmfiles):
     """py.test for create_schemadbm"""
     # setup
     tempdir = dbmfiles
-    schema = dict(
-         properties=dict(version="53", building="44")
-    )
+    schema = dict(properties=dict(version="53", building="44"))
     jsonstr = json.dumps(schema)
     fhandle = StringIO(jsonstr)
     dbmname = str(tempdir / "schema")
     # test
     json2dbm.create_schemadbm(fhandle, dbmname)
     result = schemaindbm.get_schemakeys(fname=dbmname)
-    expected = [ b"version", b"building"]
+    expected = [b"version", b"building"]
     assert result == expected
 
 
@@ -77,9 +106,7 @@ def test_create_schemadbm_fromfname(dbmfiles):
     """py.test for create_schemadbm"""
     # setup
     tempdir = dbmfiles
-    schema = dict(
-        properties=dict(version="53", building="44")
-    )
+    schema = dict(properties=dict(version="53", building="44"))
     jsonstr = json.dumps(schema)
     jsonname = str(tempdir / "schema.json")
     with open(jsonname, "w") as fhandle:
@@ -88,7 +115,7 @@ def test_create_schemadbm_fromfname(dbmfiles):
     # test
     json2dbm.create_schemadbm(jsonname, dbmname)
     result = schemaindbm.get_schemakeys(fname=dbmname)
-    expected = [ b"version", b"building"]
+    expected = [b"version", b"building"]
     assert result == expected
 
 
@@ -181,6 +208,7 @@ def test_create_index(dbmfiles):
         result2 = schemaindbm.get_a_refschema(akey, fname=dbmname)
         assert result2 == expected2
 
+
 def test_getversionnumber(dbmfiles):
     """pytest for getversionnumber"""
     tempdir = dbmfiles
@@ -189,10 +217,11 @@ def test_getversionnumber(dbmfiles):
     {"version_identifier":{"type":"string","default":"22.1"}}}}}}}"""
     expected = "22.1"
     schemajsonname = f"{tempdir}/schema.json"
-    open(schemajsonname, 'w').write(txt)
-    result = json2dbm.getversionnumber(schemajsonname)
+    open(schemajsonname, "w").write(txt)
+    result = json2dbm.getversionnumber(open(schemajsonname, "rb"))
     assert result == expected
-    
+
+
 def test_createall_in_verfolder(dbmfiles):
     """pytest for createall_in_verfolder"""
     tempdir = dbmfiles
@@ -204,5 +233,13 @@ def test_createall_in_verfolder(dbmfiles):
     open(fname, "w").write(txt)
     result = json2dbm.createall_in_verfolder(fname, outer_folder, just_dbmname)
     assert result == expected
-    
 
+
+def test_createall_in_home(epschema_version):
+    """pytest for createall_in_home"""
+    #  unit test with a wierd version number won't clash with real versions
+    expected = epschema_version  # yielded the version number
+    # fixture also cleans up the tdir
+    tdir = json2dbm.createall_in_home(StringIO(JSONData.schema4version))
+    result = schemaindbm.get_schemaversion(tdir)
+    assert result == expected

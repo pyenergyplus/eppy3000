@@ -33,6 +33,7 @@ def db_in_memory(fname=None):
         d = json.load(open(fname, "r"))
     except TypeError as e:
         d = json.load(fname)
+        fname.seek(0)
     db = dict()
     for key in d["properties"]:
         db[key] = json.dumps(d["properties"][key])
@@ -79,21 +80,21 @@ def get_schemaversion(fname=None):
     bytes
         returns the version. example: b'9.6.0'
     """
-#     def returndbkey(db, key):
-#         try:
-#             return db[key]
-#         except KeyError as e:
-#             return get_props("Version")['version_identifier']['default']
-# 
-#     key = "epJSON_schema_version".encode() 
-#         # version 22 and above don't have this key
-#     if fname:
-#         with dbm.dumb.open(fname, "r") as db:
-#             return returndbkey(db, key)
-#     else:
-#         with dbm.dumb.open("./schema", "r") as db:
-#             return returndbkey(db, key)
-    return get_props("Version", fname=fname)['version_identifier']['default']
+    #     def returndbkey(db, key):
+    #         try:
+    #             return db[key]
+    #         except KeyError as e:
+    #             return get_props("Version")['version_identifier']['default']
+    #
+    #     key = "epJSON_schema_version".encode()
+    #         # version 22 and above don't have this key
+    #     if fname:
+    #         with dbm.dumb.open(fname, "r") as db:
+    #             return returndbkey(db, key)
+    #     else:
+    #         with dbm.dumb.open("./schema", "r") as db:
+    #             return returndbkey(db, key)
+    return get_props("Version", fname=fname)["version_identifier"]["default"]
 
 
 # used in eppy3000viewer/runit.py
@@ -258,7 +259,7 @@ def get_groups(fname=None):
 def dbm2keyval(key, fname=None):
     """returns the value (as a Munch) from the dbm"""
     if not fname:
-        fname = 'schema'
+        fname = "schema"
     return get_aschema(key, fname=fname)
 
 
@@ -267,13 +268,14 @@ def dbmval2dict(dct, key, fname=None):
     does this only if the key is not in the dct
     """
     if not fname:
-        fname = 'schema'
+        fname = "schema"
     try:
         result = dct[key]
     except KeyError as e:
         result = get_aschema(key, fname=fname)
-        dct.update({key : result})
+        dct.update({key: result})
     return result
+
 
 if __name__ == "__main__":
     fname = "../eppy3000viewer/schema"

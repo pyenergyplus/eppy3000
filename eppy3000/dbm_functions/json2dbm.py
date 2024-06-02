@@ -9,6 +9,15 @@
 
 :Question: Why Store the EPJ Schema in a database (the database is dbm here)
 :Response: The EPJ Schema is a large file. The file is about 10 megabytes and only parts of it are used with an EPJ file (a specific model). Storing this in a databse opens up the option of loading only the needed parts of the EPJ schema into memory. With the EPJ schema being less memory intensive, it may be possible to open multple versions of EPJ files and it's corresponding EPJ schema.
+
+
+usage:
+    json2dbm.py /pathto/Energy+.schema.epJSON outerfoldertostoredbm 
+        # will save dbm in outerfoldertostoredbm/versionumber
+    json2dbm.py /pathto/Energy+.schema.epJSON 
+        # will save dbm in ~/home/.epschema/versionnumber
+    json2dbm.py
+        # will printout the full path name of the default locationwhere the dbm will be stored
 """
 
 import json
@@ -136,8 +145,9 @@ def create_schemadbm(fname, dbmname):
         d = json.load(open(fname, "r"))
     except TypeError as e:
         d = json.load(fname)
+        fname.seek(0)
     with dbm.dumb.open(dbmname, "c") as db:
-#         db["epJSON_schema_version"] = d["epJSON_schema_version"]
+        #         db["epJSON_schema_version"] = d["epJSON_schema_version"]
         for key in d["properties"]:
             db[key] = json.dumps(d["properties"][key])
 
@@ -154,9 +164,10 @@ def create_groupsindex(fname, dbmname):
         for key in dt:
             db[key] = json.dumps(dt[key])
 
+
 def createall(fname, dbmname):
     """Create all the dbms
-    
+
     for dbmname='schema' the following would be created:
 
     - schema.bak
@@ -173,9 +184,14 @@ def createall(fname, dbmname):
     create_index(fname, f"{dbmname}_ref_index")
     create_groupsindex(fname, f"{dbmname}_group_index")
 
+
 def getversionnumber(fname):
     """read json file fname and extract the version number of the EP-schema"""
-    dct = json.load(open(fname, 'r'))
+    try:
+        dct = json.load(open(fname, "r"))
+    except TypeError as e:
+        dct = json.load(fname)
+        fname.seek(0)
     v1 = dct["properties"]["Version"]["patternProperties"]
     v2 = [val for val in v1.values()][0]
     return v2["properties"]["version_identifier"]["default"]
@@ -188,14 +204,66 @@ def createall_in_verfolder(fname, outer_folder, justdbmname=None):
     ver_number = getversionnumber(fname)
     dbmfolderpath = f"{outer_folder}/{ver_number}"
     if os.path.exists(dbmfolderpath):
-        raise FileExistsError(f"dbm folder exists at {dbmfolderpath}. May have a schema inside")
+        raise FileExistsError(
+            f"dbm folder exists at {dbmfolderpath}. May have a schema inside"
+        )
     else:
         os.makedirs(dbmfolderpath)
     dbmpath = f"{dbmfolderpath}/{justdbmname}"
     createall(fname, dbmpath)
-    return dbmpath 
+    return dbmpath
+
+
+def createall_in_home(fname, justdbmname=None):
+    """will save the EPSchema dbm in the users home folder
+
+    version 22.1 will be stored in '~/.epschema/22.1' on a Unix OS. Works on all OS platforms
+
+    Parameters
+    ----------
+    fname: string, io.IOBase
+        filename of the E+Schema file OR the contents of the E+Schema file in a StringIO, IOBase
+    justdbmname: str
+        Name of the dbm file. If ``justdbmname='schema'``, it will generate ``schema.dir, schema.dat, schema.bak`` . Default is schema
+
+    Returns
+    -------
+    str
+        folder where the dbm is created
+    """
+    # TODO: unit test with a wierd version number won't clash with real versions
+    outerfolder = outerfolder_in_home()
+    return createall_in_verfolder(fname, outerfolder, justdbmname)
+
+
+def outerfolder_in_home():
+    """return the default folder for saving the dbm
+
+    on unix it will return ~/.epschema/22.1'
+    """
+    home = _gethomefolder()
+    outerfolder = f"{home}/.epschema"
+    return outerfolder
+
+
+def _gethomefolder():
+    """return the home folder
+
+    home folder may be different on different platforms
+    """
+    return os.path.expanduser("~")
+
 
 if __name__ == "__main__":
-    fname = sys.argv[1]
-    dbmname = sys.argv[2]
-    createall(fname, dbmname)
+    args = sys.argv[1:]
+    if len(args) == 2:
+        fname = args[0]
+        dbmname = args[1]
+        createall(fname, dbmname)
+    elif len(args) == 1:
+        fname = args[0]
+        createall_in_home(fname)
+    elif len(args) == 0:
+        homefolder = _gethomefolder()
+        dbmfolder = f"{homefolder}/.epschema"
+        print(dbmfolder)
