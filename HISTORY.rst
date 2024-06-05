@@ -5,6 +5,14 @@ History
 Releases
 --------
 
+Wed Jun 5 14:17:17 2024 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #108
+
+:Problem: need documentation to understand how EPSchema works in dbm
+:Solution: This has been updated in docs/developmentnotes.rst & ./docs/EPSchema.ipynb
+
 Sun Jun 2 09:38:52 2024 -0700
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
