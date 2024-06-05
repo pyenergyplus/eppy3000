@@ -5,6 +5,81 @@ History
 Releases
 --------
 
+Sun Jun 2 09:38:52 2024 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue: #109
+
+:Problem: Need to save EPSchema as a dbm in home folder
+:Solution: done in `eppy3000/dbm_functions/json2dbm.py`
+
+
+
+Mon Apr 29 10:29:54 2024 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #103::
+
+    modified:   docs/EPSchema.ipynb
+    modified:   docs/developmentnotes.rst
+
+
+
+Mon Apr 15 15:21:41 2024 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #106::
+
+    updated the documentation to match the changes made in issue #107
+    modified:   docs/developmentnotes.rst
+
+Mon Apr 15 11:10:50 2024 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #107
+
+made the following changes for code clarity:
+
+- renamed EPJ.epj as EPJ.model
+- renamed eppy_epj as eppy_model
+- renamed EpjSequence.theepj as EpjSequence.themodel
+- renamed EpjMapping.theepj as EpjMapping.themodel
+
+::
+
+    modified:   eppy3000/epMunch.py
+    modified:   eppy3000/epj_mmapping.py
+    modified:   eppy3000/epjviewer.py
+    modified:   eppy3000/modelmaker.py
+    modified:   eppy3000/readepj.py
+
+
+Wed Apr 3 15:53:17 2024 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #104
+
+:Problem: eppy3000.dbm_functions.json2dbm not working on all versions of E+
+:Solution: Now runs on all E+ versions >= 9.5
+
+Sun Oct 15 18:25:05 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #99
+
+:Problem: HISTORY.rst needs to be updated
+:Solution: HISTORY.rst has been updated with fixed issues
+
+
+Sun Oct 15 14:59:38 2023 -0700
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+fixed issue #82
+
+:Problem: Need read and write function for TOML format
+:Solution: functions in experimental/toml.py
+
+
 Sun Oct 15 14:59:38 2023 -0700
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
